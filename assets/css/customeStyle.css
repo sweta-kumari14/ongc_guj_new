@@ -1,0 +1,58 @@
+.name_tag{
+	margin: 7% 0%;
+    font-weight: 600;
+    color: #fff;
+    font-family: "CircularStd", sans-serif;
+}
+
+[data-layout-mode=orange] body .header{
+	background: linear-gradient(to right, #032448 20%, #fc6075 100%);
+}
+
+.sidebar, .two-col-bar{
+	background: linear-gradient(to right, #032448 0%, #342023 100%);
+}
+
+.page-title-box{
+	margin-left: 30%;
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+	background-color: #c5d6e794;
+	color: #dd0e21;
+}
+
+.sidebar .sidebar-menu ul ul a.active{
+	text-decoration: none;
+}
+
+.main-wrapper{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login_title{
+	text-transform: uppercase;
+    font-size: 2.2rem;
+    font-weight: 600;
+    font-family: "CircularStd", sans-serif;
+    color: #ffffffe0;
+}
+
+.account-page .main-wrapper .account-content .account-box .account-btn{
+	background: linear-gradient(to right, #1572b5e6 0%, #60c2fc 100%)
+}
+
+.account-wrapper{
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+/*media query start here */
+
+@media (max-width: 767px){
+	.name_tag{
+		margin: 16px;
+		font-size: 22px;
+	}
+}
