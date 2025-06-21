@@ -26,7 +26,7 @@ class Selfflow_dashboard_model extends CI_Model
         $res = $this->db->select("count(distinct wm.id) as total")
                         ->from('tbl_well_master wm')
                         ->join('tbl_site_device_installtion_self_flow sd','wm.id=sd.well_id','left')
-                        ->where(['wm.status'=>1,'sd.status'=>1,'sd.device_shifted'=>0])
+                        ->where(['wm.status'=>1,'sd.status'=>1,'sd.well_setup_status'=>1])
                         ->get()
                         ->result_array();
                       
@@ -57,7 +57,7 @@ class Selfflow_dashboard_model extends CI_Model
 
         $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) < 5)");
 
-        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'device_shifted'=>0])->get()->result_array();
+        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1])->get()->result_array();
 
                       
         if(!empty($res))
@@ -86,7 +86,7 @@ class Selfflow_dashboard_model extends CI_Model
        $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 5 OR Log_Date_Time IS NULL)");
 
 
-        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'device_shifted'=>0,'flag_status'=>1])->get()->result_array();
+        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1,'well_status'=>1])->get()->result_array();
 
         if(!empty($res))
         {
@@ -122,7 +122,7 @@ class Selfflow_dashboard_model extends CI_Model
               $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 20 OR Log_Date_Time IS NULL)");
 
 
-        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'device_shifted'=>0,'flag_status'=>0])->get()->result_array();
+        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1,'well_status'=>1])->get()->result_array();
 
         if(!empty($res))
         {
@@ -179,7 +179,7 @@ class Selfflow_dashboard_model extends CI_Model
             ua.id, ua.company_id, ua.user_id, ua.assets_id, ua.area_id,
             a.area_name, sm.well_site_name, w.id as well_id, w.well_name, 
             di.id as installed_status, di.imei_no, di.device_name, 
-            di.date_of_installation, di.flag_status, di.well_type, wt.well_type_name, 
+            di.date_of_installation, di.well_status as flag_status, di.well_type, wt.well_type_name, 
             di.RTC_Time as Log_Date_Time, di.PS_1_GIP, di.PS_2_CHP, di.PS_3_THP, di.PS_4_ABP, 
             di.FLTP_1_Temp, di.Battery_Voltage, di.PSF_1, di.PSF_2, di.PSF_3, di.PSF_4, 
             di.TSF_1, di.BVF_1, di.SF_1_solenide, di.TRGT_Time, di.ON_Time, di.Off_Time, 
@@ -199,7 +199,7 @@ class Selfflow_dashboard_model extends CI_Model
         $this->db->join('tbl_area_master a', 'w.area_id = a.id', 'left')
                  ->join('tbl_well_site_master sm', 'w.site_id = sm.id', 'left')
                  ->join('tbl_well_type wt', 'di.well_type = wt.id', 'left')
-                 ->where(['w.status' => 1, 'di.status' => 1, 'di.device_shifted' => 0]);
+                 ->where(['w.status' => 1, 'di.status' => 1, 'di.well_setup_status' => 1]);
 
         if (!empty($company_id)) $this->db->where('ua.company_id', $company_id);
         if (!empty($assets_id)) $this->db->where('ua.assets_id', $assets_id);
@@ -214,8 +214,8 @@ class Selfflow_dashboard_model extends CI_Model
         $this->db->order_by("
             CASE
                 WHEN TIMESTAMPDIFF(SECOND, di.RTC_Time, NOW()) > $dynamictime OR di.RTC_Time IS NULL THEN 1
-                WHEN TIMESTAMPDIFF(SECOND, di.RTC_Time, NOW()) <= $dynamictime AND di.flag_status = 1 THEN 2
-                WHEN TIMESTAMPDIFF(SECOND, di.RTC_Time, NOW()) <= $dynamictime AND di.flag_status = 0 THEN 3
+                WHEN TIMESTAMPDIFF(SECOND, di.RTC_Time, NOW()) <= $dynamictime AND di.well_status = 2 THEN 2
+                WHEN TIMESTAMPDIFF(SECOND, di.RTC_Time, NOW()) <= $dynamictime AND di.well_status = 1 THEN 3
             END
         ", '', false);
 
@@ -235,7 +235,7 @@ class Selfflow_dashboard_model extends CI_Model
                 if ($time_diff_seconds <= $dynamictime) {  
                     $status_variable = 'flowing_well';
                 } else {  
-                    $status_variable = ($row['flag_status'] == 0) ? 'Offline_well' : 'non_flowing_well';
+                    $status_variable = ($row['well_status'] == 1) ? 'Offline_well' : 'non_flowing_well';
                 }
             }
             $row['status_variable'] = $status_variable;
@@ -245,7 +245,7 @@ class Selfflow_dashboard_model extends CI_Model
     }
      public function getSite_for_Map($company_id, $assets_id, $area_id, $user_id, $well_id, $well_type, $site_id, $user_type, $role_type)
     {
-        $this->db->select("w.id as well_id, w.company_id, w.assets_id, w.area_id, am.area_name, w.site_id, ws.well_site_name, w.well_name, w.lat, w.long, sd.id as installed_status, sd.RTC_Time as Log_Date_Time, sd.flag_status, sd.well_type")
+        $this->db->select("w.id as well_id, w.company_id, w.assets_id, w.area_id, am.area_name, w.site_id, ws.well_site_name, w.well_name, w.lat, w.long, sd.id as installed_status, sd.RTC_Time as Log_Date_Time, sd.well_status as flag_status, sd.well_type")
             ->from('tbl_well_master w')
             ->join('tbl_area_master am', 'w.area_id = am.id', 'left')
             ->join('tbl_well_site_master ws', 'w.site_id = ws.id', 'left')
