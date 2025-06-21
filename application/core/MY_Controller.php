@@ -14,7 +14,7 @@ class MY_Controller extends CI_Controller
   public function CallAPI($api, $data, $method) {
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => "http://localhost/ongc_guj/api/".$api,
+      CURLOPT_URL => "http://localhost/ongc_guj_new/api/".$api,
       // CURLOPT_URL => "https://srpmonitoringcambay.com/api/".$api,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => "",
