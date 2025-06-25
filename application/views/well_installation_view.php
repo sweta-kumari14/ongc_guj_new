@@ -7,7 +7,7 @@
                 <div class="card-header mb-0" style="padding: 10px;">
                     <div class="row align-items-center">
                         <div class="col">
-                            <h4 class="mb-1">Installation</h4>
+                            <h4 class="mb-1">Selfflow-Installation</h4>
                         </div>
                         <div class="col-auto ms-auto d-flex gap-2">
                              <a href="<?php echo base_url('Main_dashboard'); ?>" class="btn btn-sm btn-success motion-btn">
