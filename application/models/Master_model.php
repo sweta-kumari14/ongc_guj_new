@@ -279,7 +279,7 @@ class Master_model extends CI_Model
          if($well_type!='')
             $this->db->where('wm.well_type',$well_type);
         
-        return $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
+        return $this->db->select("ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
         ->from('tbl_role_wise_user_assign_details ad')
         ->join('tbl_well_master wm','ad.well_id=wm.id','left')
         ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0])

@@ -134,8 +134,8 @@ class Device_installation_selflow_c extends MY_Controller
             '&c_by='.$user_id;
         $method = 'POST';
         $result = $this->CallAPI($api, $data, $method);
-        echo'<pre>';
-        print_r($data);die;
+        // echo'<pre>';
+        // print_r($data);die;
         if ($result['response_code'] == 200) {
             $this->session->set_flashdata('success', $result['msg']);
             redirect('Device_installation_selflow_c');

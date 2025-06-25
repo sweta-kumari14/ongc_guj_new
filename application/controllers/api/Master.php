@@ -469,10 +469,8 @@ class Master extends REST_Controller
     {
         try {
             $company_id = $this->input->post('company_id', true) != '' ? $this->input->post('company_id', true) : '';
-            $well_type_id = $this->input->post('well_type_id', true);  // Adding the well type filter
-
-            // Fetch the well types with optional filter on well type
-            $result = $this->Master_model->getwell_typelistData($company_id, $well_type_id);  // Pass the filter to the model
+            $well_type_id = $this->input->post('well_type_id', true);
+            $result = $this->Master_model->getwell_typelistData($company_id, $well_type_id);
 
             $this->response(['status' => true,'data' => $result,'msg' => 'Successfully Fetched!!','response_code' => REST_Controller::HTTP_OK ]);
         } catch (Exception $e) {$this->response([ 'status' => false,'data' => [],'msg' => 'Something went wrong!!','response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR ]);
