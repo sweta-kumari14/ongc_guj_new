@@ -71,6 +71,7 @@
             .'&assets_id='.htmlspecialchars((string)$this->input->post('assets_id',true),ENT_QUOTES,'UTF-8')
             .'&area_id='.htmlspecialchars((string)$this->input->post('area_id',true),ENT_QUOTES,'UTF-8')
             .'&site_id='.htmlspecialchars((string)$this->input->post('site_id',true),ENT_QUOTES,'UTF-8')
+            .'&well_type'.htmlspecialchars((string)$this->input->post('well_type',true),ENT_QUOTES,'UTF-8')
             .'&user_id='.htmlspecialchars((string)$this->input->post('user_id',true),ENT_QUOTES,'UTF-8');
             $result = $this->CallAPI($api, $data, $method);
             echo json_encode($result);

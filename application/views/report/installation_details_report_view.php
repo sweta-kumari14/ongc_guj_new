@@ -292,11 +292,13 @@ function get_installation_report()
     let user_id = $('#user_id').val();
     let from_date = $('#from_date').val();
     let to_date = $('#to_date').val();
+    let well_type = $('#well_type').val();
+    //alert(well_type);
 
     $.ajax({
         url:'<?php echo base_url(); ?>Installation_details_report_c/get_installation_report',
         method:'POST',
-        data:{company_id:company_id,from_date:from_date,to_date:to_date,assets_id:assets_id,area_id:area_id,site_id:site_id,user_id:user_id},
+        data:{company_id:company_id,from_date:from_date,to_date:to_date,assets_id:assets_id,area_id:area_id,site_id:site_id,user_id:user_id,well_type:well_type},
         success:function(res)
         {
             var response = JSON.parse(res);
