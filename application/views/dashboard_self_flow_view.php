@@ -632,29 +632,31 @@ function get_well_data() {
 
                         var link = '<?php echo base_url("Selfflow_c/SingleWellDashboard/"); ?>' + v.well_id 
 
-                        $("#well_area_card").append(
-                            '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">' +
-                            '<div class="sensor-card responsive-card" style="min-width:235px;">' +
-                            '<div class="card-header d-flex justify-content-between align-items-center" style="padding: 3px; text-align: left; color: black;">' +
-                            '<span style="margin-left: 7px;">' + v.well_name + '</span>' +
-                            '<span class="status-dot" style="height: 29px; width: 26px; border-radius: 50%; background-color:'  + '; display: inline-block;"></span>' +
-                            '</div>' +
-                            '<div class="pump-image">' +
-                            '<div class="sensor_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_one_data"><strong>THT ' + v.FLTP_1_Temp + '</strong></div></div>' +
-                            '<div class="sensor-two"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data"><strong>THP ' + v.PS_3_THP + '</strong></div></div>' +
-                            '<div class="sensor-two_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data_two"><strong>ABP ' + v.PS_4_ABP + '</strong></div></div>' +
-                            '<div class="sensor-three"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_three_data"><strong>CHP ' + v.PS_2_CHP + '</strong></div></div>' +
-                            '<div class="sensor-four"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_four_data"><strong>GIP ' + v.PS_1_GIP + '</strong></div></div>' +
-                            '<img class="pump-img" src="<?= base_url('assets/icons/11.jpg') ?>" class="sensor-icon">' +
-                            '</div>' +
-                            '<div class="card-footer d-flex justify-content-between align-items-center">' +
-                            '<div class="datetime"><strong>' + v.Log_Date_Time + '</strong></div>' +
-                            '<button class="button" onclick="window.location.href=\'' + link + '\'"><i class="fas fa-info-circle fa-lg"></i></button>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                        );
+                                           $("#well_area_card").append(
+                        '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">' +
+                        '<div class="sensor-card responsive-card" style="min-width:235px;">' +
+                        '<div class="card-header d-flex justify-content-between align-items-center" style="padding: 3px; text-align: left; color: black;">' +
+                        '<span style="margin-left: 7px;">' + (v.well_name ?? 'N/A') + '</span>' +
+                        '<span class="status-dot" style="height: 29px; width: 26px; border-radius: 50%; background-color:'  + (v.status_color ?? '#ccc') + '; display: inline-block;"></span>' +
+                        '</div>' +
+                        '<div class="pump-image">' +
+                        '<div class="sensor_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_one_data"><strong>THT ' + (v.FLTP_1_Temp ?? 0) + '</strong></div></div>' +
+                        '<div class="sensor-two"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div></div>' +
+                        '<div class="sensor-two_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data_two"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div></div>' +
+                        '<div class="sensor-three"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_three_data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div></div>' +
+                        '<div class="sensor-four"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_four_data"><strong>GIP ' + (v.PS_1_GIP ?? 0) + '</strong></div></div>' +
+                        '<img class="pump-img" src="<?= base_url('assets/icons/11.jpg') ?>" class="sensor-icon">' +
+                        '</div>' +
+                        '<div class="card-footer d-flex justify-content-between align-items-center">' +
+                        '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +
+                        '<button class="button" onclick="window.location.href=\'' + link + '\'"><i class="fas fa-info-circle fa-lg"></i></button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+
                     });
+
 
                 } else {
                     $('#well_area_card').html('<div class="card card-body mx-3 mt-3">' +

@@ -58,6 +58,24 @@
                                         
                                     </select>
                                 </div>
+                                        <div class="form-group col-md-4 mt-2" >
+                                    <h5><b>Well type</b></h5>
+                                    <select class="form-select select2" id="well_type" name="well_type"  onchange="get_installation_report();">
+                                        <?php
+
+                                        if (!empty($well_type_list)) {
+                                            echo '<option value="">Select All</option>';
+                                            foreach ($well_type_list as $key => $value) {
+                                        ?>
+                                        <option value="<?php echo $value['id']; ?>">
+                                            <?php echo $value['well_type_name']; ?></option>
+                                        <?php
+                                            }
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
 
                                 <div class="form-group col-md-4 mt-2">
                                     <h5><b>User Name</b></h5>

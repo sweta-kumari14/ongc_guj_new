@@ -253,6 +253,14 @@ re<!-- Sidebar -->
 					        <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Sensor Installation</a></li>
 					    </ul>
 					</li>
+					<li>
+						<a href="#"><i class="la la-files-o"></i> <span>Selfflow-Setup</span><span class="menu-arrow"></span></a>
+						<ul>
+					       <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Device Installation</a></li>
+					        <li><a href="<?php echo base_url('Device_installation_report_c'); ?>" class="slide-item">Device installation report</a></li>
+					        <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Sensor Installation</a></li>
+					    </ul>
+					</li>
 
 					<li> 
 						<a href="#"><i class="la la-object-ungroup"></i> <span>Threshold Setup</span><span class="menu-arrow"></span></a>

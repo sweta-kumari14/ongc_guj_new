@@ -65,6 +65,7 @@
                                          <option value="">Select Feeder</option>
                                         </select>
                                     </div>
+
                                     <div class="form-group col-md-4 mt-2" >
                                         <h4><b>Well Name<span style="color:red">*</span></b></h4>
                                             <select name="well_id" id="well_id" class="form-control select2" required onchange="get_device_data();">
