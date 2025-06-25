@@ -532,14 +532,17 @@ class Master_model extends CI_Model
         return $result;
     }
 
-    public function get_install_self_Well_list($company_id)
+    public function get_install_self_Well_list($company_id,$well_id)
     {
         if($company_id!= '')
             $this->db->where('sd.company_id',$company_id);
+        if($well_id!= '')
+            $this->db->where('sd.well_id',$well_id);
 
-          return $this->db->select('sd.well_id, wm.well_name,wm.well_type,sd.imei_no,sd.device_name,sd.date_time')
+          return $this->db->select('sd.well_id, wm.well_name,wm.well_type,sd.imei_no,sd.device_name,sd.date_time,wt.well_type_name')
             ->from('tbl_site_device_installtion_self_flow sd')
             ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
+            ->join('tbl_well_type wt', 'sd.well_type = wt.id', 'left')
             ->where('sd.status', 1)
             ->get()
             ->result_array();
@@ -579,6 +582,41 @@ class Master_model extends CI_Model
                 ->result_array();
         }
 
+        return $result;
+    }
+
+    public function get_device_list_for_re_installation()
+    {
+          
+        return $this->db->select('device_name,imei_no')
+                    ->from('tbl_device_allotment_to_installer')
+                    ->where(['status'=>1,'device_setup_status'=>1])
+                    ->get()
+                    ->result_array();
+            
+       
+    }
+
+    public function get_item_list_for_re_installation($well_id,$component_id)
+    {
+        $result = [];
+        $install_list = $this->db->select('component_id,sensor_no as tag_number')
+            ->from('tbl_well_sensor_tag_installation_log')
+            ->where(['status' => 1,'well_id'=>$well_id,'component_id'=>$component_id,'tag_status'=>1])
+            ->get()
+            ->result_array();
+
+        $new_list = [];
+           
+                $new_list = $this->db->select('component_id,tag_number')
+                    ->from('tbl_tags_number_master')
+                    ->where(['status'=>1,'installation_status'=>0])
+                    ->where(['component_id'=>$component_id])
+                    ->get()
+                    ->result_array();
+            
+        $result = array_merge($install_list, $new_list);
+        
         return $result;
     }
 

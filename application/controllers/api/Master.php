@@ -494,7 +494,8 @@ class Master extends REST_Controller
     {
         try {
             $company_id = $this->input->post('company_id',true)!=''?$this->input->post('company_id',true):'';
-            $result = $this->Master_model->get_install_self_Well_list($company_id,);
+            $well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
+            $result = $this->Master_model->get_install_self_Well_list($company_id,$well_id);
             $this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
         } catch (Exception $e) {
             $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
@@ -512,6 +513,28 @@ class Master extends REST_Controller
         } catch (Exception $e) {
             $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
         }
+    }
+
+    Public function  device_list_for_re_installation_post()
+    {
+        try {
+                $result = $this->Master_model->get_device_list_for_re_installation();
+                $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+            } catch (Exception $e) {
+                $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+            }
+    }
+    public function get_item_list_for_re_installation_post()
+    {
+        try {
+                $well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
+                $component_id = $this->input->post('component_id',true)!=''?$this->input->post('component_id',true):'';
+                $result = $this->Master_model->get_item_list_for_re_installation($well_id,$component_id);
+                $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+            } catch (Exception $e) 
+            {
+                $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+            }
     }
 
 
