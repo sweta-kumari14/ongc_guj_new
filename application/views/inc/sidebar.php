@@ -257,7 +257,9 @@ re<!-- Sidebar -->
 						<a href="#"><i class="la la-files-o"></i> <span>Selfflow-Setup</span><span class="menu-arrow"></span></a>
 						<ul>
 					       <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Device Installation</a></li></li>
+					       <li><a href="<?php echo base_url('Device_reinstalltion_c'); ?>" class="slide-item">Device Re-Installation</a></li>
 					         <li><a href="<?php echo base_url('Removal_c'); ?>" class="slide-item">Removal</a></li>
+
 					    </ul>
 					</li>
 

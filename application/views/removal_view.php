@@ -1,5 +1,5 @@
 <div class="page-wrapper custome-name">
-   <div class="content container-fluid" >
+   <div class="content container-fluid" style="margin-top:-20px" >
 
 <div class="row justify-content-center" style="margin-top:10px;">
     <div class="col-12">
@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <hr class="mt-n1 mb-3">
+
 
             <div class="card-body pt-0">
                 <form method="POST" class="row needs-validation" novalidate onsubmit="submitdata(event)">
@@ -68,7 +68,6 @@
                             <div id="component_checkboxes" class="row"></div> <!-- Important -->
                         </div>
                     </div>
-                    <hr class="mt-3">
                     <div class="text-end">
                         <button type="submit" class="btn btn-sm btn-danger">Remove</button>
                     </div>
