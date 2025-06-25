@@ -503,7 +503,7 @@ function validateSerialNumbers() {
                         $('#well_id').html('<option value=" ">Select well</option>');
                         $.each(data.data,function(i,v){
   
-                         $('#well_id').append('<option value="'+ v.id +'">'+v.well_name+'</option>');
+                         $('#well_id').append('<option value="'+ v.well_id +'">'+v.well_name+'</option>');
                            
                             
                         });
