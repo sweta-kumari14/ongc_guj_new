@@ -518,7 +518,8 @@ class Master extends REST_Controller
     Public function  device_list_for_re_installation_post()
     {
         try {
-                $result = $this->Master_model->get_device_list_for_re_installation();
+               $user_id = $this->input->post('user_id',true)!=''?$this->input->post('user_id',true):'';
+                $result = $this->Master_model->get_device_list_for_re_installation($user_id);
                 $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
             } catch (Exception $e) {
                 $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);

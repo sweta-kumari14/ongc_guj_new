@@ -585,9 +585,10 @@ class Master_model extends CI_Model
         return $result;
     }
 
-    public function get_device_list_for_re_installation()
+    public function get_device_list_for_re_installation($user_id)
     {
-          
+       if($user_id!=='')
+            $this->db->where('user_id',$user_id);   
         return $this->db->select('device_name,imei_no')
                     ->from('tbl_device_allotment_to_installer')
                     ->where(['status'=>1,'device_setup_status'=>1])
