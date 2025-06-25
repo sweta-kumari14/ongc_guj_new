@@ -192,15 +192,15 @@ class Well_integration_model extends CI_Model
 		return $this->db->update('tbl_well_integration_details',$data,$where);
 	}
 
-public function update_well_feeder($data, $where)
-{
-    return $this->db->update('tbl_site_device_installtion', $data, $where);
-}
+	public function update_well_feeder($data, $where)
+	{
+	    return $this->db->update('tbl_site_device_installtion', $data, $where);
+	}
 
-public function update_well_feeder_selfflow($data, $where)
-{
-    return $this->db->update('tbl_site_device_installtion_self_flow ', $data, $where);
-}
+	public function update_well_feeder_selfflow($data, $where)
+	{
+	    return $this->db->update('tbl_site_device_installtion_self_flow ', $data, $where);
+	}
 
 
 }

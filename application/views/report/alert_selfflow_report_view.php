@@ -373,7 +373,7 @@ if($this->session->flashdata('error') != '')
     var user_id = "<?php echo $this->session->userdata('user_id') ?>";
 
     $.ajax({
-        url: '<?php echo base_url(); ?>Selfflow_alert/get_alert_report',
+        url: '<?php echo base_url(); ?>Selfflow_alert_c/get_wellwise_alert_data',
         method: 'POST',
         data: { from_date: from_date, to_date: to_date, well_id: well_id,user_id:user_id,sort_by:sort_by},
         success: function (res) {
@@ -425,7 +425,7 @@ if($this->session->flashdata('error') != '')
 
 
     $.ajax({
-        url: '<?php echo base_url(); ?>Selfflow_alert/get_datewise_alert_report',
+        url: '<?php echo base_url(); ?>Selfflow_alert_c/get_datewise_alert_report',
         method: 'POST',
         data: { date: date,user_id:user_id ,sort_by:sort_by},
         success: function (res) {

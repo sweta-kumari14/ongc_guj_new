@@ -626,58 +626,54 @@ class Well_integration extends REST_Controller
         }
     }
 
-   public function Well_feeder_change_post()
-{
-    $well_id = $this->input->post('well_id', true);
-    $well_type = $this->input->post('well_type', true);
-    $feeder_id = $this->input->post('feeder_id', true);
-    $d_by = $this->input->post('d_by', true);
+    public function Well_feeder_change_post()
+    {
+        $well_id = $this->input->post('well_id', true);
+        $well_type = $this->input->post('well_type', true);
+        $feeder_id = $this->input->post('feeder_id', true);
+        $d_by = $this->input->post('d_by', true);
 
-    if ($well_id == '') {
-        $this->response(['status' => false, 'data' => [], 'msg' => 'W ID required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
-        return;
-    }
-    if ($well_type == '') {
-        $this->response(['status' => false, 'data' => [], 'msg' => 'well type required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
-        return;
-    }
-    if ($feeder_id == '') {
-        $this->response(['status' => false, 'data' => [], 'msg' => 'feeder_id required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
-        return;
-    }
-   // if ($d_by == '') {
-       // $this->response(['status' => false, 'data' => [], 'msg' => 'd Kon required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
-       // return;
-   // }
-
-    try {
-        $data = [
-            'feeder_id' => $feeder_id,
-            'd_by' => $d_by,
-            'd_date' => date('Y-m-d H:i:s')
-        ];
-
-        $where = ['well_id' => $well_id];
-
-        if ($well_type == 1) {
-            
-            $update_result = $this->Well_integration_model->update_well_feeder($data, $where);
-        } else if ($well_type == 2) {
-            $update_result = $this->Well_integration_model->update_well_feeder_selfflow($data, $where);
-        } else {
-            $this->response(['status' => false, 'data' => [], 'msg' => 'Invalid well type!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
+        if ($well_id == '') {
+            $this->response(['status' => false, 'data' => [], 'msg' => 'W ID required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
             return;
         }
-
-        if ($update_result) {
-            $this->response(['status' => true, 'data' => [], 'msg' => 'Successfully Updated!!', 'response_code' => REST_Controller::HTTP_OK]);
-        } else {
-            $this->response(['status' => false, 'data' => [], 'msg' => 'Update failed!!', 'response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        if ($well_type == '') {
+            $this->response(['status' => false, 'data' => [], 'msg' => 'well type required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
+            return;
         }
-    } catch (Exception $e) {
-        $this->response(['status' => false, 'data' => [], 'msg' => 'Something went wrong!!', 'response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        if ($feeder_id == '') {
+            $this->response(['status' => false, 'data' => [], 'msg' => 'feeder_id required!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
+            return;
+        }
+      
+        try {
+            $data = [
+                'feeder_id' => $feeder_id,
+                'd_by' => $d_by,
+                'd_date' => date('Y-m-d H:i:s')
+            ];
+
+            $where = ['well_id' => $well_id];
+
+            if ($well_type == 1) {
+                
+                $update_result = $this->Well_integration_model->update_well_feeder($data, $where);
+            } else if ($well_type == 2) {
+                $update_result = $this->Well_integration_model->update_well_feeder_selfflow($data, $where);
+            } else {
+                $this->response(['status' => false, 'data' => [], 'msg' => 'Invalid well type!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
+                return;
+            }
+
+            if ($update_result) {
+                $this->response(['status' => true, 'data' => [], 'msg' => 'Successfully Updated!!', 'response_code' => REST_Controller::HTTP_OK]);
+            } else {
+                $this->response(['status' => false, 'data' => [], 'msg' => 'Update failed!!', 'response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+            }
+        } catch (Exception $e) {
+            $this->response(['status' => false, 'data' => [], 'msg' => 'Something went wrong!!', 'response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        }
     }
-}
 
 }
 ?>

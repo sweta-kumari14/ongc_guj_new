@@ -147,11 +147,11 @@
         public function update_well_feeder()
         {  
 
-             $api = 'Well_type_master/Welllist';
-                    $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
-                    $method = 'POST';
-                    $result = $this->CallAPI($api, $data, $method);
-                    $d['well_type_list'] = $result['data'];
+            $api = 'Well_type_master/Welllist';
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+            $method = 'POST';
+            $result = $this->CallAPI($api, $data, $method);
+            $d['well_type_list'] = $result['data'];
            
             // Get feeder list from API
             $api = 'FeederMaster/FeederList';
@@ -166,7 +166,6 @@
 
         public function get_well_list_for_feeder()
         {
-             // Get well list from API
             $api = 'Area_Dashboard/WellList_forDashboard';
             $data = 'company_id=' . htmlspecialchars((string)$this->session->userdata('company_id'), ENT_QUOTES, 'UTF-8')
                 . '&site_id=c1bcb5e4-b394-11ee-a6d4-5cb901ad9cf0'

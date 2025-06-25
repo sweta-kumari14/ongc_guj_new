@@ -26,12 +26,10 @@ class Selfflow_alert_model extends CI_Model
         ->where('sd.status',1)->get()->result_array();
        
     }
-
-   
     public function Well_wise_Alert_Report($well_id,$from_date, $to_date, $user_id,$sort_by)
     {
         if ($well_id != '') {
-            $this->db->where('sd.well_id', $well_id);
+            $this->db->where('wm.id', $well_id);
         }
         
         if ($from_date != '' && $to_date != '') {
@@ -56,14 +54,13 @@ class Selfflow_alert_model extends CI_Model
            
         }
 
-       return   $this->db->select("tl.id,tl.alert_type,tl.alert_details,tl.alert_date_time,sd.well_id,wm.well_name,tl.imei_no,sd.device_name,ws.well_site_name")
+       return   $this->db->select("tl.id,tl.alert_type,tl.alert_details,tl.alert_date_time,wm.well_name,ws.well_site_name")
             
-            ->from('tbl_site_device_installtion_self_flow sd')
-            ->join('tbl_alert_log_self_flow tl','tl.well_id=sd.well_id', 'left')
-            ->join('tbl_well_master wm', 'wm.id=sd.well_id', 'left')
-            ->join('tbl_role_wise_user_assign_details ad', 'sd.well_id = ad.well_id', 'left')
-            ->join('tbl_well_site_master ws','sd.site_id=ws.id and ws.status=1','left')
-            ->where(['sd.status' => 1,'wm.status'=>1,'ad.status'=>1])
+            ->from('tbl_alert_log_self_flow tl')
+            ->join('tbl_well_master wm', 'wm.id=tl.well_id', 'left')
+            ->join('tbl_role_wise_user_assign_details ad', 'wm.id = ad.well_id', 'left')
+            ->join('tbl_well_site_master ws','wm.site_id=ws.id and ws.status=1','left')
+            ->where(['wm.status'=>1,'ad.status'=>1])
             ->group_by('tl.id')
             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")
             ->get()->result_array();

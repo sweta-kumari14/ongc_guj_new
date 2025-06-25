@@ -47,10 +47,6 @@ class Selfflow_alert_c extends MY_Controller
         .'&to_date='.htmlspecialchars((string)$this->input->post('to_date',true),ENT_QUOTES, 'UTF-8');
         $result = $this->CallAPI($api, $data, $method);
         echo json_encode($result);
-    }
-
-
-
-    
+    }   
 }
 ?>
