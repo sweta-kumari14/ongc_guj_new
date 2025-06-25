@@ -100,39 +100,6 @@ class Device_selfflow_installation_model extends CI_Model
         return $this->db->update('tbl_well_sensor_tag_installation_log`',$data,$where);
         
     }
-    
-    
 
-    public function get_device_removal_log($company_id,$user_id,$well_id,$from_date,$to_date)
-    {
-        $image = base_url().'album/';
-
-        if($company_id!="")
-                $this->db->where(['il.company_id'=>$company_id]);
-            
-        if($user_id!="")
-                $this->db->where(['il.installed_by'=>$user_id]);
-
-        if($well_id!="")
-                $this->db->where(['il.well_id'=>$well_id]);
-
-
-        if ($from_date != '' && $to_date != '') {
-            $this->db->where("DATE(il.from_date_time) BETWEEN '{$from_date}' AND '{$to_date}'");
-        }
-
-
-        return $this->db->select("il.id,il.company_id,il.installed_by,om.user_full_name,il.assets_id,as.assets_name,il.area_id,am.area_name,il.site_id,ws.well_site_name,il.well_type,il.well_id,wm.well_name,wm.lat,wm.long,wm.gps_lat,wm.gps_long,il.imei_no,il.device_name,il.from_date_time,il.to_date_time,il.sim_no,il.network_type,il.sim_provider,CONCAT('$image',il.image) as image,il.no_of_installed_sensor,wt.well_type_name,il.well_installation_status,il.well_status")
-
-            ->from('tbl_well_device_installation_log  il')
-            ->join('tbl_device_master ds','ds.imei_no=il.imei_no and ds.status=1','left')
-            ->join('tbl_well_type wt','il.well_type=wt.id and wt.status=1','left')
-            ->join('tbl_assets_master as','as.id=il.assets_id and as.status=1','left')
-            ->join('tbl_area_master am','am.id=il.area_id and am.status=1','left')
-            ->join('tbl_well_site_master ws','ws.id=il.site_id and ws.status=1','left')
-            ->join('tbl_ongc_member_master om','om.id=il.installed_by and om.status=1','left')
-            ->join('tbl_well_master wm','wm.id=il.well_id and wm.status=1','left')
-            ->where(['il.status'=>1])->get()->result_array();
-    }
 }
 ?>
