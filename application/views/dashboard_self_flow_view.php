@@ -77,11 +77,10 @@
 .sensor-two     { left: 37%; top: 20%; }
 .sensor-two_one { left: 70%; top: 35%; }
 .sensor-three   { left: 41%; top: 63%; }
-.sensor-four    { left: 70%; top: 62%; }
+
 
 .sensor_one_data, .sensor_two_data,
-.sensor_two_data_two, .sensor_three_data,
-.sensor_four_data {
+.sensor_two_data_two, .sensor_three_data {
     position: absolute;
     display: flex;
     border: 1px solid #ccc;
@@ -98,7 +97,7 @@
 .sensor_two_data     { left: 100%; bottom: 45%; }
 .sensor_two_data_two { left: 96%; bottom: 60%; }
 .sensor_three_data   { left: 88%; bottom: 87%; }
-.sensor_four_data    { left: 88%; bottom: 87%; }
+
 .card-footer {
     background-color: #fafafa;
     padding: 4px 20px;
@@ -644,7 +643,6 @@ function get_well_data() {
                         '<div class="sensor-two"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-two_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data_two"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-three"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_three_data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div></div>' +
-                        '<div class="sensor-four"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_four_data"><strong>GIP ' + (v.PS_1_GIP ?? 0) + '</strong></div></div>' +
                         '<img class="pump-img" src="<?= base_url('assets/icons/11.jpg') ?>" class="sensor-icon">' +
                         '</div>' +
                         '<div class="card-footer d-flex justify-content-between align-items-center">' +

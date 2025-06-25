@@ -114,7 +114,7 @@ class Device_installation_selflow_c extends MY_Controller
         }
         $tag_data_json = json_encode($assign_component); 
 
-        $api = 'Device_selfflow_well_installation/Save_wellDevice_Installation_Data';
+        $api = 'Device_selfflow_well_installation/save_device_andtag_removal_data';
         $data = 'well_id=' .$this->input->post('well_id', true) .
             '&assets_id=' .$this->input->post('assets_id', true) .
             '&area_id=' .$this->input->post('area_id', true).

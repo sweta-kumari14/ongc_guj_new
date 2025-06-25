@@ -60,7 +60,7 @@
 
 /* Absolute sensors with % so they scale on screen resize */
 .sensor_one, .sensor-two, .sensor-two_one,
-.sensor-three, .sensor-four {
+.sensor-three {
     position: absolute;
 }
 
@@ -68,7 +68,6 @@
 .sensor-two     { left: 37%; top: 22%; }
 .sensor-two_one { left: 70%; top: 36%; }
 .sensor-three   { left: 41%; top: 63%; }
-.sensor-four    { left: 70%; top: 63%; }
 
 /* Sensor data bubbles */
 .sensor_one_data, .sensor_two_data,
@@ -93,7 +92,6 @@
 .sensor_two_data     { left: 100%; bottom: 45%; }
 .sensor_two_data_two { left: 96%; bottom: 60%; }
 .sensor_three_data   { left: 88%; bottom: 87%; }
-.sensor_four_data    { left: 88%; bottom: 87%; }
 
 
 
@@ -228,10 +226,6 @@
                                             <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
                                             <div class="sensor_three_data"><strong>CHP 53.20 </strong> <span id="sensor-three-value"><span id="chp_image"></span></span></div>
                                         </div>
-                                        <div class="sensor-four" id="sensorgip">
-                                            <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                                            <div class="sensor_four_data"><strong>GIP 53.20 </strong> <span id="sensor-four-value"><span id="gip_image"></span></span></div>
-                                        </div>
                                         <div style="padding-top:25px;">
                                         <img class="pump-img" style="max-width:88%; margin-top: -10px; margin-right:24px;" 
                                         src="<?php echo base_url() ?>assets/icons/11.jpg" alt="pump-img">
@@ -243,7 +237,6 @@
                             </div>
                         </div>
                                     <input type="hidden" class="form-control" name="chped" id="chped">
-                                    <input type="hidden" class="form-control" name="giped" id="giped">
                                     <input type="hidden" class="form-control" name="thped" id="thped">
                                     <input type="hidden" class="form-control" name="abped" id="abped">
 
@@ -332,19 +325,7 @@
                                     </td>
                                 </tr>
                                 <!-- Row 4 -->
-                                <tr>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;">GIP</td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="gip_daily"></span></td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="gip_monthly"></span></td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;">
-                                        <div style="display: flex; align-items: center;">
-                                            <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 60%; border-radius: 0;"></div>
-                                            </div>
-                                            <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                              
                                 <!-- Row 5 -->
                                 <tr>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">CHP</td>
