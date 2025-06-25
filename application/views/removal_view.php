@@ -1,28 +1,6 @@
 <div class="page-wrapper custome-name">
    <div class="content container-fluid" >
 
-    <!-- Breadcrumb Start -->
-    <div class="row" style=" margin-top: -24px;">
-
-        <div class="col-12 px-0" style="margin-left: 17px;">
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb bg-transparent">
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo base_url(); ?>">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active m-0 p-0" aria-current="page">
-                            Device/Tags Removal
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-
-    <!-- Breadcrumb End -->
-
 <div class="row justify-content-center" style="margin-top:10px;">
     <div class="col-12">
         <div class="card">
