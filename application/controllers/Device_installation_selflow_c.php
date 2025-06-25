@@ -72,7 +72,7 @@ class Device_installation_selflow_c extends MY_Controller
 
     public function getWell_forinstallation_list()
     {
-        $api = 'Master/Well_list';
+        $api = 'Master/getWell_List';
         $data = 'company_id=' . htmlspecialchars($this->session->userdata('company_id'))
             . '&assets_id=' . htmlspecialchars($this->input->post('assets_id'))
             . '&area_id=' . htmlspecialchars($this->input->post('area_id'))
@@ -114,7 +114,7 @@ class Device_installation_selflow_c extends MY_Controller
         }
         $tag_data_json = json_encode($assign_component); 
 
-        $api = 'device_installtion/Save_wellDevice_Installation_Data';
+        $api = 'Device_selfflow_well_installation/Save_wellDevice_Installation_Data';
         $data = 'well_id=' .$this->input->post('well_id', true) .
             '&assets_id=' .$this->input->post('assets_id', true) .
             '&area_id=' .$this->input->post('area_id', true).
@@ -127,11 +127,11 @@ class Device_installation_selflow_c extends MY_Controller
             '&company_id=' .$this->session->userdata('company_id').
             '&installed_by=' .$this->session->userdata('user_id').
             '&tag_data=' .$tag_data_json.
-            '&gps_lat=' .$this->input->post('lat_hdn', true).
-            '&gps_long=' .$this->input->post('long_hdn', true).
-            '&well_type=' .$this->input->post('well_type', true).
-            '&image=' . $image .
-            '&c_by=' . $user_id;
+            '&lat=' .$this->input->post('lat_hdn', true).
+            '&long=' .$this->input->post('long_hdn', true).
+            '&well_type='.$this->input->post('well_type', true).
+            '&image='.$image.
+            '&c_by='.$user_id;
         $method = 'POST';
         
         $result = $this->CallAPI($api, $data, $method);

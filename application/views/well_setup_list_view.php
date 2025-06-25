@@ -154,12 +154,13 @@
                 success:(res)=>{
                     let resp = JSON.parse(res);
                     if(resp.response_code == 200){
-                        toastr.success("Successfully Updated");
+                        swal('success',resp.msg,'success');
                         setTimeout(() => {
                             window.location.reload();
                         }, 1000); 
                     }else{
-                        toastr.error(resp.msg);
+                       
+                        swal('warning',resp.msg,'warning');
                     }
                 }
             });

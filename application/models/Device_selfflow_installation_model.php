@@ -1,5 +1,5 @@
 <?php
-class Device_installation_model extends CI_Model
+class Device_selfflow_installation_model extends CI_Model
 {
     public function __construct()
     {
@@ -101,43 +101,7 @@ class Device_installation_model extends CI_Model
         
     }
     
-    public function get_device_installation_details($company_id,$user_id,$assets_id,$area_id,$site_id,$well_type,$from_date,$to_date)
-    {
-        $image = base_url().'album/';
-
-        if($company_id!="")
-                $this->db->where(['sd.company_id'=>$company_id]);
-            
-        if($user_id!="")
-                $this->db->where(['sd.installed_by'=>$user_id]);
-
-        if($assets_id!="")
-                $this->db->where(['sd.assets_id'=>$assets_id]);
-
-        if($area_id!="")
-                $this->db->where(['sd.area_id'=>$area_id]);
-
-        if($site_id!="")
-                $this->db->where(['sd.site_id'=>$site_id]);
-
-        if($well_type!="")
-                $this->db->where(['sd.well_type'=>$well_type]);
-
-        if($from_date!='' && $to_date!='')
-            $this->db->where(['date(sd.c_date)>='=>$from_date,'date(sd.c_date)<='=>$to_date]);
-
-        return $this->db->select("sd.id,sd.installed_by,om.user_full_name,sd.assets_id,as.assets_name,sd.area_id,am.area_name,sd.site_id,ws.well_site_name,sd.well_type,sd.well_id,wm.well_name,wm.lat,wm.long,wm.gps_lat,wm.gps_long,sd.imei_no,ds.device_name,sd.date_time,sd.sim_no as serial_no,sd.network_type,sd.sim_provider,CONCAT('$image',sd.image) as image,sd.no_of_installed_sensor,sd.well_type,wt.well_type_name,sd.well_installation_status,sd.well_status,sd.well_status_date_time")
-
-            ->from('tbl_site_device_installtion_self_flow sd')
-            ->join('tbl_device_master ds','ds.imei_no=sd.imei_no and ds.status=1','left')
-            ->join('tbl_well_type wt','sd.well_type=wt.id and wt.status=1','left')
-            ->join('tbl_assets_master as','as.id=sd.assets_id and as.status=1','left')
-            ->join('tbl_area_master am','am.id=sd.area_id and am.status=1','left')
-            ->join('tbl_well_site_master ws','ws.id=sd.site_id and ws.status=1','left')
-            ->join('tbl_ongc_member_master om','om.id=sd.installed_by and om.status=1','left')
-            ->join('tbl_well_master wm','wm.id=sd.well_id and wm.status=1','left')
-            ->where(['sd.status'=>1])->get()->result_array();
-    }
+    
 
     public function get_device_removal_log($company_id,$user_id,$well_id,$from_date,$to_date)
     {

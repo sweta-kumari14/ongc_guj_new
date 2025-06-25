@@ -119,7 +119,7 @@ class Master_model extends CI_Model
         return $this->db->select("id,well_site_name,company_id,assets_id,area_id")->from('tbl_well_site_master')->where(['status'=>1])->get()->result_array();
     }
 
-    public function Well_List($company_id,$assets_id,$area_id,$site_id,$user_id)
+    public function Well_List($company_id,$assets_id,$area_id,$site_id,$user_id,$well_type)
     {
         if($company_id!='')
             $this->db->where('wm.company_id',$company_id);
@@ -129,8 +129,10 @@ class Master_model extends CI_Model
             $this->db->where('wm.area_id',$area_id);
         if($site_id!='')
             $this->db->where('wm.site_id',$site_id);
-         if($user_id!='')
+        if($user_id!='')
             $this->db->where('ad.user_id',$user_id);
+        if($well_type!='')
+            $this->db->where('wm.well_type',$well_type);
         
         
         return $this->db->select("wm.id,wm.company_id,wm.assets_id,wm.area_id,wm.site_id,wm.well_name")
@@ -228,25 +230,7 @@ class Master_model extends CI_Model
     }
 
     
-    //  public function getWell_Listforinstall($company_id,$user_id,$assets_id,$area_id,$site_id)
-    // {
-    //     if($company_id!='')
-    //         $this->db->where('ad.company_id',$company_id);
-    //     if($user_id!='')
-    //         $this->db->where('ad.user_id',$user_id);
-    //     if($assets_id!='')
-    //         $this->db->where('ad.assets_id',$assets_id);
-    //     if($area_id!='')
-    //         $this->db->where('ad.area_id',$area_id);
-    //     if($site_id!='')
-    //         $this->db->where('ad.site_id',$site_id);
-
-    //     return $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
-    //     ->from('tbl_role_wise_user_assign_details ad')
-    //     ->join('tbl_well_master wm','ad.well_id=wm.id','left')
-    //     ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0])->get()->result_array();
-    // }
-
+   
     public function getWell_Listforinstall($company_id,$user_id,$assets_id,$area_id,$site_id)
     {
         if($company_id!='')
@@ -259,13 +243,13 @@ class Master_model extends CI_Model
             $this->db->where('ad.area_id',$area_id);
         if($site_id!='')
             $this->db->where('ad.site_id',$site_id);
-
+        
         $res = [];
 
         $res['assign_well'] = $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
         ->from('tbl_role_wise_user_assign_details ad')
         ->join('tbl_well_master wm','ad.well_id=wm.id','left')
-        ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0])
+        ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0,'wm.well_type'=>1])
         ->group_by('wm.id')
         ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 

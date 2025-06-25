@@ -109,7 +109,8 @@ class Report extends REST_Controller
 			$well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
 			$from_date = $this->input->post('from_date',true)!=''?$this->input->post('from_date',true):'';
 			$to_date = $this->input->post('to_date',true)!=''?$this->input->post('to_date',true):'';
-			$result = $this->Report_model->Installed_Device_Report($company_id,$user_id,$assets_id,$area_id,$site_id,$well_id,$from_date,$to_date);
+			$well_type = $this->input->post('well_type',true)!=''?$this->input->post('well_type',true):'';
+			$result = $this->Report_model->Installed_Device_Report($company_id,$user_id,$assets_id,$area_id,$site_id,$well_id,$from_date,$to_date,$well_type);
 
 			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {
