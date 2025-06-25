@@ -246,7 +246,6 @@ class Device_selfflow_well_installation extends REST_Controller
     }
     public function save_device_andtag_removal_data_post()
     {
-    
         $removal_type = $this->input->post('removal_type',true);
         $well_id = $this->input->post('well_id',true);
         $device_name = $this->input->post('device_name',true);
@@ -292,14 +291,15 @@ class Device_selfflow_well_installation extends REST_Controller
                         $data = [];
                         $data['device_name'] = null;
                         $data['imei_no'] = null;
-                        $data['well_installation_status'] = 3;
+                        $data['well_setup_status'] = 2;
+                        $data['well_installation_status'] = 2;
                         $data['date_time'] = date('Y-m-d H:i:s');
                         $data['d_by'] = $c_by;
                         $data['d_date'] = date('Y-m-d H:i:s');
 
                         $this->Device_selfflow_installation_model->update_well_removal_record($data,['well_id'=>$well_id]);
 
-                        $this->Device_selfflow_installation_model->update_installation_device_logData(['well_installation_status'=>3,'to_date_time'=>date('Y-m-d H:i:s'),'well_setup_status'=>2],['well_id'=>$well_id,'well_setup_status'=>1]);
+                        $this->Device_selfflow_installation_model->update_installation_device_logData(['well_installation_status'=>2,'to_date_time'=>date('Y-m-d H:i:s'),'well_setup_status'=>2],['well_id'=>$well_id,'well_setup_status'=>1]);
 
                         $datalog = [];
                         $datalog['company_id'] = $verifyWell_data[0]['company_id'];
@@ -345,28 +345,40 @@ class Device_selfflow_well_installation extends REST_Controller
                         
                         // print_r($well_details);die;
 
-                        $tagCounts = '';
-                        
-                        foreach ($tagData as $key => $value) {
+                        $tagCounts = [];
 
-                            $compId = $value['component_id'];
-                            $tagCounts[$compId] = isset($tagCounts[$compId]) ? $tagCounts[$compId] + 1 : 1;
+                            foreach ($tagData as $key => $value) {
 
-                            $tagData = [];
-                            $tagData['tag_status'] = 0;
-                            $tagData['to_date_time'] = date('Y-m-d H:i:s');
-                            $tagData['d_by'] = $c_by;
-                            $tagData['d_date'] = date('Y-m-d H:i:s');
+                                $compId = $value['component_id'];
+                                $tagCounts[$compId] = isset($tagCounts[$compId]) ? $tagCounts[$compId] + 1 : 1;
+                                $tagUpdateData = [];
+                                $tagUpdateData['tag_status'] = 0;
+                                $tagUpdateData['to_date_time'] = date('Y-m-d H:i:s');
+                                $tagUpdateData['d_by'] = $c_by;
+                                $tagUpdateData['d_date'] = date('Y-m-d H:i:s');
 
-                            $this->Device_selfflow_installation_model->UpdateRemoved_sensorStatus($tagData,['well_id'=>$well_id,'component_id'=>$value['component_id'],'sensor_no'=>$value['tag_number'],'tag_status'=>1]);
+                                $this->Device_selfflow_installation_model->UpdateRemoved_sensorStatus(
+                                    $tagUpdateData,
+                                    [
+                                        'well_id' => $well_id,
+                                        'component_id' => $value['component_id'],
+                                        'sensor_no' => $value['tag_number'],
+                                        'tag_status' => 1
+                                    ]
+                                );
 
-
-                            $this->Device_selfflow_installation_model->update_Tag_installation_status(['installation_status'=>0,'installation_date_time'=>null],['component_id'=>$value['component_id'],'tag_number'=>$value['tag_number'],'installation_status'=>1]);
-
-                        }
+                                $this->Device_selfflow_installation_model->update_Tag_installation_status(
+                                    ['installation_status' => 0, 'installation_date_time' => null],
+                                    [
+                                        'component_id' => $value['component_id'],
+                                        'tag_number' => $value['tag_number'],
+                                        'installation_status' => 1
+                                    ]
+                                );
+                            }
 
                         $data = [];
-                        $data['no_of_installed_sensor'] = $verifyWell_data[0]['no_of_installed_sensor'] - $tagCounts;
+                        $data['no_of_installed_sensor'] = (int) ($verifyWell_data[0]['no_of_installed_sensor'] - array_sum($tagCounts));
                         $data['well_installation_status'] = 3;
                         $data['date_time'] = date('Y-m-d H:i:s');
                         $data['d_by'] = $c_by;
@@ -387,7 +399,7 @@ class Device_selfflow_well_installation extends REST_Controller
                         $datalog['well_type'] = $verifyWell_data[0]['well_type'];
                         $datalog['device_name'] = $verifyWell_data[0]['device_name'];
                         $datalog['imei_no'] = $verifyWell_data[0]['imei_no'];
-                        $datalog['no_of_installed_sensor'] = $tagCounts;
+                        $datalog['no_of_installed_sensor'] = $data['no_of_installed_sensor'];
                         $datalog['sim_no'] = $verifyWell_data[0]['sim_no'];
                         $datalog['network_type'] = $verifyWell_data[0]['network_type'];
                         $datalog['sim_provider'] = $verifyWell_data[0]['sim_provider'];
@@ -429,14 +441,15 @@ class Device_selfflow_well_installation extends REST_Controller
                     $data['device_name'] = null;
                     $data['imei_no'] = null;
                     $data['no_of_installed_sensor'] = 0;
-                    $data['well_installation_status'] = 3;
+                    $data['well_installation_status'] = 4;
+                    $data['well_setup_status'] = 2;
                     $data['date_time'] = date('Y-m-d H:i:s');
                     $data['d_by'] = $c_by;
                     $data['d_date'] = date('Y-m-d H:i:s');
 
                     $this->Device_selfflow_installation_model->update_well_removal_record($data,['well_id'=>$well_id]);
 
-                    $this->Device_selfflow_installation_model->update_installation_device_logData(['well_installation_status'=>3,'to_date_time'=>date('Y-m-d H:i:s'),'well_setup_status'=>2],['well_id'=>$well_id,'well_setup_status'=>1]);
+                    $this->Device_selfflow_installation_model->update_installation_device_logData(['well_installation_status'=>4,'to_date_time'=>date('Y-m-d H:i:s'),'well_setup_status'=>2],['well_id'=>$well_id,'well_setup_status'=>1]);
 
                     foreach ($tagData as $key => $value) {
 
@@ -466,22 +479,197 @@ class Device_selfflow_well_installation extends REST_Controller
         }
     }
 
-    public function deviceRemoval_report_post()
+    public function save_device_and_tag_re_installtion_data_post()
     {
-        try{
-        $company_id = $this->input->post('company_id',true)!=""?$this->input->post('company_id',true):"";
-        $user_id = $this->input->post('user_id',true)!=""?$this->input->post('user_id',true):"";
-        $well_id = $this->input->post('well_id',true)!=""?$this->input->post('well_id',true):"";            
-        $from_date = $this->input->post('from_date',true)!=""?$this->input->post('from_date',true):"";
-        $to_date = $this->input->post('to_date',true)!=""?$this->input->post('to_date',true):"";
+    
+        $reinstallation_type = $this->input->post('reinstallation_type',true);
+        $well_id = $this->input->post('well_id',true);
+        $device_name = $this->input->post('device_name',true);
+        $imei_no = $this->input->post('imei_no',true);
+        $c_by = $this->input->post('c_by',true);
 
-        $result_data = $this->Device_selfflow_installation_model->get_device_removal_log($company_id,$user_id,$well_id,$from_date,$to_date);
-
-        $this->response(['status'=>true,'data'=>$result_data,'msg'=>'Successfully Fetched!!','response_code' => REST_Controller::HTTP_OK]);
-        }catch(Exception $e)
+        if($this->input->post('reinstallation_type',true) == '')
         {
-        $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong !','response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+            $this->response(['status'=>false,'data'=>[],'msg'=>'Re-installation Type required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+        }elseif(!preg_match("/^[1-2]{1}$/",$reinstallation_type))
+        {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'Re-installation type should be integer and 1,2 allowed!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+        }elseif($this->input->post('well_id',true) == '')
+        {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'Well required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+        }elseif($this->input->post('c_by',true) == '')
+        {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'Created By required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+        }else{
+            try{
+
+                $verifyWell_data  = $this->Device_selfflow_installation_model->CheckWell_id_Exist($this->input->post('well_id',true));
+                
+                if($reinstallation_type == 1)
+                {
+                    if($this->input->post('device_name',true) == '')
+                    {
+                        $this->response(['status'=>false,'data'=>[],'msg'=>'Device required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                    }elseif($this->input->post('imei_no',true) == '')
+                    {
+                        $this->response(['status'=>false,'data'=>[],'msg'=>'IMEI No required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                    }elseif(!preg_match("/^[a-zA-Z0-9]{10,20}$/",$imei_no))
+                    {
+                        $this->response(['status'=>false,'data'=>[],'msg'=>'From IMEI should be 10 to 20 digit and character allowed !!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                    }
+
+                    // print_r($verifyWell_data);die;
+
+                    if(count($verifyWell_data) > 0 && $verifyWell_data[0]['imei_no'] ==null)
+                    {
+
+
+                        $data = [];
+                        $data['device_name'] = $this->input->post('device_name',true);
+                        $data['imei_no'] = $this->input->post('imei_no',true); 
+                        $data['well_installation_status'] = 5;
+                        $data['well_setup_status'] = 1;
+                        $data['date_time'] = date('Y-m-d H:i:s');
+                        $data['d_by'] = $c_by;
+                        $data['d_date'] = date('Y-m-d H:i:s');
+
+                        $this->Device_selfflow_installation_model->update_well_reinstallation_record($data,['well_id'=>$well_id]);
+
+                        $this->Device_selfflow_installation_model->update_installation_device_logData(['well_installation_status'=>5,'to_date_time'=>date('Y-m-d H:i:s'),'well_setup_status'=>2],['well_id'=>$well_id,'well_setup_status'=>1]);
+
+                        $datalog = [];
+                        $datalog['company_id'] = $verifyWell_data[0]['company_id'];
+                        $datalog['installation_id'] = $verifyWell_data[0]['id'];
+                        $datalog['installed_by'] = $this->input->post('c_by', true);
+                        $datalog['assets_id'] = $verifyWell_data[0]['assets_id'];
+                        $datalog['area_id'] = $verifyWell_data[0]['area_id'];
+                        $datalog['site_id'] = $verifyWell_data[0]['site_id'];
+                        $datalog['well_id'] = $this->input->post('well_id',true);
+                        $datalog['well_type'] = $verifyWell_data[0]['well_type'];
+                        $datalog['device_name'] = $this->input->post('device_name',true);
+                        $datalog['imei_no'] = $this->input->post('imei_no',true);
+                        $datalog['no_of_installed_sensor'] = $verifyWell_data[0]['no_of_installed_sensor'];
+                        $datalog['sim_no'] = $verifyWell_data[0]['sim_no'];
+                        $datalog['network_type'] = $verifyWell_data[0]['network_type'];
+                        $datalog['sim_provider'] = $verifyWell_data[0]['sim_provider'];
+                        $datalog['from_date_time'] = date('Y-m-d H:i:s');
+                        $datalog['c_by'] = $this->input->post('c_by', true);
+                        $datalog['c_date'] = date('Y-m-d H:i:s');
+                        $datalog['status'] = 1;
+
+                        $this->Device_selfflow_installation_model->SaveWell_installationlog($datalog);
+
+
+                        $this->response(['status' => true,'data' => [],'msg' => 'Successfully Device Re-installation!!','response_code' => REST_Controller::HTTP_OK]);
+
+                        
+                    }else{
+                        $this->response(['status'=>false,'data'=>[],'msg'=>'Device Already Installed!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                    }
+
+                }
+                elseif($reinstallation_type == 2)
+                {
+                    $verify_wellformula = $this->Device_selfflow_installation_model->check_well_formula_count($verifyWell_data[0]['well_type']);
+
+                    $tagData = json_decode($this->input->post('tag_data', true), true);
+                    if($this->input->post('tag_data',true) == '')
+                    {
+                        $this->response(['status'=>false,'data'=>[],'msg'=>'Tag Data required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                    }
+
+                    $id = $this->Device_selfflow_installation_model->get_Ins_id();
+
+                    if ((int)$verifyWell_data[0]['no_of_installed_sensor'] >= (int)$verify_wellformula) {
+                        $this->response([
+                            'status' => false,
+                            'data' => [],
+                            'msg' => 'All sensors already installed for this well. No more sensors can be added.',
+                            'response_code' => REST_Controller::HTTP_BAD_REQUEST
+                        ]);
+                    }
+                
+                    if(count($verifyWell_data) > 0 && $verifyWell_data[0]['no_of_installed_sensor'] >= 0 )
+                    {
+                        $tagCounts = 0; 
+
+                        foreach ($tagData as $value) {
+                            if (!empty($value['tag_number'])) {
+                                $sensorData = [
+                                    'installation_id' => $id[0]['UUID()'],
+                                    'well_id' => $this->input->post('well_id', true),
+                                    'well_type' =>  $verifyWell_data[0]['well_type'],
+                                    'component_id' => $value['component_id'],
+                                    'sensor_no' => $value['tag_number'],
+                                    'from_date_time' => date('Y-m-d H:i:s'),
+                                    'c_by' => $this->input->post('c_by', true),
+                                    'c_date' => date('Y-m-d H:i:s'),
+                                    'status' => 1
+                                ];
+
+                                $this->Device_selfflow_installation_model->Save_Tag_Detail($sensorData);
+
+                                $this->Device_selfflow_installation_model->update_Tag_installation_status(
+                                    ['installation_status' => 1, 'installation_date_time' => date('Y-m-d H:i:s')],
+                                    ['component_id' => $value['component_id'], 'tag_number' => $value['tag_number']]
+                                );
+
+                                $tagCounts++; 
+                            }
+                        }
+                        $data = [];
+                        $data['no_of_installed_sensor'] = $verifyWell_data[0]['no_of_installed_sensor'] + $tagCounts;
+                        $data['well_installation_status'] = 6;
+                        $data['well_setup_status'] = 1;
+                        $data['date_time'] = date('Y-m-d H:i:s');
+                        $data['d_by'] = $c_by;
+                        $data['d_date'] = date('Y-m-d H:i:s');
+                        
+                        $this->Device_selfflow_installation_model->update_well_reinstallation_record($data,['well_id'=>$well_id]);
+                            
+                        $this->Device_selfflow_installation_model->update_installation_device_logData(['well_installation_status'=>6,'to_date_time'=>date('Y-m-d H:i:s'),'well_setup_status'=>2],['well_id'=>$well_id,'well_setup_status'=>1]);
+
+                        $datalog = [];
+                        $datalog['company_id'] = $verifyWell_data[0]['company_id'];
+                        $datalog['installation_id'] = $verifyWell_data[0]['id'];
+                        $datalog['installed_by'] = $this->input->post('c_by', true);
+                        $datalog['assets_id'] = $verifyWell_data[0]['assets_id'];
+                        $datalog['area_id'] = $verifyWell_data[0]['area_id'];
+                        $datalog['site_id'] = $verifyWell_data[0]['site_id'];
+                        $datalog['well_id'] = $this->input->post('well_id',true);
+                        $datalog['well_type'] = $verifyWell_data[0]['well_type'];
+                        $datalog['device_name'] = $verifyWell_data[0]['device_name'];
+                        $datalog['imei_no'] = $verifyWell_data[0]['imei_no'];
+                        $datalog['no_of_installed_sensor'] = $data['no_of_installed_sensor'];
+                        $datalog['sim_no'] = $verifyWell_data[0]['sim_no'];
+                        $datalog['network_type'] = $verifyWell_data[0]['network_type'];
+                        $datalog['sim_provider'] = $verifyWell_data[0]['sim_provider'];
+                        $datalog['from_date_time'] = date('Y-m-d H:i:s');
+                        $datalog['c_by'] = $this->input->post('c_by', true);
+                        $datalog['c_date'] = date('Y-m-d H:i:s');
+                        $datalog['status'] = 1;
+
+                        // print_r($datalog);die;
+
+                        $this->Device_selfflow_installation_model->SaveWell_installationlog($datalog);
+
+                        $this->response(['status'=>true,'data'=>[],'msg'=>'Successfully Tag Re-installation!!','response_code'=>REST_Controller::HTTP_OK]);
+
+                    }else{
+                        $this->response(['status'=>false,'data'=>[],'msg'=>'Tag Record not found!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                    }
+
+                }
+                else{
+                    $this->response(['status'=>false,'data'=>[],'msg'=>'Re-installation Type not valid!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+                }
+
+            }catch(Exception $ex){
+                $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+            }
         }
     }
+
+    
 }
 ?>
