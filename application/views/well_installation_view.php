@@ -1,10 +1,6 @@
 
 <div class="page-wrapper">
-   
 <div class="container-xxl">
-
-   
-
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
@@ -188,6 +184,30 @@
         </div>
     </div>
 </div>
+<?php 
+if($this->session->flashdata('success') != '')
+{
+    ?>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var msg = "<?php echo $this->session->flashdata('success'); ?>";
+        swal(msg, "", "success");
+      });
+    </script>
+  <?php
+}
+if($this->session->flashdata('error') != '')
+{
+    ?>
+        <script type="text/javascript">
+          $(document).ready(function () {
+            var msg = "<?php echo $this->session->flashdata('error'); ?>";
+            swal(msg, "", "error");
+          });
+        </script>
+    <?php
+}
+?>
 <script>
     function previewImage(event) {
         var image = document.getElementById('image').files[0];

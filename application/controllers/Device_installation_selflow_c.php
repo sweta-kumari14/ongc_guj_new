@@ -17,7 +17,7 @@ class Device_installation_selflow_c extends MY_Controller
         $result = $this->CallAPI($api, $data, $method);
         $d['well_type_list'] = $result['data'];
 
-        // print_r($d['wellTypes']);die;
+        // print_r($d['well_type_list']);die;
 
         $api = 'Assets_Master/AssetsList';
         $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
@@ -72,9 +72,9 @@ class Device_installation_selflow_c extends MY_Controller
 
     public function getWell_forinstallation_list()
     {
-        $api = 'Master/getWell_List';
-        $data = 'company_id=' . htmlspecialchars($this->session->userdata('company_id'))
-            . '&assets_id=' . htmlspecialchars($this->input->post('assets_id'))
+        $api = 'Master/get_well_list_for_installtion';
+        $data = 'company_id=' .htmlspecialchars($this->session->userdata('company_id'))
+            . '&assets_id=' .htmlspecialchars($this->input->post('assets_id'))
             . '&area_id=' . htmlspecialchars($this->input->post('area_id'))
             . '&site_id=' . htmlspecialchars($this->input->post('site_id'))
             . '&well_type=' . htmlspecialchars($this->input->post('wellType'));
@@ -85,12 +85,12 @@ class Device_installation_selflow_c extends MY_Controller
 
     public function getItem_list()
     {
-        $api = 'Tags_master/Tag_List';
-            $data = 'company_id='.$this->session->userdata('company_id',true).
-                    '&component_id='.$this->input->post('component_id',true);
-            $method = 'POST';
-            $result = $this->CallAPI($api, $data, $method);
-            echo json_encode($result);
+        $api = 'Master/Not_installedTag_List';
+        $data = 'company_id='.$this->session->userdata('company_id',true).
+                '&component_id='.$this->input->post('component_id',true);
+        $method = 'POST';
+        $result = $this->CallAPI($api, $data, $method);
+        echo json_encode($result);
     }
 
 
@@ -133,8 +133,9 @@ class Device_installation_selflow_c extends MY_Controller
             '&image='.$image.
             '&c_by='.$user_id;
         $method = 'POST';
-        
         $result = $this->CallAPI($api, $data, $method);
+        echo'<pre>';
+        print_r($data);die;
         if ($result['response_code'] == 200) {
             $this->session->set_flashdata('success', $result['msg']);
             redirect('Device_installation_selflow_c');

@@ -266,6 +266,28 @@ class Master_model extends CI_Model
         return $Result;
     }
 
+    public function get_self_flow_Well_Listforinstall($user_id,$assets_id,$area_id,$site_id,$well_type)
+    {
+        if($user_id!='')
+            $this->db->where('ad.user_id',$user_id);
+        if($assets_id!='')
+            $this->db->where('wm.assets_id',$assets_id);
+        if($area_id!='')
+            $this->db->where('wm.area_id',$area_id);
+        if($site_id!='')
+            $this->db->where('wm.site_id',$site_id);
+         if($well_type!='')
+            $this->db->where('wm.well_type',$well_type);
+        
+        return $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
+        ->from('tbl_role_wise_user_assign_details ad')
+        ->join('tbl_well_master wm','ad.well_id=wm.id','left')
+        ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0])
+        ->group_by('wm.id')
+        ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
+        
+    }
+
     public function getDeviceListforinstall($company_id,$user_id)
     {
         if($company_id!='')
@@ -490,6 +512,24 @@ class Master_model extends CI_Model
         ->from('tbl_well_type wt')
         ->join('tbl_country_master cm','cm.id=wt.company_id','left')
         ->where(['wt.status'=>1])->get()->result_array();
+    }
+
+    public function Not_installedTagList($company_id,$component_id)
+    {
+        
+        if($company_id!='')
+            $this->db->where('im.company_id',$company_id);
+
+        if($component_id!='')
+            $this->db->where('im.component_id',$component_id);
+
+        $result = $this->db->select("im.id,im.company_id,im.component_id,im.tag_number,im.installation_status,cm.component_name")
+        ->from('tbl_tags_number_master im')
+        ->join('tbl_component_master cm','cm.id=im.component_id','left')
+        ->order_by("CAST(SUBSTRING_INDEX(im.tag_number, '#', -1) AS UNSIGNED) ASC")
+        ->where(['im.status'=>1,'im.installation_status'=>0])->get()->result_array();
+
+        return $result;
     }
 
 }

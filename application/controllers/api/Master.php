@@ -273,6 +273,21 @@ class Master extends REST_Controller
         }
     }
 
+    public function get_well_list_for_installtion_post()
+    {
+        try {
+            $user_id = $this->input->post('user_id',true)!=''?$this->input->post('user_id',true):'';
+            $assets_id = $this->input->post('assets_id',true)!=''?$this->input->post('assets_id',true):'';
+            $area_id = $this->input->post('area_id',true)!=''?$this->input->post('area_id',true):'';
+            $site_id = $this->input->post('site_id',true)!=''?$this->input->post('site_id',true):'';
+            $well_type = $this->input->post('well_type',true)!=''?$this->input->post('well_type',true):'';
+            $result = $this->Master_model->get_self_flow_Well_Listforinstall($user_id,$assets_id,$area_id,$site_id,$well_type);
+            $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+        } catch (Exception $e) {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        }
+    }
+
     public function getinstallation_DeviceList_post()
     {
         try{
@@ -451,18 +466,32 @@ class Master extends REST_Controller
     // well type 
 
     public function get_well_type_List_post()
-{
-    try {
-        $company_id = $this->input->post('company_id', true) != '' ? $this->input->post('company_id', true) : '';
-        $well_type_id = $this->input->post('well_type_id', true);  // Adding the well type filter
+    {
+        try {
+            $company_id = $this->input->post('company_id', true) != '' ? $this->input->post('company_id', true) : '';
+            $well_type_id = $this->input->post('well_type_id', true);  // Adding the well type filter
 
-        // Fetch the well types with optional filter on well type
-        $result = $this->Master_model->getwell_typelistData($company_id, $well_type_id);  // Pass the filter to the model
+            // Fetch the well types with optional filter on well type
+            $result = $this->Master_model->getwell_typelistData($company_id, $well_type_id);  // Pass the filter to the model
 
-        $this->response(['status' => true,'data' => $result,'msg' => 'Successfully Fetched!!','response_code' => REST_Controller::HTTP_OK ]);
-    } catch (Exception $e) {$this->response([ 'status' => false,'data' => [],'msg' => 'Something went wrong!!','response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR ]);
+            $this->response(['status' => true,'data' => $result,'msg' => 'Successfully Fetched!!','response_code' => REST_Controller::HTTP_OK ]);
+        } catch (Exception $e) {$this->response([ 'status' => false,'data' => [],'msg' => 'Something went wrong!!','response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR ]);
+        }
     }
-}
+
+    public function Not_installedTag_List_post()
+    {
+        try {
+            
+            $company_id = $this->input->post('company_id',true)!=""?$this->input->post('company_id',true):"";
+            $component_id = $this->input->post('component_id',true)!=""?$this->input->post('component_id',true):"";
+            $result = $this->Master_model->Not_installedTagList($company_id,$component_id);
+            $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+        } catch (Exception $e) {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        } 
+    }
+
 
 }
 ?>

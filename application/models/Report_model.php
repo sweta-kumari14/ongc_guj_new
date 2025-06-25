@@ -130,6 +130,24 @@ class Report_model extends CI_Model
 		->where(['wm.well_type'=>1])
 		->where(['di.status'=>1,'di.device_shifted'=>0])->group_by('di.well_id')->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 
+		if($company_id!='')
+			$this->db->where('di.company_id',$company_id);
+		if($user_id!='')
+			$this->db->where('di.installed_by',$user_id);
+		if($assets_id!='')
+			$this->db->where('di.assets_id',$assets_id);
+		if($area_id!='')
+			$this->db->where('di.area_id',$area_id);
+		if($site_id!='')
+			$this->db->where('di.site_id',$site_id);
+		if($well_id!='')
+			$this->db->where('di.well_id',$well_id);
+		if($from_date!='' && $to_date!='')
+			$this->db->where(['date(di.date_time)>='=>$from_date,'date(di.date_time)<='=>$to_date]);
+
+		if($well_type!='')
+			$this->db->where('wm.well_type',$well_type);
+
 
 		$res['self_well'] =  $this->db->select("di.installed_by,mm.user_full_name,di.assets_id,as.assets_name,di.area_id,am.area_name,di.site_id,sm.well_site_name,di.well_id,wm.well_name,di.device_name,di.imei_no,dac.serial_no,di.sim_no,di.sim_provider,di.network_type,di.date_time as date_of_installation,wm.lat,wm.long,CONCAT('$base_url',di.image) as icon")
 		->from('tbl_site_device_installtion_self_flow di')
