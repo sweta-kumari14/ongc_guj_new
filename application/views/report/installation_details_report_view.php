@@ -13,7 +13,7 @@
                                 <div class="card-body">
                                    <div class="row align-items-center">
                                         <div class="col">
-                                           <h4 class="header-title mb-4"><b>Installation Report</b></h4>
+                                           <h4 class="header-title mb-4"><b>Selfflow-Installation Report</b></h4>
                                         </div>
                                         <div class="col-auto float-end ms-auto">
                                              <button class="btn btn-success btn-sm btn-rounded mx-2" onclick="export_report()" style="font-size: 14px;">Export</button>
