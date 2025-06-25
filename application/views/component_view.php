@@ -1,32 +1,28 @@
-<div class="page-wrapper">
-    <div class="content container-fluid pt-2">
-<div class="container-xxl">
-
-    
-
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header mb-0" style="    padding: 11px; background-color: #ede4d1;">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h4 class="mb-1">Component List</h4>
+ <div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                               <h4 class="header-title mb-4">Component</h4>
+                            </div>
+                            <div class="col-auto float-end ms-auto">
+                                <button class="btn btn-success btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <i class="fas fa-plus me-1" style="font-size: 10px;"></i> Add
+                                </button>
+                                <button type="button" id="export_btns" onclick="export_report()" class="btn btn-sm btn-primary motion-btn">
+                                    <i class="fas fa-file-export me-1" style="font-size: 12px;"></i> Export
+                                </button>
+                            </div>
+                         
                         </div>
-                        <div class="col-auto ms-auto d-flex gap-2">
-                           <button class="btn btn-success motion-btn" type="button"data-bs-toggle="offcanvas"data-bs-target="#offcanvasRight"aria-controls="offcanvasRight"style="font-size: 12px; padding: 2px 6px; line-height: 1.2;">
-    <i class="fas fa-plus me-1" style="font-size: 10px;"></i> Add
-</button>
 
-
-                            <button type="button" id="export_btns" onclick="export_report()" class="btn btn-sm btn-primary motion-btn">
-                                <i class="fas fa-file-export me-1" style="font-size: 12px;"></i> Export</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body pt-1">
+            
                     <div class="table-responsive">
-                         <table class="table datatable" id="datatable_2">
-                            <thead class="table-secondary">
+                        <table class="table table-striped custom-table mb-0 datatable" id="data-table">
+                            <thead>
                                 <tr>
                                     <th>SL.No.</th>
                                     <th>Component Name</th>
@@ -74,19 +70,20 @@
         </div>
     </div>                                      
 </div>
+</div>
 
 <!-- Offcanvas Component -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     
     <!-- Header with background color -->
-    <div class="offcanvas-header" style="background: linear-gradient(to right, #8B4513, #A9A9A9);">
+    <div class="offcanvas-header" style="background: linear-gradient(to right, #032448 20%, #fc6075 100%);">
         <h5 id="offcanvasRightLabel" class="offcanvas-title" style="color:#e8d7d6;">Add Component</h5>
         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
     <!-- Body -->
     <div class="offcanvas-body">
-        <form action="<?php echo base_url() ?>Component_c/add_component" class="row needs-validation" method="post" novalidate>
+        <form action="<?php echo base_url() ?>Component_c/add_component" class="row needs-validation" method="post">
 
             <div class="col-md-12">
                 <label for="validationCustom01" class="form-label">Component Name<sup class="text-danger">*</sup></label>
@@ -138,7 +135,30 @@
         </form>
     </div>
 </div>
-
+<?php 
+if($this->session->flashdata('success') != '')
+{
+    ?>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var msg = "<?php echo $this->session->flashdata('success'); ?>";
+        swal(msg, "", "success");
+      });
+    </script>
+  <?php
+}
+if($this->session->flashdata('error') != '')
+{
+    ?>
+        <script type="text/javascript">
+          $(document).ready(function () {
+            var msg = "<?php echo $this->session->flashdata('error'); ?>";
+            swal(msg, "", "error");
+          });
+        </script>
+    <?php
+}
+?>
 <script>
 
     function setcomponentDetails(id)
@@ -182,11 +202,11 @@
                     console.log(res);
                     if(res.response_code==200)
                     {
-                      toastr.success(res.msg);
+                      swal('success',res.msg,'success');
                       setTimeout(()=>{window.location.href="<?php echo base_url(); ?>Component_c"},200)
                    }else
                    {
-                        toastr.error(res.msg);
+                       swal('warning',res.msg,'warning');
                    }
                     
                 }
@@ -203,7 +223,7 @@
     function export_report() {
       var sheetName = "Sheet1";
       var fileName = "Component list.xlsx";
-      var table = $("#datatable_2")[0];
+      var table = $("#data-table")[0];
 
       // Convert table to worksheet
       var ws = XLSX.utils.table_to_sheet(table);

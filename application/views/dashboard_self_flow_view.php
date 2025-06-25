@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<!-- Bootstrap -->
-
 <style>
-    .sensor-card {
+.sensor-card {
     border: 1px solid #d4d4d4;
     border-radius: 14px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -15,57 +13,46 @@
     height: 31px;
     width: auto;
 }
-
-    .sensor-card .pump-image img[alt="sensor-icon"] {
-    height: 35px !important; /* smaller size */
+.sensor-card .pump-image img[alt="sensor-icon"] {
+    height: 35px !important; 
 }
-
-
-    .card-header {
-        background-color: #EEE1E1;
-        color: white;
-        padding: 12px 20px;
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-    .card-headerr {
-        background: #CD5C5C;
-        color: white;
-        padding: 12px 20px;
-        font-size: 20px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-
-
-    .pump-image {
-        display: flex;
-        position: relative;
-/*        background-color: #f9f9f9;*/
-/*        padding: -18px;*/
-        text-align: center;
-        margin: 9px;
-        
-    }
-
-    .sensor-card img.pump-img {
-        width: 90%;
-        height: auto;
-        border-radius: 8px;
-        margin-top: 10px;
+.card-header {
+    background-color: #EEE1E1;
+    color: white;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.card-headerr {
+    background: #CD5C5C;
+    color: white;
+    padding: 12px 20px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.pump-image {
+    display: flex;
+    position: relative;
+    text-align: center;
+    margin: 9px;
     
-    }
+}
+.sensor-card img.pump-img {
+    width: 90%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
 
-    
-    .status-dot {
+}
+.status-dot {
     display: inline-block;
     height: 29px;
     width: 26px;
     border-radius: 50%;
     margin-left: 8px;
 }
-
 @media (max-width: 576px) {
     .card-header {
         font-size: 14px;
@@ -76,27 +63,22 @@
     padding: 10px;
 
 }
-
-   .sensor-wrapper {
+.sensor-wrapper {
     position: relative;
     width: 100%;
-    max-width: 600px; /* or any container width */
+    max-width: 600px; 
     height: auto;
 }
-
-/* Absolute sensors with % so they scale on screen resize */
 .sensor_one, .sensor-two, .sensor-two_one,
 .sensor-three, .sensor-four {
     position: absolute;
 }
-
 .sensor_one     { left: 14%;  top: 4%; }
 .sensor-two     { left: 37%; top: 20%; }
 .sensor-two_one { left: 70%; top: 35%; }
 .sensor-three   { left: 41%; top: 63%; }
 .sensor-four    { left: 70%; top: 62%; }
 
-/* Sensor data bubbles */
 .sensor_one_data, .sensor_two_data,
 .sensor_two_data_two, .sensor_three_data,
 .sensor_four_data {
@@ -104,70 +86,55 @@
     display: flex;
     border: 1px solid #ccc;
     background: #fff;
-    padding: -2px ;         /* Increased padding for a wider box */
+    padding: -2px ;      
     font-size: 12px;
     font-weight: 500;
-    border-radius: 3px;        /* Reduced from 5px to 3px for more rectangle look */
+    border-radius: 3px;    
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    min-width: 68px;           /* Optional: fixes size if text is short */
-    justify-content: center;   /* Centers the text */
+    min-width: 68px;        
+    justify-content: center; 
 }
-
-
-/* Data bubble positioning (also in %) */
 .sensor_one_data     { left: 100%; bottom: 48%; }
 .sensor_two_data     { left: 100%; bottom: 45%; }
 .sensor_two_data_two { left: 96%; bottom: 60%; }
 .sensor_three_data   { left: 88%; bottom: 87%; }
 .sensor_four_data    { left: 88%; bottom: 87%; }
-
-
-    .card-footer {
-        background-color: #fafafa;
-        padding: 4px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .card-footer .datetime {
-        font-size: 14px;
-        color: #333;
-        font-weight: 500;
-    }
-    .tag-name, .tag-count {
+.card-footer {
+    background-color: #fafafa;
+    padding: 4px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-footer .datetime {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+.tag-name, .tag-count {
     font-size: 15px;
     font-weight: 600;
     color: #000000;
     font-family: KhandBold, sans-serif;
 }
 .content-area {
-    padding: 6px 0px;
+  padding: 6px 0px;
 }
-    .button {
-        padding: 7px 9px;
-        background: #28a745;
-        border: none;
-        color: #fff;
-        font-weight: bold;
-        border-radius: 6px;
-        cursor: pointer;
-        animation: flash 1s infinite;
-        transition: background 0.3s;
-    }
-    .select2-container .select2-selection.select2-selection--single {
-    border: 1px solid #dcdcdc;
-    height: 34px;
+.button {
+    padding: 7px 9px;
+    background: #28a745;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    animation: flash 1s infinite;
+    transition: background 0.3s;
 }
-
-
 </style>
-
 <div class="page-wrapper">
     <div class="content container-fluid pt-2">
-
-        <!-- Area/Feeder/Well Filters -->
-        <div class="row" style="margin-top:-7px">
+        <div class="row">
             <div class="col-md-12">
                 <div class="card" style="background: linear-gradient(to left,#F1948A ,#5D6D7E);">
                     <div class="card-body">
@@ -176,7 +143,7 @@
                             <div class="form-group col-md-3">
                                 <label style="color:white;"><b>Installation/Field</b></label>
                                 <select name="area_id" id="area_id" class="form-control select2"
-                                    onchange="get_site_list();get_dashboard_count();initMap();get_well_data();on_well_list();get_feeder_list(); get_feeder_data(); get_well_list();updateURLAndRefresh();">
+                                    onchange="get_site_list();get_dashboard_count();initMap();get_well_data();on_well_list();get_feeder_list(); get_feeder_data(); get_well_list();">
                                     <?php
                                     $user_type = $this->session->userdata('user_type', true);
                                     $role_type = $this->session->userdata('role_type', true);
@@ -198,8 +165,6 @@
                                     ?>
                                 </select>
                             </div>
-
-                            <!-- Feeder Dropdown -->
                             <div class="form-group col-md-3" style="display:none;" id="feeder_dropdown">
                                 <label style="color:white;"><b>Feeder</b></label>
                                 <select name="feeder_id" id="feeder_id" class="form-control select2"
@@ -222,11 +187,69 @@
             </div>
         </div>
 
+
+
         <!-- Dashboard Cards -->
-      <div class="col-md-12 col-xl-12" style="margin-top: 27px;">
-            <div class="row">
-                <!-- Total Wells -->
-                <div class="col-12 col-sm-6 col-md-3">
+            <div class="col-md-12 col-xl-12">
+        <div class="d-flex align-items-center">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3 position-relative">
+                        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+        
+                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                            <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+                        </div>
+                        <div class="content-area text-center mt-2">
+                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
+                            <span class="tag-count" id="total_well"></span>
+                        </div>
+                       </div>
+                   </div>
+
+                    <div class="col-md-3 position-relative">
+                       <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
+        
+                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                            <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
+                        </div>
+                        <div class="content-area text-center mt-2">
+                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Flowing Wells</span><br>
+                            <span class="tag-count" id="total_flowing_well"></span>
+                        </div>
+                       </div>
+                   </div>
+
+                    <div class="col-md-3 position-relative">
+                       <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-4 border-danger">
+                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
+                            <img src="<?php echo base_url('assets/icons/04.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+                        </div>
+                         <div class="content-area text-center mt-2">
+                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Non-Flowing Wells</span><br>
+                            <span class="tag-count" id="total_non_flowing_well"></span>
+                        </div>
+                       </div>
+                   </div>
+
+                    <div class="col-md-3 position-relative">
+                       <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-4 border-success">
+                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
+                            <img src="<?php echo base_url('assets/icons/10.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
+                        </div>
+                        <div class="content-area text-center mt-2">
+                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block";>RTMS Non-Functional</span><br>
+                            <span class="tag-count" id="off_unit"></span>
+                        </div>
+                       </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <!--  <div class="col-md-12 col-xl-12">
+            <div class="row mt-4">
+                <div class="col-md-3 mt-2">
                     <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();">
                         <div class="card small-card">
                             <div class="card-content p-0">
@@ -244,9 +267,7 @@
                         </div>
                     </a>
                 </div>
-
-                <!-- Flowing Wells -->
-                <div class="col-12 col-sm-6 col-md-3">
+               <div class="col-md-3 mt-2">
                     <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>">
                         <div class="card small-card">
                             <div class="running-card p-0">
@@ -263,9 +284,7 @@
                         </div>
                     </a>
                 </div>
-
-                <!-- Non-Flowing Wells -->
-                <div class="col-12 col-sm-6 col-md-3">
+                <div class="col-md-3 mt-2">
                     <a href="<?= base_url('Overall_list_selfflow_c') ?>">
                         <div class="card small-card">
                             <div class="power-cut-card p-0">
@@ -282,151 +301,105 @@
                         </div>
                     </a>
                 </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?= base_url('Overall_list_selfflow_c/overall_details_rtms') ?>">
-                        </a>
-                        <div class="card small-card">
-                            <div class="faulty-card p-0">
-                                <div class="icon-counter gap-2 mt-2">
-                                    <div class="icons mb-2" style="bottom: 50px; background:#f2dee5">
-                                        <img src="<?= base_url('assets/icons/03.png') ?>" style="max-width: 117%; height: 41px;">
-                                    </div>
-                                    <div class="content-area text-center mt-2">
-                                        <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block";>RTMS Non-Functional</span><br>
-                                        <span class="tag-count" id="off_unit"></span>
-                                    </div>
+                <div class="col-md-3 mt-2">
+                    <a href="<?= base_url('Overall_list_selfflow_c/overall_details_rtms') ?>">
+                    </a>
+                    <div class="card small-card">
+                        <div class="faulty-card p-0">
+                            <div class="icon-counter gap-2 mt-2">
+                                <div class="icons mb-2" style="bottom: 50px; background:#f2dee5">
+                                    <img src="<?= base_url('assets/icons/03.png') ?>" style="max-width: 117%; height: 41px;">
                                 </div>
+                                <div class="content-area text-center mt-2">
+                                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block";>RTMS Non-Functional</span><br>
+                                    <span class="tag-count" id="off_unit"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-        </div>
-    </div>
-
-
-
+            </div>
+        </div> -->
         <!-- Well Details Card -->
-        <div class="row" style="    margin-top: -14px;">
+        <div class="row">
             <div class="col-xl-12 col-md-12">
                 <div class="card">
                     <!-- Header with Legends -->
-                   <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap"
-    style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height:46px;">
-
-    <!-- Left: Image + Title -->
-    <div class="d-flex align-items-center me-auto" style="padding-left: 10px;">
-        <img src="<?= base_url('assets/img/oil-pump.gif') ?>" width="40"
-            style="border-radius: 25%; margin-right: 10px;">
-        <h4 style="margin: 0;">
-            <strong>Well Details&nbsp;</strong>
-            <span class="circle" id="totalcount" style="background-color: #312929;"></span>
-        </h4>
-    </div>
-    <!-- Right: Indicator Legend -->
-    <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 8px;">
-        <div class="d-flex align-items-center gap-2">
-            <div style="background-color: rgb(215, 51, 36); width: 16px; height: 16px; border-radius: 50%;"></div>
-            <span style="font-size: 13px;">Non Flowing Wells</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-            <div style="background-color:#06E763; width: 16px; height: 16px; border-radius: 50%;"></div>
-            <span style="font-size: 13px;">Flowing Well</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-            <div style="background-color: #394f62; width: 16px; height: 16px; border-radius: 50%;"></div>
-            <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
-        </div>
-    </div>
-</div>
-
-
-
-       <div class="card-body" style="padding: 9px;">
-    <div class="row" id="well_area_card">
-        <!-- JS will append cards here -->
-    </div>
-</div>
-
-
-</div>
-
-</div>
-<div class="row" style="    margin-top: -0.75rem !important;">
-    <div class="col-md-12">
-        <div class="card">
-
-            <!-- Card Header -->
-            <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap"
-                style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height: 50px;">
-
-                <!-- Left: Image + Title -->
-                <div class="d-flex align-items-center me-auto">
-                    <img src="<?= base_url('assets/img/map.gif') ?>" width="40"
-                        style="border-radius: 25%; margin-right: 10px;">
-                    <h4 style="margin: 0;">
-                        <strong>Asset GIS</strong>
-                        <span class="circle" id="totalcount" style="background-color: #312929;"></span>
-                    </h4>
-                </div>
-
-                <!-- Right: Indicator Legend -->
-                <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 10px;">
-                    <div class="d-flex align-items-center gap-2">
-                        <div style="background-color: rgb(215, 51, 36); width: 16px; height: 16px; border-radius: 50%;"></div>
-                        <span style="font-size: 13px;">Non Flowing Wells</span>
+                   <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap" style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height:46px;">
+                        <div class="d-flex align-items-center me-auto" style="padding-left: 10px;">
+                            <img src="<?= base_url('assets/img/oil-pump.gif') ?>" width="40"
+                                style="border-radius: 25%; margin-right: 10px;">
+                            <h4 style="margin: 0;">
+                                <strong>Well Details&nbsp;</strong>
+                                <span class="circle" id="totalcount" style="background-color: #312929;"></span>
+                            </h4>
+                        </div>
+                        <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 8px;">
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="background-color: rgb(215, 51, 36); width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">Non Flowing Wells</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="background-color:#06E763; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">Flowing Well</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="background-color: #394f62; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <div style="background-color:#06E763; width: 16px; height: 16px; border-radius: 50%;"></div>
-                        <span style="font-size: 13px;">Flowing Well</span>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <div style="background-color: #394f62; width: 16px; height: 16px; border-radius: 50%;"></div>
-                        <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
+                    <div class="card-body" style="padding: 9px;">
+                       <div class="row" id="well_area_card"></div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <!-- Card Header -->
+                    <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap"
+                        style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height: 50px;">
 
-            <!-- ✅ Card Body Added Below -->
-            <div class="card-body" style="background-color: #f9f9f9;">
-                <div class="d-flex flex-wrap gap-3 justify-content-start">
-                <div class="mt-2" id="mymap" style="width:100%;height: 400px;"></div>
+                        <!-- Left: Image + Title -->
+                        <div class="d-flex align-items-center me-auto">
+                            <img src="<?= base_url('assets/img/map.gif') ?>" width="40"
+                                style="border-radius: 25%; margin-right: 10px;">
+                            <h4 style="margin: 0;">
+                                <strong>Asset GIS</strong>
+                                <span class="circle" id="totalcount" style="background-color: #312929;"></span>
+                            </h4>
+                        </div>
+
+                        <!-- Right: Indicator Legend -->
+                        <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 10px;">
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="background-color: rgb(215, 51, 36); width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">Non Flowing Wells</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="background-color:#06E763; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">Flowing Well</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="background-color: #394f62; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="background-color: #f9f9f9;">
+                        <div class="d-flex flex-wrap gap-3 justify-content-start">
+                        <div class="mt-2" id="mymap" style="width:100%;height: 400px;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- End of Card Body -->
-
         </div>
     </div>
 </div>
-
-</div>
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"> 
-  <div class="offcanvas-header">
-     <!-- <img src="<?php echo base_url() ?>assets/img/logo.png" width="70" style="border-radius: 50%; height:50"> -->
-    <h5 id="offcanvasRightLabel">Well Status</h5>
-    
-       <button type="button" class="btn-close text-reset btn-primary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-
-  </div>
-  <div class="col-md-10" style="margin-left:20px;">
-  <label><b>Search Well Name</b></label>   
-    <input type="text" onkeyup="get_well_details()" name="search_box_1" id="search_box_1" class="form-control">
-  </div>
-
-   <hr class="colored-hr">
-  <div class="offcanvas-body">
-        <div class="container" id="flash_data">
-                    
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</div>
-
-</div> <!-- End of page-wrapper -->
 <script type="text/javascript">
-    
     get_site_list();
-
 function get_site_list() { 
     let company_id = "<?php echo $this->session->userdata('company_id') ?>";
     let user_id = "<?php echo $this->session->userdata('user_id') ?>";
@@ -489,7 +462,7 @@ function get_well_list() {
         }
     });
 }
-
+get_feeder_list();
 function get_feeder_list() { 
     let area_id = $('#area_id').val();
     $.ajax({
@@ -523,13 +496,11 @@ function get_feeder_data() {
     }
 }
 
-// Bind both functions on area_id change:
 $('#area_id').on('change', function() {
     get_feeder_list();
     get_feeder_data();
 });
 
-// Initial call to set on page load
 get_feeder_list();
 get_feeder_data();
 
@@ -561,10 +532,7 @@ get_feeder_data();
 </script>
 
 <script type="text/javascript">
-    
-
   get_dashboard_count();
-
 function get_dashboard_count() {
     let company_id = '<?php echo $this->session->userdata('company_id') ?>';
     let area_id = $('#area_id').val();
@@ -625,7 +593,6 @@ function get_dashboard_count() {
 }
 
 get_well_data();
-
 function get_well_data() {
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
@@ -698,14 +665,11 @@ function get_well_data() {
         }
     });
 }
-
-
 </script>
 <!-- Google Maps JS API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKoAgLoslTEUCNabLj5H5jLVdWFD2WhK8"></script>
 <script type="text/javascript">
 initMap();
-
 function initMap() {
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
@@ -817,5 +781,4 @@ function initMap() {
         }
     });
 }
-
 </script>

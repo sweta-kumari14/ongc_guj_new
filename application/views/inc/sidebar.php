@@ -112,18 +112,18 @@ re<!-- Sidebar -->
 						<a href="#"><i class="la la-users"></i> <span>Master</span> <span class="menu-arrow"></span></a>
 						<ul>
 						  <li><a href="<?php echo base_url('Assets_c'); ?>">Assets</a></li>
-                            <li><a href="<?php echo base_url('Area_c'); ?>">Area</a></li>
-                            <li><a href="<?php echo base_url('Site_c'); ?>">Site</a></li>
-                            <li><a href="<?php echo base_url('Well_c'); ?>">Well</a></li>
-                            <li><a href="<?php echo base_url('Fault_c'); ?>">Fault</a></li>
-                            <li><a href="<?php echo base_url('Equipment_c'); ?>">Equipment</a></li>
-                            <li><a href="<?php echo base_url('Well_configration_c'); ?>">Well Scheduling</a></li>
-                            <li><a href="<?php echo base_url('Feeder_master_c'); ?>">Feeder</a></li>
-                            <li><a href="<?php echo base_url('Well_install_c'); ?>">Well Re-Installation</a></li>
-                            <li><a href="<?php echo base_url('Temporary_off_reason_c'); ?>">Temporary Off Reason</a></li>
-                            <li><a href="<?php echo base_url('Well_type_c'); ?>">Well type</a></li>
-                            <li><a href="<?php echo base_url('Tag_master_c');?>"  class="slide-item">tag list</a></li>
-							              <li><a href="<?php echo base_url('Component_c');?>"  class="slide-item">component</a></li>
+                          <li><a href="<?php echo base_url('Area_c'); ?>">Area</a></li>
+                          <li><a href="<?php echo base_url('Site_c'); ?>">Site</a></li>
+                          <li><a href="<?php echo base_url('Well_c'); ?>">Well</a></li>
+                          <li><a href="<?php echo base_url('Fault_c'); ?>">Fault</a></li>
+                          <li><a href="<?php echo base_url('Equipment_c'); ?>">Equipment</a></li>
+                          <li><a href="<?php echo base_url('Well_configration_c'); ?>">Well Scheduling</a></li>
+                          <li><a href="<?php echo base_url('Feeder_master_c'); ?>">Feeder</a></li>
+                          <li><a href="<?php echo base_url('Well_install_c'); ?>">Well Re-Installation</a></li>
+                          <li><a href="<?php echo base_url('Temporary_off_reason_c'); ?>">Temporary Off Reason</a></li>
+                          <li><a href="<?php echo base_url('Well_type_c'); ?>">Well type</a></li>
+                          <li><a href="<?php echo base_url('Tag_master_c');?>"  class="slide-item">tag list</a></li>
+						              <li><a href="<?php echo base_url('Component_c');?>"  class="slide-item">component</a></li>
    
                         </ul>
                     </li>
@@ -132,17 +132,13 @@ re<!-- Sidebar -->
 
 
 					<li> 
-						<a href="#"><i class="la la-user"></i> <span>User</span><span class="menu-arrow"></span></a>
+				     <a href="#"><i class="la la-user"></i> <span>User</span><span class="menu-arrow"></span></a>
 						<ul>
-							
-
-					       <li><a href="<?php echo base_url('User_c'); ?>" class="slide-item">User</a></li>
-							  <li><a href="<?php echo base_url('Site_allotment_to_user_c'); ?>" class="slide-item">User Allotment</a></li>
-							  <li><a href="<?php echo base_url('Device_allot_to_installer_c'); ?>" class="slide-item">Installer Device Allotment</a></li>
-							   <li><a href="<?php echo base_url('Well_setup_c'); ?>" class="slide-item">Well Setup Formula</a></li>
-							   	<li><a href="<?php echo base_url('Well_setup_c/cgl_well_setup_list'); ?>" class="slide-item"> Setup List</a></li>
-							  
-                        </ul>
+							 <li><a href="<?php echo base_url('User_c'); ?>" class="slide-item">User</a></li>
+							 <li><a href="<?php echo base_url('Site_allotment_to_user_c'); ?>" class="slide-item">User Allotment</a></li>
+							 <li><a href="<?php echo base_url('Device_allot_to_installer_c'); ?>" class="slide-item">Installer Device Allotment</a></li>
+							 <li><a href="<?php echo base_url('Well_setup_c/cgl_well_setup_list'); ?>" class="slide-item">Well Setup Formula</a></li>
+						</ul>
 					</li>
 
 					<li> 

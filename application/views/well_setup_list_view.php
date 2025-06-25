@@ -1,52 +1,23 @@
-<style type="text/css">
-    table thead tr th{
-        background-color: #eaf5ff !important;
-    }
-    .top-card-header{
-        position: relative;
-        display: flex;
-        text-align: center;
-        justify-content: space-between;
-    }
-
-    .select2-container--default .select2-selection--single{
-        border: 1px solid #8299b557;
-    }
-    .select2-container .select2-selection--single{
-        height: 38px;
-    }
-    .select2-container--default .select2-selection--single .select2-selection__rendered{
-        line-height: 35px;
-    }
-       #export_btns{
-        font-size: 16px;
-        padding: 3px 13px;
-    }
-    #export_btns i{
-        margin-right: -20px;
-        position: relative;
-        opacity: 0; 
-        transition: all 0.5s ease-out;
-    }
-    #export_btns:hover i{
-        opacity: 1; 
-        margin-right: 2px;
-    }
-    </style>
-
 <div class="page-wrapper">
         <div class="content container-fluid">
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header top-card-header" style="padding:9px; background-color:#ede4d1">
-                <h5 class="card-title mb-0 fs-18">Well Setup List</h5>
-                <div class="add-btns">
-                    <a type="button" id="add_btns_list" onclick="showHideFormList('list')" class="btn btn-outline-info button" style="display: none;"> <i class="fa-solid fa-list"></i> List</a>
-                     <button type="button" id="export_btns" onclick="export_report();" class="btn btn-outline-dark button"> <i class="fa-solid fa-file-excel"></i> Export</button>
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white;">
+                <h5 class="card-title fs-18 mb-0">Well Setup List</h5>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-warning btn-sm text-white" id="add_btns_list" href="<?php echo base_url('Well_setup_c'); ?>">
+                        <i class="fas fa-plus me-1 text-white"></i> Add
+                    </a>
+                    <a class="btn btn-warning btn-sm text-white" id="back_btn" href="<?php echo base_url('Well_setup_c/cgl_well_setup_list');?>" style="display: none;">
+                    <i class="fas fa-arrow-left me-1 text-white"></i> Back
+                    </a>
+                    <button type="button"  id="export_btns" onclick="export_report();" class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-file-excel me-1"></i> Export
+                    </button>
                 </div>
-
             </div>
+
              <div class="filter-section" style="padding: 10px 24px;" id="cgl_table_list_div">
                     <div class="col-md-12">
                         <div class="row">
@@ -65,15 +36,13 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="card-body">
-
                                 <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap text-center">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Well Type</th>
-                                            <th>Item</th>
+                                            <th>Component Name</th>
                                             <th>Quantity</th>
                                             <th>Action</th>
                                         </tr>
@@ -85,10 +54,8 @@
                         </div>
                     </div>
                 </div>
-
-            <div class="card-body" id="edit_cgl_data_div" style="display: none;">
+            <div class="card-body" id="edit_cgl_data_div" style="display: none;padding: 10px 24px;">
                 <div class="cgl-detail-section">
-                    <!-- <form> -->
                         <div class="content-section">
                             <div class="col-xl-12">
                                 <div class="row">
@@ -100,7 +67,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label> <strong>Item Name</strong> </label>
+                                            <label> <strong>Component Name</strong> </label>
                                             <input type="text" class="form-control" name="items" id="items" disabled>
                                         </div>
                                     </div>
@@ -110,28 +77,22 @@
                                             <input type="number" name="qty" id="qty" class="form-control" required>
                                         </div>
                                     </div> 
-                                    <div class="btns-sections text-center pt-3">
+                                   </div>
+                                     <hr>
+                                    <div class="btns-sections text-end mt-2">
                                         <button type="button" onclick="updateCGL_setup_data()" class="btn btn-success btn-md"> Update </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <!-- </form> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 </div>
-</div>
-!-- jQuery (Toastr depends on this) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Toastr CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
-<!-- Toastr JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script type="text/javascript">
 
     const showHideFormList = (action)=>{
@@ -140,11 +101,13 @@
             $("#cgl_table_list_div").show();
             $("#add_btns_list").hide();
             $('#export_btns').show();
+            $('#back_btn').hide();
         }else{
             $("#edit_cgl_data_div").show();
             $("#cgl_table_list_div").hide();
-            $("#add_btns_list").show();
+            $("#add_btns_list").hide();
             $('#export_btns').hide();
+            $('#back_btn').show();
         }
     }
 
@@ -164,7 +127,7 @@
                     if (resp.data.length > 0) {
                         
                         $("#welltype").val(resp.data[0]['well_type_name']);
-                        $("#items").val(resp.data[0]['item_name']);
+                        $("#items").val(resp.data[0]['component_name']);
                         $("#qty").val(resp.data[0]['quantity_required']);
                         cglUpdateId = resp.data[0]['id'];
                     
@@ -208,7 +171,7 @@
     var well_type = $('#well_type').val();
    
     $.ajax({
-        url: '<?php echo base_url(); ?>Well_setup_c/well_setup_list',
+        url: '<?php echo base_url(); ?>Well_setup_c/well_setup_ajax',
         method: 'POST',
         data: { well_type:well_type},
         success: function (res) {

@@ -28,24 +28,22 @@
         }
          public function store_well_formula_data()
         {
-            $well_type = $this->input->post('well_type',true);
+            $well_type = $this->input->post('well_type_id',true);
 
             $asset_items = [];
-            foreach ($_POST['items'] as $key => $company_id) {
+            foreach ($_POST['items'] as $key => $component_id) {
                 $asset = [
-                    'company_id' => $company_id,
+                    'component_id' => $component_id,
                     'quantity_required' => $_POST['qty'][$key] ?? 0,
                 ];
                 $asset_items[] = $asset;
             }
             $assetItems = json_encode($asset_items);
             $api = 'Well_setup/Item_Allotment_to_well_type';
-            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id')).'&assign_item='.$assetItems.'&well_type='.$well_type.'&c_by='.$this->session->userdata('id',true);
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id')).'&quantity_required='.$assetItems.'&well_type='.$well_type.'&c_by='.$this->session->userdata('id',true);
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);
-           //echo "<pre>";
-          //  print_r($data);
-           // exit;
+          
 
             if($result['response_code'] == 200)
             {
@@ -92,13 +90,19 @@
             $d['v'] = "well_setup_list_view";
             $this->load->view('templates',$d);
             
+           
+        }
+        public function well_setup_ajax()
+        {
             $api = 'Well_setup/well_formula_list';
             $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id')).'&well_type='.htmlspecialchars($this->input->post('well_type'));
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);
             echo json_encode($result);
         }
-          public function edit_cgl_setup()
+
+
+        public function edit_cgl_setup()
         {
             $api = 'Well_setup/well_formula_list';
             $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id')).'&id='. $this->input->post('id',true);

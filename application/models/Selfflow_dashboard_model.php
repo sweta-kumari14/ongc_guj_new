@@ -179,16 +179,14 @@ class Selfflow_dashboard_model extends CI_Model
             ua.id, ua.company_id, ua.user_id, ua.assets_id, ua.area_id,
             a.area_name, sm.well_site_name, w.id as well_id, w.well_name, 
             di.id as installed_status, di.imei_no, di.device_name, 
-            di.date_of_installation, di.well_status as flag_status, di.well_type, wt.well_type_name, 
+            di.date_time, di.well_status as flag_status, di.well_type, wt.well_type_name, 
             di.RTC_Time as Log_Date_Time, di.PS_1_GIP, di.PS_2_CHP, di.PS_3_THP, di.PS_4_ABP, 
             di.FLTP_1_Temp, di.Battery_Voltage, di.PSF_1, di.PSF_2, di.PSF_3, di.PSF_4, 
             di.TSF_1, di.BVF_1, di.SF_1_solenide, di.TRGT_Time, di.ON_Time, di.Off_Time, 
-            di.lat, di.long as longitude, di.passcode, di.site_id, di.well_type
+         di.passcode, di.site_id, di.well_type
         ")
         ->from('tbl_well_master w')
         ->join('tbl_site_device_installtion_self_flow di', 'di.well_id = w.id', 'left');
-
-        // Conditional Join Based on user_type and role_type
         if ($user_type == 3 && $role_type == 6) {
             $this->db->join('tbl_role_wise_user_assign_details ua', 'w.id = ua.well_id', 'left');
             $this->db->where('ua.role_type', $role_type);

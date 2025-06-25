@@ -1,55 +1,47 @@
-<div class="page-wrapper">
-    <div class="content container-fluid pt-2">
-<div class="container-xxl">
-
-   
-
-    <div class="row justify-content-center">
-        <div class="col-12" style="margin-right:10px; margin-left:10px;">
-            <div class="card">
-                <div class="card-header mb-0" style="padding: 8px; background-color: #ede4d1;">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h4 class="mb-1">TAG List</h4>
-                        </div>
-                        <div class="col-auto ms-auto d-flex gap-2">
-                            <button class="btn btn-sm btn-success motion-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#add_area_drawer" aria-controls="add_area_drawer">
+ <div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                               <h4 class="header-title mb-4">Tag List</h4>
+                            </div>
+                            <div class="col-auto float-end ms-auto">
+                                <button class="btn btn-sm btn-success btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#add_area_drawer" aria-controls="add_area_drawer">
                                 <i class="fas fa-plus me-1" style="font-size: 12px;"></i> Add
-                            </button>
+                                </button>
+                                <button type="button" id="export_btns" onclick="export_report()" class="btn btn-sm btn-primary"><i class="fas fa-file-export me-1" style="font-size: 12px;"></i> Export
+                                </button>
+                            </div>
+                         
+                        </div>
 
-                            <button type="button" id="export_btns" onclick="export_report()" class="btn btn-sm btn-primary motion-btn">
-                                <i class="fas fa-file-export me-1" style="font-size: 12px;"></i> Export</button>
+                    <div class="row ms-2 mb-2">
+                        <div class="col-md-3" style="padding: 8px;">
+                            <label for="example-select" class="form-label">Component Name</label>
+                            <select onchange="getTagMasterList()" class="form-select select2" name="component_id" id="filtercomponent_id">
+                                <option value="">-select-</option>
+                                <?php
+                                    foreach ($component_list as $key => $value) {
+                                        ?>
+                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['component_name'] ?></option>
+                                        <?php
+                                    }
+                                ?>
+                            </select>
                         </div>
                     </div>
-                </div>
-                
-                <div class="row ms-2 mb-2">
-                    <div class="col-md-3" style="padding: 8px;">
-                        <label for="example-select" class="form-label">Component Name</label>
-                        <select onchange="getTagMasterList()" class="form-select select2" name="component_id" id="filtercomponent_id">
-                            <option value="">-select-</option>
-                            <?php
-                                foreach ($component_list as $key => $value) {
-                                    ?>
-                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['component_name'] ?></option>
-                                    <?php
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                   
-
-                <div class="card-body pt-1">
-                    <div class="table-responsive">
-                         <table class="table datatable" id="datatable_1">
-                            <thead class="table-secondary" style="font-size: 13px;">
-                                <tr>
-                                    <th>SL.No.</th>
-                                    <th>Component Name</th>
-                                    <th>Tag Number</th>
-                                    <th>Action</th>
-                                </tr>
+         
+                   <div class="table-responsive">
+                        <table class="table table-striped custom-table mb-0 datatable" id="data-table">
+                            <tr>
+                                <th>SL.No.</th>
+                                <th>Component Name</th>
+                                <th>Tag Number</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
                             <tbody id="tag_list">
                                 
@@ -164,7 +156,30 @@
     </div>
 </div>
 
-
+<?php 
+if($this->session->flashdata('success') != '')
+{
+    ?>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var msg = "<?php echo $this->session->flashdata('success'); ?>";
+        swal(msg, "", "success");
+      });
+    </script>
+  <?php
+}
+if($this->session->flashdata('error') != '')
+{
+    ?>
+        <script type="text/javascript">
+          $(document).ready(function () {
+            var msg = "<?php echo $this->session->flashdata('error'); ?>";
+            swal(msg, "", "error");
+          });
+        </script>
+    <?php
+}
+?>
 <script type="text/javascript">
     
     $(document).ready(function () {
@@ -285,11 +300,11 @@
                     console.log(res);
                     if(res.response_code==200)
                     {
-                      toastr.success(res.msg);
+                      swal('success',res.msg,'success');
                       setTimeout(()=>{window.location.href="<?php echo base_url(); ?>Tag_master_c"},200)
                    }else
                    {
-                        toastr.error(res.msg);
+                        swal('warning',res.msg,'warning');
                    }
                     
                 }
@@ -306,7 +321,7 @@
     function export_report() {
       var sheetName = "Sheet1";
       var fileName = "Tag list.xlsx";
-      var table = $("#<hr class="mt-3">")[0];
+      var table = $("data-table")[0];
 
       // Convert table to worksheet
       var ws = XLSX.utils.table_to_sheet(table);

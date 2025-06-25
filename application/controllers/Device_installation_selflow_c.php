@@ -12,18 +12,18 @@ class Device_installation_selflow_c extends MY_Controller
     public function index()
     {
         $api = 'Well_type_master/Welllist';
-            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
-            $method = 'POST';
-            $result = $this->CallAPI($api, $data, $method);
-            $d['well_type_list'] = $result['data'];
+        $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+        $method = 'POST';
+        $result = $this->CallAPI($api, $data, $method);
+        $d['well_type_list'] = $result['data'];
 
         // print_r($d['wellTypes']);die;
 
         $api = 'Assets_Master/AssetsList';
-            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
-            $method = 'POST';
-            $result = $this->CallAPI($api, $data, $method);
-            $d['assets_list'] = $result['data'];
+        $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+        $method = 'POST';
+        $result = $this->CallAPI($api, $data, $method);
+        $d['assets_list'] = $result['data'];
 
 
         $api = 'Master/getinstallation_DeviceList';

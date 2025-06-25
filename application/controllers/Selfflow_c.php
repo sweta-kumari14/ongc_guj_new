@@ -19,23 +19,10 @@
             $result = $this->CALLAPI($api, $data, $method);
             $d['area_list'] = $result['data'];
 
-            $d['v'] = "Dashboard_new_view";
+            $d['v'] = "dashboard_self_flow_view";
             $this->load->view('templates', $d); 
         }
-      //  public function newdashboard()
-        //{
-          //  $d['v'] = "Dashboard_new_view";
-            //$this->load->view('templates', $d); 
-
-        //}
-       // public function newsingledashboard()
-        //{
-          //  $d['v'] = "singledashboard_new";
-            //$this->load->view('templates', $d); 
-
-       // }
-
-
+      
         public function SingleWellDashboard()
         {     $api = 'Area_Dashboard/AreaList_forDashboard';
             $data = 'company_id=' . htmlspecialchars((string)$this->session->userdata('company_id'), ENT_QUOTES, 'UTF-8')

@@ -57,7 +57,7 @@ class Well_setup extends REST_Controller
             }
         }
     }
-        public function well_formula_list_post()
+    public function well_formula_list_post()
     {
         try {
             $id = $this->input->post('id',true)!=""?$this->input->post('id',true):"";

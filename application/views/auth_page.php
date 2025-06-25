@@ -36,10 +36,10 @@
 	           <div class="account-box" style="right:0;position:absolute;bottom:0;margin:0;width:400px;">
                     <div class="card-box p-4" style="height:100vh;">
                         <div class="p-2">
-                            <h3 class=" text-center" style="color:blue;"><b>Intelligent Well Monitoring System</b></h3>
+                            <h3 class=" text-center" style="color:blue;"><b>Oil and Natural Gas Corporation Cambay Asset</b></h3>
                            
                             <div class="text-center">
-                                <!-- <img src="<?php echo base_url() ?>assets/img/logo.png" width="70" style="border-radius: 50%; height:50"> -->
+                                 <img src="<?php echo base_url() ?>assets/img/logo.png" width="70" style="border-radius: 50%; height:50"> 
                             </div>
                             <hr class="colored-hr">
 

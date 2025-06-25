@@ -162,36 +162,7 @@ color: white;
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-body" style="background-color: #5D6D7E;border-radius: 5px;">
-
-						
-						<!-- <?php
-						$string = $this->session->userdata('assets_id',true);
-						$str_arr = explode (",",(string)$string);
-						$assets_id = $str_arr[0];
-						
-						?> -->
 						<div class="row">
-							<!-- <div class="form-group col-md-4">
-								<label style="color:white;"><b>Asset</b></label>
-								<select name="assets_id" id="assets_id" class="form-control select2" onchange="get_area_list();get_dashboard_count();initMap();get_well_data();on_well_list();">
-									<option value="">Select Asset</option>
-									<?php 
-										if (!empty($assets_list))
-										{
-											foreach ($assets_list as $key => $value)
-											{
-												?>
-													<option <?php if ($value['id'] == $assets_id) {
-														echo "selected == 'selected'";
-													} ?> value="<?php echo $value['id']; ?>"><?php echo $value['assets_name']; ?></option>
-												<?php
-											}
-										}
-									?>
-								</select>
-							</div> -->
-
-							
 							<div class="form-group col-md-4">
 								<label  style="color:white;"><b>Installation/Field</b></label>
 								<select name="area_id" id="area_id" class="form-control select2" onchange="get_site_list();get_dashboard_count();initMap();get_well_data();on_well_list();get_feeder_list();get_well_list();get_feeder_data();updateURLAndRefresh();">
