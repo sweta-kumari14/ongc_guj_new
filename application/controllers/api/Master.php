@@ -490,6 +490,30 @@ class Master extends REST_Controller
         } 
     }
 
+    public function Install_self_flow_Well_List_post()
+    {
+        try {
+            $company_id = $this->input->post('company_id',true)!=''?$this->input->post('company_id',true):'';
+            $result = $this->Master_model->get_install_self_Well_list($company_id,);
+            $this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+        } catch (Exception $e) {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        }
+    }
+
+    public function Install_Well_details_for_removed_post()
+    {
+        try {
+            $company_id = $this->input->post('company_id',true)!=''?$this->input->post('company_id',true):'';
+            $remove_type = $this->input->post('remove_type',true)!=''?$this->input->post('remove_type',true):'';
+            $well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
+            $result = $this->Master_model->get_install_Well_for_removed_list($company_id,$remove_type,$well_id);
+            $this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+        } catch (Exception $e) {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        }
+    }
+
 
 }
 ?>

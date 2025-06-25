@@ -532,5 +532,56 @@ class Master_model extends CI_Model
         return $result;
     }
 
+    public function get_install_self_Well_list($company_id)
+    {
+        if($company_id!= '')
+            $this->db->where('sd.company_id',$company_id);
+
+          return $this->db->select('sd.well_id, wm.well_name,wm.well_type,sd.imei_no,sd.device_name,sd.date_time')
+            ->from('tbl_site_device_installtion_self_flow sd')
+            ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
+            ->where('sd.status', 1)
+            ->get()
+            ->result_array();
+    }
+
+
+
+   public function get_install_Well_for_removed_list($company_id, $remove_type, $well_id)
+    {
+        $result = [
+            'device' => [],
+            'component' => []
+        ];
+
+        if ($remove_type == 1 || $remove_type == 3) {
+            $this->db->select('sd.well_id, wm.well_name, sd.device_name, sd.imei_no')
+                ->from('tbl_site_device_installtion_self_flow sd')
+                ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
+                ->where('sd.status', 1)
+                ->where('sd.well_id', $well_id);
+            
+            if ($company_id != '') {
+                $this->db->where('wm.company_id', $company_id);
+            }
+
+            $result['device'] = $this->db->get()->result_array();
+        }
+
+        if ($remove_type == 2 || $remove_type == 3) {
+            $result['component'] = $this->db->select('ws.well_id, cm.component_name, ws.sensor_no,cm.id as component_id')
+                ->from('tbl_well_sensor_tag_installation_log ws')
+                ->join('tbl_component_master cm', 'ws.component_id = cm.id', 'left')
+                ->where('ws.tag_status', 1)
+                ->where('ws.status', 1)
+                ->where('ws.well_id', $well_id)
+                ->get()
+                ->result_array();
+        }
+
+        return $result;
+    }
+
+
 }
 ?>
