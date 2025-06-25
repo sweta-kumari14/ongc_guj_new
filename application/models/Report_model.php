@@ -118,7 +118,7 @@ class Report_model extends CI_Model
 			$this->db->where('wm.well_type',$well_type);
 
         $result = [];
-	    $res['srp_well'] =  $this->db->select("di.installed_by,mm.user_full_name,di.assets_id,as.assets_name,di.area_id,am.area_name,di.site_id,sm.well_site_name,di.well_id,wm.well_name,di.device_name,di.imei_no,dac.serial_no,di.sim_no,di.sim_provider,di.network_type,di.date_of_installation,di.lat,di.long,CONCAT('$base_url',di.image) as icon")
+	    $res['srp_well'] =  $this->db->select("di.installed_by,mm.user_full_name,di.assets_id,as.assets_name,di.area_id,am.area_name,di.site_id,sm.well_site_name,di.well_id,wm.well_name,di.device_name,di.imei_no,dac.serial_no,di.sim_no,di.sim_provider,di.network_type,di.date_of_installation,di.lat,di.long,CONCAT('$base_url',di.image) as icon,wt.well_type_name")
 		->from('tbl_site_device_installation di')
 		->join('tbl_company_setup cs','di.company_id=cs.id','left')
 		->join('tbl_ongc_member_master mm','di.installed_by=mm.id','left')
@@ -126,6 +126,7 @@ class Report_model extends CI_Model
 		->join('tbl_area_master am','di.area_id=am.id','left')
 		->join('tbl_well_site_master sm','di.site_id=sm.id','left')
 		->join('tbl_well_master wm','di.well_id=wm.id','left')
+		->join('tbl_well_type wt','wm.well_type=wt.id','left')
 		->join('tbl_device_allotment_to_company dac','di.imei_no=dac.imei_no','left')
 		->where(['wm.well_type'=>1])
 		->where(['di.status'=>1,'di.device_shifted'=>0])->group_by('di.well_id')->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
@@ -149,7 +150,7 @@ class Report_model extends CI_Model
 			$this->db->where('wm.well_type',$well_type);
 
 
-		$res['self_well'] =  $this->db->select("di.installed_by,mm.user_full_name,di.assets_id,as.assets_name,di.area_id,am.area_name,di.site_id,sm.well_site_name,di.well_id,wm.well_name,di.device_name,di.imei_no,dac.serial_no,di.sim_no,di.sim_provider,di.network_type,di.date_time as date_of_installation,wm.lat,wm.long,CONCAT('$base_url',di.image) as icon")
+		$res['self_well'] =  $this->db->select("di.installed_by,mm.user_full_name,di.assets_id,as.assets_name,di.area_id,am.area_name,di.site_id,sm.well_site_name,di.well_id,wm.well_name,di.device_name,di.imei_no,dac.serial_no,di.sim_no,di.sim_provider,di.network_type,di.date_time as date_of_installation,wm.lat,wm.long,CONCAT('$base_url',di.image) as icon,wt.well_type_name")
 		->from('tbl_site_device_installtion_self_flow di')
 		->join('tbl_company_setup cs','di.company_id=cs.id','left')
 		->join('tbl_ongc_member_master mm','di.installed_by=mm.id','left')
@@ -157,6 +158,7 @@ class Report_model extends CI_Model
 		->join('tbl_area_master am','di.area_id=am.id','left')
 		->join('tbl_well_site_master sm','di.site_id=sm.id','left')
 		->join('tbl_well_master wm','di.well_id=wm.id','left')
+		->join('tbl_well_type wt','wm.well_type=wt.id','left')
 		->join('tbl_device_allotment_to_company dac','di.imei_no=dac.imei_no','left')
 		->where(['wm.well_type'=>2])
 		->where(['di.status'=>1,'di.well_setup_status'=>1])->group_by('di.well_id')->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
