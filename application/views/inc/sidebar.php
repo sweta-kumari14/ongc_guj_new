@@ -258,6 +258,7 @@ re<!-- Sidebar -->
 						<ul>
 					       <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Device Installation</a></li>
 					        <li><a href="<?php echo base_url('Device_installation_report_c'); ?>" class="slide-item">Device installation report</a></li>
+					         <li><a href="<?php echo base_url('Removal_c'); ?>" class="slide-item">Removal</a></li>
 					        <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Sensor Installation</a></li>
 					    </ul>
 					</li>

@@ -2,7 +2,7 @@
     <div class="content container-fluid pb-0">
     	<div class="page-header">
 			<div class="content-page-header">
-				<h5>Installation Report</h5>
+				<h5> Selfflow-Installation Report</h5>
 			</div>	
 		</div>
 			<div class="row">					
@@ -113,15 +113,16 @@
                                 <table class="table table-bordered border-bottom table-striped" id="data-table">
                                       <thead style="background-color:blue; color: white; text-align: center;">
                                         <tr>
-                                          <th colspan="14" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT Based Real Time Well Monitoring System ONGC,Cambay Asset</th>
+                                          <th colspan="15" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT Based Real Time Well Monitoring System ONGC,Cambay Asset</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="14" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Device Installation Report as on <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
+                                            <th colspan="15" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Device Installation Report as on <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
                                         </tr>
                                         <tr>
                                             <th style="width:10%;">Sl No.</th>
                                             <th>Area Name</th>
                                             <th>Site Name</th>
+                                            <th>Well Type Name</th>
                                             <th>Well Name</th>
                                             <th>Device Name</th>
                                             <th>IMEI No</th>
@@ -331,6 +332,8 @@ function get_installation_report()
                             '<td>' + (i + 1) + '</td>' +
                             '<td>' + (v.area_name !== null ? v.area_name : 'NA') + '</td>' +
                             '<td>' + (v.well_site_name !== null ? v.well_site_name : 'NA') + '</td>' +
+                            '<td>' + (v.well_type_name !== null ? v.well_type_name : 'NA') + '</td>' +
+
                             '<td>' + (v.well_name !== null ? v.well_name : 'NA') + '</td>' +
                             '<td>' + (v.device_name !== null ? v.device_name : 'NA') + '</td>' +
                             '<td>' + (v.imei_no !== null ? v.imei_no : 'NA') + '</td>' +

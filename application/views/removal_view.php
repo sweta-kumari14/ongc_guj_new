@@ -1,10 +1,10 @@
-
-<div class="container-xxl">
+<div class="page-wrapper custome-name">
+   <div class="content container-fluid" >
 
     <!-- Breadcrumb Start -->
-    <div class="row">
+    <div class="row" style=" margin-top: -24px;">
 
-        <div class="col-12 px-0">
+        <div class="col-12 px-0" style="margin-left: 17px;">
             <div class="d-flex justify-content-between align-items-center">
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
@@ -23,10 +23,10 @@
 
     <!-- Breadcrumb End -->
 
-<div class="row justify-content-center">
+<div class="row justify-content-center" style="margin-top:10px;">
     <div class="col-12">
         <div class="card">
-            <div class="card-header mb-0">
+            <div class="card-header mb-0" style="padding:10px;">
                 <div class="row align-items-center">
                     <div class="col">
                         <h4 class="mb-1">Device/Tags Removal</h4>
@@ -124,6 +124,8 @@
 
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 function fetchInstalledItems() {
     let well_id = $('#well_id').val();
@@ -140,7 +142,7 @@ function fetchInstalledItems() {
     }
 
     $.ajax({
-        url: "<?php echo base_url('master/Removal_c/get_installed_detilas'); ?>",
+        url: "<?php echo base_url('Removal_c/get_installed_detilas'); ?>",
         method: "POST",
         data: { well_id: well_id, remove_type: remove_type },
         dataType: "json",
@@ -219,9 +221,14 @@ function submitdata(e) {
     });
 
     if (!is_device_checked && tag_data.length === 0) {
-        toastr.error('Please select at least a device or one component.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Please select at least a device or one component.'
+        });
         return;
     }
+
     let removalTypeMsg = '';
     if (remove_type == '1') {
         removalTypeMsg = 'Device';
@@ -230,19 +237,23 @@ function submitdata(e) {
     } else if (remove_type == '3') {
         removalTypeMsg = 'Device and Tag';
     } else {
-        toastr.error('Invalid removal type.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Selection',
+            text: 'Invalid removal type.'
+        });
         return;
     }
 
-
-      swal({
-        title: `Are you sure you want to Remove ${removalTypeMsg}?`,
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((willDelete) => {
-        if (willDelete) {
+    Swal.fire({
+        title: `Are you sure you want to remove ${removalTypeMsg}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Remove it!',
+        cancelButtonText: 'No, Cancel',
+        dangerMode: true
+    }).then((result) => {
+        if (result.isConfirmed) {
             let formData = {
                 well_id: well_id,
                 removal_type: remove_type,
@@ -251,9 +262,8 @@ function submitdata(e) {
                 tag_data: JSON.stringify(tag_data)
             };
 
-           
             $.ajax({
-                url: "<?php echo base_url('master/Removal_c/removal_data'); ?>",
+                url: "<?php echo base_url('Removal_c/removal_data'); ?>",
                 method: "POST",
                 data: formData,
                 success: (res) => {
@@ -261,24 +271,37 @@ function submitdata(e) {
                     console.log(resp, 'device_section');
 
                     if (resp.response_code == 200) {
-                        toastr.success(resp.msg);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: resp.msg,
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = "<?php echo base_url('Removal_c'); ?>";
+                        });
                     } else {
-                        toastr.error(resp.msg);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: resp.msg
+                        });
                     }
-
-                    setTimeout(() => {
-                        window.location.href = "<?php echo base_url('master/Removal_c'); ?>";
-                    }, 2000);
                 },
                 error: function () {
-                    toastr.error('Failed to submit removal data.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed!',
+                        text: 'Failed to submit removal data.'
+                    });
                 }
             });
-        }else{
-             swal("warning","Remove Cancelled","warning");
+        } else {
+            Swal.fire("Cancelled", "Remove operation cancelled", "info");
         }
     });
 }
+
 </script>
 
 
