@@ -1257,7 +1257,7 @@ class Report_model extends CI_Model
             $this->db->where('wrl.sensor_no', $tag_number);
         }
 
-        $result = $this->db->select('wrl.well_id, wm.well_name, wrl.from_date_time, wrl.to_date_time,wrl.sensor_no,wrl.component_id,cm.component_name')
+        $result = $this->db->select('wrl.well_id, wm.well_name, wrl.from_date_time, wrl.to_date_time,wrl.sensor_no,wrl.component_id,cm.component_name,wrl.tag_status')
 
             ->from('tbl_well_sensor_tag_installation_log wrl')
             ->join('tbl_site_device_installtion_self_flow sd', 'wrl.well_id = sd.well_id', 'left')
