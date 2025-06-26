@@ -40,7 +40,7 @@
 
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group col-md-4 mt-2">
+                                <div class="form-group col-md-4">
                                     <h5><b>View Report</b></h5>
                                     <select name="report_view" id="report_view" class="form-control select2" onchange="get_view();">
                                         <option value=""> Select View </option>
@@ -71,12 +71,12 @@
                             </select>
                         </div>
 
-                                <div class="form-group col-md-4 mt-2" style="display:none;" id="filter_date">
+                                <div class="form-group col-md-4" style="display:none;" id="filter_date">
                                     <h5><b>Date</b></h5>
                                     <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d',time()); ?>" onchange="datewise_alert_list();get_date();">
                                 </div>
 
-                                <div class="form-group col-md-4 mt-2" id="date_wise_sort" style="display: none;">
+                                <div class="form-group col-md-4" id="date_wise_sort" style="display: none;">
                                     <h5><b>Sort By</b></h5>
                                     <select class="form-control select2" name="sort_by_date" id="sort_by_date" onchange="datewise_alert_list();">
                                         <option value="">Select Column</option>
@@ -92,7 +92,7 @@
 
                         <div class="card-body" id="well_wise_table" style="display:none;">
                             <div class="row">
-                                <div class="form-group col-md-3 mt-2">
+                                <div class="form-group col-md-3">
                                     <h5><b>Well No</b></h5>
                                     <select name="well_id" id="well_id" class="form-control select2" onchange="get_wellwise_alert_report();">
                                         <option value=""> Select Well No </option>
@@ -111,17 +111,17 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-3 mt-2">
+                                <div class="form-group col-md-3">
                                     <h5><b>From Date</b></h5>
                                     <input type="date" name="from_date" id="from_date" class="form-control" onchange="get_wellwise_alert_report();get_well_wise_date();">
                                 </div>
 
-                                <div class="form-group col-md-3 mt-2">
+                                <div class="form-group col-md-3">
                                     <h5><b>To Date</b></h5>
                                     <input type="date" name="to_date" id="to_date" class="form-control" onchange="get_wellwise_alert_report();get_well_wise_date();">
                                 </div>
 
-                                <div class="form-group col-md-3 mt-2" id="well_wise_sort" style="display: none;">
+                                <div class="form-group col-md-3" id="well_wise_sort" style="display: none;">
                                     <h5><b>Sort By</b></h5>
                                     <select class="form-control select2" name="sort_by_well" id="sort_by_well" onchange="get_wellwise_alert_report();">
                                         <option value="">Select Column</option>

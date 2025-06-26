@@ -346,6 +346,64 @@ class Report extends REST_Controller
 		}
 	}
 
+	public function Well_installed_sensorLog_Report_post()
+	{
+		try {
+			
+			$well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
+			$component_id = $this->input->post('component_id',true)!=''?$this->input->post('component_id',true):'';
+			$tag_number = $this->input->post('tag_number',true)!=''?$this->input->post('tag_number',true):'';
+			$from_date = $this->input->post('from_date',true)!=''?$this->input->post('from_date',true):'';	
+			$to_date = $this->input->post('to_date',true)!=''?$this->input->post('to_date',true):'';
+			
+			$result = $this->Report_model->getinstalled_sensor_on_Well_log($well_id, $from_date, $to_date, $component_id, $tag_number);
+
+			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+		} catch (Exception $e) {
+			$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+		}
+	}
+
+	// public function WellDowntimeLog_Report_post()
+	// {
+	//     try {
+	     
+	//         $well_id   = $this->input->post('well_id', true) ?? '';
+	//         $from_date = $this->input->post('from_date', true) ?? '';
+	//         $to_date   = $this->input->post('to_date', true) ?? '';
+	//         $limit     = $this->input->post('limit', true) ?? 10;
+	//         $offset    = $this->input->post('offset', true) ?? 0;
+
+	//         $result = $this->Report_model->Well_downtime_log_Report($well_id, $from_date, $to_date, $limit, $offset);
+
+	//         $this->response(['status' => true,'data' => $result['data'],'total' => $result['total'],'msg' => 'Successfully fetched!','response_code' => REST_Controller::HTTP_OK]);
+
+	//     } catch (Exception $e) {
+	//         $this->response(['status' => false,'data' => [],'msg' => 'Something went wrong!','error' => $e->getMessage(),'response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+	//     }
+	// }
+
+
+	public function Well_network_connectivity_Report_post()
+	{
+	    try {
+	     
+	        $well_id   = $this->input->post('well_id', true) ?? '';
+	        $from_date = $this->input->post('from_date', true) ?? '';
+	        $to_date   = $this->input->post('to_date', true) ?? '';
+	        $limit     = $this->input->post('limit', true) ?? 10;
+	        $offset    = $this->input->post('offset', true) ?? 0;
+
+	        $result = $this->Report_model->Well_Network_connectivity_Report($well_id, $from_date, $to_date, $limit, $offset);
+
+	        $this->response(['status' => true,'data' => $result['data'],'total' => $result['total'],'msg' => 'Successfully fetched!','response_code' => REST_Controller::HTTP_OK]);
+
+	    } catch (Exception $e) {
+	        $this->response(['status' => false,'data' => [],'msg' => 'Something went wrong!','error' => $e->getMessage(),'response_code' => REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+	    }
+	}
+
+
 
 }
 ?>

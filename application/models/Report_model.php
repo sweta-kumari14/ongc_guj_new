@@ -1234,5 +1234,114 @@ class Report_model extends CI_Model
 	{
 		 return $this->db->select("id,issue_type")->from('tbl_well_issue_type')->where(['status'=>1])->get()->result_array();
 	}
+
+	public function getinstalled_sensor_on_Well_log($well_id,$from_date,$to_date,$component_id,$tag_number)
+    {
+    	if ($well_id != '') {
+            $this->db->where('sd.well_id', $well_id);
+        }
+
+        if ($from_date != '' && $to_date != '') {
+            
+            $this->db->where('date(wrl.c_date) >=', $from_date);
+            $this->db->where('date(wrl.c_date) <=', $to_date);
+        }
+
+        if ($component_id != '') 
+        {
+            $this->db->where('wrl.component_id', $component_id);
+        }
+
+        if ($tag_number != '') 
+        {
+            $this->db->where('wrl.sensor_no', $tag_number);
+        }
+
+        $result = $this->db->select('wrl.well_id, wm.well_name, wrl.from_date_time, wrl.to_date_time,wrl.sensor_no,wrl.component_id,cm.component_name')
+
+            ->from('tbl_well_sensor_tag_installation_log wrl')
+            ->join('tbl_site_device_installation sd', 'wrl.well_id = sd.well_id', 'left')
+            ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status = 1', 'left')
+            ->join('tbl_component_master cm', 'wrl.component_id = cm.id and cm.status = 1', 'left')
+            ->where(['sd.status' => 1])
+            ->group_by('wrl.id')
+            ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")
+            ->order_by('wrl.from_date_time', 'Desc')->get()->result_array();
+
+       return $result;
+
+    }
+
+    //click house db 
+    // public function Well_downtime_log_Report($well_id, $from_date, $to_date, $limit, $offset)
+	// {
+	//     $result = [];
+
+	//     if (!empty($from_date) && !empty($to_date)) {
+	//         $queryStartTime = date('Y-m-d', strtotime($from_date)) . ' 06:00:00';
+	//         $queryEndTime = ($from_date === $to_date)
+	//             ? date('Y-m-d', strtotime($to_date . ' +1 day')) . ' 06:00:00'
+	//             : date('Y-m-d', strtotime($to_date)) . ' 06:00:00';
+	//     } else {
+    //     return [
+	//             'total' => 0,
+	//             'data' => [],
+	//             'error' => 'Missing from date or to date'
+	//         ];
+	//     }
+	//     $well_id = addslashes($well_id);
+
+	//     $where = "downtime_start_time >= '{$queryStartTime}' AND downtime_start_time <= '{$queryEndTime}'";
+	//     if (!empty($well_id)) {
+	//         $where .= " AND well_id = '{$well_id}'";
+	//     }
+	//     $countQuery = "SELECT COUNT(*) AS total FROM tbl_downtime_log WHERE {$where}";
+	//     $countResult = $this->client->select($countQuery);
+	//     $countRows = $countResult->rows();
+	//     $total = $countRows[0]['total'] ?? 0;
+	//     $dataQuery = "
+	//         SELECT 
+	//             well_id, 
+	//             imei_no, 
+	//             downtime_start_time, 
+	//             downtime_end_time, 
+	//             total_duration_minutes, 
+	//             reason,
+	//             remarks
+	//         FROM tbl_downtime_log
+	//         WHERE {$where}
+	//         ORDER BY downtime_start_time DESC
+	//         LIMIT {$limit} OFFSET {$offset}
+	//     ";
+
+	//     $data = $this->client->select($dataQuery);
+	//     $details = $data->rows();
+
+	//     foreach ($details as &$row) {
+	// 	    $well = $this->db->select("well_name")->from('tbl_well_master')->where(['id'=>$row['well_id'],'status'=>1])->get()->row_array();
+	// 	    $row['well_name'] = $well['well_name'] ?? '';
+	// 	}
+
+	//     return [
+	//         'total' => $total,
+	//         'data' => $details,
+	//     ];
+	// }
+
+    // public function Well_downtime_log_Report($well_id,$from_date,$to_date,$limit,$offset)
+    // {
+    //      if($well_id!= '')
+    //      	$this->db->where('dm.well_id',$well_id);
+    //      if($from_date!= '')
+    //      if($to_date!= '')
+    //      	$this->db->select('dm.well_id,dm.downtime_start_time, dm.downtime_end_time,dm.total_duration_minutes,dm.reason,dm.remarks,wm.well_name')
+    //              ->from('tbl_downtime_log dm')
+    //              ->join('tbl_well_master wm','dm.well_id=wm.well_id')
+    //              ->where(['wm.status'=>1,'dm.status'=>1])
+    //              ->get()->result_array();
+    // }
+
+    
+
 }
 ?> 
