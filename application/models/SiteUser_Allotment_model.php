@@ -27,7 +27,7 @@ class SiteUser_Allotment_model extends CI_Model
 			$this->db->where('am.company_id',$company_id);
 		if($assets_id!='')
 			$this->db->where('am.assets_id',$assets_id);
-		return $this->db->select('am.id,am.assets_id,wsm.id as well_site_id,wm.id as well_id')->from('tbl_area_master am')->join('tbl_well_site_master wsm','am.id = wsm.area_id','left')->join('tbl_well_master wm','wsm.id = wm.site_id','left')->where(['am.status'=>1])->get()->result_array();
+		return $this->db->select('am.id,am.assets_id,wsm.id as well_site_id')->from('tbl_area_master am')->join('tbl_well_site_master wsm','am.id = wsm.area_id and wsm.status = 1','left')->where(['am.status'=>1])->get()->result_array();
 	}
 
 	public function getAll_site($company_id,$assets_id,$area_id)
@@ -38,12 +38,11 @@ class SiteUser_Allotment_model extends CI_Model
 			$this->db->where('w.assets_id',$assets_id);
 		if($area_id!='')
 			$this->db->where('w.area_id',$area_id);
-		return $this->db->select('w.id,w.assets_id,w.area_id,wm.id as well_id')->from('tbl_well_site_master w')
-		->join('tbl_well_master wm','w.id = wm.site_id','left')
+		return $this->db->select('w.id,w.assets_id,w.area_id')->from('tbl_well_site_master w')
 		->where(['w.status'=>1])->get()->result_array();
 	}
 
-	public function getAll_Well($company_id,$assets_id,$area_id,$site_id)
+	public function getAll_details($company_id,$assets_id,$area_id,$site_id)
 	{
 		if($company_id!='')
 			$this->db->where('company_id',$company_id);
@@ -52,10 +51,10 @@ class SiteUser_Allotment_model extends CI_Model
 		if($area_id!='')
 			$this->db->where('area_id',$area_id);
 		if($site_id!='')
-			$this->db->where('site_id',$site_id);
+			$this->db->where('id',$site_id);
 
-		return $this->db->select('id')->from('tbl_well_master ')
-		->where(['status'=>1])->get()->result_array();
+		return $this->db->select('id,assets_id,area_id,well_site_name')
+		->from('tbl_well_site_master')->where(['status',1])->get()->result_array();
 	}
 
 	// ===================== code for listing assets  =========================

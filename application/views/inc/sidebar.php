@@ -155,7 +155,7 @@ re<!-- Sidebar -->
 					<li> 
 						<a href="#"><i class="la la-object-ungroup"></i> <span>Billing Report</span><span class="menu-arrow"></span></a>
 						<ul>
-					      <li><a href="<?php echo base_url('Monthly__Details_c'); ?>"> Well Details Monthly Report </a></li>
+					      <li><a href="<?php echo base_url('Monthly_well_Details_c'); ?>"> Well Details Monthly Report </a></li>
 					      <li><a href="<?php echo base_url('Device_billing_repot_c/device_performance'); ?>" class="slide-item">Device  Performance Log Report</a></li>
 					       
               </ul>

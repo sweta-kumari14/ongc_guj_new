@@ -6,30 +6,41 @@ class Selfflow_alert_model extends CI_Model
     {
         parent::__construct();
     }
-
-    public function date_wise_Alert_Report($well_id,$date)
+    public function date_wise_Alert_Report($well_id, $date, $site_id, $user_id)
     {
-        
-        if($well_id!='')
-            $this->db->where('sd.well_id',$well_id);
-      
-        $from_date = date('Y-m-d 06:00:00', strtotime($date));
-        $to_date = date('Y-m-d 06:00:00', strtotime($date . '+1 day'));
+        if ($well_id != '')
+            $this->db->where('sd.well_id', $well_id);
+        if ($site_id != '')
+            $this->db->where('sd.site_id', $site_id);
+        if ($user_id != '')
+            $this->db->where('ad.user_id', $user_id);
 
-        return $this->db->select("sd.id,sd.well_id,wm.well_name,tl.imei_no,sd.device_name,tl.alert_type,tl.alert_details,tl.alert_date_time,ws.well_site_name")
-        ->from('tbl_site_device_installtion_self_flow sd')
-        ->join('tbl_alert_log_self_flow tl','tl.well_id=sd.well_id','left')
-        ->join('tbl_well_master wm','sd.well_id=wm.id','left')
-        ->join('tbl_well_site_master ws','sd.site_id=ws.id','left')
-        ->where('tl.alert_date_time >=', $from_date)
-        ->where('tl.alert_date_time <', $to_date)
-        ->where('sd.status',1)->get()->result_array();
-       
+        $from_date = date('Y-m-d 06:00:00', strtotime($date));
+        $to_date   = date('Y-m-d 06:00:00', strtotime($date . ' +1 day'));
+
+        return $this->db->select("sd.well_id, wm.well_name,tl.alert_type, tl.alert_details, tl.start_date_time, tl.end_date_time,TIMEDIFF(tl.end_date_time, tl.start_date_time) AS duration,ws.well_site_name")
+             ->from('tbl_site_device_installtion_self_flow sd')
+             ->join('tbl_alert_log_self_flow tl', 'tl.well_id = sd.well_id', 'left')
+             ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
+             ->join('tbl_role_wise_user_assign_details ad', 'ad.site_id = sd.site_id AND ad.status = 1', 'left')
+             ->join('tbl_well_site_master ws', 'sd.site_id = ws.id', 'left')
+             ->where('tl.start_date_time >=', $from_date)
+             ->where('tl.start_date_time <', $to_date)
+             ->where('sd.status', 1)
+             ->group_by('tl.id')
+             ->get()
+             ->result_array();
     }
-    public function Well_wise_Alert_Report($well_id,$from_date, $to_date, $user_id,$sort_by)
+
+
+    public function Well_wise_Alert_Report($well_id,$site_id,$from_date, $to_date, $user_id,$sort_by)
     {
         if ($well_id != '') {
-            $this->db->where('wm.id', $well_id);
+            $this->db->where('sd.well_id', $well_id);
+        }
+
+        if ($site_id != '') {
+            $this->db->where('sd.site_id', $site_id);
         }
         
         if ($from_date != '' && $to_date != '') {
@@ -40,8 +51,8 @@ class Selfflow_alert_model extends CI_Model
                 $toTime = date('Y-m-d 06:00:00', strtotime($to_date));
             }
 
-            $this->db->where('tl.alert_date_time >=', $fromTime);
-            $this->db->where('tl.alert_date_time <=', $toTime);
+            $this->db->where('tl.start_date_time >=', $fromTime);
+            $this->db->where('tl.end_date_time <', $toTime);
         }
 
         if ($user_id != '') {
@@ -54,16 +65,16 @@ class Selfflow_alert_model extends CI_Model
            
         }
 
-       return   $this->db->select("tl.id,tl.alert_type,tl.alert_details,tl.alert_date_time,wm.well_name,ws.well_site_name")
-            
-            ->from('tbl_alert_log_self_flow tl')
-            ->join('tbl_well_master wm', 'wm.id=tl.well_id', 'left')
-            ->join('tbl_role_wise_user_assign_details ad', 'wm.id = ad.well_id', 'left')
-            ->join('tbl_well_site_master ws','wm.site_id=ws.id and ws.status=1','left')
-            ->where(['wm.status'=>1,'ad.status'=>1])
-            ->group_by('tl.id')
-            ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")
-            ->get()->result_array();
+        return $this->db->select("sd.well_id, wm.well_name,tl.alert_type, tl.alert_details, tl.start_date_time, tl.end_date_time,TIMEDIFF(tl.end_date_time, tl.start_date_time) AS duration,ws.well_site_name")
+             ->from('tbl_site_device_installtion_self_flow sd')
+             ->join('tbl_alert_log_self_flow tl', 'tl.well_id = sd.well_id', 'left')
+             ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
+             ->join('tbl_role_wise_user_assign_details ad', 'ad.site_id = sd.site_id AND ad.status = 1', 'left')
+             ->join('tbl_well_site_master ws', 'sd.site_id = ws.id', 'left')
+             ->where(['wm.status'=>1])
+             ->group_by('tl.id')
+             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")
+             ->get()->result_array();
     }
 
     public function Well_Wise_Total_Alert($well_id,$imei_no)

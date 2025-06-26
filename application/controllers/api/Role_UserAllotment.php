@@ -29,7 +29,7 @@ class Role_UserAllotment extends REST_Controller
         }else{
             try {
 
-                if($role_type == 1 || $role_type == 4 || $role_type == 5)
+                if($role_type == 1 || $role_type == 4)
                 {
                     if($this->input->post('assign_assets',true) == '')
                     {
@@ -64,7 +64,6 @@ class Role_UserAllotment extends REST_Controller
 
                                     $A_id = $value1['id'];
                                     $Site = $value1['well_site_id'];
-                                    $Well = $value1['well_id'];
                                     $id = $this->SiteUser_Allotment_model->getsite_userId();
                                     $dataArray = [];
                                     $dataArray['id'] = $id[0]['UUID()'];
@@ -74,7 +73,6 @@ class Role_UserAllotment extends REST_Controller
                                     $dataArray['assets_id'] = $value;
                                     $dataArray['area_id'] = $A_id;
                                     $dataArray['site_id'] = $Site;
-                                    $dataArray['well_id'] = $Well;
                                     $dataArray['allotment_datetime'] = date('Y-m-d H:i:s');
                                     $dataArray['c_by'] = $this->input->post('c_by',true);
                                     $dataArray['c_date'] = date('Y-m-d H:i:s');
@@ -125,8 +123,7 @@ class Role_UserAllotment extends REST_Controller
                                 foreach ($site as $key => $value1) 
                                 {
                                     $S_id = $value1['id'];
-                                    $W_id = $value1['well_id'];
-
+                                    
                                     $id = $this->SiteUser_Allotment_model->getsite_userId();
                                    
                                     $dataArray = [];
@@ -137,7 +134,6 @@ class Role_UserAllotment extends REST_Controller
                                     $dataArray['assets_id'] = $this->input->post('assets_id',true);
                                     $dataArray['area_id'] = $value;
                                     $dataArray['site_id'] = $S_id;
-                                    $dataArray['well_id'] = $W_id;
                                     $dataArray['allotment_datetime'] = date('Y-m-d H:i:s');
                                     $dataArray['c_by'] = $this->input->post('c_by',true);
                                     $dataArray['c_date'] = date('Y-m-d H:i:s');
@@ -187,14 +183,11 @@ class Role_UserAllotment extends REST_Controller
                             foreach($assign_site as $key=>$value)
                             {
 
-                                $well = $this->SiteUser_Allotment_model->getAll_Well($this->input->post('company_id',true),$this->input->post('assets_id',true),$this->input->post('area_id',true),$value);
-                                // print_r($well);die; 
-                                foreach ($well as $key => $value1) 
+                                $site = $this->SiteUser_Allotment_model->getAll_details($this->input->post('company_id',true),$this->input->post('assets_id',true),$this->input->post('area_id',true),$value);
+                                // print_r($site);
+                                foreach ($site as $key => $value1) 
                                 {
-                                    $W_id = $value1['id'];
-
                                     $id = $this->SiteUser_Allotment_model->getsite_userId();
-                               
                                     $dataArray = [];
                                     $dataArray['id'] = $id[0]['UUID()'];
                                     $dataArray['company_id'] = $this->input->post('company_id',true);
@@ -203,7 +196,6 @@ class Role_UserAllotment extends REST_Controller
                                     $dataArray['assets_id'] = $this->input->post('assets_id',true);
                                     $dataArray['area_id'] = $this->input->post('area_id',true);
                                     $dataArray['site_id'] = $value;
-                                    $dataArray['well_id'] = $W_id;
                                     $dataArray['allotment_datetime'] = date('Y-m-d H:i:s');
                                     $dataArray['c_by'] = $this->input->post('c_by',true);
                                     $dataArray['c_date'] = date('Y-m-d H:i:s');
