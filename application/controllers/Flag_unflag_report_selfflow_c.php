@@ -19,6 +19,12 @@
             $method = 'POST';
             $result = $this->CALLAPI($api,$data,$method);
             $d['site_list'] = $result['data'];
+
+             $api = 'Well_type_master/Welllist';
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+            $method = 'POST';
+            $result = $this->CallAPI($api, $data, $method);
+            $d['well_type_list'] = $result['data'];
             
             $d['v'] = "flag_button_view";
             $this->load->view('templates',$d); 

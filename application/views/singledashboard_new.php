@@ -227,7 +227,7 @@
                                             <div class="sensor_three_data"><strong>CHP 53.20 </strong> <span id="sensor-three-value"><span id="chp_image"></span></span></div>
                                         </div>
                                         <div style="padding-top:25px;">
-                                        <img class="pump-img" style="max-width:88%; margin-top: -10px; margin-right:24px;" 
+                                        <img class="pump-img" style="max-width:81%; margin-top: -10px; margin-right:24px;" 
                                         src="<?php echo base_url() ?>assets/icons/11.jpg" alt="pump-img">
 
                                     </div>

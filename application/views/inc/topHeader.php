@@ -177,7 +177,7 @@ setInterval(() => {
 
 
     function redirectForUserTypeOne() {
-        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c', 'Company_c','Device_c','Device_allotment_to_company_c','Device_allotment_report_c','Running_log_c','Max_min_value_c','Access_log_report_c','Company_device_receiving_report_c','Equipment_details_report_c','Installation_details_report_c','Mis_report_c','Last_10_data_report_c','Alert_report_c','Change_password_c','Flag_unflag_report_c','Well_type_c','Selfflow_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Sensor_c','Item_master_c','Component_c','Tag_master_c','Flag_unflag_report_selfflow_c'];
+        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c', 'Company_c','Device_c','Device_allotment_to_company_c','Device_allotment_report_c','Running_log_c','Max_min_value_c','Access_log_report_c','Company_device_receiving_report_c','Equipment_details_report_c','Installation_details_report_c','Mis_report_c','Last_10_data_report_c','Alert_report_c','Change_password_c','Flag_unflag_report_c','Well_type_c','Selfflow_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Sensor_c','Item_master_c','Component_c','Tag_master_c','Flag_unflag_report_selfflow_c','Sensor_installed_report_c'];
         const currentController = '<?php echo $this->uri->segment(1) ?>'; 
         const count = countControllerOccurrences(currentController, accessibleControllers);
        
@@ -194,7 +194,7 @@ setInterval(() => {
     }
 
     function redirectForUserTypeTwo() {
-        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c','Assets_c','Area_c','Site_c','Well_c','Fault_c','Equipment_c','Well_configration_c','User_c','Site_allotment_to_user_c','Device_allot_to_installer_c','Threshold_setup_c','Running_log_c','Max_min_value_c','Company_device_receiving_report_c','Alert_report_c','Installation_details_report_c','Well_replacement_report_c','Mis_report_c','Last_10_data_report_c','Technical_compalint_c','Well_running_energy_log_c','Historical_report_c','Well_Integration_c','Change_password_c','Running_Log_Graph_report_c','Company_Mis_Report_c','Temporary_off_reason_c','Device_billing_repot_c','Maintainance_Dasboard_c','Monthly_well_Details_c','Feeder_master_c','Temp_running_log_c','Offline_data_report_c','Comparison_data_c','Flag_unflag_report_c','Well_install_c','Maintenance_c','Selfflow_c','Well_type_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Well_setup_c','Component_c','Tag_master_c','Flag_unflag_report_selfflow_c'];
+        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c','Assets_c','Area_c','Site_c','Well_c','Fault_c','Equipment_c','Well_configration_c','User_c','Site_allotment_to_user_c','Device_allot_to_installer_c','Threshold_setup_c','Running_log_c','Max_min_value_c','Company_device_receiving_report_c','Alert_report_c','Installation_details_report_c','Well_replacement_report_c','Mis_report_c','Last_10_data_report_c','Technical_compalint_c','Well_running_energy_log_c','Historical_report_c','Well_Integration_c','Change_password_c','Running_Log_Graph_report_c','Company_Mis_Report_c','Temporary_off_reason_c','Device_billing_repot_c','Maintainance_Dasboard_c','Monthly_well_Details_c','Feeder_master_c','Temp_running_log_c','Offline_data_report_c','Comparison_data_c','Flag_unflag_report_c','Well_install_c','Maintenance_c','Selfflow_c','Well_type_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Well_setup_c','Component_c','Tag_master_c','Flag_unflag_report_selfflow_c','Sensor_installed_report_c'];
         const currentController = '<?php echo $this->uri->segment(1) ?>'; 
         const count = countControllerOccurrences(currentController, accessibleControllers);
         
@@ -211,7 +211,7 @@ setInterval(() => {
 
 
     function redirectForUserTypeThree() {
-        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c','Well_configration_c','Technical_compalint_c','Device_installation_c','Device_replacement_c','Device_shifting_c','Threshold_setup_c','Running_log_c','Well_running_energy_log_c','Max_min_value_c','Alert_report_c','Installation_details_report_c','Well_replacement_report_c','Historical_report_c','Well_Integration_c','Change_password_c','Running_Log_Graph_report_c','Maintainance_Dasboard_c','Monthly_well_Details_c','Device_billing_repot_c','Comparison_data_c','Flag_unflag_report_c','Well_install_c','Selfflow_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Device_installation_selflow_c','Flag_unflag_report_selfflow_c','Device_installation_report_c','Removal_c','Device_reinstalltion_c'];
+        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c','Well_configration_c','Technical_compalint_c','Device_installation_c','Device_replacement_c','Device_shifting_c','Threshold_setup_c','Running_log_c','Well_running_energy_log_c','Max_min_value_c','Alert_report_c','Installation_details_report_c','Well_replacement_report_c','Historical_report_c','Well_Integration_c','Change_password_c','Running_Log_Graph_report_c','Maintainance_Dasboard_c','Monthly_well_Details_c','Device_billing_repot_c','Comparison_data_c','Flag_unflag_report_c','Well_install_c','Selfflow_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Device_installation_selflow_c','Flag_unflag_report_selfflow_c','Device_installation_report_c','Removal_c','Device_reinstalltion_c','Sensor_installed_report_c'];
         const currentController = '<?php echo $this->uri->segment(1) ?>'; 
         const count = countControllerOccurrences(currentController, accessibleControllers);
         
@@ -230,7 +230,7 @@ setInterval(() => {
 
 
     function redirectForUserTypeFour() {
-        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c','Well_configration_c','Technical_compalint_c','Running_log_c','Well_running_energy_log_c','Alert_report_c','Historical_report_c','Well_Integration_c','Change_password_c','Running_Log_Graph_report_c','Monthly_well_Details_c','Device_billing_repot_c','Comparison_data_c','Flag_unflag_report_c','Selfflow_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Flag_unflag_report_selfflow_c'];
+        const accessibleControllers = ['Unauthorised_c','Authentication','Dashboard_c','Well_configration_c','Technical_compalint_c','Running_log_c','Well_running_energy_log_c','Alert_report_c','Historical_report_c','Well_Integration_c','Change_password_c','Running_Log_Graph_report_c','Monthly_well_Details_c','Device_billing_repot_c','Comparison_data_c','Flag_unflag_report_c','Selfflow_c','Selfflow_alert_c','Selfflow_historical_report_c','Overall_list_selfflow_c','Flag_unflag_report_selfflow_c','Sensor_installed_report_c'];
         const currentController = '<?php echo $this->uri->segment(1) ?>'; 
         const count = countControllerOccurrences(currentController, accessibleControllers);
         

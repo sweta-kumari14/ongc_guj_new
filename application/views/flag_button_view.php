@@ -4,14 +4,7 @@
         <!-- Page Header -->
             <div class="page-header">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <h3 class="page-title">Flag Unflag Report</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url('Dashboard_c');?>">Dashboard</a></li>
-                            <li class="breadcrumb-item ">Flag Unflag Report</li>
-                            
-                        </ul>
-                    </div>
+                    
                 </div>
             </div>
             <div class="row row-sm">
@@ -63,11 +56,21 @@
               
                            
                                 <div class="form-group col-md-3 mt-2">
-                                    <h5><b>Well No</b></h5>
+                                    <h5><b>Well Name</b></h5>
                                     <select name="well_id" id="well_id" class="form-control select2" onchange="flag_unflag_list();">
                                         <option value=""> All Well </option>
                                     </select>
                                 </div>
+                               <div class="form-group col-md-3 mt-2">
+                                    <label><b>Well Type</b></label>
+                                    <select class="form-select select2" name="well_type_id" id="well_type_id" style="width:100%;" required>
+                                        <option value="">select</option>
+                                        <?php foreach ($well_type_list as $key => $well) { ?>
+                                            <option value="<?php echo $well['id'] ?>"><?php echo $well['well_type_name']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            
 
                                 <div class="form-group col-md-3 mt-2">
                                     <h5><b>From Date</b></h5>
@@ -82,6 +85,7 @@
                                     <h5><b>Flag Status</b></h5>
                                     <select name="status_well" id="status_well" class="form-control select2" onchange="flag_unflag_list();">
                                         <!-- <option value="">Select</option> -->
+                                        <option>Select all</option>
                                         <option value="1">Flag Well</option>
                                         <option value="0">UnFlag Well</option>
                                     </select>

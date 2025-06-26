@@ -210,6 +210,7 @@ re<!-- Sidebar -->
 								<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
 
 								<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
+								<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
 					
 						</ul>
 					</li>
