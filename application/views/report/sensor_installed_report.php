@@ -2,7 +2,7 @@
     <div class="content container-fluid pb-0">
 
     <div class="row justify-content-center">
-        <div class="col-12">
+        <div class="col-12" style="margin-top:-22px">
             <div class="card">
                 <div class="card-header mb-0" style="padding: 8px;">
                     <div class="row align-items-center">
@@ -69,9 +69,13 @@
                     <div class="table-responsive">
                          <table class="table datatable border 0" id="alertData">
                             <thead class="table-secondary text-center">
-                               
                                 <tr style="border-bottom: 1px solid #C5D3E8;">
-                                    <th colspan="6" class="text-uppercase text-center" style="font-size: 15px; font-weight: bolder; color: #843534;">
+                                    <th colspan="7" class="text-uppercase text-center" style="font-size: 20px; font-weight: bolder; color: #272c32;">
+                                        IOT Based Real Time Well Monitoring System ONGC,Cambay Asset
+                                    </th>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #C5D3E8;">
+                                    <th colspan="7" class="text-uppercase text-center" style="font-size: 15px; font-weight: bolder; color: #272c32;">
                                         Sensor Installation Details as on <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span>
                                     </th>
                                 </tr>
@@ -82,6 +86,7 @@
                                     <th>Tag Number</th>
                                     <th>From Date</th>
                                     <th>To Date</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
 
@@ -134,18 +139,20 @@
 
     get_wellwise_sensor_details_report();
     function get_wellwise_sensor_details_report() {
-        $('#table_data').html('<tr ><td class="text-center text-danger" colspan="6">processing please wait.......</td></tr>');
+        $('#table_data').html('<tr ><td class="text-center text-danger" colspan="7">processing please wait.......</td></tr>');
         var from_date = $('#from_date').val();
         var to_date = $('#to_date').val();
         var well_id = $('#well_id').val();
         var component_id = $('#component_id').val();
+        var tag_status = $('#tag_status').val();
+
     // alert(well_id);
         var base_url = '<?php echo base_url();?>';
 
             $.ajax({
-                url: '<?php echo base_url(); ?>reports/Sensor_installed_report_c/get_sensor_installed_report',
+                url: '<?php echo base_url(); ?>Sensor_installed_report_c/get_sensor_installed_report',
                 method: 'POST',
-                data: { from_date: from_date, to_date: to_date, well_id: well_id,component_id:component_id},
+                data: { from_date: from_date, to_date: to_date, well_id: well_id,component_id:component_id, tag_status:tag_status},
                 success: function (res) {
                     var response = JSON.parse(res);
               
@@ -166,6 +173,7 @@
                                     '<td>' + (v.sensor_no ? v.sensor_no  : 'NA') + '</td>' +
                                     '<td>' + start_date_time + '</td>' +
                                     '<td>' + end_date_time + '</td>' +
+                                    '<td>' + (v.tag_status ? v.tag_status : 'NA') + '</td>' +
                                 '</tr>');
 
                             });
@@ -173,9 +181,9 @@
                            
                         } else {
                             $('#table_data').html(`<tr>
-                                <td colspan="6" class="text-center">
+                                <td colspan="7" class="text-center">
                                     <div class="mt-3">
-                                        <img src="<?php echo base_url(); ?>assets/images/no_records.svg" width="100">
+                                        <img src="<?php echo base_url(); ?>assets/img/no_records.svg" width="100">
                                         <p class="text-danger mt-2 fw-bold">No Record Found !!</p>
                                     </div>
                                 </td>

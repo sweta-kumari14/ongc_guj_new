@@ -3,73 +3,86 @@
 <!-- Page Content -->
     <div class="content container-fluid">
         <!-- Page Header -->
-            <div class="page-header">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3 class="page-title">Alert Log Report</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url('Selfflow_c');?>">Dashboard</a></li>
-                            <li class="breadcrumb-item ">Alert Log Report</li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
+       
 <!-- /Page Header -->
             <div class="row row-sm">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h3><b>Alert Log Report</b></h3>
-                            </div>
-                            <div class="col-md-6 d-md-flex justify-content-end">
-                                <div>
-                                    <button id="well_wise_export" style="display: none;" class="btn btn-sm  btn-success" onclick="export_well_wise_report();">Export</button>
-                                        <button id="date_wise_export" style="display: none;" class="btn btn-sm  btn-success" onclick="export_date_wise_report();">Export</button>
-                                         <button class="btn btn-sm  btn-primary" id="well_wise_pdf" onclick="printWell();"style="display: none;">PDF</button>
-                                          <button class="btn btn-sm  btn-primary" id="date_wise_pdf" onclick="printDate();"style="display: none;">PDF</button>
+                       <div class="card-body" style="padding:6px;">
+    <div class="row align-items-center"> <!-- Added align-items-center here -->
+        
+        <!-- Left side: Heading -->
+        <div class="col-md-6 d-flex align-items-center" style="margin-top: 8px;">
+            <h3 class="m-0">Alert Log Report</h3>
+        </div>
 
-                                        <a href="Dashboard_c"><button class="btn btn-sm  btn-primary mx-2">Back</button></a>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+        <!-- Right side: Buttons -->
+        <div class="col-md-6 d-flex justify-content-end align-items-center" style="margin-top: 8px;"> <!-- Also align-items-center -->
+            <div>
+                <button id="well_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_well_wise_report();">Export</button>
+                <button id="date_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_date_wise_report();">Export</button>
+                <button class="btn btn-sm btn-primary" id="well_wise_pdf" onclick="printWell();" style="display: none;">PDF</button>
+                <button class="btn btn-sm btn-primary" id="date_wise_pdf" onclick="printDate();" style="display: none;">PDF</button>
+                <a href="Dashboard_c">
+                    <button class="btn btn-sm btn-primary mx-2">Back</button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
                         <hr>
 
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <h5><b>View Report</b></h5>
-                                    <select name="report_view" id="report_view" class="form-control select2" onchange="get_view();">
-                                        <option value=""> Select View </option>
-                                        <option value="well">Well Wise</option>
-                                        <option value="date">Date Wise</option>
-                                    </select>
-                                </div>
-                                 <div class="form-group col-md-4">
-                            <label for="example-select" class="form-label">Alert Type</label>
-                            <select onchange="get_wellwise_alert_report();" class="form-select select2" id="alert_type" name="alert_type" style="width: 320px;">
-                                <option value="">ALL</option>
-                                <option value="0">SOV ON</option>
-                                <option value="1">SOV Off</option>
-                                <option value="2">Battery Low</option>
-                                <option value="3">Battery High</option>
-                                <option value="4">GIP Low</option>
-                                <option value="5">GIP High</option>
-                                <option value="6">THP Low</option>
-                                <option value="7">THP High</option>
-                                <option value="8">CHP Low</option>
-                                <option value="9">CHP Low</option>
-                                <option value="10">ABP Low</option>
-                                <option value="11">ABP High</option>
-                                <option value="12">Temp Low</option>
-                                <option value="13">Temp High</option>
-                                <option value="14">Door Closed</option>
-                                <option value="15">Door Open</option>
-                            </select>
-                        </div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-4">
+                                            <label for="report_view" class="form-label"><b>View Report</b></label>
+                                            <select name="report_view" id="report_view" class="form-control select2" onchange="get_view();" style="width: 100%;">
+                                                <option value=""> Select View </option>
+                                                <option value="well">Well Wise</option>
+                                                <option value="date">Date Wise</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="alert_type" class="form-label"><b>Alert Type</b></label>
+                                            <select onchange="get_wellwise_alert_report();" class="form-control select2" id="alert_type" name="alert_type" style="width: 100%;">
+                                                <option value="">ALL</option>
+                                                <option value="1">Low CHP</option>
+                                                <option value="2">High CHP</option>
+                                                <option value="3">Low THP</option>
+                                                <option value="4">High THP</option>
+                                                <option value="5">Low ABP</option>
+                                                <option value="6">High ABP</option>
+                                                <option value="7">Temp FLT</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4 " >
+                                       <label  class="form-label"><b>Area Name</b></label>
+                                <select name="area_id" id="area_id" class="form-control select2">
+                                    <?php
+                                    $user_type = $this->session->userdata('user_type', true);
+                                    $role_type = $this->session->userdata('role_type', true);
+
+                                    if ($user_type == 3 && $role_type == 2) {
+                                        if (!empty($area_list)) {
+                                            foreach ($area_list as $value) {
+                                                echo '<option value="' . $value['id'] . '">' . $value['area_name'] . '</option>';
+                                            }
+                                        }
+                                    } else {
+                                        if (!empty($area_list)) {
+                                            echo '<option value="">Select All</option>';
+                                            foreach ($area_list as $value) {
+                                                echo '<option value="' . $value['id'] . '">' . $value['area_name'] . '</option>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                    </div>
+
 
                                 <div class="form-group col-md-4" style="display:none;" id="filter_date">
                                     <h5><b>Date</b></h5>
@@ -84,6 +97,7 @@
                                         <option value="well_name">Well No</option>
                                         <option value="alert_type">Alert Type</option>
                                         <option value="alerts_details">Alert Details</option>
+                                         <option value="status">Status</option>
                                                                                 
                                     </select>
                                 </div>
@@ -145,7 +159,7 @@
                                             <th colspan="7" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="7" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Alert Log Report of <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
+                                            <th colspan="8" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Alert Log Report of <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -158,6 +172,8 @@
                                             <th>Alert Details</th>
                                             <th>From Date Time </th>
                                             <th>To Date Time</th>
+                                            <th>Durations</th>
+                                            <th>Status</th>
                                         </tr>
                                     
                                     <tbody class="text-center" id="table_data">                         
@@ -177,10 +193,10 @@
                                 <table class="table table-bordered border-bottom" >
                                     <thead class="bg-light text-center">
                                         <tr>
-                                            <th colspan="5" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
+                                            <th colspan="6" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="5" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Alert Log Report of <span id="show_date"></span></th>
+                                            <th colspan="6" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Alert Log Report of <span id="show_date"></span></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -191,6 +207,9 @@
                                             <th>Well No</th>
                                             <th>Alert Type</th>
                                             <th>Alert Details</th>
+                                            <th>Durations</th>
+                                            <th>Status </th>
+
                                             
                                         </tr>
                                     
@@ -565,5 +584,46 @@ if($this->session->flashdata('error') != '')
             parent = $(parent).parent();
         }
         window.print();
+    }
+    <script type="text/javascript">
+function get_area_list()
+    {  
+       let company_id = "<?php echo $this->session->userdata('company_id') ?>";
+       let user_id = "<?php echo $this->session->userdata('user_id') ?>";
+       let assets_id = $('#assets_id').val();
+       
+       $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url();?>Selfflow_alert_c/get_area_list',
+            data:{company_id:company_id,user_id:user_id,assets_id:assets_id},
+            success:function(data)
+            {
+                data = JSON.parse(data);
+                console.log(data);
+                if(data.response_code==200)
+                {   
+                    if(data.data.length>0)
+                    {
+                        $('#area_id').html('');
+                        $('#area_id').html('<option value=" ">Select area</option>');
+                        $.each(data.data,function(i,v){
+  
+                        $('#area_id').append('<option value="'+v.area_id+'">'+v.area_name+'</option>');
+                           
+                            
+                        });
+                        
+                    }else
+                    {
+                        $('#area_id').html('No Data Found');
+                    }
+                }else
+                {
+                    swal('error',data.msg,'error');
+                }
+              console.log();
+            }
+    
+          });
     }
     </script>

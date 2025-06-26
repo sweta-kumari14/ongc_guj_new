@@ -416,7 +416,7 @@
 
                                  <div class="row " style="margin-top: 1px;">
                                   <!-- Alert Log -->
-                                  <div class="col-md-9">
+                                  <div class="col-md-6">
                                     <div class="card" style="height: 300px;">
                                         <!-- Card Header -->
                                         <div class="d-flex justify-content-between align-items-center"
@@ -446,8 +446,25 @@
                                     </div>
 
 
-
                                   <!-- Well GIS Map -->
+                                   <div class="col-md-3" style="margin-top:2px;">
+                                    <div class="card" style="height:298px;  width:100%; border-radius:10px;">
+                                    <div class="d-flex justify-content-between align-items-center" 
+                                         style="background-color:#d56570; padding: 0px 4px 0px 1px;">
+
+                                        <h5 class="text-white" style="font-size: 15px; margin-left:4px ;">Well GIS Map</h5>
+
+                                        <img src="<?php echo base_url() ?>assets/img/map.gif" 
+                                             width="40" height="40"
+                                             style="border-radius: 50%; border: 2px solid white; object-fit: cover; height:80%;">
+                                    </div>
+
+                                        <div class="card-body" style="overflow-y: auto;padding: 2px;">
+                                      <div id="mymap" style="width: 100%; height: 253px;"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+
                                   
                                   <!-- Well Report Log -->
                                   <div class="col-md-3">
@@ -488,23 +505,7 @@
                                     </div>
 
                                     </div>
-                                    <div class="col-md-12" style="margin-top: -16px;">
-                                    <div class="card" style="height:115px; border-radius:10px;">
-                                    <div class="d-flex justify-content-between align-items-center" 
-                                         style="background-color:#d56570; padding: 0px 4px 0px 1px;">
-
-                                        <h5 class="text-white" style="font-size: 15px; margin-left:4px ;">Well GIS Map</h5>
-
-                                        <img src="<?php echo base_url() ?>assets/img/map.gif" 
-                                             width="40" height="40"
-                                             style="border-radius: 50%; border: 2px solid white; object-fit: cover; height:80%;">
-                                    </div>
-
-                                        <div class="card-body" style="overflow-y: auto;padding: 2px;">
-                                      <div id="mymap" style="width: 100%; height: 70px;"></div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                   
 
                                   </div>
                                 </div>

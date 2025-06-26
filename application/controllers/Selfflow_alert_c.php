@@ -11,6 +11,15 @@ class Selfflow_alert_c extends MY_Controller
 
     public function index()
     {
+         $api = 'Area_Dashboard/AreaList_forDashboard';
+            $data = 'company_id=' . htmlspecialchars((string)$this->session->userdata('company_id'), ENT_QUOTES, 'UTF-8')
+                  . '&assets_id=' . htmlspecialchars((string)$this->input->post('assets_id', true), ENT_QUOTES, 'UTF-8')
+                  . '&user_id=' . htmlspecialchars((string)$this->session->userdata('user_id'), ENT_QUOTES, 'UTF-8');
+            $method = 'POST';
+            $result = $this->CALLAPI($api, $data, $method);
+            $d['area_list'] = $result['data'];
+
+
         $api ='Selfflow_area_dashboard/WellList_forDashboard';
         $data = 'company_id='.htmlspecialchars((string)$this->session->userdata('company_id'),ENT_QUOTES, 'UTF-8')
         .'&assets_id='.htmlspecialchars((string)$this->session->userdata('assets_id'),ENT_QUOTES, 'UTF-8')
@@ -25,8 +34,7 @@ class Selfflow_alert_c extends MY_Controller
         $d['v']= "report/alert_selfflow_report_view";
         $this->load->view('templates',$d);
     }
-
-    
+ 
     public function get_datewise_alert_report()
     {
         $api = 'Selfflow_alert/Date_Wise_Alert_Report';

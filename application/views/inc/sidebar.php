@@ -205,12 +205,13 @@ re<!-- Sidebar -->
 						<a href="#"><i class="la la-pie-chart"></i> <span>  Self-Flow Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
 							
-							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>
-							
-								<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
-
-								<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
-								<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
+							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>   
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
+							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
+							<li><a href="<?php echo base_url('Downtime_report_c'); ?>" class="slide-item">Downtime Report</a></li>
+							<li><a href="<?php echo base_url('Faulty_alert_report_c'); ?>" class="slide-item">Faulty-Alert Report</a></li>
+							<li><a href="<?php echo base_url('Running_log_selfflow_c'); ?>" class="slide-item">Running log Report</a></li>
 					
 						</ul>
 					</li>
