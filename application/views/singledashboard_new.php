@@ -38,7 +38,7 @@
     .pump-image {
         position: relative;
         text-align: center;
-        border-bottom: 1px solid #ddd;
+       
     }
 
    
@@ -96,7 +96,7 @@
 
 
  .pump-image img[alt="sensor-icon"] {
-    height: 29px !important; /* smaller size */
+    height: 30px !important; /* smaller size */
 
     .flash-button {
         padding: 8px 16px;
@@ -201,7 +201,7 @@
                         <!-- Well Status Card -->
 
                         <div class="col-md-4">
-                            <div class="bg-white rounded-3" style="height:95%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
+                            <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
                                 <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;">
                                     <b class="text-white">Well Name</b>
 
@@ -227,7 +227,7 @@
                                             <div class="sensor_three_data"><strong>CHP 53.20 </strong> <span id="sensor-three-value"><span id="chp_image"></span></span></div>
                                         </div>
                                         <div style="padding-top:25px;">
-                                        <img class="pump-img" style="max-width:81%; margin-top: -10px; margin-right:24px;" 
+                                        <img class="pump-img" style="max-width:83%; margin-top: -10px; margin-right:24px;" 
                                         src="<?php echo base_url() ?>assets/icons/11.jpg" alt="pump-img">
 
                                     </div>
@@ -242,7 +242,7 @@
 
                                      <!-- Battery Voltage Card -->
                                     <div class="col-md-4">
-                                    <div class="bg-white rounded-3" style="height:95%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
+                                    <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
                                         <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;">
                                          <b class="text-white">Battery Voltage</b>
                                             <img src="<?php echo base_url(); ?>assets/img/volt.gif" width="30" style="border-radius: 50%;">
@@ -353,7 +353,7 @@
 
                                    <!-- RTMS Status Card (Merged with Details) -->
                                     <div class="col-md-4">
-                                    <div class="bg-white rounded-3 shadow-sm border" style="height: 95%; border: 1px solid #ededed;">
+                                    <div class="bg-white rounded-3 shadow-sm border" style="height: 100%; border: 1px solid #ededed;">
                                         <!-- Card Header -->
                                         <div class="card-header px-3 d-flex justify-content-between align-items-center"
                                              style="height: 40px; background:#e7838c ;color: white; font-size:18px;">
@@ -414,18 +414,29 @@
                                 </div>
                                 </div>  <!-- row -->
 
-                                 <div class="row " style="margin-top: 1px;">
+                                 <div class="row " style="margin-top: 18px;">
                                   <!-- Alert Log -->
                                   <div class="col-md-6">
                                     <div class="card" style="height: 300px;">
                                         <!-- Card Header -->
                                         <div class="d-flex justify-content-between align-items-center"
-                                             style="height: 37px;  top: 0; z-index: 1; background-color: #d56570; padding: 0 10px;">
-                                             <div style="color:white;">
-                                           <img src="<?php echo base_url(); ?>assets/img/alert.gif" width="40" style="border-radius: 50%; max-width: 21%;">&nbsp; Alert Log&nbsp; &nbsp;
-                                            <badge class="badge badge-sm rounded-pill bg-blue" id="alert_count">0</badge>
+                                             style="height: 37px; top: 0; z-index: 1; background-color: #d56570; padding: 0 10px;">
+                                            
+                                            <!-- Left: Alert text + badge -->
+                                            <div style="color:white;">
+                                                Alert Log&nbsp;&nbsp;
+                                                <badge class="badge badge-sm rounded-pill bg-blue" id="alert_count">0</badge>
+                                            </div>
+
+                                            <!-- Right: Image -->
+                                            <div>
+                                                <img src="<?php echo base_url(); ?>assets/img/alert.gif"
+                                                     width="40"
+                                                     style="border-radius: 50%; max-width: 82%;">
+                                            </div>
+
                                         </div>
-                                    </div>
+
 
                                             <!-- Card Body with Scroll -->
                                             <div class="card-body" style="overflow-y: scroll;">
@@ -453,13 +464,13 @@
                                          style="background-color:#d56570; padding: 0px 4px 0px 1px;height: 35px;">
 
                                         
-                                        <h5 class="text-white" style="font-size: 15px; margin-left: 4px;align-items: center;">Well GIS Map</h5>
+                                        <h5 class="text-white" style="font-size: 15px; margin-left: 4px;margin-top: 11px;">Well GIS Map</h5>
 
 
 
                                         <img src="<?php echo base_url() ?>assets/img/map.gif" 
                                              width="40" height="40"
-                                             style="border-radius: 50%; border: 2px solid white; object-fit: cover; height:80%;">
+                                             style="border-radius: 50%; border: 2px solid white; object-fit: cover; height:88%;">
                                     </div>
 
                                         <div class="card-body" style="overflow-y: auto;padding: 2px;">
@@ -471,12 +482,12 @@
                                   
                                   <!-- Well Report Log -->
                                   <div class="col-md-3">
-                                    <div class="card shadow-sm rounded-0" style="height:300px; ">
+                                    <div class="card shadow-sm rounded-0" style="height:300px; width: 108% ">
                                     <div class="d-flex align-items-center justify-content-between text-white"
                                          style="height: 35px; background-color: #d56570; padding: 0 0px;">
 
                                         <!-- Left side text with margin -->
-                                        <strong style="margin-left: 6px;">Well Log</strong>
+                                        <h5 style="margin-left: 6px; margin-top: 11px; font-size:15px">Well Log</h5>
 
                                         <!-- Right side image -->
                                     <img src="<?= base_url('assets/img/oil-pump.gif') ?>" 
@@ -515,20 +526,24 @@
 
                                  <div class="col-xl-12 col-lg-12" style="margin-top:-13px">
                                         <div class="card pressure-card" style="height: 520px;">
-                                            <div class="card-header"
-                style="padding: 8px; background-image: linear-gradient(to right, #00203fad, #0b2542a8);">
+                                            <div style="padding: 0px; background-color:#d14960;">
                 <div class="row align-items-center">
                     <div  style="color:white;" class="col-md-6">
-                    <img src="<?php echo base_url(); ?>assets/img/line-chart.gif" width="40" style="border-radius: 50%;">&nbsp;Graph&nbsp; &nbsp;
+                    <img src="<?php echo base_url(); ?>assets/img/line-chart.gif" width="33" style="border-radius: 50%; margin-left:3px">&nbsp;Graph&nbsp; &nbsp;
                    
                      </div>
                     <div class="col-md-6 d-flex justify-content-end align-items-center">
-                        <input type="datetime-local" name="from_date" class="form-control me-2" id="from_date"
-                            style="max-width: 160px;">
-                        <input type="datetime-local" name="to_date" class="form-control me-2" id="to_date"
-                            style="max-width: 160px;">
-                        <button class="btn btn-danger me-2" onclick="Get_Graph()">Generate</button>
-                        <button type="button" class="btn btn-light" onclick="resetDates()" style="padding: 6px 12px;">
+                       <input type="datetime-local" name="from_date" class="form-control me-2"
+    id="from_date" style="max-width: 123px; padding: 2px 6px; font-size: 12px; height: 30px;">
+
+<input type="datetime-local" name="to_date" class="form-control me-2"
+    id="to_date" style="max-width: 123px; padding: 2px 6px; font-size: 12px; height: 30px;">
+
+                       <button class="btn btn-danger me-2"
+        style="height: 30px; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0 12px; background-color: #6a7e9b;"
+        onclick="Get_Graph()">Generate</button>
+
+                        <button type="button" class="btn btn-light" onclick="resetDates()" style="padding: 4px 12px; margin-right:2px;">
                             <i class="fa-solid fa-arrows-rotate"></i>
                         </button>
                     </div>
