@@ -355,55 +355,48 @@ class AreaDashboard_model extends CI_Model
 
 
 
-public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_id, $site_id, $feeder_id, $well_type)
-{
-    $this->db->select("wm.id as well_id, wm.assets_id,wm.area_id,ws.id as site_id,wm.well_name, wm.well_type,ad.user_id,sd.device_name,sd.imei_no");
+    public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_id, $site_id, $feeder_id, $well_type)
+    {
+        if ($company_id != '') {
+            $this->db->where('wm.company_id', $company_id);
+        }
+        if ($assets_id != '') {
+            $this->db->where('wm.assets_id', $assets_id);
+        }
+        if ($area_id != '') {
+            $this->db->where('wm.area_id', $area_id);
+        }
+        if ($user_id != '') {
+            $this->db->where('ad.user_id', $user_id);
+        }
+        if ($well_id != '') {
+            $this->db->where('ad.well_id', $well_id);
+        }
+        if ($well_type != '') {
+            $this->db->where('wm.well_type', $well_type);
+        }
+        if ($site_id != '') {
+            $this->db->where('ws.id', $site_id);
+        }
+        if ($feeder_id != '') {
+            $this->db->where('sd.feeder_id', $feeder_id);
+        }
+        $this->db->select("wm.id as well_id, wm.assets_id,wm.area_id,ws.id as site_id,wm.well_name, wm.well_type,ad.user_id,sd.device_name,sd.imei_no");
+        $this->db->from('tbl_well_master wm');
+        $this->db->join('tbl_role_wise_user_assign_details ad', 'wm.site_id = ad.site_id and ad.status = 1', 'left');
+        $this->db->join('tbl_well_site_master ws', 'ws.id = ad.site_id', 'left');
 
-    $this->db->from('tbl_well_master wm');
-    $this->db->join('tbl_role_wise_user_assign_details ad', 'wm.id = ad.well_id', 'left');
-    $this->db->join('tbl_well_site_master ws', 'ws.id = ad.site_id', 'left');
+        if ($well_type == 2) {
+            $this->db->join('tbl_site_device_installtion_self_flow sd', 'wm.id = sd.well_id and sd.status =1', 'left');
+        } else {
+            $this->db->join('tbl_site_device_installation sd', 'wm.id = sd.well_id', 'left');
+        }
 
-    if ($well_type == 1) {
-        $this->db->join('tbl_site_device_installation sd', 'wm.id = sd.well_id', 'left');
-    } elseif ($well_type == 2) {
-        $this->db->join('tbl_site_device_installtion_self_flow sd', 'wm.id = sd.well_id', 'left');
-    } else {
-        $this->db->join('tbl_site_device_installation sd', 'wm.id = sd.well_id', 'left');
-        $this->db->join('tbl_site_device_installtion_self_flow di', 'wm.id = di.well_id', 'left');
+        $this->db->where(['wm.status' =>1,'sd.status'=>1]);
+        $this->db->group_by('wm.id');
+        return $this->db->get()->result_array();
     }
 
-    if ($company_id != '') {
-        $this->db->where('wm.company_id', $company_id);
-    }
-    if ($assets_id != '') {
-        $this->db->where('wm.assets_id', $assets_id);
-    }
-    if ($area_id != '') {
-        $this->db->where('wm.area_id', $area_id);
-    }
-    if ($user_id != '') {
-        $this->db->where('ad.user_id', $user_id);
-    }
-    if ($well_id != '') {
-        $this->db->where('ad.well_id', $well_id);
-    }
-    if ($well_type != '') {
-        $this->db->where('wm.well_type', $well_type);
-    }
-    if ($site_id != '') {
-        $this->db->where('ws.id', $site_id);
-    }
-    if ($feeder_id != '') {
-        $this->db->where('sd.feeder_id', $feeder_id);
-    }
-    $this->db->where(['wm.status' => 1,'ad.status' => 1,'sd.status' => 1]);
-    return $this->db->get()->result_array();
-}
-
-
-
-
-  
     public function getSite_for_Map($company_id,$assets_id,$area_id,$site_id,$user_id,$well_id,$feeder_id)
     {
         if($company_id!='')
@@ -426,7 +419,7 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
         ->from('tbl_well_master w')
         ->join('tbl_area_master am','w.area_id=am.id','left')
         ->join('tbl_well_site_master wm','w.site_id=wm.id','left')
-        ->join('tbl_role_wise_user_assign_details ad','ad.well_id=w.id','left')
+        ->join('tbl_role_wise_user_assign_details ad','w.site_id=w.site_id and ad.status =1 ','left')
         ->join('tbl_site_device_installation sd','sd.well_id=w.id','left')
         ->where(['w.status'=>1])->group_by('w.id')->get()->result_array();
     }
@@ -809,7 +802,7 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
        $result = $this->db->select("sd.well_id, sd.output_Average_Current, sd.device_shifted,
             sd.last_log_datetime, sd.status, sd.offline_device_timestamp, wm.well_name")
             ->from('tbl_well_master wm')
-            ->join('tbl_role_wise_user_assign_details ad', 'wm.id=ad.well_id', 'left')
+            ->join('tbl_role_wise_user_assign_details ad', 'wm.site_id=ad.site_id', 'left')
             ->join('tbl_site_device_installation sd', 'wm.id=sd.well_id', 'left')
             ->join('tbl_well_configuration wc','wm.id=wc.well_id and wc.status = 1', 'left')
              ->order_by("
@@ -825,9 +818,6 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
             ->group_by('wm.id')
             ->get()
             ->result_array();
-
-            
-
             return $result;
     }
 
@@ -850,7 +840,7 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
                 sd.last_log_datetime, sd.status, sd.offline_device_timestamp, wm.well_name, 
                 GROUP_CONCAT(DISTINCT wc.start_time ORDER BY wc.c_date DESC) as start_time, GROUP_CONCAT(DISTINCT wc.stop_time  ORDER BY wc.c_date DESC) as stop_time,sd.flag_status,sd.smps_voltage,sd.battery_voltage,sd.output_Average_Voltage_P2P,sd.output_Average_Voltage_L2N")
             ->from('tbl_well_master wm')
-            ->join('tbl_role_wise_user_assign_details ad', 'wm.id=ad.well_id', 'left')
+            ->join('tbl_role_wise_user_assign_details ad', 'wm.site_id=ad.site_id', 'left')
             ->join('tbl_site_device_installation sd', 'wm.id=sd.well_id', 'left')
             ->join('tbl_well_configuration wc', 'wm.id=wc.well_id and wc.status = 1', 'left')
             ->order_by("
@@ -1002,7 +992,7 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
         return $this->db->select("sd.*, wm.well_name")
             ->from('tbl_site_device_installation sd')
             ->join('tbl_well_master wm', 'wm.id=sd.well_id', 'left')
-            ->join('tbl_role_wise_user_assign_details ad','wm.id=ad.well_id','left')
+            ->join('tbl_role_wise_user_assign_details ad','wm.site_id=ad.site_id','left')
             ->where(['sd.status' => 1,'sd.device_shifted'=>0,'ad.status'=>1,'sd.flag_status'=>0])
             ->group_by('sd.well_id')
             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")
@@ -1036,7 +1026,7 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
        return $this->db->select("sd.well_id, sd.flag_status, sd.effective_date_time, wm.well_name,ow.reason as temporary_reason")
             ->from('tbl_site_device_installation sd')
             ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status=1', 'left')
-            ->join('tbl_role_wise_user_assign_details ad', 'wm.id = ad.well_id', 'left')
+            ->join('tbl_role_wise_user_assign_details ad', 'wm.site_id = ad.site_id', 'left')
             ->join('(SELECT * FROM tbl_temporary_off_well_reson_log rl INNER JOIN (SELECT MAX(id) AS max_id FROM tbl_temporary_off_well_reson_log GROUP BY well_id) latest ON rl.id = latest.max_id) latest_rl', 'latest_rl.well_id = wm.id', 'left')
             ->join('tbl_temporary_off_well ow', 'ow.id = latest_rl.reason', 'left')
             ->where(['sd.status' => 1, 'sd.device_shifted' => 0, 'ad.status' => 1, 'sd.flag_status' => 1])
@@ -1114,7 +1104,7 @@ public function getWelllist($company_id, $assets_id, $area_id, $user_id, $well_i
             ->from('tbl_site_device_installation sd')
             ->join('tbl_well_configuration wc', 'sd.well_id = wc.well_id and wc.status = 1', 'left')
             ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
-            ->join('tbl_role_wise_user_assign_details ad', 'sd.well_id = ad.well_id', 'left')
+            ->join('tbl_role_wise_user_assign_details ad', 'sd.site_id = ad.site_id', 'left')
             ->where(['sd.status' => 1,'sd.device_shifted'=>0,'ad.status'=>1,'sd.flag_status'=>0])
             ->group_start()
                 ->where("(

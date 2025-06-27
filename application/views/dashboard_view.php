@@ -446,12 +446,6 @@ color: white;
 	                   
 	                        <div class="box1"></div>
 	                        <h6 class="mx-6 mt-1" style="margin-right:15px">&nbsp; &nbsp;Running</h6>
-	                   
-	                    <!-- <div class="col-md-2 d-flex justify-content-inline" style="display: none;" id="wellRunningDiv">
-	                        <div class="box6"></div>
-	                        <h6 class="mx-6 mt-1">&nbsp; &nbsp;Shifting Well</h6>
-	                    </div>  -->
-	                    
 	                </div>
                 </div>
 	            <div class="row flex mb-4" id="well_area_card" style="margin-right:5px; margin-left:5px;">
