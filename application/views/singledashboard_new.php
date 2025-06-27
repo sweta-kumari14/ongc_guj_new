@@ -450,9 +450,12 @@
                                    <div class="col-md-3" style="margin-top:2px;">
                                     <div class="card" style="height:298px;  width:100%; border-radius:10px;">
                                     <div class="d-flex justify-content-between align-items-center" 
-                                         style="background-color:#d56570; padding: 0px 4px 0px 1px;">
+                                         style="background-color:#d56570; padding: 0px 4px 0px 1px;height: 35px;">
 
-                                        <h5 class="text-white" style="font-size: 15px; margin-left:4px ;">Well GIS Map</h5>
+                                        
+                                        <h5 class="text-white" style="font-size: 15px; margin-left: 4px;align-items: center;">Well GIS Map</h5>
+
+
 
                                         <img src="<?php echo base_url() ?>assets/img/map.gif" 
                                              width="40" height="40"
@@ -468,9 +471,9 @@
                                   
                                   <!-- Well Report Log -->
                                   <div class="col-md-3">
-                                    <div class="card shadow-sm rounded-0" style="height:170px; ">
+                                    <div class="card shadow-sm rounded-0" style="height:300px; ">
                                     <div class="d-flex align-items-center justify-content-between text-white"
-                                         style="height: 45px; background-color: #d56570; padding: 0 0px;">
+                                         style="height: 35px; background-color: #d56570; padding: 0 0px;">
 
                                         <!-- Left side text with margin -->
                                         <strong style="margin-left: 6px;">Well Log</strong>

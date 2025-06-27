@@ -207,6 +207,8 @@
                                             <th>Well No</th>
                                             <th>Alert Type</th>
                                             <th>Alert Details</th>
+                                            <th>From Date Time </th>
+                                            <th>To Date Time</th>
                                             <th>Durations</th>
                                             <th>Status </th>
 
@@ -329,7 +331,10 @@ if($this->session->flashdata('error') != '')
     }
 </script>
 
+
 <script type="text/javascript">
+
+
 
     get_well_wise_date();
     function get_well_wise_date()
@@ -382,104 +387,163 @@ if($this->session->flashdata('error') != '')
     }
     
     get_wellwise_alert_report();
-    function get_wellwise_alert_report() {
-    $('#table_data').html('<tr><td colspan="7">processing please wait.......</td></tr>');
+
+function get_wellwise_alert_report() {
+    $('#table_data').html('<tr><td colspan="9">Processing, please wait...</td></tr>');
+
     var from_date = $('#from_date').val();
     var to_date = $('#to_date').val();
     var well_id = $('#well_id').val();
     var sort_by = $('#sort_by_well').val();
-
-    var user_id = "<?php echo $this->session->userdata('user_id') ?>";
+    var user_id = "<?php echo $this->session->userdata('user_id'); ?>";
 
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_alert_c/get_wellwise_alert_data',
         method: 'POST',
-        data: { from_date: from_date, to_date: to_date, well_id: well_id,user_id:user_id,sort_by:sort_by},
+        data: {
+            from_date: from_date,
+            to_date: to_date,
+            well_id: well_id,
+            user_id: user_id,
+            sort_by: sort_by
+        },
         success: function (res) {
             var response = JSON.parse(res);
             console.log(response);
+
+            $('#table_data').html("");
+
             if (response.response_code == 200) {
-                $('#table_data').html("");
                 if (response.data.length > 0) {
-                    
                     $.each(response.data, function (i, v) {
-                        
+                        var alert_type = v.alert_type !== null ? v.alert_type : "NA";
+                        var alert_details = v.alert_details !== null ? v.alert_details : "NA";
+                        var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+                        var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+                         var duration = v.duration !== null ? v.duration : "NA";
+                        var status = v.status !== null ? v.status : "NA";
+                       
 
-                        var alert_type = v.alert_type != null ? v.alert_type :"NA";
-                        var alerts_details = v.alerts_details != null ? v.alerts_details :"NA";
-                        var start_date_time  = v.start_date_time != null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') :"NA";
-                        var end_date_time  = v.end_date_time != null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') :"NA";
-
-                        $("#table_data").append('<tr>' +
-                            '<td>'+(i+1)+'</td>'+
-                            '<td>'+v.well_site_name +'</td>'+
-                            '<td>'+v.well_name+'</td>'+
-                            '<td>'+alert_type+'</td>'+
-                            '<td>'+alerts_details+'</td>'+
-                            '<td>'+start_date_time+'</td>'+
-                            '<td>'+end_date_time+'</td>'+
+                        $('#table_data').append('<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + v.well_site_name + '</td>' +
+                            '<td>' + v.well_name + '</td>' +
+                            '<td>' + alert_type + '</td>' +
+                            '<td>' + alert_details + '</td>' +
+                            '<td>' + start_date_time + '</td>' +
+                            '<td>' + end_date_time + '</td>' +
+                            '<td>' + duration + '</td>' +
+                            '<td>' + status + '</td>' +
+                            
                             '</tr>');
                     });
-
-                   
                 } else {
                     $('#table_data').html('<tr>' +
-                        '<td class="text-danger" style="text-align:center;" colspan="7">No Record Found !!</td>' +
+                        '<td class="text-danger text-center" colspan="9">No Record Found !!</td>' +
                         '</tr>');
                 }
+            } else {
+                $('#table_data').html('<tr>' +
+                    '<td class="text-danger text-center" colspan="9">Error retrieving data</td>' +
+                    '</tr>');
             }
+        },
+        error: function () {
+            $('#table_data').html('<tr>' +
+                '<td class="text-danger text-center" colspan="9">AJAX request failed</td>' +
+                '</tr>');
         }
-
     });
 }
 
 
+
     datewise_alert_list();
-    function datewise_alert_list() {
-    $('#date_table_data').html('<tr><td colspan="5">processing please wait.......</td></tr>');
+function datewise_alert_list() {
+    $('#date_table_data').html('<tr><td colspan="9">Processing, please wait...</td></tr>');
+
     var date = $('#date').val();
     var sort_by = $('#sort_by_date').val();
-
-    var user_id = "<?php echo $this->session->userdata('user_id') ?>";
-
+    var user_id = "<?php echo $this->session->userdata('user_id'); ?>";
 
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_alert_c/get_datewise_alert_report',
         method: 'POST',
-        data: { date: date,user_id:user_id ,sort_by:sort_by},
+        data: {
+            date: date,
+            user_id: user_id,
+            sort_by: sort_by
+        },
         success: function (res) {
             var response = JSON.parse(res);
-            console.log(response);
+            console.log('alertdetails', response);
+
+            $('#date_table_data').html("");
+
             if (response.response_code == 200) {
-                $('#date_table_data').html("");
                 if (response.data.length > 0) {
-                   
                     $.each(response.data, function (i, v) {
-                        
-                        var alert_type = v.alert_type != null ? v.alert_type :"NA";
-                        var alerts_details = v.alerts_details != null ? v.alerts_details :"NA";
-                        $("#date_table_data").append('<tr>' +
-                            '<td>'+(i+1)+'</td>'+
-                            '<td>'+v.well_site_name +'</td>'+
-                            '<td>'+v.well_name+'</td>'+
-                            '<td>'+alert_type+'</td>'+
-                            '<td>'+alerts_details+'</td>'+
-                                    
+                        var alert_type = v.alert_type !== null ? v.alert_type : "NA";
+                        var alert_details = v.alert_details !== null ? v.alert_details : "NA";
+                        var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+                        var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+
+                        var duration = v.duration !== null ? v.duration : "NA";
+                        var status = v.status !== null ? v.status : "NA";
+
+                        // Determine color class based on duration in hours
+                        var duration_class = "text-dark"; // default class
+
+                        if (!isNaN(duration)) {
+                            var hrs = parseFloat(duration);
+
+                            if (hrs <= 12) {
+                                duration_class = "text-success fw-bold"; // 0–12
+                            } else if (hrs > 12 && hrs <= 24) {
+                                duration_class = "text-primary fw-bold"; // 12–24
+                            } else if (hrs > 24 && hrs <= 48) {
+                                duration_class = "text-warning fw-bold"; // 24–48
+                            } else if (hrs > 48) {
+                                duration_class = "text-danger fw-bold"; // >48
+                            }
+                        }
+
+                        $('#date_table_data').append('<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + v.well_site_name + '</td>' +
+                            '<td>' + v.well_name + '</td>' +
+                            '<td>' + alert_type + '</td>' +
+                            '<td>' + alert_details + '</td>' +
+                            '<td>' + start_date_time + '</td>' +
+                            '<td>' + end_date_time + '</td>' +
+                            '<td>' + duration + '</td>' +
+                            '<td class="' + duration_class + '">' + status + '</td>' +
                             '</tr>');
                     });
-
-                    
                 } else {
                     $('#date_table_data').html('<tr>' +
-                        '<td class="text-danger" style="text-align:center;" colspan="5">No Record Found !!</td>' +
+                        '<td class="text-danger text-center" colspan="9">No Record Found !!</td>' +
                         '</tr>');
                 }
+            } else {
+                $('#date_table_data').html('<tr>' +
+                    '<td class="text-danger text-center" colspan="9">Error retrieving data</td>' +
+                    '</tr>');
             }
+        },
+        error: function () {
+            $('#date_table_data').html('<tr>' +
+                '<td class="text-danger text-center" colspan="9">AJAX request failed</td>' +
+                '</tr>');
         }
     });
 }
 
 
+  setInterval(()=>{
+        get_wellwise_running_report();
+        datewise_running_list();
+    },30000);
 
 </script>
 
@@ -523,13 +587,7 @@ if($this->session->flashdata('error') != '')
 
 </script>
 
-<script type="text/javascript">
-    
-     setInterval(()=>{
-        get_wellwise_running_report();
-        datewise_running_list();
-    },30000);
-</script>
+
  <style>
         @media print {
             @page {
@@ -585,7 +643,7 @@ if($this->session->flashdata('error') != '')
         }
         window.print();
     }
-    <script type="text/javascript">
+    
 function get_area_list()
     {  
        let company_id = "<?php echo $this->session->userdata('company_id') ?>";
