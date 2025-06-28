@@ -158,14 +158,34 @@
 
     </div> <!-- container-fluid -->
 </div> <!-- page-wrapper -->
+<?php 
+if($this->session->flashdata('success') != '')
+{
+    ?>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var msg = "<?php echo $this->session->flashdata('success'); ?>";
+        swal(msg, "", "success");
+      });
+    </script>
+  <?php
+}
+if($this->session->flashdata('error') != '')
+{
+    ?>
+        <script type="text/javascript">
+          $(document).ready(function () {
+            var msg = "<?php echo $this->session->flashdata('error'); ?>";
+            swal(msg, "", "error");
+          });
+        </script>
+    <?php
+}
+?>
 
 
 <script>
-    const wellData = {
-        "Padra": ["PD1", "PD2", "PD3"],
-        "Ankleshwar": ["AK1", "AK2", "AK3"],
-        "Mehsana": ["MH1", "MH2"]
-    };
+   
 
     function get_view() {
         const view = document.getElementById("report_view").value;
@@ -237,4 +257,45 @@
             allowClear: true
         });
     });
+    function get_threshold_value()
+    {
+        let well_id = $('#well_id').val();
+        $.ajax({
+           url: '<?php echo base_url();?>Threshold_setup_selfflow_c/get_well_threshold_details',
+           type: 'POST',
+           data: {well_id:well_id},
+           success: function (res) {
+                res = JSON.parse(res);
+               if(res.response_code==200)
+               {
+                    $.each(res.data, function (i, v) {
+                    if (v.well_id == well_id)
+                    {
+                      
+                       
+
+                       $('#upper_chp').val(v.chp_uppar);
+                       $('#lower_chp').val(v.chp_lower);
+                     
+                       $('#upper_thp').val(v.thp_uppar);
+                       $('#lower_thp').val(v.thp_lower);
+                        $('#upper_tht').val(v.tht_uppar);
+                       $('#lower_tht').val(v.tht_lower);
+                     
+                       $('#upper_abp').val(v.abp_uppar);
+                       $('#lower_abp').val(v.abp_lower);
+                
+                      
+                  
+                    }  
+               });   
+               }else
+               {    
+                   swal('error','','error');
+               }
+              console.log(res);
+           },
+       }); 
+    }
+    
 </script>

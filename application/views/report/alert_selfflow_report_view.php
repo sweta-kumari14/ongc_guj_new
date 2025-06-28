@@ -8,23 +8,23 @@
             <div class="row row-sm">
                 <div class="col-lg-12">
                     <div class="card">
-                       <div class="card-body" style="padding:6px;">
-    <div class="row align-items-center"> <!-- Added align-items-center here -->
+                      <div class="card-body" style="padding:6px;">
+    <div class="row align-items-center mb-3">
         
         <!-- Left side: Heading -->
-        <div class="col-md-6 d-flex align-items-center" style="margin-top: 8px;">
-            <h3 class="m-0">Alert Log Report</h3>
+        <div class="col-md-6 d-flex align-items-center ps-3">
+            <h3 class="m-0" style="font-size:20px; margin-top:4px">Alert Log Report</h3>
         </div>
 
         <!-- Right side: Buttons -->
-        <div class="col-md-6 d-flex justify-content-end align-items-center" style="margin-top: 8px;"> <!-- Also align-items-center -->
-            <div>
-                <button id="well_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_well_wise_report();">Export</button>
-                <button id="date_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_date_wise_report();">Export</button>
-                <button class="btn btn-sm btn-primary" id="well_wise_pdf" onclick="printWell();" style="display: none;">PDF</button>
-                <button class="btn btn-sm btn-primary" id="date_wise_pdf" onclick="printDate();" style="display: none;">PDF</button>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <div class="d-flex gap-2 flex-wrap align-items-center">
+                <button id="well_wise_export" class="btn btn-sm btn-success" onclick="export_well_wise_report();" style="display: none;">Export</button>
+                <button id="date_wise_export" class="btn btn-sm btn-success" onclick="export_date_wise_report();" style="display: none;">Export</button>
+                <button id="well_wise_pdf" class="btn btn-sm btn-primary" onclick="printWell();" style="display: none;">PDF</button>
+                <button id="date_wise_pdf" class="btn btn-sm btn-primary" onclick="printDate();" style="display: none;">PDF</button>
                 <a href="Dashboard_c">
-                    <button class="btn btn-sm btn-primary mx-2">Back</button>
+                    <button class="btn btn-sm btn-primary">Back</button>
                 </a>
             </div>
         </div>
@@ -32,9 +32,10 @@
     </div>
 </div>
 
-                        <hr>
 
-                                                                <div class="card-body">
+                        <hr style="margin-top: -10px;">
+
+                                                                <div class="card-body" style=" margin-top: -19px;">
                                                                     <div class="row">
                                                                         <div class="form-group col-md-4">
                                             <label for="report_view" class="form-label"><b>View Report</b></label>
@@ -85,12 +86,12 @@
 
 
                                 <div class="form-group col-md-4" style="display:none;" id="filter_date">
-                                    <h5><b>Date</b></h5>
+                                    <h5 style="margin-top: 15px;"><b>Date</b></h5>
                                     <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d',time()); ?>" onchange="datewise_alert_list();get_date();">
                                 </div>
 
                                 <div class="form-group col-md-4" id="date_wise_sort" style="display: none;">
-                                    <h5><b>Sort By</b></h5>
+                                    <h5 style="margin-top: 15px;"><b>Sort By</b></h5>
                                     <select class="form-control select2" name="sort_by_date" id="sort_by_date" onchange="datewise_alert_list();">
                                         <option value="">Select Column</option>
                                         <option value="well_site_name">Area Name</option>
@@ -104,7 +105,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body" id="well_wise_table" style="display:none;">
+                        <div class="card-body" id="well_wise_table" style="display:none;    margin-top: -19px;">
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <h5><b>Well No</b></h5>
