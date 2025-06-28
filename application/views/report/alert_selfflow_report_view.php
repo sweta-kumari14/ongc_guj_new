@@ -2,64 +2,53 @@
 <div class="page-wrapper">
 <!-- Page Content -->
     <div class="content container-fluid">
-        <!-- Page Header -->
-       
-<!-- /Page Header -->
+    
             <div class="row row-sm">
                 <div class="col-lg-12">
                     <div class="card">
-                       <div class="card-body" style="padding:6px;">
-    <div class="row align-items-center"> <!-- Added align-items-center here -->
-        
-        <!-- Left side: Heading -->
-        <div class="col-md-6 d-flex align-items-center" style="margin-top: 8px;">
-            <h3 class="m-0">Alert Log Report</h3>
-        </div>
+                        <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3><b>Alert Log Report</b></h3>
+                            </div>
+                            <div class="col-md-6 d-md-flex justify-content-end">
+                                <div>
+                                    <button id="well_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_well_wise_report();">Export</button>
+                                    <button id="date_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_date_wise_report();">Export</button>
+                                    <button class="btn btn-sm btn-primary" id="well_wise_pdf" onclick="printWell();" style="display: none;">PDF</button>
+                                    <button class="btn btn-sm btn-primary" id="date_wise_pdf" onclick="printDate();" style="display: none;">PDF</button>
+                                    <a href="Dashboard_c">
+                                        <button class="btn btn-sm btn-primary">Back</button>
+                                    </a>
+                                </div>
+                            </div>
 
-        <!-- Right side: Buttons -->
-        <div class="col-md-6 d-flex justify-content-end align-items-center" style="margin-top: 8px;"> <!-- Also align-items-center -->
-            <div>
-                <button id="well_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_well_wise_report();">Export</button>
-                <button id="date_wise_export" style="display: none;" class="btn btn-sm btn-success" onclick="export_date_wise_report();">Export</button>
-                <button class="btn btn-sm btn-primary" id="well_wise_pdf" onclick="printWell();" style="display: none;">PDF</button>
-                <button class="btn btn-sm btn-primary" id="date_wise_pdf" onclick="printDate();" style="display: none;">PDF</button>
-                <a href="Dashboard_c">
-                    <button class="btn btn-sm btn-primary mx-2">Back</button>
-                </a>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-                        <hr>
-
-                                                                <div class="card-body">
-                                                                    <div class="row">
-                                                                        <div class="form-group col-md-4">
-                                            <label for="report_view" class="form-label"><b>View Report</b></label>
-                                            <select name="report_view" id="report_view" class="form-control select2" onchange="get_view();" style="width: 100%;">
-                                                <option value=""> Select View </option>
-                                                <option value="well">Well Wise</option>
-                                                <option value="date">Date Wise</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="alert_type" class="form-label"><b>Alert Type</b></label>
-                                            <select onchange="get_wellwise_alert_report();" class="form-control select2" id="alert_type" name="alert_type" style="width: 100%;">
-                                                <option value="">ALL</option>
-                                                <option value="1">Low CHP</option>
-                                                <option value="2">High CHP</option>
-                                                <option value="3">Low THP</option>
-                                                <option value="4">High THP</option>
-                                                <option value="5">Low ABP</option>
-                                                <option value="6">High ABP</option>
-                                                <option value="7">Temp FLT</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4 " >
-                                       <label  class="form-label"><b>Area Name</b></label>
+                        </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="report_view" class="form-label"><b>View Report</b></label>
+                                <select name="report_view" id="report_view" class="form-control select2" onchange="get_view();" style="width: 100%;">
+                                    <option value=""> Select View </option>
+                                    <option value="well">Well Wise</option>
+                                    <option value="date">Date Wise</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="alert_type" class="form-label"><b>Alert Type</b></label>
+                                <select onchange="get_wellwise_alert_report();" class="form-control select2" id="alert_type" name="alert_type" style="width: 100%;">
+                                    <option value="">ALL</option>
+                                    <option value="1">Low CHP</option>
+                                    <option value="2">High CHP</option>
+                                    <option value="3">Low THP</option>
+                                    <option value="4">High THP</option>
+                                    <option value="5">Low ABP</option>
+                                    <option value="6">High ABP</option>
+                                    <option value="7">Temp FLT</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                            <label  class="form-label"><b>Area Name</b></label>
                                 <select name="area_id" id="area_id" class="form-control select2">
                                     <?php
                                     $user_type = $this->session->userdata('user_type', true);
@@ -81,16 +70,13 @@
                                     }
                                     ?>
                                 </select>
-                                    </div>
-
-
-                                <div class="form-group col-md-4" style="display:none;" id="filter_date">
-                                    <h5><b>Date</b></h5>
-                                    <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d',time()); ?>" onchange="datewise_alert_list();get_date();">
-                                </div>
-
-                                <div class="form-group col-md-4" id="date_wise_sort" style="display: none;">
-                                    <h5><b>Sort By</b></h5>
+                            </div>
+                            <div class="form-group col-md-4 mt-2" style="display:none;" id="filter_date">
+                               <label  class="form-label"><b>Date</b></label>
+                                <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d',time()); ?>" onchange="datewise_alert_list();get_date();">
+                            </div>
+                            <div class="form-group col-md-4 mt-2" id="date_wise_sort" style="display: none;">
+                                     <label  class="form-label"><b>Sort By</b></label>
                                     <select class="form-control select2" name="sort_by_date" id="sort_by_date" onchange="datewise_alert_list();">
                                         <option value="">Select Column</option>
                                         <option value="well_site_name">Area Name</option>
@@ -172,12 +158,10 @@
                                             <th>Alert Details</th>
                                             <th>From Date Time </th>
                                             <th>To Date Time</th>
-                                            <th>Durations</th>
-                                            <th>Status</th>
+                                            <th>Total Durations</th>
                                         </tr>
                                     
-                                    <tbody class="text-center" id="table_data">                         
-                                        
+                                    <tbody class="text-center" id="table_data">    
                                     </tbody>
                                 </table>
                             </div>
@@ -209,10 +193,7 @@
                                             <th>Alert Details</th>
                                             <th>From Date Time </th>
                                             <th>To Date Time</th>
-                                            <th>Durations</th>
-                                            <th>Status </th>
-
-                                            
+                                            <th>Total Durations</th>
                                         </tr>
                                     
                                     <tbody class="text-center" id="date_table_data">                            
@@ -330,12 +311,7 @@ if($this->session->flashdata('error') != '')
         }
     }
 </script>
-
-
 <script type="text/javascript">
-
-
-
     get_well_wise_date();
     function get_well_wise_date()
     {
@@ -381,15 +357,10 @@ if($this->session->flashdata('error') != '')
             $('#show_date').text(formated_date.format("DD-MM-YYYY"));
         }else{
             $('#show_date').text('');
-        }
-
-        
+        } 
     }
-
-
-    
     get_wellwise_alert_report();
-    function get_wellwise_alert_report() {
+function get_wellwise_alert_report() {
     $('#table_data').html('<tr><td colspan="9">Processing, please wait...</td></tr>');
 
     var from_date = $('#from_date').val();
@@ -410,50 +381,87 @@ if($this->session->flashdata('error') != '')
         },
         success: function (res) {
             var response = JSON.parse(res);
-            console.log(response);
-
             $('#table_data').html("");
 
             if (response.response_code == 200) {
                 if (response.data.length > 0) {
-                   $.each(response.data, function (i, v) {
-    var alert_type = v.alert_type !== null ? v.alert_type : "NA";
-    var alert_details = v.alert_details !== null ? v.alert_details : "NA";
-    var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
-    var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
-    var duration = v.duration !== null ? v.duration : "NA";
-    var status = v.status !== null ? v.status : "NA";
+                    $.each(response.data, function (i, v) {
+                        var alert_type = parseInt(v.alert_type);
+                        var alert_data = '';
 
-    // Parse duration into total hours (assumes HH:MM:SS format)
-    let hours = 0;
-    if (typeof duration === "string" && duration.includes(":")) {
-      
+                        if (alert_type == 0) {
+                            alert_data = 'SOV ON';
+                        } else if (alert_type == 1) {
+                            alert_data = 'SOV OFF';
+                        } else if (alert_type == 2) {
+                            alert_data = 'Battery Low';
+                        } else if (alert_type == 3) {
+                            alert_data = 'Battery High';
+                        } else if (alert_type == 4) {
+                            alert_data = 'GIP Low';
+                        } else if (alert_type == 5) {
+                            alert_data = 'GIP High';
+                        } else if (alert_type == 6) {
+                            alert_data = 'THP Low';
+                        } else if (alert_type == 7) {
+                            alert_data = 'THP High';
+                        } else if (alert_type == 8) {
+                            alert_data = 'CHP Low';
+                        } else if (alert_type == 9) {
+                            alert_data = 'CHP High';
+                        } else if (alert_type == 10) {
+                            alert_data = 'ABP Low';
+                        } else if (alert_type == 11) {
+                            alert_data = 'ABP High';
+                        } else if (alert_type == 12) {
+                            alert_data = 'Temp Low';
+                        } else if (alert_type == 13) {
+                            alert_data = 'Temp High';
+                        } else if (alert_type == 14) {
+                            alert_data = 'Door Closed';
+                        } else if (alert_type == 15) {
+                            alert_data = 'Door Open';
+                        } else {
+                            alert_data = 'Unknown Alert Type';
+                        }
+                        var alert_details = v.alert_details !== null ? v.alert_details : "NA";
+                        var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+                        var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+                        var duration = v.duration !== null ? v.duration : "00:00:00";
+                       
+                        var parts = duration.split(":");
+                        var hrs = parseInt(parts[0]) || 0;
+                        var mins = parseInt(parts[1]) || 0;
+                        var duration_human = hrs + ' hrs ' + mins + ' min';
+                        var total_hours = hrs + (mins / 60);
 
-    // Inline color style based on duration
-    let color = "black"; // default
-    if (hours <= 12) {
-        color = "green";
-    } else if (hours > 12 && hours <= 24) {
-        color = "blue";
-    } else if (hours > 24 && hours <= 48) {
-        color = "orange";
-    } else if (hours > 48) {
-        color = "red";
-    }
+                        let durationBadgeBg = "#cce5ff";   
+                        let durationBadgeText = "#004085"; 
 
-    $('#table_data').append('<tr>' +
-        '<td>' + (i + 1) + '</td>' +
-        '<td>' + v.well_site_name + '</td>' +
-        '<td>' + v.well_name + '</td>' +
-        '<td>' + alert_type + '</td>' +
-        '<td>' + alert_details + '</td>' +
-        '<td>' + start_date_time + '</td>' +
-        '<td>' + end_date_time + '</td>' +
-        '<td>' + duration + '</td>' +
-        '<td style="color: ' + status + '; font-weight: bold;">' + status + '</td>' +
-        '</tr>');
-};
-} else {
+                        if (total_hours > 12 && total_hours <= 24) {
+                            durationBadgeBg = "#f8d7da";  
+                            durationBadgeText = "#721c24";
+                        } else if (total_hours > 24 && total_hours <= 48) {
+                            durationBadgeBg = "#fff3cd";   
+                            durationBadgeText = "#856404";
+                        } else if (total_hours > 48) {
+                            durationBadgeBg = "#d4edda";    
+                            durationBadgeText = "#155724";
+                        }
+
+                        $('#table_data').append('<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + v.well_site_name + '</td>' +
+                            '<td>' + v.well_name + '</td>' +
+                            '<td>' + alert_data + '</td>' +
+                            '<td>' + alert_details + '</td>' +
+                            '<td>' + start_date_time + '</td>' +
+                            '<td>' + end_date_time + '</td>' +
+                            '<td><span class="badge" style="background-color:' + durationBadgeBg + '; color:' + durationBadgeText + '; font-weight: 600;">' + duration_human + '</span></td>'+
+
+                            '</tr>');
+                    });
+                } else {
                     $('#table_data').html('<tr>' +
                         '<td class="text-danger text-center" colspan="9">No Record Found !!</td>' +
                         '</tr>');
@@ -499,41 +507,81 @@ function datewise_alert_list() {
             if (response.response_code == 200) {
                 if (response.data.length > 0) {
                     $.each(response.data, function (i, v) {
-                        var alert_type = v.alert_type !== null ? v.alert_type : "NA";
+                        var alert_type = parseInt(v.alert_type);
+                        var alert_data = '';
+
+                        if (alert_type == 0) {
+                            alert_data = 'SOV ON';
+                        } else if (alert_type == 1) {
+                            alert_data = 'SOV OFF';
+                        } else if (alert_type == 2) {
+                            alert_data = 'Battery Low';
+                        } else if (alert_type == 3) {
+                            alert_data = 'Battery High';
+                        } else if (alert_type == 4) {
+                            alert_data = 'GIP Low';
+                        } else if (alert_type == 5) {
+                            alert_data = 'GIP High';
+                        } else if (alert_type == 6) {
+                            alert_data = 'THP Low';
+                        } else if (alert_type == 7) {
+                            alert_data = 'THP High';
+                        } else if (alert_type == 8) {
+                            alert_data = 'CHP Low';
+                        } else if (alert_type == 9) {
+                            alert_data = 'CHP High';
+                        } else if (alert_type == 10) {
+                            alert_data = 'ABP Low';
+                        } else if (alert_type == 11) {
+                            alert_data = 'ABP High';
+                        } else if (alert_type == 12) {
+                            alert_data = 'Temp Low';
+                        } else if (alert_type == 13) {
+                            alert_data = 'Temp High';
+                        } else if (alert_type == 14) {
+                            alert_data = 'Door Closed';
+                        } else if (alert_type == 15) {
+                            alert_data = 'Door Open';
+                        } else {
+                            alert_data = 'Unknown Alert Type';
+                        }
+                       
                         var alert_details = v.alert_details !== null ? v.alert_details : "NA";
                         var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
                         var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
 
-                        var duration = v.duration !== null ? v.duration : "NA";
-                        var status = v.status !== null ? v.status : "NA";
+                        var duration = v.duration !== null ? v.duration : "00:00:00";
+                       
+                        var parts = duration.split(":");
+                        var hrs = parseInt(parts[0]) || 0;
+                        var mins = parseInt(parts[1]) || 0;
+                        var duration_human = hrs + ' hrs ' + mins + ' min';
+                        var total_hours = hrs + (mins / 60);
 
-                        // Determine color class based on duration in hours
-                        var duration_class = "text-dark"; // default class
+                        let durationBadgeBg = "#cce5ff";   
+                        let durationBadgeText = "#004085"; 
 
-                        if (!isNaN(duration)) {
-                            var hrs = parseFloat(duration);
-
-                            if (hrs <= 12) {
-                                duration_class = "text-success fw-bold"; // 0–12
-                            } else if (hrs > 12 && hrs <= 24) {
-                                duration_class = "text-primary fw-bold"; // 12–24
-                            } else if (hrs > 24 && hrs <= 48) {
-                                duration_class = "text-warning fw-bold"; // 24–48
-                            } else if (hrs > 48) {
-                                duration_class = "text-danger fw-bold"; // >48
-                            }
+                        if (total_hours > 12 && total_hours <= 24) {
+                            durationBadgeBg = "#f8d7da";  
+                            durationBadgeText = "#721c24";
+                        } else if (total_hours > 24 && total_hours <= 48) {
+                            durationBadgeBg = "#fff3cd";   
+                            durationBadgeText = "#856404";
+                        } else if (total_hours > 48) {
+                            durationBadgeBg = "#d4edda";    
+                            durationBadgeText = "#155724";
                         }
 
                         $('#date_table_data').append('<tr>' +
                             '<td>' + (i + 1) + '</td>' +
                             '<td>' + v.well_site_name + '</td>' +
                             '<td>' + v.well_name + '</td>' +
-                            '<td>' + alert_type + '</td>' +
+                            '<td>' + alert_data + '</td>' +
                             '<td>' + alert_details + '</td>' +
                             '<td>' + start_date_time + '</td>' +
                             '<td>' + end_date_time + '</td>' +
-                            '<td>' + duration + '</td>' +
-                            '<td class="' + duration_class + '">' + status + '</td>' +
+                            '<td><span class="badge" style="background-color:' + durationBadgeBg + '; color:' + durationBadgeText + '; font-weight: 600;">' + duration_human + '</span></td>'+
+
                             '</tr>');
                     });
                 } else {
