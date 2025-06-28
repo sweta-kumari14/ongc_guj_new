@@ -385,10 +385,11 @@ if($this->session->flashdata('error') != '')
 
         
     }
+
+
     
     get_wellwise_alert_report();
-
-function get_wellwise_alert_report() {
+    function get_wellwise_alert_report() {
     $('#table_data').html('<tr><td colspan="9">Processing, please wait...</td></tr>');
 
     var from_date = $('#from_date').val();
@@ -415,29 +416,44 @@ function get_wellwise_alert_report() {
 
             if (response.response_code == 200) {
                 if (response.data.length > 0) {
-                    $.each(response.data, function (i, v) {
-                        var alert_type = v.alert_type !== null ? v.alert_type : "NA";
-                        var alert_details = v.alert_details !== null ? v.alert_details : "NA";
-                        var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
-                        var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
-                         var duration = v.duration !== null ? v.duration : "NA";
-                        var status = v.status !== null ? v.status : "NA";
-                       
+                   $.each(response.data, function (i, v) {
+    var alert_type = v.alert_type !== null ? v.alert_type : "NA";
+    var alert_details = v.alert_details !== null ? v.alert_details : "NA";
+    var start_date_time = v.start_date_time !== null ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+    var end_date_time = v.end_date_time !== null ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : "NA";
+    var duration = v.duration !== null ? v.duration : "NA";
+    var status = v.status !== null ? v.status : "NA";
 
-                        $('#table_data').append('<tr>' +
-                            '<td>' + (i + 1) + '</td>' +
-                            '<td>' + v.well_site_name + '</td>' +
-                            '<td>' + v.well_name + '</td>' +
-                            '<td>' + alert_type + '</td>' +
-                            '<td>' + alert_details + '</td>' +
-                            '<td>' + start_date_time + '</td>' +
-                            '<td>' + end_date_time + '</td>' +
-                            '<td>' + duration + '</td>' +
-                            '<td>' + status + '</td>' +
-                            
-                            '</tr>');
-                    });
-                } else {
+    // Parse duration into total hours (assumes HH:MM:SS format)
+    let hours = 0;
+    if (typeof duration === "string" && duration.includes(":")) {
+      
+
+    // Inline color style based on duration
+    let color = "black"; // default
+    if (hours <= 12) {
+        color = "green";
+    } else if (hours > 12 && hours <= 24) {
+        color = "blue";
+    } else if (hours > 24 && hours <= 48) {
+        color = "orange";
+    } else if (hours > 48) {
+        color = "red";
+    }
+
+    $('#table_data').append('<tr>' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td>' + v.well_site_name + '</td>' +
+        '<td>' + v.well_name + '</td>' +
+        '<td>' + alert_type + '</td>' +
+        '<td>' + alert_details + '</td>' +
+        '<td>' + start_date_time + '</td>' +
+        '<td>' + end_date_time + '</td>' +
+        '<td>' + duration + '</td>' +
+        '<td style="color: ' + status + '; font-weight: bold;">' + status + '</td>' +
+        '</tr>');
+};
+} else {
                     $('#table_data').html('<tr>' +
                         '<td class="text-danger text-center" colspan="9">No Record Found !!</td>' +
                         '</tr>');
