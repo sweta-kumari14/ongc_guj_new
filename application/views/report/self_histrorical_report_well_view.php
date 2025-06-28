@@ -47,33 +47,40 @@
 <div class="page-wrapper">
     <div class="content container-fluid pb-0">
         <div class="page-header">
-            <div class="content-page-header">
+            <div class="content-page-header" style="margin-top: -28px;">
                 <h5>Historical Report</h5>
             </div>  
         </div>
             <div class="row">                   
                     
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="margin-top: -16px;">
                 <div class="card">
                    
                     <div class="card-body">
-                       <div class="row align-items-center">
-                            <div class="col">
-                               <h4 class="header-title mb-4"><b>Historical Report</b></h4>
-                            </div>
+                  <div class="row mb-3">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        
+        <!-- Heading -->
+        <h4 class="header-title m-0"><b>Historical Report</b></h4>
+        
+        <!-- Right Side Buttons -->
+        <div>
+            <button type="button" id="export_btns" onclick="export_report();" class="btn btn-outline-success me-2">
+                <i class="fa-solid fa-file-excel"></i> Export
+            </button>
 
-                    <div class="col-auto float-end ms-auto">
-                        <button type="button" id="export_btns" onclick="export_report();" class="btn btn-outline-success button"> <i class="fa-solid fa-file-excel"></i> Export</button>
-                         
-                        <a href="Selfflow_c">
-                            <button type="button" id="back_btns" class="btn btn-outline-warning button">
-                                <i class="fa-solid fa-left-long"></i> Back
-                            </button>
-                        </a>
-                    </div>
-                </div>
+            <a href="Selfflow_c">
+                <button type="button" id="back_btns" class="btn btn-outline-warning">
+                    <i class="fa-solid fa-left-long"></i> Back
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+                <hr>
             </div>
-            <div class="filter-section" style="padding: 15px 20px;">
+            <div class="filter-section" style="padding: 0px 20px;">
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="form-group col-md-4">
@@ -206,11 +213,13 @@ if($this->session->flashdata('error') != '')
 	get_mis_report();
 		function get_mis_report()
 		{
+
 			$('#table_data').html('<tr><td colspan="25">Processing please wait.......</td></tr>');
-			var company_id = "<?php echo $this->session->userdata('company_id') ?>";
+			
 			var from_date = $('#from_date').val();
 			var to_date = $('#to_date').val();
 			var well_id = $('#well_id').val();
+           
           
             var selectedWellName = $('#well_id option:selected').text();
             let formattedFromDate = moment(from_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
@@ -218,14 +227,15 @@ if($this->session->flashdata('error') != '')
             let headingText = `  Historical Report of ${selectedWellName} from ${formattedFromDate} to ${formattedToDate}   `;
             $('#report-heading').text(headingText);
 
+
 			$.ajax({
 				url:'<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_mis_report_histrorical',
 				method:'POST',
-				data:{company_id:company_id,from_date:from_date,to_date:to_date,well_id:well_id},
+				data:{from_date:from_date,to_date:to_date,well_id:well_id},
 				success:function(res)
 				{
 					var response = JSON.parse(res);
-					// console.log('mis',response);
+					// console.log('graph_detail',response);
 				
 					if(response.response_code==200)
 		                {

@@ -47,7 +47,7 @@
 								</div>
 								<div class="form-group col-md-4 mt-2">
                                     <h5><b>Area Name</b></h5>
-                                    <select name="site_id" id="site_id" class="form-control select2" onchange="datewise_running_list();get_wellwise_running_report();commulative_running_list();get_well_list();get_feeder_list();get_feeder_data();get_period_wise_log();">
+                                    <select name="site_id" id="site_id" class="form-control select2" onchange="datewise_running_list();commulative_running_list();get_well_list();get_feeder_list();get_feeder_data();">
                                        <?php
                                     $user_type = $this->session->userdata('user_type', true);
                                     $role_type = $this->session->userdata('role_type',true);
@@ -73,77 +73,36 @@
                                     ?>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4 mt-2" style="display:none;" id="feeder_dropdown">
-								<h5><b>Feeder</b></h5>
-								<select name="feeder_id" id="feeder_id" class="form-control select2" onchange="datewise_running_list();get_wellwise_running_report();commulative_running_list();get_well_list();get_period_wise_log();">
-									<option value=""></option>
-
-								</select>
-							</div>
-							</div>
 							<div class="row">
 								<div class="form-group col-md-4 mt-2" style="display:none;" id="filter_date">
 									<h5><b>Date</b></h5>
 									<input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d',time()); ?>" onchange="datewise_running_list();get_date();">
 								</div>
 
-								<div class="form-group col-md-4 mt-2" id="datewise_sorting" style="display: none;">
-								    <h5><b>Sort By</b></h5>
-								    <select class="form-control select2" name="sort_by_date" id="sort_by_date" onchange="datewise_running_list();">
-								    	<option value="">Select Column</option>
-								    	<option value="well_name">Well name</option>
-								    	<!-- <option value="total_shut_down_minute">Scheduled Hours</option> -->
-								    	<option value="total_running_minute">Total running Hours</option>
-								    	<option value="total_consumption">Total Energy Consumption</option>
-								    </select>
-								</div>
+								
 							</div>	
 							</div>
 						<div class="card-body" >
                             <div class="row" id="filter_table" style="display:none;">
 								<div class="form-group col-md-3 mt-2">
 									<h5><b>Well No</b></h5>
-									<select name="well_id" id="well_id" class="form-control select2" onchange="get_wellwise_running_report();commulative_running_list();get_period_wise_log();">
+									<select name="well_id" id="well_id" class="form-control select2" onchange="commulative_running_list();">
 										<option value=""> All Well </option>
 									</select>
 								</div>
 
 								<div class="form-group col-md-3 mt-2">
 								    <h5><b>From Date</b></h5>
-								    <input type="date" name="from_date" id="from_date" value="<?php echo date('Y-m-d'); ?>" class="form-control" onchange="get_wellwise_running_report();commulative_running_list();get_period_wise_log();">
+								    <input type="date" name="from_date" id="from_date" value="<?php echo date('Y-m-d'); ?>" class="form-control" onchange="commulative_running_list();">
 								</div>
 
 								<div class="form-group col-md-3 mt-2">
 								    <h5><b>To Date</b></h5>
-								    <input type="date" name="to_date" id="to_date"  value="<?php echo date('Y-m-d'); ?>" class="form-control" onchange="get_wellwise_running_report();commulative_running_list();get_period_wise_log();">
+								    <input type="date" name="to_date" id="to_date"  value="<?php echo date('Y-m-d'); ?>" class="form-control" onchange="commulative_running_list();">
 								</div>
 
-								<div class="form-group col-md-3 mt-2" id="detail_wise_sorting" style="display:none;">
-								    <h5><b>Sort By</b></h5>
-								    <select class="form-control select2" name="sort_by_detail" id="sort_by_detail" onchange="get_wellwise_running_report();">
-								    	<option value="">Select Column</option>
-								    	<option value="well_name">Well Name</option>
-								    	<option value="start_datetime">From DateTime</option>
-								    	<option value="end_datetime">To DateTime</option>
-								    	<option value="total_running_minute">Total Running Hours</option>
-								    	<option value="total_kwh">Total energy Consumption</option>
 
-								    	
-								    </select>
-								</div>
-
-								<div class="form-group col-md-3 mt-2" id="commulative_wise_sorting" style="display:none;">
-								    <h5><b>Sort By</b></h5>
-								    <select class="form-control select2" name="sort_by_commulative" id="sort_by_commulative" onchange="commulative_running_list();">
-								    	<option value="">Select Column</option>
-								    	<option value="well_name">Well Name</option>
-								    	<option value="start_datetime">Date</option>
-								    	<option value="running_minutes">Scheduled Hour</option>
-								    	<option value="t_minute">Total Running Hours</option>
-								    	<!-- <option value="total_shutdown_min">ShutDown Hours</option> -->
-								    	<option value="e_consumption">Total energy Consumption</option>
-								    </select>
-								</div>
+								
 							</div>
 							
                             <div id="GFGdetails">
@@ -190,11 +149,12 @@
 								</table>
 								<table class="table table-bordered border-bottom">
 										<tr>
-											<th style="width:10%;">Sl No.</th>
-											<th>Well Name</th>
-											<th>Site name</th>
-											<th>Total Running Hours</th>
-											<th>Shut Down Hours</th>
+											<th class="text-center" style="width:10%;">Sl No.</th>
+      <th class="text-center">Well Name</th>
+      <th class="text-center">Site name</th>
+      <th class="text-center">Total Hours</th>
+      <th class="text-center">Total Running Hours</th>
+      <th class="text-center">Shut Down Hours</th>
 										</tr>
 
 								
@@ -223,26 +183,27 @@
 										</tr>
 									</thead>
 									</table>
-								    <table class="table table-bordered border-bottom">
-										<tr>
-											<th style="width:10%;">Sl No.</th>
-											<th>Well Name</th>
-											<th>Site name</th>
-											<th>Total Running Hours</th>
-											<th>Shut Down Hours</th>Consumption(Kwh)</th>
-											<th>Remarks</th>
-										</tr>
-								
-									<tbody class="text-center" id="date_table_data">			
-									</tbody>
+								   <table class="table table-bordered border-bottom">
+  <thead>
+    <tr>
+      <th class="text-center" style="width:10%;">Sl No.</th>
+      <th class="text-center">Well Name</th>
+      <th class="text-center">Site name</th>
+      <th class="text-center">Total Hours</th>
+      <th class="text-center">Total Running Hours</th>
+      <th class="text-center">Shut Down Hours</th>
+    </tr>
+  </thead>
+  <tbody class="text-center" id="date_table_data">			
+  </tbody>
+</table>
 
-								</table>
 							</div>
 						</div>
 					</div>
 
 						<!------------- period wise well report ----------------------------------->
-					<div id="GFGPeriod">
+					<!-----<div id="GFGPeriod">
 						<div class="card-body" id="period_wise" style="display:none;">
 						    <div class="table-responsive mt-4" id="period_wise_table_export">
 								<table class="table table-bordered border-bottom" >
@@ -272,7 +233,7 @@
 								</table>
 							</div>
                         </div>
-					</div>
+					</div>  ----->
 				</div>
 			</div>
 		</div>
@@ -355,15 +316,15 @@ if($this->session->flashdata('error') != '')
 			 $('#datewise_sorting').hide();
 			 $('#detail_wise_sorting').hide();
 			 $('#commulative_wise_sorting').show();
-			 $('#period_wise').hide();
+			 
 			 $('#well_id').val('').change();
-			 $('#period_wise_export').hide();
+
 			 $('#commulative_wise_pdf').show();
-			 $('#period_wise_pdf').hide();
+			 
 			 $('#well_wise_pdf').hide();
 			 $('#date_wise_pdf').hide();
 			 
-			 
+			 commulative_running_list();
 
 			 
 			}else if(value == 'details')
@@ -380,11 +341,11 @@ if($this->session->flashdata('error') != '')
 			    $('#datewise_sorting').hide();
 			    $('#detail_wise_sorting').show();
 			 	$('#commulative_wise_sorting').hide();
-			 	$('#period_wise').hide();
+			 	
 			 	$('#well_id').val('').change();
-			 	$('#period_wise_export').hide();
+	
 			 	$('#commulative_wise_pdf').hide();
-				$('#period_wise_pdf').hide();
+				
 				$('#well_wise_pdf').show();
 				$('#date_wise_pdf').hide();
 			 
@@ -403,10 +364,10 @@ if($this->session->flashdata('error') != '')
 			    $('#datewise_sorting').hide();
 			    $('#detail_wise_sorting').hide();
 			    $('#commulative_wise_sorting').hide();
-			    $('#period_wise').hide();
-			    $('#period_wise_export').hide();
+			    
+			
 			    $('#commulative_wise_pdf').hide();
-				$('#period_wise_pdf').hide();
+				
 				$('#well_wise_pdf').hide();
 				$('#date_wise_pdf').hide();
 			 
@@ -427,13 +388,12 @@ if($this->session->flashdata('error') != '')
 			$('#commulative_report').hide();
 			$('#filter_table').hide();
 			$('#commulative_wise_export').hide();
-			 $('#period_wise').hide();
+			 
 			$('#datewise_sorting').show();
 			$('#detail_wise_sorting').hide();
 			$('#commulative_wise_sorting').hide();
-			$('#period_wise_export').hide();
 			$('#commulative_wise_pdf').hide();
-			$('#period_wise_pdf').hide();
+			
 			$('#well_wise_pdf').hide();
 			$('#date_wise_pdf').show();
 		 
@@ -471,12 +431,11 @@ if($this->session->flashdata('error') != '')
 			$('#commulative_report').hide();
 			$('#filter_table').hide();
 			$('#commulative_wise_export').hide();
-            $('#period_wise').hide();
+            
 			$('#datewise_sorting').hide();
 			$('#detail_wise_sorting').hide();
 			$('#commulative_wise_sorting').hide();
-			$('#period_wise_export').hide();
-			$('#period_wise_pdf').hide();
+			
 			$('#commulative_wise_pdf').hide();
 			$('#well_wise_pdf').hide();
 			$('#date_wise_pdf').hide();
@@ -498,7 +457,7 @@ function get_well_list() {
 
     $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>Running_log_c/Well_list',
+        url: '<?php echo base_url();?>Running_log_selfflow_c/Well_list',
         data: { company_id: company_id, assets_id: assets_id, site_id: site_id, user_id: user_id,feeder_id:feeder_id },
         success: function(data) {
             data = JSON.parse(data);
@@ -527,7 +486,7 @@ function get_feeder_list() {
     let site_id = $('#site_id').val();
     $.ajax({
         type: 'POST',
-        url: '<?php echo base_url();?>Running_log_c/feeder_list',
+        url: '<?php echo base_url();?>Running_log_selfflow_c/feeder_list',
         data: { site_id:site_id },
         success: function(data) {
             data = JSON.parse(data);
@@ -606,606 +565,183 @@ function get_feeder_list() {
     }
 
     
-get_wellwise_running_report();
-function get_wellwise_running_report() {
-    $('#table_data').html('<tr><td colspan="8">Processing please wait.......</td></tr>');
-    let user_id = "<?php echo $this->session->userdata('user_id') ?>";
-    var from_date = $('#from_date').val();
-    var to_date = $('#to_date').val();
-    var well_id = $('#well_id').val();
-    var site_id = $('#site_id').val();
-    var sort_by = $('#sort_by_detail').val();
-    let feeder_id = $('#feeder_id').val();
-    
-
-    var selectedwellName = $('#well_id option:selected').text();
-    var selectedfeederName = $('#feeder_id option:selected').text();
-    let formattedFromDate = moment(from_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-    let formattedToDate = moment(to_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-
-    var selectedsiteName = $('#site_id option:selected').text();
-   
 
 
-    let headingText = ` ${selectedsiteName} ${selectedfeederName} ${selectedwellName} Details Running Log Report ${formattedFromDate} to ${formattedToDate}   `;
-         $('#details_heading').text(headingText);
-  
-    
-    $.ajax({
-        url: '<?php echo base_url(); ?>Running_log_c/get_well_wise_report',
-        method: 'POST',
-        data: { user_id: user_id, well_id: well_id, from_date: from_date, to_date: to_date, site_id: site_id,sort_by: sort_by,feeder_id:feeder_id},
-        success: function(res) {
-            var response = JSON.parse(res);
-            
-            if (response.response_code == 200) {
-                $('#table_data').html("");
-                if (response.data.length > 0) {
-                    var groupedData = {};
-                    var all_minutes_sum = 0;
-                    var all_shutdown_sum = 0;
-                    var all_kwh_sum = 0;
-                    var total_duration_schdule =0;
-                    var scheduled_minutes = 0;
-
-                    var all_minutes_schdule_sum = 0;
-
-                    response.data.forEach(function(item) {
-              
-                        var start_datetime = moment(item.start_datetime);
-                        var date = start_datetime.format('YYYY-MM-DD');
-                        if (start_datetime.hours() < 6) {
-                            date = start_datetime.subtract(1, 'days').format('YYYY-MM-DD');
-                        }
-                        if (!groupedData[date]) {
-                            groupedData[date] = {};
-                        }
-                        if (!groupedData[date][item.well_name]) {
-                            groupedData[date][item.well_name] = {
-                                totalKwh: 0,
-                                totalRunningMinute: 0,
-                                totalshutdown:0,
-                                rows: []
-                            };
-                        }
-                        var total_running_minute = parseFloat(item.total_running_minute);
-                        groupedData[date][item.well_name].totalKwh += parseFloat(item.total_kwh);
-                        groupedData[date][item.well_name].totalRunningMinute += total_running_minute;
-                        groupedData[date][item.well_name].totalshutdown = item.running_minutes;
-                        groupedData[date][item.well_name].well_type = item.well_type;
-                        groupedData[date][item.well_name].start_datetime = item.start_datetime;
-                        groupedData[date][item.well_name].compare_datetime = item.compare_datetime;
-                        groupedData[date][item.well_name].total_running_required = item.total_running_required;
-                        groupedData[date][item.well_name].rows.push({
-                            well_name: item.well_name,
-                            start_datetime: item.start_datetime,
-                            end_datetime: item.end_datetime,
-                            total_running_minute: total_running_minute,
-                            total_shut_down: item.running_minutes,
-                            total_kwh: parseFloat(item.total_kwh),
-                            well_type:item.well_type,
-                            required_running:item.total_running_required,
-                            start_datetime:item.start_datetime
-                        });
-
-
-                    });
-                    // --------------------------
-                    var currentDate = moment();
-					var current_date = currentDate.format('YYYY-MM-DD');
-					var current_dateTime = moment(current_date + ' 06:00:00');
-					var differenceInMinutes = currentDate.diff(current_dateTime, 'minutes');
-
-                    // --------------------------
-
-                   var serialNumber = 1; 
-                       Object.keys(groupedData).forEach(function(date) {
-                        Object.keys(groupedData[date]).forEach(function(well) {
-                            var wellData = groupedData[date][well];
-
-                          
-                            
-                            // ----------------------
-							   var SDTime = wellData.compare_datetime;
-							   
-
-							  	if(SDTime === current_date)
-							 	{
-							 		if(wellData.well_type == 1)
-							 		{
-							 			var remainingMinutes = wellData.total_running_required - wellData.totalRunningMinute;
-							 			var scheduled_minutes = wellData.total_running_required;
-							 		}else{
-							 			var remainingMinutes = differenceInMinutes - wellData.totalRunningMinute;
-							 			var scheduled_minutes = differenceInMinutes;
-							 		}
-									
-							 	}else{
-							     	var remainingMinutes = wellData.totalshutdown - wellData.totalRunningMinute;
-
-							     	var scheduled_minutes = wellData.totalshutdown;
-							  	}
-							 // ----------------------
-
-								// var remainingMinutes = wellData.totalshutdown - wellData.totalRunningMinute;
-							   var hours = Math.floor(remainingMinutes / 60);
-							   var minutes = remainingMinutes % 60;
-                            
-                                if(remainingMinutes < 0)
-		                        {
-		                        	var hours = Math.floor(Math.abs(remainingMinutes) / 60);
-		                        	var minutes = Math.abs(remainingMinutes) % 60;
-		                        	if(hours > 0)
-		                        	{
-		                        		var duration2 = "0 Hrs (Extra " + hours + ' Hrs ' + minutes + ' Min ) '
-		                        	}else{
-		                        		var duration2 = "0 Hrs (Extra " + minutes + ' Min ) '
-		                        	}
-		                        	
-		                        }else{
-		                        	var duration2 = hours + ' Hrs ' + minutes + ' Min';
-		                        }
-
-                                var  Totalminute =  wellData.totalRunningMinute;
-
-                                var hours = Math.floor(Totalminute / 60);
-                                var minutes = Totalminute % 60;
-                                var duration3 = hours + ' Hrs ' + minutes + ' Min';
-
-                                all_minutes_sum += parseFloat(Totalminute);
-                                all_shutdown_sum += parseFloat(Math.abs(remainingMinutes));
-
-                                var schdule_hours = Math.floor(scheduled_minutes/60);
-                                var s_minutes = scheduled_minutes % 60;
-                                var duration4 = schdule_hours + ' Hrs ' + s_minutes + ' Min';
-
-                                all_minutes_schdule_sum += parseFloat(scheduled_minutes);
-
-                            wellData.rows.forEach(function(row) {
- 
-                                var hours = Math.floor(row.total_running_minute / 60);
-                                var minutes = row.total_running_minute % 60;
-                                var duration = hours + ' Hrs ' + minutes + ' Min';
-                           
-                                $('#table_data').append('<tr>' +
-                                    '<td>' + (serialNumber++) + '</td>' +
-                                    '<td>' + row.well_name + '</td>' +
-                                    '<td>' + moment(row.start_datetime).format('DD-MM-YYYY h:mm:ss a') + '</td>' +
-                                    '<td>' + moment(row.end_datetime).format('DD-MM-YYYY h:mm:ss a') + '</td>' +
-                                    '<td></td>'+
-                                    '<td>' + duration + '</td>' +
-                                    '<td></td>'+
-                                    '<td>' + row.total_kwh + '</td>' +
-                                    '</tr>');
-                            });
-                            $('#table_data').append('<tr>' +
-                                '<td colspan="4" style="color:black;"><b>Total</b></td>' +
-                                '<td><b>'+duration4+'</b></td>'+
-                                '<td><b>' + duration3 + '</b></td>' +
-                                '<td><b>' + duration2 + '</b></td>' +
-                                '<td><b>' + wellData.totalKwh.toFixed(2) + '</b></td>' +
-                                '</tr>');
-                            all_kwh_sum += parseFloat(wellData.totalKwh);
-                        	
-
-                        });
-
-                    });
-
-                    var total_hours = Math.floor(all_minutes_sum / 60);
-                    var remaining_minutes = all_minutes_sum % 60;
-                    var total_duration = total_hours + ' Hr ' + remaining_minutes + ' Minute';
-
-                     var total_schdule_hours = Math.floor(all_minutes_schdule_sum / 60);
-                    var remaining_schdule_minutes = all_minutes_schdule_sum % 60;
-                    var total_duration_schdule = total_schdule_hours + ' Hr ' + remaining_schdule_minutes + ' Minute';
-
-                     var total_hours = Math.floor(all_shutdown_sum / 60);
-                    var remaining_minutes = all_shutdown_sum % 60;
-                    var total_duration_shutdown = total_hours + ' Hr ' + remaining_minutes + ' Minute';
-            
-                     $("#table_data").append('<tr>' +
-                        '<td colspan="4" style="text-align:right;"><b>Total</b></td>' +
-                        '<td><b>' + total_duration_schdule + '</b></td>' +
-                       '<td><b>' + total_duration + '</b></td>' +
-                       '<td><b>' + total_duration_shutdown + '</b></td>' +
-                       '<td><b>' + all_kwh_sum.toFixed(2) + ' Kwh</b></td>' +
-                        '</tr>'
-                        );
-
-                } else {
-                    $('#table_data').html('<tr>' +
-                        '<td class="text-danger" style="text-align:center;" colspan="8">No Record Found !!</td>' +
-                        '</tr>');
-                }
-            }
-        }
-    });
+function formatToHrMin(minutes) {
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hrs} Hr ${mins} Min`;
 }
 
 
 	datewise_running_list();
-	function datewise_running_list() {
-    $('#date_table_data').html('<tr><td colspan="5">processing please wait.......</td></tr>');
-    var date = $('#date').val();
-    var site_id = $('#site_id').val();
-    var sort_by = $('#sort_by_date').val();
-    let feeder_id = $('#feeder_id').val();
+function datewise_running_list() {
+    $('#date_table_data').html('<tr><td colspan="6">Processing, please wait...</td></tr>');
 
+    const date = $('#date').val();
+    const site_id = $('#site_id').val();
+    const sort_by = $('#sort_by_date').val();
+    const feeder_id = $('#feeder_id').val();
 
-    var selectedsiteName = $('#site_id option:selected').text();
-    var selectedfeederName = $('#feeder_id option:selected').text();
-   
-    let formattedToDate = moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-    let headingText = `Date Wise ${selectedsiteName} ${selectedfeederName} Running Log Report of  ${formattedToDate}   `;
-         $('#date_heading').text(headingText);
-  
-   
+    const selectedsiteName = $('#site_id option:selected').text();
+    const selectedfeederName = $('#feeder_id option:selected').text();
+    const formattedToDate = moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY');
+    const headingText = `Date Wise ${selectedsiteName} ${selectedfeederName} Running Log Report of ${formattedToDate}`;
+    $('#date_heading').text(headingText);
+
     $.ajax({
-        url: '<?php echo base_url(); ?>Running_log_c/get_datewise_running_report',
+        url: '<?php echo base_url(); ?>Running_log_selfflow_c/get_datewise_running_report',
         method: 'POST',
-        data: { date: date,site_id:site_id,sort_by:sort_by,feeder_id:feeder_id },
+        data: { date, site_id, sort_by, feeder_id },
         success: function (res) {
-            var response = JSON.parse(res);
-       
-            if (response.response_code == 200) {
-            	console.log('date_wise',response);
+            const response = JSON.parse(res);
+            if (response.response_code === 200) {
                 $('#date_table_data').html("");
+                console.log('date_wise', response);
+
                 if (response.data.length > 0) {
-                    var total_kwh_sum = 0;
-                    var total_minutes_sum = 0;
-                    var total_shutdown_minute = 0;
-                    var total_schedule_minute = 0;
-                    $.each(response.data, function (i, v) {
-                        var total_running_minute = v.total_running_minute;
-                        total_minutes_sum += parseFloat(total_running_minute);
-                        
+                    let total_kwh_sum = 0;
+                    let total_minutes_sum = 0;
+                    let total_shutdown_minute = 0;
+                    let total_schedule_minute = 0;
 
-                        var scheduled_hrs = parseInt(v.total_shut_down_minute);
-                        var S_hours = Math.floor(scheduled_hrs / 60);
-                        var S_minutes = scheduled_hrs % 60;
-                        var Scheduled_Time = S_hours + ' Hrs ' + S_minutes + ' Min';
+                    response.data.forEach(function (v, i) {
+                        const total_running_minute = parseFloat(v.total_running_minute) || 0;
+                        const max_possible_minutes = parseInt(v.max_possible_minutes) || 0;
+                        const total_consumption = parseFloat(v.total_consumption) || 0;
+                        const remarks = v.remarks || 'NA';
 
-                        total_schedule_minute += parseInt(v.total_shut_down_minute); 
-                      
+                        const shutdown_minutes = Math.max(0, max_possible_minutes - total_running_minute);
 
-                        // Add the total_kwh to the sum
-                        total_kwh_sum += parseFloat(v.total_consumption);
+                        total_minutes_sum += total_running_minute;
+                        total_schedule_minute += max_possible_minutes;
+                        total_shutdown_minute += shutdown_minutes;
+                        total_kwh_sum += total_consumption;
 
-                        var hours = Math.floor(total_running_minute / 60);
-                        var minutes = total_running_minute % 60;
-                        var duration = hours + ' Hrs ' + minutes + ' Min';
+                        const duration = `${Math.floor(total_running_minute / 60)} Hrs ${total_running_minute % 60} Min`;
+                        const duration_shut_down = remarks !== 'Temporary Off Well'
+                            ? `${Math.floor(shutdown_minutes / 60)} Hrs ${shutdown_minutes % 60} Min`
+                            : '0 Hrs 0 Min';
 
-                        var extra_hours = parseInt(v.total_shut_down_minute) - parseInt(v.total_running_minute);
+                        $('#date_table_data').append(`<tr>
+                            <td>${i + 1}</td>
+                            <td>${v.well_name || 'NA'}</td>
+                            <td>${v.well_site_name || 'NA'}</td>
+                           <td>${formatToHrMin(max_possible_minutes)}</td>
 
-                        var hours = Math.floor(extra_hours / 60);
-                        var minutes = extra_hours % 60;
-                        var remarks = v.remarks
-
-                        if(remarks!='Temporary Off Well')
-                        {
-                        	if(extra_hours < 0)
-                            {
-                    	        var hours = Math.floor(Math.abs(extra_hours) / 60);
-                    	        var minutes = Math.abs(extra_hours) % 60;
-
-		                    	if(hours > 0)
-		                    	{
-		                    		var duration_shut_down = "0 Hrs (Extra " + hours + ' Hrs ' + minutes + ' Min ) ';
-		                    	}else{
-		                    		var duration_shut_down = "0 Hrs (Extra " + minutes + ' Min ) ';
-		                    	}
-
-                    	
-                            }else{
-                    	       var duration_shut_down = hours + ' Hrs ' + minutes + ' Min';
-                             }
-                        }else{
-                        	 var duration_shut_down = "0 Hrs 0 Min"  ;
-                        }
-                    
-                        
-
-                        total_shutdown_minute += parseFloat(Math.abs(extra_hours));
-
-                        $("#date_table_data").append('<tr>' +
-                            '<td>' + (i + 1) + '</td>' +
-                            '<td>' + v.well_name + '</td>' +
-                            '<td>' + Scheduled_Time+ '</td>' +
-                            '<td>' + duration+ '</td>' +
-                            '<td>' + duration_shut_down + '</td>' +
-                            '<td>' + v.total_consumption + '</td>' +
-                            '<td>'+v.remarks+ '</td>' +
-                            '</tr>');
+                            <td>${duration}</td>
+                            <td>${duration_shut_down}</td>
+                        </tr>`);
                     });
 
-                    
-                    var Total_SH = Math.floor(total_schedule_minute / 60);
-                    var Total_SM = total_schedule_minute % 60;
-                    var Total_SHM = Total_SH + ' Hr ' + Total_SM + ' Minute';
+                    const Total_SHM = `${Math.floor(total_schedule_minute / 60)} Hr ${total_schedule_minute % 60} Min`;
+                    const total_duration = `${Math.floor(total_minutes_sum / 60)} Hr ${total_minutes_sum % 60} Min`;
+                    const total_duration_shutdown = `${Math.floor(total_shutdown_minute / 60)} Hr ${total_shutdown_minute % 60} Min`;
 
-                    // Convert total minutes to hours and minutes
-                    var total_hours = Math.floor(total_minutes_sum / 60);
-                    var remaining_minutes = total_minutes_sum % 60;
-                    var total_duration = total_hours + ' Hr ' + remaining_minutes + ' Minute';
-
-                    var total_hours = Math.floor(total_shutdown_minute / 60);
-                    var remaining_minutes = total_shutdown_minute % 60;
-                    var total_duration_shutdown = total_hours + ' Hr ' + remaining_minutes + ' Minute';
-            
-                     $("#date_table_data").append('<tr>' +
-                        '<td colspan="2" style="text-align:right;"><b>Total</b></td>' +
-                        '<td><b>' + Total_SHM + '</b></td>' +
-                       	'<td><b>' + total_duration + '</b></td>' +
-                       	'<td><b>' + total_duration_shutdown + '</b></td>' +
-                       	'<td><b>' + total_kwh_sum.toFixed(2) + ' Kwh</b></td>' +
-                       	'<td></td>' +
-                        '</tr>'
-                        );
+                    $('#date_table_data').append(`<tr>
+                        <td colspan="3" style="text-align:right;"><b>Total</b></td>
+                        <td><b>${Total_SHM}</b></td>
+                        <td><b>${total_duration}</b></td>
+                        <td><b>${total_duration_shutdown}</b></td>
+                    </tr>`);
                 } else {
-                    $('#date_table_data').html('<tr>' +
-                        '<td class="text-danger" style="text-align:center;" colspan="6">No Record Found !!</td>' +
-                        '</tr>');
+                    $('#date_table_data').html(`<tr>
+                        <td class="text-danger text-center" colspan="6">No Record Found !!</td>
+                    </tr>`);
                 }
             }
         }
     });
 }
-
-commulative_running_list();
 	function commulative_running_list() {
-    $('#commulative_data').html('<tr><td colspan="7">processing please wait.......</td></tr>');
+    $('#commulative_data').html('<tr><td colspan="6">Processing, please wait...</td></tr>');
+
     var from_date = $('#from_date').val();
     var to_date = $('#to_date').val();
     var well_id = $('#well_id').val();
     var site_id = $('#site_id').val();
-    var sort_by = $('#sort_by_commulative').val();
-    let feeder_id = $('#feeder_id').val();
 
-    var selectedfeederName = $('#feeder_id option:selected').text();
-    var selectedsiteName = $('#site_id option:selected').text();
-    var selectedwellName = $('#well_id option:selected').text();
-    let formattedFromDate = moment(from_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-    let formattedToDate = moment(to_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-
-    let headingText = ` ${selectedsiteName} ${selectedfeederName} ${selectedwellName} Commulative  Running Log Report ${formattedFromDate} to ${formattedToDate}   `;
-         $('#commulative_heading').text(headingText);
-  
+    // alert(from_date);
+    // alert(to_date);
+    // alert(well_id);
 
     $.ajax({
-        url: '<?php echo base_url(); ?>Running_log_c/get_well_commulative_log_report',
+        url: '<?php echo base_url(); ?>Running_log_selfflow_c/get_well_commulative_log_report',
         method: 'POST',
-        data: { from_date: from_date,to_date:to_date,well_id:well_id,site_id:site_id ,sort_by:sort_by,feeder_id:feeder_id},
+        data: {
+            from_date: from_date,
+            to_date: to_date,
+            well_id: well_id,
+            site_id: site_id
+        },
         success: function (res) {
-            var response = JSON.parse(res);
-            
-            if (response.response_code == 200) {
+            var response = (typeof res === 'string') ? JSON.parse(res) : res;
+
+            if (response.status && response.response_code === 200) {
                 $('#commulative_data').html("");
+
                 if (response.data.length > 0) {
-                    var total_kwh_sum = 0;
-                    var total_minutes_sum = 0;
-                    var total_shutdown_minute = 0;
-                    var total_running_minute_sum = 0;
+                    let total_possible_minutes = 0;
+                    let total_actual_minutes = 0;
+                    let total_shutdown_minutes = 0;
+
                     $.each(response.data, function (i, v) {
-                        var total_running_minute = v.t_minute;
-                        total_minutes_sum += parseFloat(total_running_minute);
-                        
+                        let max_possible_minutes = parseFloat(v.max_possible_minutes || 0);
+                        let actual_running_minutes = parseFloat(v.t_minute || 0);
+                        let shutdown_minutes = max_possible_minutes - actual_running_minutes;
 
-                        // Add the total_kwh to the sum
-                        total_kwh_sum += parseFloat(v.e_consumption);
+                        total_possible_minutes += max_possible_minutes;
+                        total_actual_minutes += actual_running_minutes;
+                        total_shutdown_minutes += shutdown_minutes;
 
-                        var hours = Math.floor(total_running_minute / 60);
-                        var minutes = total_running_minute % 60;
-                        var duration = hours + ' Hrs ' + minutes + ' Min';
-                        var total_shut_down_running = parseInt(v.total_shutdown_min);
+                        let formatted_possible = formatToHrMin(max_possible_minutes);
+                        let formatted_running = formatToHrMin(actual_running_minutes);
+                        let formatted_shutdown = formatToHrMin(shutdown_minutes);
 
-                        var hours = Math.floor(total_shut_down_running / 60);
-                        var minutes = total_shut_down_running % 60;
-
-                        if(total_shut_down_running < 0)
-                        {
-                        	var hours = Math.floor(Math.abs(total_shut_down_running) / 60);
-                        	var minutes = Math.abs(total_shut_down_running) % 60;
-                        	if(hours > 0)
-                        	{
-                        		var duration_shut_down = "0 Hrs (Extra " + hours + ' Hrs ' + minutes + ' Min ) '
-                        	}else{
-                        		var duration_shut_down = "0 Hrs (Extra " + minutes + ' Min ) '
-                        	}
-                        	
-                        }else{
-                        	var duration_shut_down = hours + ' Hrs ' + minutes + ' Min';
-                        }
-
-                        total_shutdown_minute += parseFloat(Math.abs(total_shut_down_running));
-
-
-                        var total_running = parseInt(v.running_minutes);
-                       
-                        var hours = Math.floor(total_running / 60);
-                        var minutes = total_running % 60;
-                        var duration_running = hours + ' Hrs ' + minutes + ' Min';
-
-                        total_running_minute_sum += parseFloat(total_running);
-
-                        $("#commulative_data").append('<tr>' +
-                            '<td>' + (i + 1) + '</td>' +
-                            '<td>' + v.well_name + '</td>' +
-                            '<td>' + moment(v.start_datetime).format('DD-MM-YYYY') + '</td>' +
-                            '<td>'+ duration_running +'</td>'+
-                            '<td>' + duration+ '</td>' +
-                            
-                            '<td>' + duration_shut_down + '</td>' +
-                            '<td>' + v.e_consumption + '</td>' +
-                            '<td>'+v.remarks+'</td>'+
-                            '</tr>');
+                        $('#commulative_data').append(`
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${v.well_name || 'NA'}</td>
+                                <td>${v.well_site_name || 'NA'}</td>
+                                <td>${formatted_possible}</td>
+                                <td>${formatted_running}</td>
+                                <td>${formatted_shutdown}</td>
+                            </tr>
+                        `);
                     });
 
-               
-                    var total_hours = Math.floor(total_minutes_sum / 60);
-                    var remaining_minutes = total_minutes_sum % 60;
-                    var total_duration = total_hours + ' Hr ' + remaining_minutes + ' Min';
+                    $('#commulative_data').append(`
+                        <tr>
+                            <td colspan="3" style="text-align:right;"><b>Total</b></td>
+                            <td><b>${formatToHrMin(total_possible_minutes)}</b></td>
+                            <td><b>${formatToHrMin(total_actual_minutes)}</b></td>
+                            <td><b>${formatToHrMin(total_shutdown_minutes)}</b></td>
+                        </tr>
+                    `);
 
-
-
-                    var total_hours = Math.floor(total_shutdown_minute / 60);
-                    var remaining_minutes = total_shutdown_minute % 60;
-                    var total_duration_shutdown = total_hours + ' Hr ' + remaining_minutes + ' Min';
-
-                     
-                     var total_hours = Math.floor(total_running_minute_sum / 60);
-                    var remaining_minutes = total_running_minute_sum % 60;
-                    var total_duration_running = total_hours + ' Hr ' + remaining_minutes + ' Min';
-            
-                     $("#commulative_data").append('<tr>' +
-                        '<td colspan="3" style="text-align:right;"><b>Total</b></td>' +
-                        '<td><b>'+total_duration_running+'</b></td>'+
-                       '<td><b>' + total_duration + '</b></td>' +
-                       
-                       '<td><b>' + total_duration_shutdown + '</b></td>' +
-                      
-                       '<td><b>' + total_kwh_sum.toFixed(2) + ' Kwh</b></td>' +
-                       '<td></td>'+
-                        '</tr>'
-                        );
                 } else {
-                    $('#commulative_data').html('<tr>' +
-                        '<td class="text-danger" style="text-align:center;" colspan="7">No Record Found !!</td>' +
-                        '</tr>');
+                    $('#commulative_data').html('<tr><td class="text-danger text-center" colspan="6">No Records Found</td></tr>');
                 }
+            } else {
+                $('#commulative_data').html('<tr><td class="text-danger text-center" colspan="6">Error: ' + response.msg + '</td></tr>');
             }
+        },
+        error: function () {
+            $('#commulative_data').html('<tr><td class="text-danger text-center" colspan="6">API request failed!</td></tr>');
         }
     });
 }
 
-get_period_wise_log();
-function get_period_wise_log()
-{
-    $('#period_data').html('<tr><td colspan="10">Processing please wait.......</td></tr>');
-    let site_id = $('#site_id').val();
-    let well_id = $('#well_id').val();
-    let from_date = $('#from_date').val();
-    let to_date = $('#to_date').val();
-    let feeder_id = $('#feeder_id').val();
-
-    var selectedfeederName = $('#feeder_id option:selected').text();
-    var selectedsiteName = $('#site_id option:selected').text();
-    let formattedFromDate = moment(from_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-    let formattedToDate = moment(to_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-
-    let headingText = ` ${selectedsiteName} ${selectedfeederName} Period Wise Running Log ${formattedFromDate} to ${formattedToDate}   `;
-         $('#period_heading').text(headingText);
-
-    $.ajax({
-        url:'<?php echo base_url(); ?>Running_log_c/get_period_wise_running_report',
-        method:'POST',
-        data:{ site_id:site_id,well_id:well_id,from_date:from_date,to_date:to_date,feeder_id:feeder_id},
-        success:function(res)
-        {
-            var response = JSON.parse(res);
-            console.log('periodic',response);
-            if(response.response_code==200)
-                {
-                    $('#period_data').html("");
-                     if(response.data.length > 0)
-                     {
-                         var total_kwh_sum = 0;
-                         var total_minutes_sum = 0;
-                         var total_shutdown_sum = 0;
-                         var total_hours_sum = 0;
-                         var avg_availability = 0;
-
-                        $.each(response.data,function(i,v){
-                             var total_running_minute = v.t_minute;
-                             total_minutes_sum += parseFloat(total_running_minute);
-                             total_kwh_sum += parseFloat(v.e_consumption);
-
-                               // console.log('total_running===',total_minutes_sum)
-                             var hours = Math.floor(total_running_minute / 60);
-                             var minutes = total_running_minute % 60;
-                             var duration = hours + ' Hrs ' + minutes + ' Mins';
-
-                             var total_shutdown =  parseInt(v.shutdown_minutes);
-                             total_shutdown_sum += parseFloat(Math.abs(total_shutdown));
-
-                            var shutdown_hours = Math.floor(total_shutdown / 60);
-                            var shut_down_minutes = total_shutdown % 60;
-
-                            if(total_shutdown < 0)
-                             {
-
-                                var hours = Math.floor(Math.abs(total_shutdown) / 60);
-                                var minutes = Math.abs(total_shutdown) % 60;
-                                if(hours > 0)
-                                {
-                                    var shutdown_duration = "0 Hrs (Extra " + hours + ' Hrs ' + minutes + ' Min ) '
-                                }else{
-                                    var shutdown_duration = "0 Hrs (Extra " + minutes + ' Min ) '
-                                }
-                             }else{
-
-                                 var shutdown_duration = shutdown_hours + ' Hrs ' + shut_down_minutes + ' Mins';
-                             }
-
-                             var total_hours_running = parseInt(v.running_minutes);
-                             total_hours_sum += parseFloat(total_hours_running);
-
-                             // console.log('shedule_hours===',total_hours_sum)
-
-                            var running_hours = Math.floor(total_hours_running / 60);
-                            var runningminutes = total_hours_running % 60;
-                            var running_duration = running_hours + ' Hrs ' + runningminutes + ' Mins';
-
-                            $("#period_data").append('<tr>'+
-                                    '<td>'+(i+1)+'</td>'+
-                                    '<td>'+v.well_name+'</td>'+
-                                    '<td>'+ running_duration +'</td>'+
-                                    '<td>'+ duration+ '</td>' +
-                                    '<td>'+shutdown_duration+'</td>'+
-                                    '<td>'+v.e_consumption+'</td>'+
-                                    '<td>'+v.remarks+'</td>'+
-                                    
-                                '</tr>');
-                        });
-
-                        // console.log(response);
-
-                        var total_hours = Math.floor(total_minutes_sum / 60);
-                        var remaining_minutes = total_minutes_sum % 60;
-                        var total_duration = total_hours + ' Hrs ' + remaining_minutes + ' Mins';
-
-                        
-                        var total_shut_downhours = Math.floor(total_shutdown_sum / 60);
-                        var shut_downremaining_minutes = total_shutdown_sum % 60;
-                        var total_shutdown_duration = total_shut_downhours + ' Hrs ' + shut_downremaining_minutes + ' Mins';
-
-                         var total_running_hours = Math.floor(total_hours_sum / 60);
-                        var total_runningminutes = total_hours_sum % 60;
-                        var total_running_duration = total_running_hours + ' Hrs ' + total_runningminutes + ' Mins';
-
-                       
-                         $("#period_data").append('<tr>' +
-                            '<td colspan="2" style="text-align:right;"><b>Total</b></td>' +
-                           
-                            '<td><b>'+total_running_duration+'</b></td>'+
-                             '<td><b>' + total_duration + '</b></td>' +
-                            '<td><b>'+ total_shutdown_duration +'</b></td>'+
-                            '<td><b>' + total_kwh_sum.toFixed(2) + ' Kwh</b></td>' +
-                             '<td></td>'+
-                         '</tr>'
-                        );
-                     }
-                     else{
-                        $('#period_data').html('<tr>'+
-                                 '<td class="text-danger" style="text-align:center;" colspan="10">No Record Found !!</td>'+
-                              '</tr>');
-                     }
-                }
-
-        }
-        
-    });
+function formatToHrMin(minutes) {
+    minutes = parseFloat(minutes);
+    if (isNaN(minutes)) return '0 Hrs 0 Min';
+    let hrs = Math.floor(minutes / 60);
+    let min = Math.abs(Math.floor(minutes % 60));
+    return `${hrs} Hrs ${min} Min`;
 }
+
+
+
 
 </script>
 <script src="<?php echo base_url(); ?>assets/local/excel/xlsx.full.min.js"></script>
@@ -1279,7 +815,7 @@ function get_period_wise_log()
 <script type="text/javascript">
 	setInterval(() => {
         if (isCurrentDate()) {
-        	get_wellwise_running_report();
+        	
             datewise_running_list();
             commulative_running_list();
         }
