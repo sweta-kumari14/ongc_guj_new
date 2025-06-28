@@ -43,12 +43,18 @@ class Device_Threshold_model extends CI_Model
 
 	public function Save_pressure_Threshold_data($data)
 	{
-		return $this->db->insert('tbl_threshold_self_flow_details',$details);
+		return $this->db->insert('tbl_threshold_self_flow_details',$data);
 	}
 
 	public function Save_pressure_Threshold_data_log($data)
 	{
-		return $this->db->insert('tbl_threshold_self_flow_log',$details);
+		return $this->db->insert('tbl_threshold_self_flow_log',$data);
+	}
+
+	public function Update_last_Threshold_self_flowData($data,$where)
+	{
+		
+		return $this->db->update('tbl_threshold_self_flow_details',$data,$where);
 	}
 
 	public function Save_DeviceThreshold_data($details)
@@ -97,6 +103,26 @@ class Device_Threshold_model extends CI_Model
 			$this->db->where('imei_no',$imei_no);
 
 		return $this->db->select('*')->from('tbl_threshold_details')->where('status',1)->get()->result_array();
+	}
+
+	public function getThreshold_report($well_id,$from_date,$to_date,$site_id)
+	{
+		if($well_id!= '')
+			$this->db->where('sd.well_id',$well_id);
+		if($site_id!= '')
+			$this->db->where('sd.site_id',$site_id);
+		if($site_id!= '')
+			$this->db->where('sd.site_id',$site_id);
+		if ($from_date != '' && $to_date != '') {
+            $this->db->where('wi.c_date >=', $from_date);
+            $this->db->where('wi.c_date <=', $to_date);
+        }
+		return $this->db->select('wm.well_name,wi.chp_uppar,chp_lower,thp_uppar,thp_lower,tht_uppar,tht_lower,abp_uppar,abp_lower,ws.well_site_name')
+		->from('tbl_site_device_installtion_self_flow sd')
+		->join('tbl_threshold_self_flow_details wi','sd.well_id=wi.well_id','left')
+		->join('tbl_well_master wm','sd.well_id=wm.id','left')
+		->join('tbl_well_site_master ws','sd.site_id=ws.id','left')
+		->where(['sd.status'=>1])->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 	}
 }
 ?>
