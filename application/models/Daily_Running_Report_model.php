@@ -272,7 +272,7 @@ class Daily_Running_Report_model extends CI_Model
             $this->db->where('ws.id', $site_id);
         }
         $max_running_minutes = 24 * 60;
-       return $this->db->select('wm.well_name, DATE_FORMAT(DATE_SUB(wr.start_datetime, INTERVAL 6 HOUR), "%Y-%m-%d") AS start_datetime, sd.well_id,COALESCE(SUM(wr.total_running_minute),0) AS t_minute,' . $max_running_minutes . ' AS max_possible_minutes')
+       return $this->db->select('wm.well_name,ws.well_site_name, DATE_FORMAT(DATE_SUB(wr.start_datetime, INTERVAL 6 HOUR), "%Y-%m-%d") AS start_datetime, sd.well_id,COALESCE(SUM(wr.total_running_minute),0) AS t_minute,' . $max_running_minutes . ' AS max_possible_minutes')
             ->from('tbl_site_device_installtion_self_flow sd')
             ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status = 1', 'left')
             ->join('tbl_well_site_master ws', 'ws.id=sd.site_id  and ws.status = 1', 'left')
