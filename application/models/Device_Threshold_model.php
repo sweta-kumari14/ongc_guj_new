@@ -118,8 +118,8 @@ class Device_Threshold_model extends CI_Model
             $this->db->where('wi.c_date <=', $to_date);
         }
 		return $this->db->select('wm.well_name,wi.chp_uppar,chp_lower,thp_uppar,thp_lower,tht_uppar,tht_lower,abp_uppar,abp_lower,ws.well_site_name,wi.c_date as threshold_setup_date_time')
-		->from('tbl_site_device_installtion_self_flow sd')
-		->join('tbl_threshold_self_flow_details wi','sd.well_id=wi.well_id','left')
+		->from('tbl_threshold_self_flow_details wi')
+		->join('tbl_site_device_installtion_self_flow sd','sd.well_id=wi.well_id','left')
 		->join('tbl_well_master wm','sd.well_id=wm.id','left')
 		->join('tbl_well_site_master ws','sd.site_id=ws.id','left')
 		->where(['sd.status'=>1])->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
