@@ -23,13 +23,10 @@ class Selfflow_area_dashboard extends REST_Controller
 
 			$result['total_well'] = $this->Selfflow_dashboard_model->Totalwell_self_flow($company_id,$assets_id,$area_id,$site_id,$well_id,$feeder_id);
              
-             $result['total_well_count'] = $this->Selfflow_dashboard_model->Totalwell_self_flow(
-            $company_id, $assets_id, $area_id, $site_id, $well_id, $feeder_id
-        );
+             $result['total_well_count'] = $this->Selfflow_dashboard_model->Totalwell_self_flow($company_id, $assets_id, $area_id, $site_id, $well_id, $feeder_id);
              
 			$result['total_flowing_well'] = $this->Selfflow_dashboard_model->Total_flowing_well($company_id,$assets_id,$area_id,$site_id,$well_id,$feeder_id);
 			
-
 			$result['total_not_flowing_well'] = $this->Selfflow_dashboard_model->Total_not_flowing_well($company_id,$assets_id,$area_id,$site_id,$well_id,$feeder_id);
             
 			$result['rtms_offline'] = $this->Selfflow_dashboard_model->Total_rtms_flowing_Well($company_id,$assets_id,$area_id,$site_id,$well_id,$feeder_id);
