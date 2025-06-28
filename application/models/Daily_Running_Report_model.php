@@ -249,6 +249,39 @@ class Daily_Running_Report_model extends CI_Model
             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get();
               return $query->result_array();
     }
+    public function well_commulative_self_flow_log_report($well_id,$from_date,$to_date,$site_id)
+    {
+        if ($well_id != '') {
+            $this->db->where('sd.well_id', $well_id);
+        }
+
+        if ($from_date != '' && $to_date != '') {
+            $fromTime = date('Y-m-d 06:00:00', strtotime($from_date));
+            if ($from_date == $to_date) {
+                $toTime = date('Y-m-d 06:00:00', strtotime($to_date . '+1 day'));
+            } else {
+                $toTime = date('Y-m-d 06:00:00', strtotime($to_date . '+1 day'));
+            }
+            $this->db->where('wr.start_datetime >=', $fromTime);
+            $this->db->where('wr.end_datetime <', $toTime);
+        }
+
+        $current_date = date('Y-m-d');
+
+        if ($site_id != '') {
+            $this->db->where('ws.id', $site_id);
+        }
+        $max_running_minutes = 24 * 60;
+       return $this->db->select('wm.well_name, DATE_FORMAT(DATE_SUB(wr.start_datetime, INTERVAL 6 HOUR), "%Y-%m-%d") AS start_datetime, sd.well_id,COALESCE(SUM(wr.total_running_minute),0) AS t_minute,' . $max_running_minutes . ' AS max_possible_minutes')
+            ->from('tbl_site_device_installtion_self_flow sd')
+            ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status = 1', 'left')
+            ->join('tbl_well_site_master ws', 'ws.id=sd.site_id  and ws.status = 1', 'left')
+            ->join('tbl_well_running_self_flow_log wr', 'wm.id=wr.well_id', 'left')
+            ->where('sd.well_setup_status',1)
+            ->group_by('sd.well_id, DATE_FORMAT(DATE_SUB(wr.start_datetime, INTERVAL 6 HOUR), "%Y-%m-%d")') 
+            ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")
+            ->order_by("wr.start_datetime ASC")->get()->result_array();
+    }
 
 
 
