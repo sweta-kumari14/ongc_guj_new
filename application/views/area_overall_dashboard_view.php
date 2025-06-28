@@ -42,7 +42,7 @@
 									<thead class="text-center">
 										<tr class="" style="">
 											<th rowspan="2"><b>Sl.No.</b></th>
-											<th colspan="5" style="font-size: 18px;"><b>Well Details</b></th>
+											<th colspan="3" style="font-size: 18px;"><b>Well Details</b></th>
 											<th colspan="2" style="font-size: 18px;"><b>Installation details</b></th>
 											<th colspan="2" style="font-size: 18px;"><b>Replacement details</b></th>
 											<th colspan="2" style="font-size: 18px;"><b>DCU details</b></th>
@@ -51,8 +51,6 @@
 											<th>Area</th>
 											<th>Site</th>
 											<th>Well </th>
-											<th>Equipment Name</th>
-											<th>Motor Name</th>
 											<th>Installation Status</th>
 											<th>Installation Date</th>
 											<th>Replacement Status</th>
@@ -88,8 +86,6 @@
 													 
 													}
 													?></td>
-													<td><?php echo $value['equipment_name']; ?></td>
-													<td><?php echo $value['motor_name']; ?></td>
 													<td><?php
 													if ($value['installed_status'] != '')
 													{

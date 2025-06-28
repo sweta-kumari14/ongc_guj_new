@@ -88,7 +88,7 @@ class Master_model extends CI_Model
                 ->from('tbl_well_master wm')
                 ->join('tbl_site_device_installtion_self_flow sd','wm.id=sd.well_id','left')
                 ->join('tbl_well_site_master ws','ws.id=sd.site_id','left')
-                ->join('tbl_role_wise_user_assign_details ad','wm.id=ad.well_id','left')
+                ->join('tbl_role_wise_user_assign_details ad','wm.site_id=ad.site_id','left')
                 ->where(['wm.status'=>1,'ad.status'=>1,'sd.status'=>1])->group_by('wm.id')
                 ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
     }
@@ -137,7 +137,7 @@ class Master_model extends CI_Model
         
         return $this->db->select("wm.id,wm.company_id,wm.assets_id,wm.area_id,wm.site_id,wm.well_name")
                          ->from('tbl_well_master wm')
-                         ->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id','left')
+                         ->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id','left')
                          ->where(['wm.status'=>1])
                          ->group_by('wm.id')
                          ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
@@ -246,18 +246,30 @@ class Master_model extends CI_Model
         
         $res = [];
 
-        $res['assign_well'] = $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
+        $res['assign_well'] = $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,wm.id as well_id,wm.well_name,wm.lat,wm.long")
         ->from('tbl_role_wise_user_assign_details ad')
-        ->join('tbl_well_master wm','ad.well_id=wm.id','left')
+        ->join('tbl_well_master wm','ad.site_id=wm.site_id','left')
         ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0,'wm.well_type'=>1])
         ->group_by('wm.id')
         ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 
-        $res['shift_well'] = $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
+        if($company_id!='')
+            $this->db->where('ad.company_id',$company_id);
+        if($user_id!='')
+            $this->db->where('ad.user_id',$user_id);
+        if($assets_id!='')
+            $this->db->where('ad.assets_id',$assets_id);
+        if($area_id!='')
+            $this->db->where('ad.area_id',$area_id);
+        if($site_id!='')
+            $this->db->where('ad.site_id',$site_id);
+
+        $res['shift_well'] = $this->db->select("ad.id,ad.company_id,ad.user_id,ad.assets_id,ad.area_id,ad.site_id,si.well_id
+            ,wm.well_name,wm.lat,wm.long")
         ->from('tbl_role_wise_user_assign_details ad')
-        ->join('tbl_site_device_installation si','ad.well_id=si.well_id','left')
-        ->join('tbl_well_master wm','ad.well_id=wm.id','left')
-        ->where(['ad.status'=>1,'ad.role_type'=>3,'si.device_shifted'=>1])
+        ->join('tbl_site_device_installation si','ad.site_id=si.site_id','left')
+        ->join('tbl_well_master wm','ad.site_id=wm.site_id','left')
+        ->where(['ad.status'=>1,'ad.role_type'=>3,'si.device_shifted'=>1,'wm.well_type'=>1])
         ->group_by('wm.id')
         ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 
@@ -281,7 +293,7 @@ class Master_model extends CI_Model
         
         return $this->db->select("ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
         ->from('tbl_role_wise_user_assign_details ad')
-        ->join('tbl_well_master wm','ad.well_id=wm.id','left')
+        ->join('tbl_well_master wm','ad.site_id=wm.site_id','left')
         ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0])
         ->group_by('wm.id')
         ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
@@ -427,7 +439,7 @@ class Master_model extends CI_Model
         return $this->db->select("di.company_id,di.well_id,wm.well_name")
         ->from('tbl_site_device_installation di')
         ->join('tbl_well_master wm','di.well_id=wm.id','left')
-        ->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id','left')
+        ->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id','left')
         ->where(['di.status'=>1,'wm.status'=>1])
         ->group_by('di.well_id')
         ->order_by("CAST(SUBSTRING_INDEX(well_name, '#', -1) AS UNSIGNED) ASC")->group_by('di.well_id')->get()->result_array();
@@ -446,7 +458,7 @@ class Master_model extends CI_Model
 
         return $this->db->select("di.company_id,di.well_id,wm.well_name,di.device_name,di.imei_no,di.date_of_installation")
         ->from('tbl_site_device_installation di')
-        ->join('tbl_role_wise_user_assign_details ad','ad.well_id=di.well_id','left')
+        ->join('tbl_role_wise_user_assign_details ad','ad.site_id=di.site_id','left')
         ->join('tbl_well_master wm','di.well_id=wm.id','left')
         ->where(['di.status'=>1,'di.device_shifted'=>0,'ad.status'=>1])
         ->order_by("CAST(SUBSTRING_INDEX(well_name, '#', -1) AS UNSIGNED) ASC")->group_by('di.well_id')->get()->result_array();

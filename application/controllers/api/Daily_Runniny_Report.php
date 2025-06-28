@@ -41,6 +41,19 @@ class Daily_Runniny_Report extends REST_Controller
 		}
 	}
 
+	public function Datewise_WellRunning_self_flow_Details_post()
+	{
+		try {
+			
+			$date = $this->input->post('date',true)!=""?$this->input->post('date',true):"";
+			$site_id = $this->input->post('site_id',true)!=""?$this->input->post('site_id',true):"";
+			$result = $this->Daily_Running_Report_model->Date_wiseRunning_self_flow_Well_Details($date,$site_id);
+			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+		} catch (Exception $e) {
+			$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+		}
+	}
+
 
 	public function Well_Comulative_log_Report_post()
 	{

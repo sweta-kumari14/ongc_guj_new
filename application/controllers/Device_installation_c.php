@@ -28,7 +28,6 @@
                     $result = $this->CallAPI($api, $data, $method);
                     $d['well_type_list'] = $result['data'];
 
-
             $api = 'Master/getinstallation_DeviceList';
             $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'))
                     .'&user_id='.htmlspecialchars($this->session->userdata('user_id'));

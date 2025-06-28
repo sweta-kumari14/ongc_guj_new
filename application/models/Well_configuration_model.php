@@ -56,37 +56,37 @@ class Well_configuration_model extends CI_Model
 	}
 
 	public function get_configration_data($id, $company_id,$user_id,$search)
+    {
+    	if ($id != '') {
+        $this->db->where('wc.id', $id);
+    	}
+
+    	if($company_id != '') {
+        $this->db->where('wc.company_id', $company_id);
+    	}
+
+        if ($user_id != '') {
+        $this->db->where('ad.user_id', $user_id);
+    	}
+
+    	if ($search != '') 
     	{
-	    	if ($id != '') {
-	        $this->db->where('wc.id', $id);
-	    	}
-
-	    	if($company_id != '') {
-	        $this->db->where('wc.company_id', $company_id);
-	    	}
-
-	     if ($user_id != '') {
-	        $this->db->where('ad.user_id', $user_id);
-	    	}
-
-	    	if ($search != '') 
-	    	{
-			$this->db->like('wm.well_name', $search);
-	    	}
+		$this->db->like('wm.well_name', $search);
+    	}
         
 
        	return $this->db->select('wc.id,wc.company_id,wc.well_id,wm.well_name,wc.well_type,wc.assign_date,vw.running_minutes')
        	->from('tbl_well_configuration wc')
        	->join('tbl_well_master wm', 'wc.well_id = wm.id', 'left')
        	->join('v_well_running_config vw','vw.well_id=wm.id','left')
-       	->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id and ad.status=1','left')
+       	->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id and ad.status=1','left')
        	->where(['wc.status'=>1,'wm.status'=>1])
        	->group_by('vw.well_id')
        	->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 
     	}
 
-    	public function get_well_config_list($id, $company_id,$user_id)
+    	public function get_well_config_list($id, $company_id)
     	{
     	 	if ($id != '') {
 	        $this->db->where('wc.id', $id);
@@ -96,14 +96,9 @@ class Well_configuration_model extends CI_Model
 	        $this->db->where('wc.company_id', $company_id);
 	    	}
 
-	     if ($user_id != '') {
-	        $this->db->where('ad.user_id', $user_id);
-	    	}
-
        	return $this->db->select('wc.id,wc.company_id,wc.well_id,wm.well_name,wc.well_type,wc.assign_date,wc.start_time,wc.stop_time')
             ->from('tbl_well_configuration wc')
             ->join('tbl_well_master wm', 'wc.well_id = wm.id', 'left')
-           ->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id  and ad.status=1','left')
             ->where(['wc.status'=>1,'wm.status'=>1])
             ->group_by('wc.id')
             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
@@ -191,7 +186,7 @@ class Well_configuration_model extends CI_Model
 		$result['regular_data'] =  $this->db->select("wc.*,wm.well_name")
 		->from('tbl_well_configuration wc')
 		->join('tbl_well_master wm','wc.well_id=wm.id','left')
-		->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id  and ad.status=1','left')
+		->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id  and ad.status=1','left')
 		->where(['wc.status'=>1,'wm.status'=>1,'wc.well_type'=>0])
 		->group_by('wc.id')
 		->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
@@ -219,7 +214,7 @@ class Well_configuration_model extends CI_Model
 	        END AS running_hours,wc.c_by,wc.c_date,wc.status')
             ->from('tbl_well_configuration wc')
             ->join('tbl_well_master wm', 'wc.well_id = wm.id', 'left')
-            ->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id  and ad.status=1','left')
+            ->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id  and ad.status=1','left')
             ->where(['wc.status'=>1,'wm.status'=>1,'wc.well_type'=>1])
             ->group_by('wc.id')
             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();

@@ -589,9 +589,7 @@ class Well_configuration extends REST_Controller
 
             $id = $this->input->post('id',true)!=""?$this->input->post('id',true):"";
             $company_id = $this->input->post('company_id',true)!=""?$this->input->post('company_id',true):"";
-            $user_id = $this->input->post('user_id',true)!=""?$this->input->post('user_id',true):"";
-        
-          $result = $this->Well_configuration_model->get_well_config_list($id,$company_id,$user_id);
+          $result = $this->Well_configuration_model->get_well_config_list($id,$company_id);
 
           if(!empty($result))
           {

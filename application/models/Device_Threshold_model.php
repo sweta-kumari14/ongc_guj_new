@@ -27,6 +27,30 @@ class Device_Threshold_model extends CI_Model
 		}
 	}
 
+	public function verifywellExist($well_id)
+	{
+		if($well_id!='')
+			$this->db->where('well_id',$well_id);
+	
+		$result = $this->db->select("count(well_id) as total")->from('tbl_threshold_self_flow_details')->where(['status'=>1])->get()->result_array();
+		if($result!='')
+		{
+			return $result[0]['total'];
+		}else{
+			return 0;
+		}
+	}
+
+	public function Save_pressure_Threshold_data($data)
+	{
+		return $this->db->insert('tbl_threshold_self_flow_details',$details);
+	}
+
+	public function Save_pressure_Threshold_data_log($data)
+	{
+		return $this->db->insert('tbl_threshold_self_flow_log',$details);
+	}
+
 	public function Save_DeviceThreshold_data($details)
 	{
 		return $this->db->insert('tbl_threshold_details',$details);

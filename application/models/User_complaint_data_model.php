@@ -72,7 +72,7 @@ class User_complaint_data_model extends CI_Model
 	     return $this->db->select("tc.*,wm.well_name")
 		->from('tbl_technical_complaint tc')
 		->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id','left')
+		->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id and ad.status = 1','left')
 		->where(['tc.status'=>1,'wm.status'=>1])
 		->group_by('tc.ticket_Id, wm.well_name')
 		->order_by("CAST(SUBSTRING_INDEX(tc.ticket_Id, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
@@ -144,7 +144,7 @@ class User_complaint_data_model extends CI_Model
 	     $result['complaint_timeline'] = $this->db->select("tc.complaint_status,tc.ticket_id,tc.c_date,,wm.well_name,tc.c_by,CONCAT(om.user_full_name, ' (', om.userId, ')') AS user_data")
 		->from('tbl_technical_complaint_log tc')
 		->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id','left')
+		->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id and ad.status = 1','left')
 		->join('tbl_ongc_member_master om','om.id=tc.c_by','left')
 		->where(['tc.status'=>1,'wm.status'=>1])
 		->group_by('tc.id')
@@ -156,7 +156,7 @@ class User_complaint_data_model extends CI_Model
 		$result['complaint_resolution'] = $this->db->select("tc.ticket_id,tc.c_date,tc.d_date,wm.well_name")
 		->from('tbl_technical_complaint tc')
 		->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		->join('tbl_role_wise_user_assign_details ad','ad.well_id=wm.id','left')
+		->join('tbl_role_wise_user_assign_details ad','ad.site_id=wm.site_id and ad.status = 1','left')
 		->where(['tc.status'=>1,'wm.status'=>1,'tc.complaint_status'=>2])
 		->group_by('tc.id')
 		->order_by("CAST(SUBSTRING_INDEX(tc.ticket_Id, '#', -1) AS UNSIGNED) ASC")->order_by('tc.c_date','desc')->get()->result_array();
@@ -183,7 +183,7 @@ class User_complaint_data_model extends CI_Model
 		return $this->db->select("tc.*,wm.well_name")
 		->from('tbl_technical_complaint tc')
 		->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		->join('tbl_role_wise_user_assign_details ad', 'wm.id= ad.well_id', 'left')
+		->join('tbl_role_wise_user_assign_details ad', 'wm.site_id= ad.site_id and ad.status = 1', 'left')
 		->where(['tc.status'=>1,'wm.status'=>1])
 		->group_by('tc.id')
 		->order_by("CAST(SUBSTRING_INDEX(tc.ticket_Id, '#', -1) AS UNSIGNED) desc")->get()->result_array();
@@ -206,7 +206,7 @@ class User_complaint_data_model extends CI_Model
 		$result = $this->db->select('count(distinct tc.ticket_id)  as total_complaint')
 		                   ->from('tbl_technical_complaint tc')
 		                   ->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		                   ->join('tbl_role_wise_user_assign_details ad', 'wm.id= ad.well_id', 'left')
+		                   ->join('tbl_role_wise_user_assign_details ad', 'wm.site_id= ad.site_id and ad.status = 1', 'left')
 		                   ->where(['tc.status'=>1,'tc.complaint_status'=>0])
 		                   ->get()->result_array();
 		if(!empty($result))
@@ -235,7 +235,7 @@ class User_complaint_data_model extends CI_Model
 		$result = $this->db->select('count(distinct tc.ticket_id)  as total_complaint')
 		                   ->from('tbl_technical_complaint tc')
 		                   ->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		                   ->join('tbl_role_wise_user_assign_details ad', 'wm.id= ad.well_id', 'left')
+		                   ->join('tbl_role_wise_user_assign_details ad', 'wm.site_id= ad.site_id and ad.status = 1', 'left')
 		                   ->where(['tc.status'=>1,'tc.complaint_status'=>1])->get()->result_array();
 		if(!empty($result))
         {
@@ -263,7 +263,7 @@ class User_complaint_data_model extends CI_Model
 		$result = $this->db->select('count(distinct tc.ticket_id)  as total_complaint')
 		                   ->from('tbl_technical_complaint tc')
 		                   ->join('tbl_well_master wm','tc.well_id=wm.id','left')
-		                   ->join('tbl_role_wise_user_assign_details ad', 'wm.id= ad.well_id', 'left')
+		                   ->join('tbl_role_wise_user_assign_details ad', 'wm.site_id= ad.site_id and ad.status = 1', 'left')
 		                   ->where(['tc.status'=>1,'tc.complaint_status'=>2])->get()->result_array();
 		if(!empty($result))
         {

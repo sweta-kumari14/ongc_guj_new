@@ -52,170 +52,6 @@ class Daily_Running_Report_model extends CI_Model
        return $result;
        
     }
-   
-   // public function Date_wiseRunning_DeviceWell_Details($date, $site_id, $sort_by,$feeder_id)
-   // {
-   //     if ($date != '') 
-   //     {
-   //          $from_date = date('Y-m-d 06:00:00', strtotime($date));
-   //          $to_date = date('Y-m-d 06:00:00', strtotime($date . '+1 day'));
-
-   //          $this->db->where('wr.start_datetime >=', $from_date);
-   //          $this->db->where('wr.end_datetime <', $to_date);
-
-
-   //          if ($site_id != '') 
-   //          {
-   //             $this->db->where('ws.id', $site_id);
-   //          }
-
-   //           if ($sort_by != '') {
-   //             $this->db->order_by($sort_by, 'ASC');
-   //          }
-
-   //          if ($feeder_id != '') 
-   //          {
-   //              $this->db->where('sd.feeder_id', $feeder_id);
-   //          }
-
-   //         $current_date = date('Y-m-d');
-
-
-   //          $result = $this->db->select('sd.well_id, wm.well_name, COALESCE(SUM(wr.total_kwh), 0) AS total_consumption, COALESCE(SUM(wr.total_running_minute), 0) AS total_running_minute, COALESCE((vw.running_minutes), 0) AS running_minutes, ws.well_site_name, COALESCE(vw.well_type,0) AS well_type,COALESCE(vp.total_running_required, 0) AS total_running_required')
-   //              ->from('tbl_site_device_installation sd')
-   //              ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status = 1', 'left')
-   //              ->join('tbl_well_site_master ws', 'ws.id = sd.site_id and ws.status = 1', 'left')
-   //              ->join('tbl_well_running_log wr', 'sd.well_id = wr.well_id', 'left')
-   //              ->join('v_running_schdule_minutes vw', 'sd.well_id = vw.well_id AND vw.apply_datetime <= wr.start_datetime AND COALESCE(vw.valid_datetime, NOW()) >= wr.end_datetime','left')
-   //              ->join('v_period_well_running_required vp', 'vp.well_id = sd.well_id', 'left')
-   //              ->group_start()
-   //              ->where('sd.device_shifted', 0)
-   //              ->or_group_start()
-   //                  ->where('sd.status', 1)
-   //                  ->where('date(sd.date_of_shifted) >=', $date)
-   //                  ->where('sd.device_shifted', 1)
-   //              ->group_end()
-   //              ->group_end()
-   //              ->group_by('sd.well_id')
-   //              ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
-
-
-   //          if ($site_id!= '') 
-   //          {
-   //             $this->db->where('ws.id', $site_id);
-   //          }
-
-   //          if ($feeder_id != '') 
-   //          {
-   //              $this->db->where('sd.feeder_id', $feeder_id);
-   //          }
-
-            
-
-   //      $all_wells = $this->db->select('sd.well_id, wsmm.well_name, ws.well_site_name,COALESCE(vw.running_minutes, 0) AS running_minutes, COALESCE(vw.well_type,0)AS well_type,COALESCE(vp.total_running_required, 0) AS total_running_required,sd.date_of_installation')
-   //          ->from('tbl_site_device_installation sd')
-   //          ->join('tbl_well_master wsmm', 'wsmm.id = sd.well_id', 'left')
-   //          ->join('tbl_well_site_master ws', 'sd.site_id = ws.id', 'left')
-   //          ->join('v_running_schdule_minutes vw', 'vw.well_id = sd.well_id AND vw.apply_datetime <= "'.$date.'" AND COALESCE(vw.valid_datetime, NOW()) >= "'.$date.'"','left')
-   //          ->join('v_period_well_running_required vp', 'vp.well_id = sd.well_id', 'left')
-   //          ->where(['date(sd.commissioning_date)<='=>$date,'sd.status'=>1])
-   //          ->group_start() 
-   //          ->where('sd.device_shifted', 0)
-   //          ->or_group_start()
-   //          ->where('sd.status', 1)
-   //          ->where('date(sd.date_of_shifted) >=', $date)
-   //          ->where('sd.device_shifted', 1)
-   //          ->group_end() 
-   //          ->group_end() 
-   //          ->order_by("CAST(SUBSTRING_INDEX(wsmm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
-
-   //      $result_well_ids = array_column($result, 'well_id');
-   //      foreach ($all_wells as $well) 
-   //      {
-   //           $well_id = $well['well_id'];
-   //           $temporary_off_log = $this->db->select('well_id,effective_date_time,deeffective_date_time')
-   //                  ->from('tbl_temporary_off_well_reson_log')
-   //                  ->where('well_id', $well_id)
-   //                  ->where('date(effective_date_time) <=', $date)
-   //                  ->where('COALESCE(date(deeffective_date_time), NOW()) >=', $date)
-   //                  ->get()
-   //                  ->row();
-
-
-   //          if ($temporary_off_log) 
-   //          {
-   //              $well['total_running_required'] = 0;
-   //              $well['running_minutes'] = 0;
-   //              $well['remarks'] = 'Temporary_off_well';
-   //          } else {
-   //              $well['remarks'] = 'Na';
-   //          }
-
-          
-   //          if (!in_array($well['well_id'], $result_well_ids)) {
-   //              $result[] = [
-   //                  'well_id' => $well['well_id'],
-   //                  'well_name' => $well['well_name'],
-   //                  'total_consumption' => '0',
-   //                  'total_running_minute' => '0',
-   //                  'running_minutes' => $well['running_minutes'], 
-   //                  'well_site_name' => $well['well_site_name'],
-   //                  'well_type' => $well['well_type'], 
-   //                  'total_running_required' => $well['total_running_required'],
-   //                  'remarks'=>$well['remarks'], 
-                    
-   //              ];
-   //          }
-   //      }
-   //         // print_r($result);die;
-
-   //      foreach ($result as &$row) {
-
-          
-   //          if ($row['total_consumption'] == 0 && $row['total_running_minute'] == 0) {
-   //              $row['total_consumption'] = 0;
-   //              $row['total_running_minute'] = 0;
-   //          }
-
-
-   //              if($row['well_type'] == 1)
-   //             {
-                
-   //              if( $date == $current_date)
-   //              {
-   //                  $row['total_shut_down_minute'] =   $row['total_running_required'];
-   //                  $row['total_shut_down_running_well'] = $row['total_shut_down_minute'] - $row['total_running_minute'];
-
-   //              }else{
-
-   //                  $row['total_shut_down_minute'] = $row['running_minutes'];
-   //                  $row['total_shut_down_running_well'] = $row['total_shut_down_minute'] - $row['total_running_minute'];
-   //              }
-   //          }else{
-
-   //              if($date == $current_date)
-   //              {
-
-   //                   $current_time_now = time(); 
-   //                   $current_time = strtotime(date('Y-m-d 06:00:00'));
-   //                   $current_time_minutes = ($current_time_now - $current_time) / 60;
-   //                   $row['total_shut_down_minute'] = $current_time_minutes;
-   //                   $row['total_shut_down_running_well'] = $row['total_shut_down_minute'] - $row['total_running_minute'];
-
-                   
-   //              }else{
-
-   //                  $row['total_shut_down_minute'] = $row['running_minutes'];
-   //                  $row['total_shut_down_running_well'] = $row['total_shut_down_minute'] - $row['total_running_minute'];
-
-   //              }
-                
-   //          }
-   //      }
-
-   //          return $result;
-   //      }
-   //  }
 
     public function Date_wiseRunning_DeviceWell_Details($date, $site_id, $sort_by, $feeder_id)
     {
@@ -380,6 +216,39 @@ class Daily_Running_Report_model extends CI_Model
         return $result;
     }
 }
+
+    public function Date_wiseRunning_self_flow_Well_Details($date,$site_id)
+    {
+         
+   
+        $from_date = date('Y-m-d 06:00:00', strtotime($date));
+        $to_date = date('Y-m-d 06:00:00', strtotime($date . '+1 day'));
+
+        $this->db->where('wr.start_datetime >=', $from_date);
+        $this->db->where('wr.end_datetime <', $to_date);
+
+        if ($site_id != '') 
+        {
+            $this->db->where('ws.id', $site_id);
+        }
+        $current_date = date('Y-m-d');
+         $max_running_minutes = 24 * 60;
+
+        $query = $this->db->select('
+            wm.well_name,
+            COALESCE(SUM(wr.total_running_minute), 0) AS total_running_minute,
+            ws.well_site_name,
+            ' . $max_running_minutes . ' AS max_possible_minutes
+        ')
+            ->from('tbl_site_device_installtion_self_flow sd')
+            ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status = 1', 'left')
+            ->join('tbl_well_site_master ws', 'ws.id = sd.site_id and ws.status = 1', 'left')
+            ->join('tbl_well_running_self_flow_log wr', 'sd.well_id = wr.well_id', 'left')
+            ->where('sd.well_setup_status',1)
+            ->group_by('sd.well_id')
+            ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get();
+              return $query->result_array();
+    }
 
 
 
@@ -771,7 +640,7 @@ class Daily_Running_Report_model extends CI_Model
             min(dl.output_Voltage_L2N_R) as min_output_R_L2N,min(dl.output_Voltage_L2N_Y) as min_output_Y_L2N,min(dl.output_Voltage_L2N_B) as min_output_B_L2N,min(dl.output_Average_Voltage_L2N) as min_output_Avg_L2N,max(dl.output_Voltage_P2P_RY) as max_output_P2P_RY,max(dl.output_Voltage_P2P_YB) as max_output_P2P_YB,max(dl.output_Voltage_P2P_BR) as max_output_P2P_BR,max(dl.output_Average_Voltage_P2P) as max_output_Avg_P2P,min(dl.output_Voltage_P2P_RY) as min_output_P2P_RY,min(dl.output_Voltage_P2P_YB) as min_output_P2P_YB,min(dl.output_Voltage_P2P_BR) as min_output_P2P_BR,min(dl.output_Average_Voltage_P2P) as min_output_Avg_P2P,max(dl.output_Current_R) as max_output_cur_R,max(dl.output_Current_Y) as max_output_cur_Y,max(dl.output_Current_B) as max_output_cur_B,max(dl.output_Average_Current) as max_output_Avg,min(dl.output_Current_R) as min_output_cur_R,min(dl.output_Current_Y) as min_output_cur_Y,min(dl.output_Current_B) as min_output_cur_B,min(dl.output_Average_Current) as min_output_Avg,max(dl.output_System_Frequency) as max_out_frq,min(dl.output_System_Frequency) as min_out_frq,dl.offline_device_timestamp as cdate")
         ->from('tbl_device_log dl')
         ->join('tbl_site_device_installation sd','dl.imei_no=sd.imei_no','left')
-        ->join('tbl_role_wise_user_assign_details ad','sd.well_id=ad.well_id','left')
+        ->join('tbl_role_wise_user_assign_details ad','sd.site_id=ad.site_id','left')
         ->join('tbl_well_master wm','sd.well_id=wm.id','left')
         ->where(['dl.status'=>1,'sd.status'=>1,'ad.status'=>1])->group_by('dl.imei_no')->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
     }
@@ -801,7 +670,7 @@ class Daily_Running_Report_model extends CI_Model
             min(dl.output_Voltage_L2N_R) as min_output_R_L2N,min(dl.output_Voltage_L2N_Y) as min_output_Y_L2N,min(dl.output_Voltage_L2N_B) as min_output_B_L2N,min(dl.output_Average_Voltage_L2N) as min_output_Avg_L2N,max(dl.output_Voltage_P2P_RY) as max_output_P2P_RY,max(dl.output_Voltage_P2P_YB) as max_output_P2P_YB,max(dl.output_Voltage_P2P_BR) as max_output_P2P_BR,max(dl.output_Average_Voltage_P2P) as max_output_Avg_P2P,min(dl.output_Voltage_P2P_RY) as min_output_P2P_RY,min(dl.output_Voltage_P2P_YB) as min_output_P2P_YB,min(dl.output_Voltage_P2P_BR) as min_output_P2P_BR,min(dl.output_Average_Voltage_P2P) as min_output_Avg_P2P,max(dl.output_Current_R) as max_output_cur_R,max(dl.output_Current_Y) as max_output_cur_Y,max(dl.output_Current_B) as max_output_cur_B,max(dl.output_Average_Current) as max_output_Avg,min(dl.output_Current_R) as min_output_cur_R,min(dl.output_Current_Y) as min_output_cur_Y,min(dl.output_Current_B) as min_output_cur_B,min(dl.output_Average_Current) as min_output_Avg,max(dl.output_System_Frequency) as max_out_frq,min(dl.output_System_Frequency) as min_out_frq,dl.offline_device_timestamp as cdate")
         ->from('tbl_device_log dl')
         ->join('tbl_site_device_installation sd','dl.imei_no=sd.imei_no','left')
-        ->join('tbl_role_wise_user_assign_details ad','sd.well_id=ad.well_id','left')
+        ->join('tbl_role_wise_user_assign_details ad','sd.site_id=ad.site_id','left')
         ->join('tbl_well_master wm','sd.well_id=wm.id','left')
         ->where(['dl.status'=>1,'sd.status'=>1,'ad.status'=>1])->group_by('dl.imei_no')->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
     }

@@ -12,18 +12,10 @@ class Device_Threshold_Details extends REST_Controller
 	{
 		$well_id = $this->input->post('well_id',true);
 		$imei_no = $this->input->post('imei_no',true);
-					
-		
-		
 		$output_p2p_ut = $this->input->post('output_p2p_ut',true);
 		$output_p2p_lt = $this->input->post('output_p2p_lt',true);
-		
-	
 		$out_current_ut = $this->input->post('out_current_ut',true);
 		$out_current_lt = $this->input->post('out_current_lt',true);
-		
-	
-		
 		
 		if($this->input->post('well_id',true) == '')
 		{
@@ -70,22 +62,10 @@ class Device_Threshold_Details extends REST_Controller
 					$details['id'] = $T_Id[0]['UUID()'];
 					$details['well_id'] = $this->input->post('well_id',true);
 					$details['imei_no'] = $this->input->post('imei_no',true);
-					
-					
-						
-					
 					$details['output_p2p_ut'] = $this->input->post('output_p2p_ut',true);
 					$details['output_p2p_lt'] = $this->input->post('output_p2p_lt',true);
-					
-					
 					$details['out_current_ut'] = $this->input->post('out_current_ut',true);
-					$details['out_current_lt'] = $this->input->post('out_current_lt',true);
-										
-					
-										
-					
-										
-					$details['cby'] = $this->input->post('c_by',true);
+					$details['out_current_lt'] = $this->input->post('out_current_lt',true);	$details['cby'] = $this->input->post('c_by',true);
 					$details['cdate'] = date('Y-m-d H:i:s');
 					$details['status'] = 1;
 					$this->Device_Threshold_model->Save_DeviceThreshold_data($details);
@@ -96,19 +76,10 @@ class Device_Threshold_Details extends REST_Controller
 					$log['id'] = $log_id[0]['UUID()'];
 					$log['well_id'] = $this->input->post('well_id',true);
 					$log['imei_no'] = $this->input->post('imei_no',true);
-					
-				
-					
 					$log['output_p2p_ut'] = $this->input->post('output_p2p_ut',true);
 					$log['output_p2p_lt'] = $this->input->post('output_p2p_lt',true);
-					
-					
 					$log['out_current_ut'] = $this->input->post('out_current_ut',true);
 					$log['out_current_lt'] = $this->input->post('out_current_lt',true);
-					
-					
-										
-				
 					$log['cby'] = $this->input->post('c_by',true);
 					$log['cdate'] = date('Y-m-d H:i:s');
 					$log['status'] = 1;
@@ -116,20 +87,14 @@ class Device_Threshold_Details extends REST_Controller
 				}else{
 					
 					$log_id = $this->Device_Threshold_model->getTh_LogId();
-
 					$log = [];
 					$log['id'] = $log_id[0]['UUID()'];
 					$log['well_id'] = $this->input->post('well_id',true);
 					$log['imei_no'] = $this->input->post('imei_no',true);
-					
 					$log['output_p2p_ut'] = $this->input->post('output_p2p_ut',true);
 					$log['output_p2p_lt'] = $this->input->post('output_p2p_lt',true);
-					
-					
 					$log['out_current_ut'] = $this->input->post('out_current_ut',true);
 					$log['out_current_lt'] = $this->input->post('out_current_lt',true);
-
-					
 					$log['cby'] = $this->input->post('c_by',true);
 					$log['cdate'] = date('Y-m-d H:i:s');
 					$log['status'] = 1;
@@ -139,11 +104,8 @@ class Device_Threshold_Details extends REST_Controller
 					
 					$l_data['output_p2p_ut'] = $this->input->post('output_p2p_ut',true);
 					$l_data['output_p2p_lt'] = $this->input->post('output_p2p_lt',true);
-					
-					
 					$l_data['out_current_ut'] = $this->input->post('out_current_ut',true);
 					$l_data['out_current_lt'] = $this->input->post('out_current_lt',true);
-
 					$l_data['dby'] = $this->input->post('d_by',true);
 					$l_data['ddate'] = date('Y-m-d H:i:s');
 					$this->Device_Threshold_model->Update_last_ThresholdData($l_data,['well_id'=>$this->input->post('well_id',true),'imei_no'=>$this->input->post('imei_no',true)]);
@@ -189,6 +151,102 @@ class Device_Threshold_Details extends REST_Controller
 		} catch (Exception $e) {
 			$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
 		}
+	}
+
+	public function Save_ThresholdData_self_flow_post()
+	{
+		$threshold_type  = $this->input->post('threshold_type',true);
+		
+		if($this->input->post('threshold_type',true) == '')
+		{
+			$this->response(['status'=>false,'data'=>[],'msg'=>'Threshold setup type required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+		}else{
+			try {
+
+				if($threshold_type == 1)
+				{
+					$verify = $this->Device_Threshold_model->verifywellExist($this->input->post('well_id',true));
+				// print_r($serial);die;
+				if($verify == 0)
+				{
+					$T_Id = $this->Device_Threshold_model->getId();
+					$details = [];
+					$details['id'] = $T_Id[0]['UUID()'];
+					$details['well_id'] = $this->input->post('well_id',true);
+					$details['chp_uppar'] = $this->input->post('chp_uppar',true);
+					$details['chp_lower'] = $this->input->post('chp_lower',true);
+					$details['abp_uppar'] = $this->input->post('abp_uppar',true);
+					$details['abp_lower'] = $this->input->post('abp_lower',true);
+					$details['thp_uppar'] = $this->input->post('thp_uppar',true);
+					$details['thp_lower'] = $this->input->post('thp_lower',true);
+					$details['tht_uppar'] = $this->input->post('tht_uppar',true);	
+					$details['tht_lower'] = $this->input->post('tht_lower',true);
+                	$details['cby'] = $this->input->post('c_by',true);
+					$details['cdate'] = date('Y-m-d H:i:s');
+					$details['status'] = 1;
+					$this->Device_Threshold_model->Save_pressure_Threshold_data($details);
+
+					$log_id = $this->Device_Threshold_model->getTh_LogId();
+
+					$log = [];
+					$log['id'] = $log_id[0]['UUID()'];
+					$log['well_id'] = $this->input->post('well_id',true);
+					$log['chp_uppar'] = $this->input->post('chp_uppar',true);
+					$log['chp_lower'] = $this->input->post('chp_lower',true);
+					$log['abp_uppar'] = $this->input->post('abp_uppar',true);
+					$log['abp_lower'] = $this->input->post('abp_lower',true);
+					$log['thp_uppar'] = $this->input->post('thp_uppar',true);
+					$log['thp_lower'] = $this->input->post('thp_lower',true);
+					$log['tht_uppar'] = $this->input->post('tht_uppar',true);	
+					$log['tht_lower'] = $this->input->post('tht_lower',true);
+					$log['cby'] = $this->input->post('c_by',true);
+					$log['cdate'] = date('Y-m-d H:i:s');
+					$log['status'] = 1;
+					$this->Device_Threshold_model->Save_pressure_Threshold_data_log($log);
+				}else{
+					
+					$log_id = $this->Device_Threshold_model->getTh_LogId();
+					$log = [];
+					$log['id'] = $log_id[0]['UUID()'];
+					$log['well_id'] = $this->input->post('well_id',true);
+					$log['chp_uppar'] = $this->input->post('chp_uppar',true);
+					$log['chp_lower'] = $this->input->post('chp_lower',true);
+					$log['abp_uppar'] = $this->input->post('abp_uppar',true);
+					$log['abp_lower'] = $this->input->post('abp_lower',true);
+					$log['thp_uppar'] = $this->input->post('thp_uppar',true);
+					$log['thp_lower'] = $this->input->post('thp_lower',true);
+					$log['tht_uppar'] = $this->input->post('tht_uppar',true);	
+					$log['tht_lower'] = $this->input->post('tht_lower',true);
+					$log['c_by'] = $this->input->post('c_by',true);
+					$log['c_date'] = date('Y-m-d H:i:s');
+					$log['status'] = 1;
+					$this->Device_Threshold_model->Save_DeviceThreshold_Log_data($log);
+
+					$l_data = [];
+					
+					$l_data['chp_uppar'] = $this->input->post('chp_uppar',true);
+					$l_data['chp_lower'] = $this->input->post('chp_lower',true);
+					$l_data['abp_uppar'] = $this->input->post('abp_uppar',true);
+					$l_data['abp_lower'] = $this->input->post('abp_lower',true);
+					$l_data['thp_uppar'] = $this->input->post('thp_uppar',true);
+					$l_data['thp_lower'] = $this->input->post('thp_lower',true);
+					$l_data['tht_uppar'] = $this->input->post('tht_uppar',true);	
+					$l_data['tht_lower'] = $this->input->post('tht_lower',true);
+					$l_data['d_by'] = $this->input->post('d_by',true);
+					$l_data['d_date'] = date('Y-m-d H:i:s');
+					$this->Device_Threshold_model->Update_last_ThresholdData($l_data,['well_id'=>$this->input->post('well_id',true)]);
+				}				
+
+				$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully Thresholds Data Saved!!','response_code'=>REST_Controller::HTTP_OK]);
+				
+				}
+				
+				
+			} catch (Exception $e) {
+				$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+			}
+		}
+		
 	}
 
 }

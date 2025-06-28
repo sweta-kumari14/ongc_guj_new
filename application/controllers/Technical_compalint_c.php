@@ -211,8 +211,8 @@
             
             $api = 'User_complaint_data/get_complaint_list';
             $data = 'company_id='.htmlspecialchars((string)$this->session->userdata('company_id'),ENT_QUOTES, 'UTF-8')
-                     .'&user_id='.htmlspecialchars((string)$this->session->userdata('user_id'),ENT_QUOTES, 'UTF-8')
-                     .'&ticket_id='.htmlspecialchars((string)$this->input->post('ticket_id',true),ENT_QUOTES, 'UTF-8');
+                .'&user_id='.htmlspecialchars((string)$this->session->userdata('user_id'),ENT_QUOTES, 'UTF-8')
+                .'&ticket_id='.htmlspecialchars((string)$this->input->post('ticket_id',true),ENT_QUOTES, 'UTF-8');
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);
             $d['ticket_list'] = $result['data'];

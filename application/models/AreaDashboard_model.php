@@ -438,16 +438,15 @@ class AreaDashboard_model extends CI_Model
         if($user_id!='')
             $this->db->where('ua.user_id',$user_id);
 
-        return $this->db->select("ua.id,ua.company_id,ua.user_id,ua.assets_id,ua.area_id,a.area_name,ua.site_id,sm.well_site_name,ua.well_id,w.well_name,di.id as installed_status,di.imei_no,di.device_name,di.date_of_installation,dr.id as replace_status,dr.replacement_datetime,em.equipment_name,ed.motor_name")
-        ->from('tbl_role_wise_user_assign_details ua')
-        ->join('tbl_area_master a','ua.area_id=a.id','left')
-        ->join('tbl_well_site_master sm','ua.site_id=sm.id','left')
-        ->join('tbl_well_master w','ua.well_id=w.id','left')
-        ->join('tbl_site_device_installation di','ua.well_id=di.well_id','left')
+        return $this->db->select("ua.id,ua.company_id,ua.user_id,ua.assets_id,ua.area_id,a.area_name,ua.site_id,sm.well_site_name,di.well_id,w.well_name,di.id as installed_status,di.imei_no,di.device_name,di.date_of_installation,dr.id as replace_status,dr.replacement_datetime")
+        ->from('tbl_site_device_installation di')
+        ->join('tbl_role_wise_user_assign_details ua','di.site_id=ua.site_id and di.status = 1','left')
+        ->join('tbl_area_master a','di.area_id=a.id','left')
+        ->join('tbl_well_site_master sm','di.site_id=sm.id','left')
+        ->join('tbl_well_master w','di.well_id=w.id','left')
         ->join('tbl_device_replecement_details dr','di.imei_no = dr.new_imei_no','left')
-        ->join('tbl_equipment_details ed','w.id = ed.well_id','left')
-        ->join('tbl_equipment_master em','ed.eqp_id = em.id','left')
-        ->where(['ua.status'=>1,'di.status'=>1])->group_by('w.id')->order_by("CAST(SUBSTRING_INDEX(w.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
+        ->where(['di.status'=>1,'di.device_shifted'=>0,'w.well_type'=>1])
+        ->group_by('w.id')->order_by("CAST(SUBSTRING_INDEX(w.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
        
     }
 

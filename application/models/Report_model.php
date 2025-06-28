@@ -58,14 +58,13 @@ class Report_model extends CI_Model
 			$this->db->where('swa.user_id',$user_id);
 		if($from_date!='' && $to_date!='')
 			$this->db->where(['date(swa.allotment_datetime)>='=>$from_date,'date(swa.allotment_datetime)<='=>$to_date]);
-		return $this->db->select("swa.id,swa.company_id,cs.company_name,swa.role_type,swa.user_id,mm.user_full_name,swa.assets_id,a.assets_name,swa.area_id,am.area_name,swa.site_id,sm.well_site_name,swa.well_id,w.well_name,swa.allotment_datetime")
+		return $this->db->select("swa.id,swa.company_id,cs.company_name,swa.role_type,swa.user_id,mm.user_full_name,swa.assets_id,a.assets_name,swa.area_id,am.area_name,swa.site_id,sm.well_site_name,swa.allotment_datetime")
 		->from('tbl_role_wise_user_assign_details swa')
 		->join('tbl_company_setup cs','swa.company_id=cs.id','left')
 		->join('tbl_ongc_member_master mm','swa.user_id=mm.id','left')
 		->join('tbl_assets_master a','swa.assets_id=a.id','left')
 		->join('tbl_area_master am','swa.area_id=am.id','left')
 		->join('tbl_well_site_master sm','swa.site_id=sm.id','left')
-		->join('tbl_well_master w','swa.well_id=w.id','left')
 		->where(['swa.status'=>1])->order_by('swa.id')->get()->result_array();
 	}
 

@@ -18,7 +18,7 @@ class Maintenance_c extends MY_Controller
             $result = $this->CALLAPI($api,$data,$method);
             $d['well_list'] = $result['data'];
             // echo'<pre>';
-            // print_r($d['site_list']);die;
+            // print_r($d['well_list']);die;
             $api ='Report/get_problemlist';
             $data = '';
             $method = 'POST';

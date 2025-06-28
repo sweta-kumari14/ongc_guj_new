@@ -5,11 +5,11 @@
 	      <div class="header-left">
 
 	           <a href="#" class="logo">
-					 <!-- <img src="<?php echo base_url() ?>assets/img/logo.png" width="60" style="border-radius: 50%; height:50"> -->
+					 <img src="<?php echo base_url() ?>assets/img/logo.png" width="60" style="border-radius: 50%; height:50">
 
 				</a>
 				<a href="#" class="logo2">
-					 <!-- <img src="<?php echo base_url() ?>assets/img/logo.png" width="60" style="border-radius: 50%; height:50"> -->
+					 <img src="<?php echo base_url() ?>assets/img/logo.png" width="60" style="border-radius: 50%; height:50">
 				</a>
 	      </div>
 			<!-- /Logo -->

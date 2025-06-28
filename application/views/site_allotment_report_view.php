@@ -103,7 +103,6 @@ area_running_well_list<div class="page-wrapper">
 											<th>User Level</th>
 											<th>Area Name</th>
 											<th>Site Name</th>
-											<th>Well Name</th>
 											<th>Assign Date</th>
 										</tr>
 									</thead>
@@ -240,6 +239,8 @@ function get_sitewise_user_allotment_data()
                         role_type = "Area level";
                     } else if (v.role_type == '3') {
                         role_type = "installation level";
+                    }else if (v.role_type == '4') {
+                        role_type = "Field level";
                     }
                     if (v.user_id != prev_user_id) {
                         $("#table_data").append('<tr>'+
@@ -248,7 +249,6 @@ function get_sitewise_user_allotment_data()
                             '<td>'+role_type+'</td>'+
                             '<td>'+v.area_name+'</td>'+
                             '<td>'+v.well_site_name+'</td>'+
-                            '<td>'+v.well_name+'</td>'+
                             '<td>'+moment(v.allotment_datetime).format('DD-MM-YYYY h:mm:ss a')+'</td>'+
                             '</tr>');
                         prev_user_id = v.user_id;
@@ -261,7 +261,6 @@ function get_sitewise_user_allotment_data()
                             '<td colspan="3">-</td>'+
                             '<td>'+v.area_name+'</td>'+
                             '<td>'+v.well_site_name+'</td>'+
-                            '<td>'+v.well_name+'</td>'+
                             '<td>'+moment(v.allotment_datetime).format('DD-MM-YYYY h:mm:ss a')+'</td>'+
                             '</tr>');
                     }
