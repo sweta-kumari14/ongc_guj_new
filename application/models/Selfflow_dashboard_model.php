@@ -150,12 +150,13 @@ class Selfflow_dashboard_model extends CI_Model
         if($feeder_id!='')
             $this->db->where('sd.feeder_id',$feeder_id);
 
-        return $this->db->select("wm.id as well_id,wm.assets_id,wm.area_id,ws.id as site_id,wm.well_name,ad.user_id,sd.device_name,sd.imei_no")
+        return $this->db->select("wm.id as well_id,wm.assets_id,wm.area_id,sd.site_id,wm.well_name,ad.user_id,sd.device_name,sd.imei_no,ws.well_site_name")
                 ->from('tbl_well_master wm')
                 ->join('tbl_site_device_installtion_self_flow sd','wm.id=sd.well_id','left')
                 ->join('tbl_well_site_master ws','ws.id=sd.site_id','left')
                 ->join('tbl_role_wise_user_assign_details ad','wm.site_id=ad.site_id and ad.status =1','left')
-                ->where(['wm.status'=>1,'ad.status'=>1,'sd.status'=>1])->group_by('wm.id')
+                ->where(['wm.status'=>1,'ad.status'=>1,'sd.status'=>1])
+                ->group_by('wm.id')
                 ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
     }
 

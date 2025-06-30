@@ -212,6 +212,8 @@ re<!-- Sidebar -->
 							<li><a href="<?php echo base_url('Downtime_report_c'); ?>" class="slide-item">Downtime Report</a></li>
 							<li><a href="<?php echo base_url('Faulty_alert_report_c'); ?>" class="slide-item">Faulty-Alert Report</a></li>
 							<li><a href="<?php echo base_url('Running_log_selfflow_c'); ?>" class="slide-item">Running log Report</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c'); ?>" class="slide-item">Threshold setup</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c/thresold_report'); ?>" class="slide-item">Threshold setup Report</a></li>
 					
 						</ul>
 					</li>
