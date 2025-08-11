@@ -188,64 +188,69 @@
 
 
 
-        <!-- Dashboard Cards -->
-            <div class="col-md-12 col-xl-12">
-        <div class="d-flex align-items-center">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-3 position-relative">
-                        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
-        
-                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-                            <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
-                        </div>
-                        <div class="content-area text-center mt-2">
-                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
-                            <span class="tag-count" id="total_well"></span>
-                        </div>
-                       </div>
-                   </div>
-
-                    <div class="col-md-3 position-relative">
-                       <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
-        
-                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-                            <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
-                        </div>
-                        <div class="content-area text-center mt-2">
-                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Flowing Wells</span><br>
-                            <span class="tag-count" id="total_flowing_well"></span>
-                        </div>
-                       </div>
-                   </div>
-
-                    <div class="col-md-3 position-relative">
-                       <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
-                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
-                            <img src="<?php echo base_url('assets/icons/04.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
-                        </div>
-                         <div class="content-area text-center mt-2">
-                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Non-Flowing Wells</span><br>
-                            <span class="tag-count" id="total_non_flowing_well"></span>
-                        </div>
-                       </div>
-                   </div>
-
-                    <div class="col-md-3 position-relative">
-                       <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
-                        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
-                            <img src="<?php echo base_url('assets/icons/10.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
-                        </div>
-                        <div class="content-area text-center mt-2">
-                            <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block";>RTMS Non-Functional</span><br>
-                            <span class="tag-count" id="off_unit"></span>
-                        </div>
-                       </div>
-                   </div>
-                </div>
+<!-- Dashboard Cards Row -->
+<div class="row">
+    <!-- Total Wells -->
+    <div class="col-md-3 position-relative">
+        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+            <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+            </div>
+            <div class="content-area text-center mt-2">
+                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();">
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
+                    <span class="tag-count" id="total_well"></span>
+                </a>
             </div>
         </div>
     </div>
+
+    <!-- Flowing Wells -->
+    <div class="col-md-3 position-relative">
+        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
+            <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
+            </div>
+            <div class="content-area text-center mt-2">
+                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>">
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Flowing Wells</span><br>
+                    <span class="tag-count" id="total_flowing_well"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Non-Flowing Wells -->
+    <div class="col-md-3 position-relative">
+        <a href="<?= base_url('Overall_list_selfflow_c') ?>">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+                <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
+                    <img src="<?php echo base_url('assets/icons/04.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+                </div>
+                <div class="content-area text-center mt-2">
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Non-Flowing Wells</span><br>
+                    <span class="tag-count" id="total_non_flowing_well"></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- RTMS Non-Functional -->
+    <div class="col-md-3 position-relative">
+        <a href="<?= base_url('Overall_list_selfflow_c/overall_details_rtms') ?>">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
+                <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
+                    <img src="<?php echo base_url('assets/icons/10.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
+                </div>
+                <div class="content-area text-center mt-2">
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">RTMS Non-Functional</span><br>
+                    <span class="tag-count" id="off_unit"></span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
        <!--  <div class="col-md-12 col-xl-12">
             <div class="row mt-4">
                 <div class="col-md-3 mt-2">
