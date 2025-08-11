@@ -14,7 +14,7 @@ area_running_well_list<div class="page-wrapper">
 					</div>
 				</div>
 			</div>
-<!-- /Page Header -->
+<!-- /Page Header ---->
 		    <div class="row">
                 <div class="col-xl-12">
                     <div class="card">
