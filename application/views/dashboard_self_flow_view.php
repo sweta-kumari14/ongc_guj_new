@@ -204,9 +204,7 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-      
-=======
+
 
     <!-- Flowing Wells -->
     <div class="col-md-3 position-relative">
