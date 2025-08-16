@@ -46,7 +46,7 @@ class Web_Single_Selfflow_Dashboard_Data extends REST_Controller
 	               $result['single_welldevice_data'] = $this->Web_Single_Selfflow_dashboardData_model->Single_Well_DeviceData($well_id);
 
 	              $result['well_alert_details'] = $this->Web_Single_Selfflow_dashboardData_model->WellAlert_Details($well_id);
-//
+
 	              $result['total_alert'] = $this->Web_Single_Selfflow_dashboardData_model->Well_WiseTotal_Alert($well_id);
 
 	               $result['pressure_daily_avg'] = $this->Web_Single_Selfflow_dashboardData_model->Well_wise_daily_avg($well_id);

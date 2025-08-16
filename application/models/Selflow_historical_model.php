@@ -52,14 +52,14 @@ class Selfflow_historical_model extends CI_Model
         ->from($table);
         if (!empty($queryStartTime) && !empty($currentTime)) {
             $this->db->where([
-                'RTC_Time >=' => $queryStartTime,
-                'RTC_Time <=' => $currentTime
+                'Log_Date_Time >=' => $queryStartTime,
+                'Log_Date_Time <=' => $currentTime
             ]);
         }
         if (!empty($conditions)) {
             $this->db->where($conditions);
         }
-        $this->db->order_by('RTC_Time','ASC');
+        $this->db->order_by('Log_Date_Time','ASC');
         return $this->db->get()->result_array();
     }
 
@@ -298,8 +298,8 @@ class Selfflow_historical_model extends CI_Model
 
         if (!empty($queryStartTime) && !empty($currentTime)) {
             $this->db->where([
-                'dl.RTC_Time >=' => $queryStartTime,
-                'dl.RTC_Time <=' => $currentTime
+                'dl.Log_Date_Time >=' => $queryStartTime,
+                'dl.Log_Date_Time <=' => $currentTime
             ]);
         }
 

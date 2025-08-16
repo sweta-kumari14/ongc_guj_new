@@ -88,10 +88,10 @@
 
 
 /* Data bubble positioning (also in %) */
-.sensor_one_data     { left: 100%; bottom: 48%; }
-.sensor_two_data     { left: 100%; bottom: 45%; }
-.sensor_two_data_two { left: 96%; bottom: 60%; }
-.sensor_three_data   { left: 88%; bottom: 87%; }
+.sensor_one_data     { left: 100%; bottom: 48%; gap: 8px; }
+.sensor_two_data     { left: 100%; bottom: 45%; gap: 8px; }
+.sensor_two_data_two { left: 96%; bottom: 60%; gap: 8px; }
+.sensor_three_data   { left: 88%; bottom: 87%; gap: 8px; }
 
 
 
@@ -203,7 +203,7 @@
                         <div class="col-md-4">
                             <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
                                 <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;">
-                                    <b class="text-white">Well Name</b>
+                                    <b class="text-white">Well <span id="wellnamehdn"></span></b>
 
                                     <img src="<?php echo base_url(); ?>assets/img/well.gif" width="30" style="border-radius: 50%;">
                                 </div>
@@ -212,19 +212,19 @@
                                         <!-- Sensors -->
                                         <div class="sensor_one">
                                             <img src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                                            <div class="sensor_one_data"><strong>THT 53.20 </strong> <span id="sensor-one-value"><span id="tht_image"></span></span></div>
+                                            <div class="sensor_one_data"><strong>THT  </strong> <span id="sensor-one-value"><span id="tht_image"></span></span></div>
                                         </div>
                                         <div class="sensor-two" id="sensorthp">
                                             <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                                            <div class="sensor_two_data"><strong>THP 53.20 </strong> <span id="sensor-two-value"><span id="thp_image"></span></span></div>
+                                            <div class="sensor_two_data"><strong>THP  </strong> <span id="sensor-two-value"><span id="thp_image"></span></span></div>
                                         </div>
                                         <div class="sensor-two_one" id="sensorabp">
                                             <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                                            <div class="sensor_two_data_two"><strong>ABP 53.20 </strong> <span id="sensor-two-value"><span id="abp_image"></span></span></div>
+                                            <div class="sensor_two_data_two"><strong>ABP  </strong> <span id="sensor-two-value"><span id="abp_image"></span></span></div>
                                         </div>
                                         <div class="sensor-three" id="sensorchp">
                                             <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                                            <div class="sensor_three_data"><strong>CHP 53.20 </strong> <span id="sensor-three-value"><span id="chp_image"></span></span></div>
+                                            <div class="sensor_three_data"><strong>CHP  </strong> <span id="sensor-three-value"> <span id="chp_image"></span></span></div>
                                         </div>
                                         <div style="padding-top:25px;">
                                         <img class="pump-img" style="max-width:83%; margin-top: -10px; margin-right:24px;" 
@@ -270,10 +270,10 @@
                                       <table class="table table-sm text-center mb-0" style="font-size: 11px; line-height: 1; border-collapse: collapse; width: 100%;">
                             <thead style="background-color: #f8f9fa;">
                                 <tr>
-        <th style="padding: 3px; border: 1px solid #dee2e6;"></th>
-        <th colspan="2" style="padding: 3px; border: 1px solid #dee2e6; font-weight: bold; text-align: center;">Average</th>
-        <th style="padding: 3px; border: 1px solid #dee2e6;"></th>
-    </tr>
+                                    <th style="padding: 3px; border: 1px solid #dee2e6;"></th>
+                                    <th colspan="2" style="padding: 3px; border: 1px solid #dee2e6; font-weight: bold; text-align: center;">Average</th>
+                                    <th style="padding: 3px; border: 1px solid #dee2e6;"></th>
+                                </tr>
                                 <tr>
                                     <th style="padding: 3px; border: 1px solid #dee2e6;">Mes. Point</th>
                                     <th style="padding: 3px; border: 1px solid #dee2e6;">Daily</th>
@@ -290,7 +290,7 @@
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">
                                         <div style="display: flex; align-items: center;">
                                             <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-success" style="width: 90%; border-radius: 0;"></div>
+                                                <div class="progress-bar bg-success" style="width: 0%; border-radius: 0;"></div>
                                             </div>
                                             <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
                                         </div>
@@ -304,7 +304,7 @@
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">
                                         <div style="display: flex; align-items: center;">
                                             <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 60%; border-radius: 0;"></div>
+                                                <div class="progress-bar bg-warning" style="width: 0%; border-radius: 0;"></div>
                                             </div>
                                             <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
                                         </div>
@@ -318,7 +318,7 @@
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">
                                         <div style="display: flex; align-items: center;">
                                             <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 60%; border-radius: 0;"></div>
+                                                <div class="progress-bar bg-warning" style="width: 0%; border-radius: 0;"></div>
                                             </div>
                                             <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
                                         </div>
@@ -334,7 +334,7 @@
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">
                                         <div style="display: flex; align-items: center;">
                                             <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 60%; border-radius: 0;"></div>
+                                                <div class="progress-bar bg-warning" style="width: 0%; border-radius: 0;"></div>
                                             </div>
                                             <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
                                         </div>
@@ -342,15 +342,14 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                                   </div>
-                                                    </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                   </div>
                                     </div>
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                                    <!-- RTMS Status Card (Merged with Details) -->
                                     <div class="col-md-4">
                                     <div class="bg-white rounded-3 shadow-sm border" style="height: 100%; border: 1px solid #ededed;">
@@ -377,7 +376,7 @@
                                         <div class="text-center mb-3">
                                         <div style="font-size: 13px; color: #555;">Last Updated</div>
                                         <div style="font-weight: bold; font-size: 13px;">
-                                            <i class="bi bi-clock me-1 text-primary"></i><span id="log_date_time">2025-04-01 11:57:44</span>
+                                            <i class="bi bi-clock me-1 text-primary"></i><span id="last_updated_datetime"></span>
                                         </div>
                                         </div>
 
@@ -388,15 +387,15 @@
                                                 <i class="bi bi-lightning-fill text-secondary"></i>
                                                 <span style="font-size: 13px;">Device Name</span>
                                             </div>
-                                            <span style="font-weight: 500; font-size: 13px;">RTMS-X100</span>
+                                            <span style="font-weight: 500; font-size: 13px;" id="device_name"></span>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-between bg-light rounded px-2 py-1">
                                             <div class="d-flex align-items-center gap-2">
                                                 <i class="bi bi-upc-scan text-secondary"></i>
-                                                <span style="font-size: 13px;">IMEI</span>
+                                                <span style="font-size: 13px;">Imei No</span>
                                             </div>
-                                            <span style="font-weight: 500; font-size: 13px;">123456789012345</span>
+                                            <span style="font-weight: 500; font-size: 13px;" id="imei_no"></span>
                                         </div>
                                     </div>
 
@@ -526,22 +525,22 @@
 
                                  <div class="col-xl-12 col-lg-12" style="margin-top:-13px">
                                         <div class="card pressure-card" style="height: 520px;">
-                                            <div style="padding: 0px; background-color:#d14960;">
-                <div class="row align-items-center">
-                    <div  style="color:white;" class="col-md-6">
-                    <img src="<?php echo base_url(); ?>assets/img/line-chart.gif" width="33" style="border-radius: 50%; margin-left:3px">&nbsp;Graph&nbsp; &nbsp;
-                   
-                     </div>
-                    <div class="col-md-6 d-flex justify-content-end align-items-center">
-                       <input type="datetime-local" name="from_date" class="form-control me-2"
-    id="from_date" style="max-width: 123px; padding: 2px 6px; font-size: 12px; height: 30px;">
+                                            <div style="padding: 5px; background-color:#d14960;">
+                                                    <div class="row align-items-center">
+                                                        <div  style="color:white;" class="col-md-6">
+                                                        <img src="<?php echo base_url(); ?>assets/img/line-chart.gif" width="33" style="border-radius: 50%; margin-left:3px">&nbsp;Graph&nbsp; &nbsp;
+                                                       
+                                                         </div>
+                                                        <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                                           <input type="datetime-local" name="from_date" class="form-control me-2"
+                                        id="from_date" style="max-width: 123px; padding: 2px 6px; font-size: 12px; height: 30px;">
 
-<input type="datetime-local" name="to_date" class="form-control me-2"
-    id="to_date" style="max-width: 123px; padding: 2px 6px; font-size: 12px; height: 30px;">
+                                    <input type="datetime-local" name="to_date" class="form-control me-2"
+                                        id="to_date" style="max-width: 123px; padding: 2px 6px; font-size: 12px; height: 30px;">
 
-                       <button class="btn btn-danger me-2"
-        style="height: 30px; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0 12px; background-color: #6a7e9b;"
-        onclick="Get_Graph()">Generate</button>
+                                                           <button class="btn btn-danger me-2"
+                                            style="height: 30px; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0 12px; background-color: #6a7e9b;"
+                                            onclick="Get_Graph()">Generate</button>
 
                         <button type="button" class="btn btn-light" onclick="resetDates()" style="padding: 4px 12px; margin-right:2px;">
                             <i class="fa-solid fa-arrows-rotate"></i>
@@ -646,6 +645,7 @@ if($this->session->flashdata('error') != '')
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-gauges/gauge.min.js"></script>
 <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKoAgLoslTEUCNabLj5H5jLVdWFD2WhK8"></script>
 <!-- <script src="<?php echo base_url() ?>assets/local/wssclient.js"></script> -->
 
@@ -747,7 +747,7 @@ $(document).ready(function() {
 });
 
 function getAlertLog() {
-   let well_id = getWellIdFromURL();
+   let well_id = '<?php echo base_url('3');?>';
 
     if (!well_id) {
         console.warn("Well ID not selected!");
@@ -758,7 +758,7 @@ function getAlertLog() {
     url: "<?php echo base_url() ?>Selfflow_c/get_alert_log",
     type: "POST",
     data: { well_id },
-    dataType: "json", // ← This handles JSON parsing
+    dataType: "json", 
     success: (resp) => {
         console.log(resp, 'alert');
         if (resp.response_code == 200) {
@@ -807,19 +807,10 @@ function getAlertLog() {
 });
 
 }
-function getWellIdFromURL() {
-    const pathSegments = window.location.pathname.split('/');
-    return pathSegments[pathSegments.length - 1];
-}
-
 
 get_single_well_details();
 function get_single_well_details() {
-     let well_id = $('#well_id').val();
-     console.log("Well ID:", well_id);
-
-   //  $('#loader_for_sd').show();
-    // $('#single_dadhboard_content_div').hide();
+     let well_id = '<?php echo $this->uri->segment('3')?>';
     let user_type = '<?php echo $this->session->userdata('user_type') ?>';
     let role_type = '<?php echo $this->session->userdata('role_type') ?>';
     $.ajax({
@@ -878,42 +869,24 @@ function get_single_well_details() {
                     $('#thped').val(deviceData.thp_ed || 0);
                     $('#abped').val(deviceData.abp_ed || 0);
 
-                    if(chp_ed == 1)
-                    {
+                    
                         $('#sensorchp').show();
                         $('#sensorchp_monthly').show();
-                    }else{
-                        $('#sensorchp').hide();
-                        $('#sensorchp_monthly').hide();
-                    }
-
-                    if(abp_ed == 1)
-                    {
+                    
+                    
                         $('#sensorabp').show();
                         $('#sensorabp_monthly').show();
-                    }else{
-                        $('#sensorabp').hide();
-                        $('#sensorabp_monthly').hide();
-                    }
-
-                    if(gip_ed == 1)
-                    {
+                    
+                    
                         $('#sensorgip').show();
                         $('#sensorgip_monthly').show();
                         
-                    }else{
-                        $('#sensorgip').hide();
-                        $('#sensorgip_monthly').hide();
-                    }
+                    
 
-                    if(thp_ed == 1)
-                    {
+                   
                         $('#sensorthp').show();
                         $('#sensorthp_monthly').show();
-                    }else{
-                        $('#sensorthp').hide();
-                        $('#sensorthp_monthly').hide();
-                    }
+                
 
                     $('#on_time').text(deviceData.ON_Time || 0);
                     $('#off_time').text(deviceData.Off_Time || 0);
@@ -982,7 +955,7 @@ function get_single_well_details() {
                     var battery_value = parseFloat(deviceData.Battery_Voltage);
                     battery(battery_value);
 
-                    setupWebSocket();
+                    // setupWebSocket();
 
 
                 }
@@ -991,7 +964,7 @@ function get_single_well_details() {
     });
 }
 function get_temperory_well_value() {
-    let well_id = $('#well_id').val();
+    let well_id = '<?php echo $this->uri->segment('3')?>';
 
     $.ajax({
         url: '<?php echo base_url(); ?>Main_dashboard_c/well_status_details',
@@ -1030,7 +1003,7 @@ function formatDateTime(dateString) {
 }
 get_pressure_details();
 function get_pressure_details() {
-    let well_id = '27394648-f40e-11ef-8373-0e1c481aa072';
+    let well_id = '<?php echo $this->uri->segment('3')?>';
     // alert(well_id);
 
     $.ajax({
@@ -1222,7 +1195,7 @@ function loadchart(mychart, mytitle, name1, name2, name3, name4, name5, name6, m
 function Get_Graph() {
     var selectedOption = "1";
     if (selectedOption === "1") {
-        var well_id = $('#well_id').val();
+        var well_id = '<?php echo $this->uri->segment('3');?>';
         var from_date = $('#from_date').val();
         var to_date = $('#to_date').val();
 
@@ -1239,11 +1212,15 @@ function Get_Graph() {
                 console.log('single_graph', res);
                 var res = JSON.parse(res);
 
-                // Create series data
-                const mapSeries = (data, name) => ({
-                    name: name,
-                    data: data.map(point => [new Date(point.x).getTime(), parseFloat(point.y)])
-                });
+                // Map and sort series
+                const mapSeries = (data, name) => {
+                    return {
+                        name: name,
+                        data: data
+                            .map(point => [new Date(point.x).getTime(), parseFloat(point.y)])
+                            .sort((a, b) => a[0] - b[0]) // sort ascending by time
+                    };
+                };
 
                 let series = [
                     mapSeries(res.data.Output_pressure.output_chp, "CHP"),
@@ -1268,8 +1245,15 @@ function Get_Graph() {
                         toolbar: { show: true }
                     },
                     series: series,
-                    xaxis: {
+                   xaxis: {
                         type: 'datetime',
+                        reversed: false, // left to right
+                        labels: {
+                            rotate: 360, // rotate labels 180 degrees
+                            formatter: function (val) {
+                                return moment(val).format("DD-MM-YYYY hh:mm:ss A");
+                            }
+                        },
                         title: { text: 'Timestamp' }
                     },
                     yaxis: {
@@ -1278,12 +1262,14 @@ function Get_Graph() {
                         max: 50
                     },
                     stroke: {
-                        curve: 'smooth',  // Spline effect
+                        curve: 'smooth',
                         width: 2
                     },
                     tooltip: {
                         x: {
-                            format: 'dd MMM yyyy HH:mm'
+                            formatter: function (val) {
+                                return moment(val).format("DD-MM-YYYY hh:mm:ss A");
+                            }
                         }
                     },
                     legend: {
@@ -1291,7 +1277,7 @@ function Get_Graph() {
                     }
                 };
 
-                // Render chart in the container
+                // Render chart
                 window.outputChart = new ApexCharts(document.querySelector("#neutral_voltage"), options);
                 window.outputChart.render();
             }
@@ -1302,9 +1288,10 @@ function Get_Graph() {
 
 
 
+
 function initMap() {
     let area_id = $('#area_id').val();
-    let well_id = $('#well_id').val();
+    let well_id = '<?php echo $this->uri->segment('3');?>';
     let well_type = $('#well_type').val();
     let user_type = '<?php echo $this->session->userdata('user_type') ?>';
     let role_type = '<?php echo $this->session->userdata('role_type') ?>';
@@ -1320,7 +1307,7 @@ function initMap() {
         },
         success: function(res) {
             response = JSON.parse(res);
-            // console.log(response, 'map');
+            console.log(response, 'map');
 
             if (response.data.length > 0) {
                 let markers = [];
@@ -1376,13 +1363,13 @@ function initMap() {
                         seconds = Math.floor(diffInMilliseconds / 1000);
                     }
 
-                    let timeLimit = (user_type == 2 || (user_type == 3 && role_type == 3)) ? 900 : 7200;
+                    let timeLimit = '900';
 
                     if (!marker.offline_time || seconds > timeLimit) {
                         markerIcon.url = '<?php echo base_url(); ?>assets/img/offline.png';
-                    } else if (seconds <= timeLimit && marker.flag_status == 0) {
-                        markerIcon.url = '<?php echo base_url(); ?>assets/img/green.png';
                     } else if (seconds <= timeLimit && marker.flag_status == 1) {
+                        markerIcon.url = '<?php echo base_url(); ?>assets/img/green.png';
+                    } else if (seconds <= timeLimit && marker.flag_status == 2) {
                         markerIcon.url = '<?php echo base_url(); ?>assets/img/red.png';
                     }
 

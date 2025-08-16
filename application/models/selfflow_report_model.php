@@ -114,28 +114,38 @@ class selfflow_report_model extends CI_Model
 
             $queryStartTime = date('Y-m-d', strtotime($from_date)) . ' 06:00:00';
         }
-        $deviceLogData = $this->fetchData(
-            'tbl_device_log_self_flow',
-            'well_id,PS_1_GIP,PS_2_CHP,PS_3_THP,PS_4_ABP,FLTP_1_Temp,Battery_Voltage,TRGT_Time,ON_Time,Off_Time,RTC_Time as Log_Date_Time',
+
+        // Step 1: Fetch historical data
+        $historicalData = $this->fetchData(
+            'tbl_historical_log_self_flow',
+            'well_id, CHP, CHP_battery_volt, THP, THP_battery_volt, ABP, ABP_battery_volt, FLT, FLT_battery_volt, Battery_Voltage, Log_Date_Time',
             $queryStartTime,
             $currentTime,
             $conditions
         );
 
-  
-        $historicalData = $this->fetchData(
-            'tbl_historical_log_self_flow',
-            'well_id,PS_1_GIP,PS_2_CHP,PS_3_THP,PS_4_ABP,FLTP_1_Temp,Battery_Voltage,TRGT_Time,ON_Time,Off_Time,RTC_Time as Log_Date_Time',
-            $queryStartTime,
-            $currentTime, 
-            $conditions
-        );
+        if (!empty($historicalData)) {
+            // Step 2: Fetch well names for all unique well_ids
+            $wellIds = array_column($historicalData, 'well_id');
 
-   
-       $combinedData = array_merge($historicalData, $deviceLogData);
+            $this->db->select('id, well_name');
+            $this->db->from('tbl_well_master');
+            $this->db->where_in('id', $wellIds);
+            $wellMasterData = $this->db->get()->result_array();
+            $wellMap = [];
+            foreach ($wellMasterData as $w) {
+                $wellMap[$w['id']] = $w['well_name'];
+            }
 
-        return $combinedData;
+            foreach ($historicalData as &$row) {
+                $row['well_name'] = $wellMap[$row['well_id']] ?? 'Unknown Well';
+            }
+            unset($row); 
+        }
+
+         return $historicalData;
     }
+
 
     private function fetchData($table, $columns, $queryStartTime, $currentTime, $conditions)
     {
@@ -143,14 +153,14 @@ class selfflow_report_model extends CI_Model
         ->from($table);
         if (!empty($queryStartTime) && !empty($currentTime)) {
             $this->db->where([
-                'RTC_Time >=' => $queryStartTime,
-                'RTC_Time <=' => $currentTime
+                'Log_Date_Time >=' => $queryStartTime,
+                'Log_Date_Time <=' => $currentTime
             ]);
         }
         if (!empty($conditions)) {
             $this->db->where($conditions);
         }
-        $this->db->order_by('RTC_Time','ASC');
+        $this->db->order_by('Log_Date_Time','ASC');
         return $this->db->get()->result_array();
     }
 

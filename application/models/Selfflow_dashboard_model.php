@@ -228,7 +228,7 @@ class Selfflow_dashboard_model extends CI_Model
                 if ($time_diff_seconds <= $dynamictime) {  
                     $status_variable = 'flowing_well';
                 } else {  
-                    $status_variable = ($row['well_status'] == 1) ? 'Offline_well' : 'non_flowing_well';
+                    $status_variable = ($row['flag_status'] == 1) ? 'Offline_well' : 'non_flowing_well';
                 }
             }
             $row['status_variable'] = $status_variable;

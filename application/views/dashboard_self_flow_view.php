@@ -246,79 +246,7 @@
             </div>
         </div>
     </div>
-       <!--  <div class="col-md-12 col-xl-12">
-            <div class="row mt-4">
-                <div class="col-md-3 mt-2">
-                    <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();">
-                        <div class="card small-card">
-                            <div class="card-content p-0">
-                                <div class="icon-counter gap-2 mt-2">
-                                    <div class="icons mb-2" style="bottom:50px; background:#f2dee5">
-                                       <img src="<?= base_url('assets/icons/oil.png') ?>" style="max-width: 117%; height: 41px;">
-
-                                    </div>
-                                    <div class="content-area text-center">
-                                      <span class="tag-name" style="color: #312929; margin-top: 5px; display: inline-block;">Total Wells</span><br>
-                                        <span class="tag-count" id="total_well"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-               <div class="col-md-3 mt-2">
-                    <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>">
-                        <div class="card small-card">
-                            <div class="running-card p-0">
-                                <div class="icon-counter gap-2 mt-2">
-                                    <div class="icons mb-2" style="bottom:50px;background:#f2dee5">
-                                        <img src="<?= base_url('assets/icons/02.png') ?>" style="max-width: 117%; height: 41px;">
-                                    </div>
-                                    <div class="content-area text-center mt-2">
-                                        <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Flowing Wells</span><br>
-                                        <span class="tag-count" id="total_flowing_well"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 mt-2">
-                    <a href="<?= base_url('Overall_list_selfflow_c') ?>">
-                        <div class="card small-card">
-                            <div class="power-cut-card p-0">
-                                <div class="icon-counter gap-2 mt-2">
-                                    <div class="icons mb-2" style="bottom: 50px; background:#f2dee5">
-                                        <img src="<?= base_url('assets/icons/04.png') ?>" style="max-width: 117%; height: 41px;">
-                                    </div>
-                                    <div class="content-area text-center mt-2">
-                                        <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Non-Flowing Wells</span><br>
-                                        <span class="tag-count" id="total_non_flowing_well"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 mt-2">
-                    <a href="<?= base_url('Overall_list_selfflow_c/overall_details_rtms') ?>">
-                    </a>
-                    <div class="card small-card">
-                        <div class="faulty-card p-0">
-                            <div class="icon-counter gap-2 mt-2">
-                                <div class="icons mb-2" style="bottom: 50px; background:#f2dee5">
-                                    <img src="<?= base_url('assets/icons/03.png') ?>" style="max-width: 117%; height: 41px;">
-                                </div>
-                                <div class="content-area text-center mt-2">
-                                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block";>RTMS Non-Functional</span><br>
-                                    <span class="tag-count" id="off_unit"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+      
         <!-- Well Details Card -->
         <div class="row">
             <div class="col-xl-12 col-md-12">
@@ -643,7 +571,7 @@ function get_well_data() {
                         '<div class="sensor-two"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-two_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data_two"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-three"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_three_data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div></div>' +
-                        '<img class="pump-img" src="<?= base_url('assets/icons/11.jpg') ?>" class="sensor-icon">' +
+                        '<img class="pump-img" src="<?= base_url('assets/img/well_image.png') ?>" class="sensor-icon">' +
                         '</div>' +
                         '<div class="card-footer d-flex justify-content-between align-items-center">' +
                         '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +

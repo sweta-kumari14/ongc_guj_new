@@ -78,6 +78,8 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 <?php 
 if($this->session->flashdata('success') != '')
 {
@@ -353,17 +355,22 @@ function updateLineChart(datasets, labels) {
                 xAxes: [{
                     type: 'time',
                     time: {
+                        tooltipFormat: 'DD-MM-YYYY hh:mm:ss A', // tooltip shows AM/PM
                         displayFormats: {
-                            second: 'DD-MM-YYYY HH:mm:ss',
-                            minute: 'DD-MM-YYYY HH:mm:ss',
-                            hour: 'DD-MM-YYYY HH:mm:ss'
+                            second: 'DD-MM-YYYY hh:mm:ss A',
+                            minute: 'DD-MM-YYYY hh:mm:ss A',
+                            hour: 'DD-MM-YYYY hh:mm:ss A'
                         }
+                    },
+                    ticks: {
+                        source: 'auto'
                     }
                 }]
             }
         }
     });
 }
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';

@@ -12,6 +12,35 @@
     table thead tr th{
         background: #daebf9 !important;
     }
+    .table-bordered th {
+       border: 1px solid var(--bs-tertiary-color);
+
+    }
+    #data-table th[data-sort]::after {
+      content: "";
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 6px solid #ccc; /* light gray arrow initially */
+    }
+
+    #data-table th.sort-asc::after {
+        border-bottom: 6px solid #000;
+        border-top: none;
+    }
+
+    #data-table th.sort-desc::after {
+        border-top: 6px solid #000;
+        border-bottom: none;
+    }
+
+    .table-bordered td {
+       border: 1px solid var(--bs-tertiary-color);
+
+    }
     .form-label{
         font-size: 15px;
     }
@@ -43,47 +72,45 @@
         opacity: 1; 
         margin-right: 2px;
     }
+    
+    .card-header {
+    
+     background-color: var(--bs-white) !important;
+   
+    }
 </style>
 <div class="page-wrapper">
     <div class="content container-fluid pb-0">
         <div class="page-header">
             <div class="content-page-header" style="margin-top: -28px;">
-                <h5>Historical Report</h5>
+                <h5>Historical Report Self Flow</h5>
             </div>  
         </div>
-            <div class="row">                   
-                    
+        <div class="row">                    
             <div class="col-lg-12" style="margin-top: -16px;">
                 <div class="card">
-                   
-                    <div class="card-body">
-                  <div class="row mb-3">
-    <div class="col-12 d-flex justify-content-between align-items-center">
-        
-        <!-- Heading -->
-        <h4 class="header-title m-0"><b>Historical Report</b></h4>
-        
-        <!-- Right Side Buttons -->
-        <div>
-            <button type="button" id="export_btns" onclick="export_report();" class="btn btn-outline-success me-2">
-                <i class="fa-solid fa-file-excel"></i> Export
-            </button>
+                    <div class="card-header">
+                       <div class="row">
+                           <div class="col-12 d-flex justify-content-between align-items-center">
+                              <h4 class="header-title m-0"><b>Historical Report</b></h4>
+                           <div>
+                            <button type="button" id="export_btns" onclick="export_report();" class="btn btn-outline-success me-2">
+                                <i class="fa-solid fa-file-excel"></i> Export
+                            </button>
 
-            <a href="Selfflow_c">
-                <button type="button" id="back_btns" class="btn btn-outline-warning">
-                    <i class="fa-solid fa-left-long"></i> Back
-                </button>
-            </a>
-        </div>
-    </div>
-</div>
-
-                <hr>
+                            <a href="<?php echo base_url('')?>Selfflow_c">
+                                <button type="button" id="back_btns" class="btn btn-outline-warning">
+                                    <i class="fa-solid fa-left-long"></i> Back
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="filter-section" style="padding: 0px 20px;">
                 <div class="col-xl-12">
-                    <div class="row">
-                        <div class="form-group col-md-4">
+                    <div class="row mt-4">
+                        <div class="form-labele col-md-4">
                                 <h5><b>Well  Name</b></h5>
                                 <select name="well_id" id="well_id" class="form-control select2" onchange="get_mis_report();">
                                  
@@ -115,8 +142,23 @@
                                     <input type="date" name="to_date" id="to_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onchange="get_mis_report();get_installation_date();">
                                 </div>
                             </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                 <div>
+                                    <label>per page</label>
+                                    <select id="page-size" class="form-select form-select-sm w-auto d-inline-block">
+                                        <option value="5">5</option>
+                                        <option value="10" selected="">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                       
+                                </div>
+                                <input type="text" id="searchBox" placeholder="Search..." class="form-control w-25" />
+
+                            </div>
            
                              <div class="table-responsive mt-4">
+
                                 <table class="table table-bordered border-bottom table-striped" id="data-table">
                                       <thead style="background-color:blue; color: white; text-align: center;">
                                         <tr>
@@ -126,26 +168,36 @@
                                             <th colspan="25" class="text-uppercase" style="font-size: 15px;font-weight: bolder;" id="report-heading"> Historical Report as on </th>
                                         </tr>
                                         <tr>
-                                            <th style="width:10%;">Sl No.</th>
-                                            <th>Last Log Date Time</th>
-                                            <th>GIP</th>
-                                            <th>CHP</th>
-                                            <th>THP</th>
-                                            <th>ABP</th>
-                                            <th>THT</th>
-                                            <th>Battery Voltage</th>
-                                            <th>Target Time</th>
-                                            <th>On Time</th>
-                                            <th>OFf Time</th>
+                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="number" data-key="sl_no">Sl No.</th>
+                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="string" data-key="well_name">Well</th>
+                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="date" data-key="Log_Date_Time">Last Log Date Time</th>
+                                            <th colspan="2">CHP (kg/cm²)</th>
+                                            <th colspan="2">THP (kg/cm²)</th>
+                                            <th colspan="2">ABP (kg/cm²)</th>
+                                            <th colspan="2">FLT (°C)</th>
+                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="number" data-key="Battery_Voltage">Battery (v)</th>
+                                            
+                                        </tr>
+                                       <tr>
+                                            <th data-sort="number" data-key="CHP" style="position: relative; padding-right: 20px;">Sensor</th>
+                                            <th data-sort="number" data-key="CHP_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
+                                            <th data-sort="number" data-key="THP" style="position: relative; padding-right: 20px;">Sensor</th>
+                                            <th data-sort="number" data-key="THP_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
+                                            <th data-sort="number" data-key="ABP" style="position: relative; padding-right: 20px;">Sensor</th>
+                                            <th data-sort="number" data-key="ABP_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
+                                            <th data-sort="number" data-key="FLT" style="position: relative; padding-right: 20px;">Sensor</th>
+                                            <th data-sort="number" data-key="FLT_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center" id="table_data"> 
                                     </tbody>
                                 </table>
-
-
-                                </div>
-
+                                <div id="pagination" class="mt-3 text-end"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -199,8 +251,6 @@ if($this->session->flashdata('error') != '')
         }else{
             $('#show_to_date').text('');
         }
-
-        // Additional check to show only the 'from date' if from_date == to_date
           if (f_from_date.isValid() && t_to_date.isValid() && f_from_date.isSame(t_to_date, 'day')) {
             $('#show_to_date').text('');
             $('#to').hide();
@@ -210,72 +260,148 @@ if($this->session->flashdata('error') != '')
     }
 </script>
 <script type="text/javascript">
-	get_mis_report();
-		function get_mis_report()
-		{
+let tableDataArray = [];
+let currentPage = 1;
+let rowsPerPage = 10;
+let sortDirection = 1;
+let sortColumnIndex = null;
 
-			$('#table_data').html('<tr><td colspan="25">Processing please wait.......</td></tr>');
-			
-			var from_date = $('#from_date').val();
-			var to_date = $('#to_date').val();
-			var well_id = $('#well_id').val();
-           
-          
-            var selectedWellName = $('#well_id option:selected').text();
-            let formattedFromDate = moment(from_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-            let formattedToDate = moment(to_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-            let headingText = `  Historical Report of ${selectedWellName} from ${formattedFromDate} to ${formattedToDate}   `;
-            $('#report-heading').text(headingText);
+// Fetch data
+function get_mis_report() {
+    $('#table_data').html('<tr><td colspan="25">Processing please wait....</td></tr>');
 
+    let from_date = $('#from_date').val();
+    let to_date = $('#to_date').val();
+    let well_id = $('#well_id').val();
 
-			$.ajax({
-				url:'<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_mis_report_histrorical',
-				method:'POST',
-				data:{from_date:from_date,to_date:to_date,well_id:well_id},
-				success:function(res)
-				{
-					var response = JSON.parse(res);
-					// console.log('graph_detail',response);
-				
-					if(response.response_code==200)
-		                {
-		                    $('#table_data').html("");
+    $.ajax({
+        url: '<?= base_url("Self_flow_well_historical_log_c/get_mis_report_histrorical") ?>',
+        method: 'POST',
+        data: {from_date, to_date, well_id},
+        success: function(res) {
+            let response = JSON.parse(res);
+            if(response.response_code == 200) {
+                tableDataArray = response.data || [];
+                currentPage = 1;
+                renderTable();
+                renderPagination();
+            } else {
+                $('#table_data').html('<tr><td colspan="25" class="text-danger">No records found</td></tr>');
+            }
+        }
+    });
+}
 
-                          
-		                     if(response.data.length > 0)
-		                     {
-		                        $.each(response.data,function(i,v){
+// Render Table
+function renderTable(filteredData) {
+    let data = filteredData || tableDataArray;
+    data.sort((a,b) => (a.well_name||'').localeCompare(b.well_name||''));
 
-		                            $("#table_data").append('<tr>'+
-		                                '<td>'+(i+1)+'</td>'+
-                                        '<td>' + (v.Log_Date_Time !== null ? moment(v.Log_Date_Time).format('DD-MM-YYYY h:mm:ss a') : 'NA') + '</td>' +
-                                       
-                                       '<td>'+(v.PS_1_GIP != null ? v.PS_1_GIP : "")+'</td>'+
-                                       '<td>'+(v.PS_2_CHP != null ? v.PS_2_CHP : "")+'</td>'+
-                                       '<td>'+(v.PS_3_THP != null ? v.PS_3_THP : "")+'</td>'+
-                                       '<td>'+(v.PS_4_ABP != null ? v.PS_4_ABP : "")+'</td>'+
-                                        '<td>'+(v.FLTP_1_Temp != null ? v.FLTP_1_Temp : "")+'</td>'+
-                                        '<td>'+(v.Battery_Voltage!=null? v.Battery_Voltage : "")+'</td>'+
-                                        '<td>'+(v.TRGT_Time !== null ? v.TRGT_Time : '')+'</td>'+
-                                        '<td>'+(v.ON_Time !== null ? v.ON_Time : '')+'</td>'+
-                                        '<td>'+(v.Off_Time !== null ? v.Off_Time : '')+'</td>'+
-		                            '</tr>');
-		                        });
-		                     }
-		                     else{
-		                        $('#table_data').html('<tr>'+
-		                                 '<td class="text-danger" style="text-align:center;" colspan="25">No Record Found !!</td>'+
-		                              '</tr>');
-		                     }
-		                }
+    let start = (currentPage-1)*rowsPerPage;
+    let end = start+rowsPerPage;
+    let paginatedData = data.slice(start, end);
 
-				}
-				
-			});
-		}
+    $('#table_data').empty();
+    if(paginatedData.length > 0) {
+        $.each(paginatedData, function(i,v){
+            $('#table_data').append(`
+                <tr>
+                    <td>${start+i+1}</td>
+                    <td class="well_name_cell">${v.well_name || ''}</td>
+                    <td>${v.Log_Date_Time ? moment(v.Log_Date_Time).format('DD-MM-YYYY h:mm:ss a') : 'NA'}</td>
+                    <td>${v.CHP||''}</td>
+                    <td>${v.CHP_battery_volt||''}</td>
+                    <td>${v.THP||''}</td>
+                    <td>${v.THP_battery_volt||''}</td>
+                    <td>${v.ABP||''}</td>
+                    <td>${v.ABP_battery_volt||''}</td>
+                    <td>${v.FLT||''}</td>
+                    <td>${v.FLT_battery_volt||''}</td>
+                    <td>${v.Battery_Voltage||''}</td>
+                </tr>
+            `);
+        });
+        mergeWellNameCells();
+    } else {
+        $('#table_data').html('<tr><td colspan="25" class="text-danger">No Record Found !!</td></tr>');
+    }
+}
 
+// Merge well_name cells
+function mergeWellNameCells() {
+    let prevText = null, rowspan = 1, prevCell = null;
+    $('#table_data .well_name_cell').each(function() {
+        let currentText = $(this).text();
+        if(currentText === prevText) {
+            rowspan++;
+            $(this).remove();
+            prevCell.attr('rowspan', rowspan);
+        } else {
+            prevText = currentText;
+            rowspan = 1;
+            prevCell = $(this);
+        }
+    });
+}
+
+// Pagination
+function renderPagination(filteredData) {
+    let data = filteredData || tableDataArray;
+    let totalPages = Math.ceil(data.length / rowsPerPage);
+    let pagHTML = '';
+    for(let i=1; i<=totalPages; i++){
+        pagHTML += `<button class="btn btn-sm ${i===currentPage?'btn-primary':'btn-outline-primary'} me-1" onclick="goToPage(${i})">${i}</button>`;
+    }
+    $('#pagination').html(pagHTML);
+}
+
+function goToPage(page){
+    currentPage = page;
+    renderTable();
+    renderPagination();
+}
+
+// Sorting
+$('#data-table thead th[data-key]').on('click', function() {
+    let key = $(this).data('key');
+    let sortType = $(this).data('sort') || 'string';
+
+    if(sortColumnIndex===key) sortDirection=-sortDirection;
+    else { sortDirection=1; sortColumnIndex=key; }
+
+    $('#data-table thead th').removeClass('sort-asc sort-desc');
+    $(this).addClass(sortDirection===1?'sort-asc':'sort-desc');
+
+    tableDataArray.sort((a,b)=>{
+        let valA = a[key]||'', valB = b[key]||'';
+        if(sortType==='number') return ((parseFloat(valA)||0)-(parseFloat(valB)||0))*sortDirection;
+        if(sortType==='date') return (new Date(valA)-new Date(valB))*sortDirection;
+        return valA.toString().localeCompare(valB.toString())*sortDirection;
+    });
+    currentPage=1;
+    renderTable();
+    renderPagination();
+});
+
+// Event listeners
+$(document).ready(function(){
+    get_mis_report();
+    $('#from_date,#to_date,#well_id').on('change', get_mis_report);
+    $('#page-size').on('change', function(){
+        rowsPerPage = parseInt($(this).val());
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+    });
+    $('#searchBox').on('input', function(){
+        let term = $(this).val().toLowerCase();
+        let filtered = tableDataArray.filter(row=>Object.values(row).some(v=>v&&v.toString().toLowerCase().includes(term)));
+        currentPage=1;
+        renderTable(filtered);
+        renderPagination(filtered);
+    });
+});
 </script>
-
 
 <script src="<?php echo base_url(); ?>assets/local/excel/xlsx.full.min.js"></script>
 <script type="text/javascript">
@@ -284,12 +410,9 @@ if($this->session->flashdata('error') != '')
       var sheetName = "Sheet1";
       var fileName = "Historical report.xlsx";
       var table = $("#data-table")[0];
-      // Convert table to worksheet
       var ws = XLSX.utils.table_to_sheet(table);
-      // Create a new workbook and add the worksheet to it
       var wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, sheetName);
-      // Save the workbook as an Excel file and download it
       XLSX.writeFile(wb, fileName);
     }
 

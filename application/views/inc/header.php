@@ -24,7 +24,7 @@
 			
 			<!-- Header Title -->
 	      <div class="page-title-box">
-				<h3>Intelligent Well Monitoring System</h3>
+				<h3>Cambay Asset</h3>
 	      </div>
 			
 			

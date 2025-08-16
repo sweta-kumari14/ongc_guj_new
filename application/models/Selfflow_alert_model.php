@@ -6,7 +6,7 @@ class Selfflow_alert_model extends CI_Model
     {
         parent::__construct();
     }
-    public function date_wise_Alert_Report($well_id, $date, $site_id, $user_id)
+    public function date_wise_Alert_Report($well_id, $date, $site_id, $user_id,$alert_type)
     {
         if ($well_id != '')
             $this->db->where('sd.well_id', $well_id);
@@ -14,6 +14,9 @@ class Selfflow_alert_model extends CI_Model
             $this->db->where('sd.site_id', $site_id);
         if ($user_id != '')
             $this->db->where('ad.user_id', $user_id);
+        if ($alert_type != '')
+            $this->db->where('tl.alert_type', $alert_type);
+
 
         $from_date = date('Y-m-d 06:00:00', strtotime($date));
         $to_date   = date('Y-m-d 06:00:00', strtotime($date . ' +1 day'));
@@ -33,7 +36,7 @@ class Selfflow_alert_model extends CI_Model
     }
 
 
-    public function Well_wise_Alert_Report($well_id,$site_id,$from_date, $to_date, $user_id,$sort_by)
+    public function Well_wise_Alert_Report($well_id,$site_id,$from_date, $to_date, $user_id,$alert_type)
     {
         if ($well_id != '') {
             $this->db->where('sd.well_id', $well_id);
@@ -41,6 +44,10 @@ class Selfflow_alert_model extends CI_Model
 
         if ($site_id != '') {
             $this->db->where('sd.site_id', $site_id);
+        }
+
+        if ($alert_type != '') {
+            $this->db->where('tl.alert_type', $alert_type);
         }
         
         if ($from_date != '' && $to_date != '') {
@@ -60,14 +67,9 @@ class Selfflow_alert_model extends CI_Model
            
         }
 
-        if ($sort_by != '') {
-            $this->db->order_by($sort_by,'ASC');
-           
-        }
-
         return $this->db->select("sd.well_id, wm.well_name,tl.alert_type, tl.alert_details, tl.start_date_time, tl.end_date_time,TIMEDIFF(tl.end_date_time, tl.start_date_time) AS duration,ws.well_site_name")
-             ->from('tbl_site_device_installtion_self_flow sd')
-             ->join('tbl_alert_log_self_flow tl', 'tl.well_id = sd.well_id', 'left')
+             ->from('tbl_alert_log_self_flow tl')
+             ->join('tbl_site_device_installtion_self_flow sd','tl.well_id = sd.well_id', 'left')
              ->join('tbl_well_master wm', 'sd.well_id = wm.id', 'left')
              ->join('tbl_role_wise_user_assign_details ad', 'ad.site_id = sd.site_id AND ad.status = 1', 'left')
              ->join('tbl_well_site_master ws', 'sd.site_id = ws.id', 'left')

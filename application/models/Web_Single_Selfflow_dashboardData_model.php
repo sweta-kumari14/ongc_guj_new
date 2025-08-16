@@ -13,10 +13,10 @@ class Web_Single_Selfflow_dashboardData_model extends CI_Model
             $this->db->where('sd.well_id',$well_id);
         return $this->db->select("sd.well_id, sd.area_id, sd.site_id, sd.well_type, sd.device_name, sd.imei_no, 
                               sd.RTC_Time as Log_Date_Time, sd.PS_1_GIP, sd.PS_2_CHP, sd.PS_3_THP, sd.PS_4_ABP, 
-                              sd.FLTP_1_Temp, sd.Battery_Voltage, sd.flag_status, sd.PSF_1, sd.PSF_2, sd.PSF_3, 
+                              sd.FLTP_1_Temp, sd.Battery_Voltage, sd.PSF_1, sd.PSF_2, sd.PSF_3, 
                               sd.PSF_4, sd.TSF_1, sd.SF_1_solenide, sd.BVF_1, sd.TRGT_Time, sd.ON_Time, sd.Off_Time, 
-                              sd.next_cycle, sd.last_cycle, wm.well_name, sd.flag_status, sd.passcode, sd.lat, 
-                              sd.long as long")
+                              sd.next_cycle, sd.last_cycle, wm.well_name, sd.well_status as flag_status, sd.passcode, wm.lat, 
+                              wm.long as long")
 
         ->from('tbl_site_device_installtion_self_flow sd')
         ->join('tbl_well_master wm','sd.well_id=wm.id','left')
@@ -39,10 +39,10 @@ class Web_Single_Selfflow_dashboardData_model extends CI_Model
             $to_date = date('Y-m-d', strtotime('+1 day')) . ' 06:00:00';
         }
 
-        return $this->db->select("sd.id,sd.well_id,tl.imei_no,sd.device_name,tl.alert_type,tl.alert_details,tl.alert_date_time as trip_datetime")
+        return $this->db->select("sd.id,sd.well_id,tl.imei_no,sd.device_name,tl.alert_type,tl.alert_details,tl.start_date_time as trip_datetime")
         ->from('tbl_alert_log_self_flow tl')
         ->join('tbl_site_device_installtion_self_flow sd','sd.well_id=tl.well_id','left')
-        ->where(['sd.status'=>1,'tl.alert_date_time >='=> $from_date,'tl.alert_date_time <'=> $to_date])->get()->result_array();
+        ->where(['sd.status'=>1,'tl.start_date_time >='=> $from_date,'tl.end_date_time <'=> $to_date])->get()->result_array();
        
     }
 
@@ -64,7 +64,7 @@ class Web_Single_Selfflow_dashboardData_model extends CI_Model
         $res = $this->db->select("count(tl.well_id) as total")
         ->from('tbl_site_device_installtion_self_flow sd')
         ->join('tbl_alert_log_self_flow tl','sd.well_id=tl.well_id and tl.status=1','left')
-        ->where(['sd.status'=>1,'tl.alert_date_time >='=> $from_date,'tl.alert_date_time <'=> $to_date])->get()->result_array();
+        ->where(['sd.status'=>1,'tl.start_date_time >='=> $from_date,'tl.end_date_time <'=> $to_date])->get()->result_array();
         if($res!='')
         {
             return $res[0]['total'];
