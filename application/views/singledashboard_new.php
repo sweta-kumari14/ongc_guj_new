@@ -64,10 +64,10 @@
     position: absolute;
 }
 
-.sensor_one     { left: 17%;  top: 5%; }
-.sensor-two     { left: 37%; top: 22%; }
-.sensor-two_one { left: 70%; top: 36%; }
-.sensor-three   { left: 41%; top: 63%; }
+.sensor_one     { left: 70%;  top: 32%; }
+.sensor-two     { left: 44%; top: 18%; }
+.sensor-two_one { left: 58%; top: 32%; }
+.sensor-three   { left: 41%; top: 57%; }
 
 /* Sensor data bubbles */
 .sensor_one_data, .sensor_two_data,
@@ -88,10 +88,10 @@
 
 
 /* Data bubble positioning (also in %) */
-.sensor_one_data     { left: 100%; bottom: 48%; gap: 8px; }
-.sensor_two_data     { left: 100%; bottom: 45%; gap: 8px; }
-.sensor_two_data_two { left: 96%; bottom: 60%; gap: 8px; }
-.sensor_three_data   { left: 88%; bottom: 87%; gap: 8px; }
+.sensor_one_data     { left: 20%; bottom: -90%; }
+.sensor_two_data     { left: -131%; bottom:109%; }
+.sensor_two_data_two { left: 53%; bottom:105%; }
+.sensor_three_data   { left: -115%; bottom: 102%; }
 
 
 
@@ -162,6 +162,22 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0.6; }
     }
+     .battery-container {
+        max-width: 120px;
+        margin: auto;
+    }
+
+    #batteryCircle {
+        transition: stroke-dashoffset 0.8s ease, stroke 0.5s ease;
+    }
+    .tooltip-inner {
+        background-color: #1e88e5 !important;
+        color: #fff !important;            
+        font-weight: 500;
+        font-size: 13px;
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
 </style>
 <style>
     .btn-flag {
@@ -202,7 +218,7 @@
 
                         <div class="col-md-4">
                             <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
-                                <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;">
+                                <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;border-top-left-radius: 10px;  border-top-right-radius: 10px;">
                                     <b class="text-white">Well <span id="wellnamehdn"></span></b>
 
                                     <img src="<?php echo base_url(); ?>assets/img/well.gif" width="30" style="border-radius: 50%;">
@@ -212,7 +228,7 @@
                                         <!-- Sensors -->
                                         <div class="sensor_one">
                                             <img src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                                            <div class="sensor_one_data"><strong>THT  </strong> <span id="sensor-one-value"><span id="tht_image"></span></span></div>
+                                            <div class="sensor_one_data"><strong>FLT  </strong> <span id="sensor-one-value"><span id="flt_image"></span></span></div>
                                         </div>
                                         <div class="sensor-two" id="sensorthp">
                                             <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
@@ -227,12 +243,21 @@
                                             <div class="sensor_three_data"><strong>CHP  </strong> <span id="sensor-three-value"> <span id="chp_image"></span></span></div>
                                         </div>
                                         <div style="padding-top:25px;">
-                                        <img class="pump-img" style="max-width:83%; margin-top: -10px; margin-right:24px;" 
-                                        src="<?php echo base_url() ?>assets/icons/11.jpg" alt="pump-img">
+                                        <img class="pump-img" style="max-width:100%; margin-top: -10px; margin-right:24px; height: 279px;" 
+                                        src="<?php echo base_url() ?>assets/img/well_image.png" alt="pump-img">
 
                                     </div>
 
                                 </div>
+                                <a href="<?php echo base_url('Selfflow_alert_c'); ?>" 
+   class="btn btn-sm btn-outline-danger w-100 mb-2" 
+   style="border:2px solid #dc3545; color:#dc3545; width:210px!important; border-radius:50px;margin-left: 50px;" 
+   data-bs-toggle="tooltip" 
+   data-bs-placement="top" 
+   title="View all alert logs">
+   <i class="fas fa-clipboard-list"></i> Alert Log
+</a>
+
                                 </div>
                             </div>
                         </div>
@@ -243,27 +268,50 @@
                                      <!-- Battery Voltage Card -->
                                     <div class="col-md-4">
                                     <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
-                                        <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;">
-                                         <b class="text-white">Battery Voltage</b>
+                                        <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:#e7838c; font-size:18px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                         <b class="text-white">Battery</b>
                                             <img src="<?php echo base_url(); ?>assets/img/volt.gif" width="30" style="border-radius: 50%;">
                                         </div>
                                         <div class="px-3 text-start">
                                             <div class="card-body text-center" style="padding: 13px;">
                                                 <div class="row">
-                                        <div class="col-12">
-                                            <div style="display: flex; align-items: center; border: 1px solid #000; width: 100%; height: 50px; padding: 5px;">
-                                                <div style="display: flex; gap: 2px; width: 100%; height: 100%;">
-                                                    <!-- 10 Green Bars -->
-                                                    <?php for ($i = 0; $i < 10; $i++): ?>
-                                                        <div style="width: 10%; background: #00cc33;"></div>
-                                                    <?php endfor; ?>
-                                                </div>
-                                                <div style="width: 5px; background: #000; height: 60%; margin-left: 4px;"></div>
-                                            </div>
-                                            <div style="margin-top: 12px; padding-bottom:18px;">
-                                                <strong style="font-size: 14px;">Battery :</strong> <span id="battery_value">11.35</span>
+                                        <div class="col-12 text-center">
+                                        <!-- Circular Battery -->
+                                    <div class="col-12">
+                                        <div style="display:flex; align-items:center; justify-content:center; gap:20px;">
+                                            
+                                            <!-- Circle Left -->
+                                            <div class="position-relative" style="width: 60px; height:60px;">
+                                        <svg width="60" height="60">
+                                            <!-- Background Circle -->
+                                            <circle cx="30" cy="30" r="22" stroke="#e0e0e0" stroke-width="5" fill="none" />
+
+                                            <!-- Progress Circle -->
+                                            <circle id="batteryCircle" 
+                                                cx="30" cy="30" r="22" 
+                                                stroke="#00cc33" stroke-width="5" 
+                                                fill="none" 
+                                                stroke-dasharray="138" 
+                                                stroke-dashoffset="40" 
+                                                stroke-linecap="round" 
+                                                transform="rotate(-90 30 30)" />
+                                        </svg>
+
+                                        <!-- Value Center -->
+                                        <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                            <span id="battery_value" style="font-size:12px; font-weight:bold; color:#333;">11.35</span>
+                                            <div style="font-size:10px; color:#666;">V</div>
+                                        </div>
+                                    </div>
+
+
+                                            <!-- Battery Text Right -->
+                                            <div>
+                                                <strong style="font-size: 14px;">Battery</strong>
                                             </div>
                                         </div>
+                                    </div>
+                                    </div>
                                     <div class="px-3 pt-2 pb-3" style="text-align: left;">
                                        <div class="card-body p-0">
                      <!-- Compact Table -->
@@ -284,17 +332,28 @@
                             <tbody>
                                 <!-- Row 1 -->
                                 <tr>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;">THT</td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="tht_daily"></span></td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="tht_monthly"></span></td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;">
-                                        <div style="display: flex; align-items: center;">
-                                            <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-success" style="width: 0%; border-radius: 0;"></div>
-                                            </div>
-                                            <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
-                                        </div>
-                                    </td>
+                                    <td style="padding: 3px; border: 1px solid #dee2e6;">FLT</td>
+                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="flt_daily"></span></td>
+                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="flt_monthly"></span></td>
+                                   <td style="padding: 3px; border: 1px solid #dee2e6;">
+        <div class="d-flex align-items-center gap-2">
+            <!-- Circular Battery -->
+            <div class="position-relative d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                <svg width="40" height="40">
+                    <circle cx="20" cy="20" r="16" stroke="#E8E4E1" stroke-width="4" fill="none" />
+                    <circle id="batteryCircle" cx="20" cy="20" r="16" stroke="#28a745" stroke-width="4" fill="none"
+                        stroke-dasharray="100.5" stroke-dashoffset="30"
+                        stroke-linecap="round" transform="rotate(-90 20 20)" />
+                </svg>
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <img id="Main_batteryImg" src="<?= base_url() ?>assets/img/empty-battery.png" 
+                         style="height: 16px;" alt="Battery">
+                </div>
+            </div>
+
+
+        </div>
+    </td>
                                 </tr>
                                 <!-- Row 2 -->
                                 <tr>
@@ -302,44 +361,88 @@
                                     <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="thp_daily"></span></td>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="thp_monthly"></span></td>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">
-                                        <div style="display: flex; align-items: center;">
-                                            <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 0%; border-radius: 0;"></div>
-                                            </div>
-                                            <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <div class="d-flex align-items-center gap-2">
+                                
+                                <!-- Circular Battery -->
+                                <div class="position-relative d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <svg width="40" height="40">
+                                        <circle cx="20" cy="20" r="16" stroke="#E8E4E1" stroke-width="4" fill="none" />
+                                        <circle id="batteryCircle" cx="20" cy="20" r="16" stroke="#28a745" stroke-width="4" fill="none"
+                                            stroke-dasharray="100.5" stroke-dashoffset="30"
+                                            stroke-linecap="round" transform="rotate(-90 20 20)" />
+                                    </svg>
+                                    <div class="position-absolute top-50 start-50 translate-middle">
+                                        <img id="Main_batteryImg" src="<?= base_url() ?>assets/img/empty-battery.png" 
+                                             style="height: 16px;" alt="Battery">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                                                    </tr>
                                 <!-- Row 3 -->
                                 <tr>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">ABP</td>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="abp_daily"></span></td>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="abp_monthly"></span></td>
                                     <td style="padding: 3px; border: 1px solid #dee2e6;">
-                                        <div style="display: flex; align-items: center;">
-                                            <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 0%; border-radius: 0;"></div>
-                                            </div>
-                                            <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
-                                        </div>
-                                    </td>
+        <div class="d-flex align-items-center gap-2">
+            <!-- Circular Battery -->
+            <div class="position-relative d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                <svg width="40" height="40">
+                    <circle cx="20" cy="20" r="16" stroke="#E8E4E1" stroke-width="4" fill="none" />
+                    <circle id="batteryCircle" cx="20" cy="20" r="16" stroke="#28a745" stroke-width="4" fill="none"
+                        stroke-dasharray="100.5" stroke-dashoffset="30"
+                        stroke-linecap="round" transform="rotate(-90 20 20)" />
+                </svg>
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <img id="Main_batteryImg" src="<?= base_url() ?>assets/img/empty-battery.png" 
+                         style="height: 16px;" alt="Battery">
+                </div>
+            </div>
+
+        </div>
+    </td>
                                 </tr>
                                 <!-- Row 4 -->
                               
                                 <!-- Row 5 -->
                                 <tr>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;">CHP</td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="chp_daily"></span></td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;"><span id="chp_monthly"></span></td>
-                                    <td style="padding: 3px; border: 1px solid #dee2e6;">
-                                        <div style="display: flex; align-items: center;">
-                                            <div class="progress" style="height: 12px; width: 50%; background-color: #e9ecef; border-radius: 0; margin-right: 2px;">
-                                                <div class="progress-bar bg-warning" style="width: 0%; border-radius: 0;"></div>
-                                            </div>
-                                            <div style="height: 8px; width: 2px; background-color: #343a40;"></div>
-                                        </div>
-                                                </td>
-                                            </tr>
+    <td style="padding: 3px; border: 1px solid #dee2e6;">CHP</td>
+    <td style="padding: 3px; border: 1px solid #dee2e6;">
+        <span id="chp_daily"></span>
+    </td>
+    <td style="padding: 3px; border: 1px solid #dee2e6;">
+        <span id="chp_monthly"></span>
+    </td>
+    <td style="padding: 3px; border: 1px solid #dee2e6;">
+        <div class="d-flex align-items-center gap-2">
+            
+            <!-- Horizontal Progress Bar -->
+            <!-- <div class="progress" style="height: 12px; width: 80px; background-color: #e9ecef; border-radius: 4px;">
+                <div class="progress-bar bg-success" role="progressbar" 
+                     style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div> 
+ -->
+            <!-- Circular Battery -->
+            <div class="position-relative d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                <svg width="40" height="40">
+                    <circle cx="20" cy="20" r="16" stroke="#E8E4E1" stroke-width="4" fill="none" />
+                    <circle id="batteryCircle" cx="20" cy="20" r="16" stroke="#28a745" stroke-width="4" fill="none"
+                        stroke-dasharray="100.5" stroke-dashoffset="30"
+                        stroke-linecap="round" transform="rotate(-90 20 20)" />
+                </svg>
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <img id="Main_batteryImg" src="<?= base_url() ?>assets/img/empty-battery.png" 
+                         style="height: 16px;" alt="Battery">
+                </div>
+            </div>
+
+        </div>
+    </td>
+</tr>
+
                                         </tbody>
                                     </table>
                                    </div>
@@ -355,7 +458,7 @@
                                     <div class="bg-white rounded-3 shadow-sm border" style="height: 100%; border: 1px solid #ededed;">
                                         <!-- Card Header -->
                                         <div class="card-header px-3 d-flex justify-content-between align-items-center"
-                                             style="height: 40px; background:#e7838c ;color: white; font-size:18px;">
+                                             style="height: 40px; background:#e7838c ;color: white; font-size:18px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
                                             <b>RTMS Status</b>
                                             <img src="<?php echo base_url(); ?>assets/img/device.gif" 
                                              width="30" height="24" 
@@ -401,25 +504,49 @@
 
                                     <!-- Flag Button Centered -->
                                     <div class="text-center mt-3">
-                                        <button class="btn btn-sm btn-flag d-flex align-items-center gap-1 mx-auto"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#well_mark_status"
-                                        id="flag_text" style="color:white;">
-                                    <i class="bi bi-flag-fill"></i> Flag Well
-                                </button>
+                                        <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 mx-auto"
+        data-bs-toggle="modal"
+        data-bs-target="#well_mark_status"
+        id="flag_text"
+        style="border-radius:50px; color:#0d6efd; border:2px solid #0d6efd;">
+    <i class="bi bi-flag-fill"></i> Flag Well
+</button>
+
+
+
                                 </div>
+                                <a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" 
+   class="btn btn-sm btn-outline-success w-100 mb-2" 
+   style="margin-top: 19px; border:2px solid #198754; color:#198754; border-radius:50px;width:201px!important; margin-left:50px;" 
+   data-bs-toggle="tooltip" 
+   data-bs-placement="top" 
+   title="View Historical logs">
+   <i class="fas fa-file-alt"></i> Historical Data Log
+</a>
+
+<a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" 
+   class="btn btn-sm btn-outline-primary w-100" 
+   style="border:2px solid #3498DB; color:#3498DB; border-radius:50px; width:201px!important; margin-left: 50px;" 
+   data-bs-toggle="tooltip" 
+   data-bs-placement="top" 
+   title="View Historical log Graph">
+   <i class="fas fa-chart-line"></i> Historical Log Graph
+</a>
+
+
                                 </div>
 
                                 </div>
                                 </div>  <!-- row -->
 
-                                 <div class="row " style="margin-top: 18px;">
+                                 <div class="row " style="margin-top: 18px; ">
                                   <!-- Alert Log -->
                                   <div class="col-md-6">
-                                    <div class="card" style="height: 300px;">
+                                    <div class="card" style="height: 300px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
                                         <!-- Card Header -->
                                         <div class="d-flex justify-content-between align-items-center"
-                                             style="height: 37px; top: 0; z-index: 1; background-color: #d56570; padding: 0 10px;">
+                                             style="height:40px; top: 0; z-index: 1; background-color: #d56570; padding: 0 10px;border-top-left-radius: 10px; 
+    border-top-right-radius: 10px;">
                                             
                                             <!-- Left: Alert text + badge -->
                                             <div style="color:white;">
@@ -458,12 +585,12 @@
 
                                   <!-- Well GIS Map -->
                                    <div class="col-md-3" style="margin-top:2px;">
-                                    <div class="card" style="height:298px;  width:100%; border-radius:10px;">
+                                    <div class="card" style="height:298px;  width:220%; border-radius:10px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
                                     <div class="d-flex justify-content-between align-items-center" 
-                                         style="background-color:#d56570; padding: 0px 4px 0px 1px;height: 35px;">
+                                         style="background-color:#d56570; padding: 0px 4px 0px 1px;height: 40px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
 
                                         
-                                        <h5 class="text-white" style="font-size: 15px; margin-left: 4px;margin-top: 11px;">Well GIS Map</h5>
+                                        <h5 class="text-white" style="font-size: 15px; margin-left:10px;margin-top: 11px;">Well GIS Map</h5>
 
 
 
@@ -476,50 +603,6 @@
                                       <div id="mymap" style="width: 100%; height: 253px;"></div>
                                       </div>
                                     </div>
-                                  </div>
-
-                                  
-                                  <!-- Well Report Log -->
-                                  <div class="col-md-3">
-                                    <div class="card shadow-sm rounded-0" style="height:300px; width: 108% ">
-                                    <div class="d-flex align-items-center justify-content-between text-white"
-                                         style="height: 35px; background-color: #d56570; padding: 0 0px;">
-
-                                        <!-- Left side text with margin -->
-                                        <h5 style="margin-left: 6px; margin-top: 11px; font-size:15px">Well Log</h5>
-
-                                        <!-- Right side image -->
-                                    <img src="<?= base_url('assets/img/oil-pump.gif') ?>" 
-                                         width="33" height="35" 
-                                         style="border-radius: 50%; object-fit: cover; margin-right:7px;">
-
-                                    </div>
-
-
-                                    <div class="card-body d-flex flex-column" style="padding:10px;">
-                                        <a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" 
-                                           class="btn btn-sm btn-success w-100 mb-2">
-                                           <i class="fas fa-file-alt"></i> Historical Data Log
-                                        </a>
-
-
-                                        <a href="<?php echo base_url('Selfflow_alert_c'); ?>" 
-                                           class="btn btn-sm btn-danger w-100 mb-2">
-                                           <i class="fas fa-clipboard-list"></i>
-                                           Alert Log
-                                        </a>
-
-                                        <a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" 
-                                           class="btn btn-sm" 
-                                           style="width:100%; background-color: #3498DB; color:white;">
-                                           <i class="fas fa-chart-line"></i>
-                                           Historical Log Graph
-                                        </a>
-                                    </div>
-
-                                    </div>
-                                   
-
                                   </div>
                                 </div>
 
@@ -856,7 +939,7 @@ function get_single_well_details() {
                     $('#gip_image').text(deviceData.PS_1_GIP || 0);
                     $('#abp_image').text(deviceData.PS_4_ABP || 0);
                     $('#thp_image').text(deviceData.PS_3_THP || 0);
-                    $('#tht_image').text(deviceData.FLTP_1_Temp || 0);
+                    $('#flt_image').text(deviceData.FLTP_1_Temp || 0);
 
                     let chp_ed = deviceData.chp_ed;
                     let gip_ed = deviceData.gip_ed;
@@ -1023,8 +1106,8 @@ function get_pressure_details() {
                     $('#gip_daily').text(parseFloat(pressureDailyAvg.avg_PS_1_GIP || 0).toFixed(2));
                     $('#abp_daily').text(parseFloat(pressureDailyAvg.avg_PS_4_ABP || 0).toFixed(2));
                     $('#thp_daily').text(parseFloat(pressureDailyAvg.avg_PS_3_THP || 0).toFixed(2));
-                    $('#tht_daily').text(parseFloat(pressureDailyAvg.avg_FLTP_1_Temp || 0).toFixed(2));
-                    // console.log("THT Daily Value:", pressureDailyAvg.avg_FLTP_1_Temp);
+                    $('#flt_daily').text(parseFloat(pressureDailyAvg.avg_FLTP_1_Temp || 0).toFixed(2));
+                    // console.log("flt Daily Value:", pressureDailyAvg.avg_FLTP_1_Temp);
 
                     // Bind monthly pressure data
                     let pressureMonthlyAvg = resp.data.pressure_monthly_avg || {};
@@ -1032,7 +1115,7 @@ function get_pressure_details() {
                     $('#gip_monthly').text(parseFloat(pressureMonthlyAvg.avg_PS_1_GIP || 0).toFixed(2));
                     $('#abp_monthly').text(parseFloat(pressureMonthlyAvg.avg_PS_4_ABP || 0).toFixed(2));
                     $('#thp_monthly').text(parseFloat(pressureMonthlyAvg.avg_PS_3_THP || 0).toFixed(2));
-                    $('#tht_monthly').text(parseFloat(pressureMonthlyAvg.avg_FLTP_1_Temp || 0).toFixed(2));
+                    $('#flt_monthly').text(parseFloat(pressureMonthlyAvg.avg_FLTP_1_Temp || 0).toFixed(2));
 
                     // let command_update = resp.data.command_update || {}
                     // $('#command_update_by').text(command_update.unique_userId || '');
@@ -1227,7 +1310,7 @@ function Get_Graph() {
                     mapSeries(res.data.Output_pressure.output_gip, "GIP"),
                     mapSeries(res.data.Output_pressure.output_thp, "THP"),
                     mapSeries(res.data.Output_pressure.output_abp, "ABP"),
-                    mapSeries(res.data.Output_pressure.output_tht, "THT"),
+                    mapSeries(res.data.Output_pressure.output_flt, "FLT"),
                     mapSeries(res.data.Output_pressure.output_battery, "Battery Voltage")
                 ];
 

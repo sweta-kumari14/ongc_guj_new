@@ -12,31 +12,62 @@
 
 .button .tooltip {
   visibility: hidden;
-  background-color: #6e6868e8;
+  background-color: #358a48cf;
   color: #fff;
   font-size: 12px;
   text-align: center;
-  padding: 5px 8px;
+  padding: 8px 12px;
   border-radius: 4px;
 
   /* position */
   position: absolute;
-  bottom: 125%; /* icon ke upar */
-  left: -128%;
+  bottom: 125%; /* button ke upar */
+  left: 33%;
   transform: translateX(-50%);
-  white-space: nowrap;
+
+  /* width control */
+  white-space: normal;      /* wrap enable */
+  max-width: 320px;         /* box ki max width badhayi */
+  min-width: 159px;         /* minimum width fix ki */
+  word-wrap: break-word;
 
   opacity: 0;
   transition: opacity 0.3s;
+  z-index: 1;
 }
 
+/* Tooltip arrow niche */
+.button .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #358a48cf transparent transparent transparent;
+}
+
+/* Hover effect */
 .button:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }
+
 </style>
 
 <style>
+    .circle {
+    display: inline-block;
+    border-radius: 50%;
+    color: white;
+    width: 39px;
+    height: 40px;
+    text-align: center;
+    font-size: 25px;
+    line-height: 41px;
+    margin-top: 0PX;
+}
 .sensor-card {
     border: 1px solid #d4d4d4;
     border-radius: 14px;
@@ -113,9 +144,9 @@
 .sensor-three, .sensor-four {
     position: absolute;
 }
-.sensor_one     { left: 12%;  top: 3%; }
-.sensor-two     { left: 34%; top: 17%; }
-.sensor-two_one { left: 64%; top: 31%; }
+.sensor_one     { left: 70%;  top: 29%; }
+.sensor-two     { left: 44%; top: 14%; }
+.sensor-two_one { left: 53%; top: 28%; }
 .sensor-three   { left: 41%; top: 56%; }
 
 
@@ -133,10 +164,10 @@
     min-width: 68px;        
     justify-content: center; 
 }
-.sensor_one_data     { left: 100%; bottom: 48%; }
-.sensor_two_data     { left: 100%; bottom: 45%; }
-.sensor_two_data_two { left: 96%; bottom: 60%; }
-.sensor_three_data   { left: 88%; bottom: 87%; }
+.sensor_one_data     { left: 20%; bottom: -90%; }
+.sensor_two_data     { left: -131%; bottom:109%; }
+.sensor_two_data_two { left: 53%; bottom:105%; }
+.sensor_three_data   { left: -115%; bottom: 102%; }
 
 .card-footer {
     background-color: #fafafa;
@@ -171,6 +202,52 @@
     transition: background 0.3s;
   
 }
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container .tooltip {
+  position: absolute;   /* 👈 ab yeh parent ke upar float karega */
+  visibility: hidden;
+  background-color: #5D6D7E;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  bottom: 125%;   /* text ke upar dikhayega */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+
+  white-space: normal;
+  max-width: 320px;
+  min-width: 200px;
+  word-wrap: break-word;
+
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;  /* 👈 size effect remove */
+}
+
+.tooltip-container .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #358a48cf transparent transparent transparent;
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 </style>
 <div class="page-wrapper">
     <div class="content container-fluid pt-2">
@@ -233,34 +310,46 @@
 <div class="row">
     <!-- Total Wells -->
     <div class="col-md-3 position-relative">
-        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
-            <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-                <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
-            </div>
-            <div class="content-area text-center mt-2">
-                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();">
-                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
-                    <span class="tag-count" id="total_well"></span>
-                </a>
-            </div>
+    <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+            <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+        </div>
+        <div class="content-area text-center mt-2">
+            <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();" class="tooltip-container">
+                <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
+                <span class="tag-count" id="total_well"></span>
+                <!-- Tooltip absolutely placed -->
+                <div class="tooltip"><b>Click to view overall total wells details</b></div>
+            </a>
         </div>
     </div>
+</div>
+
 
 
     <!-- Flowing Wells -->
-    <div class="col-md-3 position-relative">
-        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
-            <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-                <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
-            </div>
-            <div class="content-area text-center mt-2">
-                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>">
-                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Flowing Wells</span><br>
-                    <span class="tag-count" id="total_flowing_well"></span>
-                </a>
-            </div>
+   <div class="col-md-3 position-relative">
+    <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
+        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+            <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" 
+                 class="img-fluid rounded-circle bg-light shadow" 
+                 style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
+        </div>
+        <div class="content-area text-center mt-2">
+            <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>" 
+               class="tooltip-container">
+                <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">
+                    Flowing Wells
+                </span><br>
+                <span class="tag-count" id="total_flowing_well"></span>
+
+                <!-- Tooltip absolutely placed -->
+                <div class="tooltip"><b>Click to view overall flowing wells details</b></div>
+            </a>
         </div>
     </div>
+</div>
+
 
     <!-- Non-Flowing Wells -->
     <div class="col-md-3 position-relative">
@@ -272,6 +361,7 @@
                 <div class="content-area text-center mt-2">
                     <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Non-Flowing Wells</span><br>
                     <span class="tag-count" id="total_non_flowing_well"></span>
+
                 </div>
             </div>
         </a>
@@ -296,13 +386,14 @@
             <div class="col-xl-12 col-md-12">
                 <div class="card">
                     <!-- Header with Legends -->
-                   <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap" style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height:46px;">
+                   <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap" style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height:46px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                         <div class="d-flex align-items-center me-auto" style="padding-left: 10px;">
                             <img src="<?= base_url('assets/img/oil-pump.gif') ?>" width="40"
                                 style="border-radius: 25%; margin-right: 10px;">
                             <h4 style="margin: 0;">
                                 <strong>Well Details&nbsp;</strong>
-                                <span class="circle" id="totalcount" style="background-color: #312929;"></span>
+                                <!-- <span class="circle" id="totalcount" style="display:inline-block;width:30px;height:30px;border-radius:50%;background-color:#312929;margin-left:8px;"></span> -->
+                                <badge class="circle" id="totalcount"style="background-color:#515A5A;" id="totalcount">190</badge>
                             </h4>
                         </div>
                         <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 8px;">
@@ -311,7 +402,7 @@
                                 <span style="font-size: 13px;">Non Flowing Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color:#06E763; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color:#75A47F; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">Flowing Well</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
@@ -331,7 +422,7 @@
                 <div class="card">
                     <!-- Card Header -->
                     <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap"
-                        style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height: 50px;">
+                        style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height: 50px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
 
                         <!-- Left: Image + Title -->
                         <div class="d-flex align-items-center me-auto">
@@ -339,7 +430,7 @@
                                 style="border-radius: 25%; margin-right: 10px;">
                             <h4 style="margin: 0;">
                                 <strong>Asset GIS</strong>
-                                <span class="circle" id="totalcount" style="background-color: #312929;"></span>
+                                <!-- <span class="circle" id="totalcount" style="background-color: #312929;"></span> -->
                             </h4>
                         </div>
 
@@ -350,7 +441,7 @@
                                 <span style="font-size: 13px;">Non Flowing Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color:#06E763; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color:#75A47F; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">Flowing Well</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
@@ -417,14 +508,14 @@
         </div>
     </div>
 
-    <!-- THT -->
+    <!-- flt -->
     <div class="col-md-12 d-flex align-items-center mb-2">
-        <div class="col-md-2"><b>THT</b></div>
+        <div class="col-md-2"><b>FLT</b></div>
         <div class="col-md-5 pe-2">
-            <input type="number" class="form-control" name="tht_upper" id="tht_upper" placeholder="Upper THT">
+            <input type="number" class="form-control" name="flt_upper" id="flt_upper" placeholder="Upper FLt">
         </div>
         <div class="col-md-5">
-            <input type="number" class="form-control" name="tht_lower" id="tht_lower" placeholder="Lower THT">
+            <input type="number" class="form-control" name="flt_lower" id="flt_lower" placeholder="Lower FLT">
         </div>
     </div>
 </div>
@@ -673,10 +764,10 @@ function get_well_data() {
                         '<div class="sensor-card responsive-card" style="min-width:235px;">' +
                         '<div class="card-header d-flex justify-content-between align-items-center" style="padding: 3px; text-align: left; color: black;">' +
                         '<span style="margin-left: 7px;">' + (v.well_name ?? 'N/A') + '</span>' +
-                        '<span class="status-dot" style="height: 29px; width: 26px; border-radius: 50%; background-color:'  + (v.status_color ?? '#ccc') + '; display: inline-block;"></span>' +
+                        '<span class="status-dot" style="height: 29px; width: 26px; border-radius: 50%; background-color:'  + (v.status_color ?? '#75A47F') + '; display: inline-block;"></span>' +
                         '</div>' +
                         '<div class="pump-image">' +
-                        '<div class="sensor_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_one_data"><strong>THT ' + (v.FLTP_1_Temp ?? 0) + '</strong></div></div>' +
+                        '<div class="sensor_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_one_data"><strong>FLT ' + (v.FLTP_1_Temp ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-two"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-two_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data_two"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div></div>' +
                         '<div class="sensor-three"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_three_data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div></div>' +
@@ -684,13 +775,13 @@ function get_well_data() {
                         '</div>' +
                         '<div class="card-footer d-flex justify-content-between align-items-center">' +
                         '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +
-                  '<button class="button" style="margin-left:80px;" onclick="window.location.href=\'' + link + '\'">' +
+                  '<button class="button" style="margin-left:40px;" onclick="window.location.href=\'' + link + '\'">' +
     '<i class="fas fa-info-circle fa-lg"></i>' +
-    '<span class="tooltip">Click here to view single dashboard</span>' +
+    '<span class="tooltip"><b>Click here to view single dashboard</b></span>' +
 '</button>' +
 '<button class="button" data-bs-toggle="offcanvas" data-bs-target="#addThreshold_data" aria-controls="addThreshold_data">' +
     '<i class="fas fa-sliders-h"></i>' +
-    '<span class="tooltip">Click here to set threshold setup</span>' +
+    '<span class="tooltip"><b>Click here to set threshold setup</span></b>' +
 '</button>'+
 
                         '</div>' +
