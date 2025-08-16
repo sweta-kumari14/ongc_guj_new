@@ -779,45 +779,48 @@ $('#date_table_header th[data-key]').on('click', function() {
 
 </script>
 <script>
-    getWell_list();
-    function getWell_list()
-    {  
-       let company_id = "<?php echo $this->session->userdata('company_id') ?>";
-       let user_id = "<?php echo $this->session->userdata('user_id') ?>";
-       let site_id = $('#site_id').val();
-       
-       $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url();?>Selfflow_alert_c/getWell_list',
-            data:{company_id:company_id,user_id:user_id,site_id:site_id},
-            success:function(data)
-            {
-                data = JSON.parse(data);
-                console.log(data);
-                if(data.response_code==200)
-                {   
-                    if(data.data.length>0)
-                    {
-                        $('#well_id').html('');
-                        $('#well_id').html('<option value=" ">Select well</option>');
-                        $.each(data.data,function(i,v){
-  
-                        $('#well_id').append('<option value="'+v.well_id+'">'+v.well_name+'</option>');
-                           
-                            
-                        });
-                        
-                    }else
-                    {
-                        $('#well_id').html('No Data Found');
-                    }
-                }else
-                {
-                    swal('error',data.msg,'error');
-                }
-              console.log();
-            }
+   getWell_list();
+
+function getWell_list() {  
+    let company_id = "<?php echo $this->session->userdata('company_id') ?>";
+    let user_id    = "<?php echo $this->session->userdata('user_id') ?>";
+    let site_id    = $('#site_id').val();
     
-          });
-    }
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url();?>Selfflow_alert_c/getWell_list',
+        data: { company_id: company_id, user_id: user_id, site_id: site_id },
+        beforeSend: function () {
+            // Loading indicator
+            $('#well_id').html('<option>Loading...</option>');
+        },
+        success: function (res) {
+            let data = JSON.parse(res);
+            console.log("Response:", data);
+
+            if (data.response_code == 200) {   
+                if (data.data.length > 0) {
+                    $('#well_id').empty();
+                    $('#well_id').append('<option value="">Select Well</option>');
+
+                    $.each(data.data, function (i, v) {
+                        $('#well_id').append(
+                            '<option value="' + v.well_id + '">' + v.well_name + '</option>'
+                        );
+                    });
+                } else {
+                    $('#well_id').html('<option value="">No Data Found</option>');
+                }
+            } else {
+                swal('Error', data.msg, 'error');
+                $('#well_id').html('<option value="">Error Loading Wells</option>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", error);
+            $('#well_id').html('<option value="">Failed to load wells</option>');
+        }
+    });
+}
+
     </script>
