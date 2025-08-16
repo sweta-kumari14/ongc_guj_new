@@ -10,7 +10,7 @@
     transition: transform 0.2s ease;
 }
 .sensor-icon {
-    height: 31px;
+    height: 36px;
     width: auto;
 }
 .sensor-card .pump-image img[alt="sensor-icon"] {
@@ -36,12 +36,13 @@
     display: flex;
     position: relative;
     text-align: center;
-    margin: 9px;
+    margin: 27px;
+    height: 285px;
     
 }
 .sensor-card img.pump-img {
     width: 90%;
-    height: auto;
+    height: 301px !important;
     border-radius: 8px;
     margin-top: 10px;
 
@@ -66,17 +67,18 @@
 .sensor-wrapper {
     position: relative;
     width: 100%;
-    max-width: 600px; 
-    height: auto;
+    max-width: 600px;
+    aspect-ratio: 1 / 1; /* image square hai to ye use karo */
 }
+
 .sensor_one, .sensor-two, .sensor-two_one,
 .sensor-three, .sensor-four {
     position: absolute;
 }
-.sensor_one     { left: 14%;  top: 4%; }
-.sensor-two     { left: 37%; top: 20%; }
-.sensor-two_one { left: 70%; top: 35%; }
-.sensor-three   { left: 41%; top: 63%; }
+.sensor_one     { left: 10%;  top: 2%; }
+.sensor-two     { left: 32%; top: 18%; }
+.sensor-two_one { left: 64%; top: 32%; }
+.sensor-three   { left: 41%; top: 60%; }
 
 
 .sensor_one_data, .sensor_two_data,
