@@ -1,5 +1,42 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
+.button {
+  position: relative;
+  background: #007bff;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.button .tooltip {
+  visibility: hidden;
+  background-color: #6e6868e8;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  padding: 5px 8px;
+  border-radius: 4px;
+
+  /* position */
+  position: absolute;
+  bottom: 125%; /* icon ke upar */
+  left: -128%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
+
+<style>
 .sensor-card {
     border: 1px solid #d4d4d4;
     border-radius: 14px;
@@ -36,13 +73,14 @@
     display: flex;
     position: relative;
     text-align: center;
-    margin: 27px;
-    height: 285px;
+    /*margin: 27px;*/
+    /*height: 285px;*/
+    margin-top:22px
     
 }
 .sensor-card img.pump-img {
     width: 90%;
-    height: 301px !important;
+    height: 90%!important;
     border-radius: 8px;
     margin-top: 10px;
 
@@ -75,10 +113,10 @@
 .sensor-three, .sensor-four {
     position: absolute;
 }
-.sensor_one     { left: 10%;  top: 2%; }
-.sensor-two     { left: 32%; top: 18%; }
-.sensor-two_one { left: 64%; top: 32%; }
-.sensor-three   { left: 41%; top: 60%; }
+.sensor_one     { left: 12%;  top: 3%; }
+.sensor-two     { left: 34%; top: 17%; }
+.sensor-two_one { left: 64%; top: 31%; }
+.sensor-three   { left: 41%; top: 56%; }
 
 
 .sensor_one_data, .sensor_two_data,
@@ -131,6 +169,7 @@
     cursor: pointer;
     animation: flash 1s infinite;
     transition: background 0.3s;
+  
 }
 </style>
 <div class="page-wrapper">
@@ -330,6 +369,71 @@
         </div>
     </div>
 </div>
+
+<!-- Threshold Setup Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addThreshold_data" aria-labelledby="offcanvasRightLabel" style="width:600px;">
+    <!-- Header -->
+    <div class="offcanvas-header text-primary" style="background: #f1f1f1;">
+        <h5 id="offcanvasRightLabel" class="offcanvas-title" style="color:#231692;">
+            Threshold Setup <span id="well_name" style="color:#231692;"></span>
+        </h5>
+        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <!-- Body -->
+    <div class="offcanvas-body">
+        <form class="custom-validation" method="POST" enctype="multipart/form-data" id="threshold_form">
+                <div class="row mt-2">
+    <!-- CHP -->
+    <div class="col-md-12 d-flex align-items-center mb-2">
+        <div class="col-md-2"><b>CHP</b></div>
+        <div class="col-md-5 pe-1">
+            <input type="number" class="form-control" name="chp_upper" id="chp_upper" placeholder="Upper CHP">
+        </div>
+        <div class="col-md-5">
+            <input type="number" class="form-control" name="chp_lower" id="chp_lower" placeholder="Lower CHP">
+        </div>
+    </div>
+
+    <!-- THP -->
+    <div class="col-md-12 d-flex align-items-center mb-2">
+        <div class="col-md-2"><b>THP</b></div>
+        <div class="col-md-5 pe-2">
+            <input type="number" class="form-control" name="thp_upper" id="thp_upper" placeholder="Upper THP">
+        </div>
+        <div class="col-md-5">
+            <input type="number" class="form-control" name="thp_lower" id="thp_lower" placeholder="Lower THP">
+        </div>
+    </div>
+
+    <!-- ABP -->
+    <div class="col-md-12 d-flex align-items-center mb-2">
+        <div class="col-md-2"><b>ABP</b></div>
+        <div class="col-md-5 pe-2">
+            <input type="number" class="form-control" name="abp_upper" id="abp_upper" placeholder="Upper ABP">
+        </div>
+        <div class="col-md-5">
+            <input type="number" class="form-control" name="abp_lower" id="abp_lower" placeholder="Lower ABP">
+        </div>
+    </div>
+
+    <!-- THT -->
+    <div class="col-md-12 d-flex align-items-center mb-2">
+        <div class="col-md-2"><b>THT</b></div>
+        <div class="col-md-5 pe-2">
+            <input type="number" class="form-control" name="tht_upper" id="tht_upper" placeholder="Upper THT">
+        </div>
+        <div class="col-md-5">
+            <input type="number" class="form-control" name="tht_lower" id="tht_lower" placeholder="Lower THT">
+        </div>
+    </div>
+</div>
+        </form>
+    </div>
+</div>
+
+
+
 <script type="text/javascript">
     get_site_list();
 function get_site_list() { 
@@ -580,7 +684,15 @@ function get_well_data() {
                         '</div>' +
                         '<div class="card-footer d-flex justify-content-between align-items-center">' +
                         '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +
-                        '<button class="button" onclick="window.location.href=\'' + link + '\'"><i class="fas fa-info-circle fa-lg"></i></button>' +
+                  '<button class="button" style="margin-left:80px;" onclick="window.location.href=\'' + link + '\'">' +
+    '<i class="fas fa-info-circle fa-lg"></i>' +
+    '<span class="tooltip">Click here to view single dashboard</span>' +
+'</button>' +
+'<button class="button" data-bs-toggle="offcanvas" data-bs-target="#addThreshold_data" aria-controls="addThreshold_data">' +
+    '<i class="fas fa-sliders-h"></i>' +
+    '<span class="tooltip">Click here to set threshold setup</span>' +
+'</button>'+
+
                         '</div>' +
                         '</div>' +
                         '</div>'

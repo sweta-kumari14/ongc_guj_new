@@ -16,7 +16,7 @@
        border: 1px solid var(--bs-tertiary-color);
 
     }
-    #data-table th[data-sort]::after {
+    #datatable th[data-sort]::after {
       content: "";
       position: absolute;
       right: 6px;
@@ -27,12 +27,12 @@
       border-bottom: 6px solid #ccc; /* light gray arrow initially */
     }
 
-    #data-table th.sort-asc::after {
+    #datatable th.sort-asc::after {
         border-bottom: 6px solid #000;
         border-top: none;
     }
 
-    #data-table th.sort-desc::after {
+    #datatable th.sort-desc::after {
         border-top: 6px solid #000;
         border-bottom: none;
     }
@@ -159,7 +159,7 @@
            
                              <div class="table-responsive mt-4">
 
-                                <table class="table table-bordered border-bottom table-striped" id="data-table">
+                                <table class="table table-bordered border-bottom table-striped" id="datatable">
                                       <thead style="background-color:blue; color: white; text-align: center;">
                                         <tr>
                                           <th colspan="25" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
@@ -362,14 +362,14 @@ function goToPage(page){
 }
 
 // Sorting
-$('#data-table thead th[data-key]').on('click', function() {
+$('#datatable thead th[data-key]').on('click', function() {
     let key = $(this).data('key');
     let sortType = $(this).data('sort') || 'string';
 
     if(sortColumnIndex===key) sortDirection=-sortDirection;
     else { sortDirection=1; sortColumnIndex=key; }
 
-    $('#data-table thead th').removeClass('sort-asc sort-desc');
+    $('#datatable thead th').removeClass('sort-asc sort-desc');
     $(this).addClass(sortDirection===1?'sort-asc':'sort-desc');
 
     tableDataArray.sort((a,b)=>{
@@ -409,7 +409,7 @@ $(document).ready(function(){
     function export_report() {
       var sheetName = "Sheet1";
       var fileName = "Historical report.xlsx";
-      var table = $("#data-table")[0];
+      var table = $("#datatable")[0];
       var ws = XLSX.utils.table_to_sheet(table);
       var wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, sheetName);
