@@ -482,8 +482,7 @@ class Master extends REST_Controller
         try {
             
             $company_id = $this->input->post('company_id',true)!=""?$this->input->post('company_id',true):"";
-            $component_id = $this->input->post('component_id',true)!=""?$this->input->post('component_id',true):"";
-            $result = $this->Master_model->Not_installedTagList($company_id,$component_id);
+            $result = $this->Master_model->Not_installedTagList($company_id);
             $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
         } catch (Exception $e) {
             $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
@@ -536,6 +535,18 @@ class Master extends REST_Controller
             {
                 $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
             }
+    }
+
+    public function get_wellInstalledTag_List_post()
+    {
+        try {
+            $company_id = $this->input->post('company_id',true)!=""?$this->input->post('company_id',true):"";
+            $well_id = $this->input->post('well_id',true)!=""?$this->input->post('well_id',true):"";
+            $result = $this->Master_model->get_installedTagList($company_id,$well_id);
+            $this->response(['status'=>true,'data'=>$result,'msg'=>'successfully Fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+        } catch (Exception $e) {
+            $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+        } 
     }
 
 

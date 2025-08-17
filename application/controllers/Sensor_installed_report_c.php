@@ -11,11 +11,11 @@ class Sensor_installed_report_c extends MY_Controller
         public function index()
         {
 
-        $api ='Master/Install_self_flow_Well_List';
-        $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
-        $method = 'POST';
-        $result = $this->CALLAPI($api,$data,$method);
-        $d['well_list'] = $result['data'];
+            $api ='Master/Install_self_flow_Well_List';
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+            $method = 'POST';
+            $result = $this->CALLAPI($api,$data,$method);
+            $d['well_list'] = $result['data'];
             // echo'<pre>';
             // print_r($d['site_list']);die;
             

@@ -313,11 +313,11 @@ $('#submit_button').on('click', function(event) {
     checkAllCheckboxesBeforeSubmit(); 
 });
 
-function get_item_list(component_id, quantity_required, component_name, serialNumbersRowId) {
+function get_item_list(component_id,quantity_required, component_name, serialNumbersRowId) {
     $.ajax({
         type: 'POST',
         url: '<?php echo base_url();?>Device_installation_selflow_c/getItem_list',
-        data: { component_id: component_id },
+        data: { },
         success: function(serialResponse) 
         {
             serialResponse = JSON.parse(serialResponse);
@@ -326,7 +326,7 @@ function get_item_list(component_id, quantity_required, component_name, serialNu
             if (serialResponse.response_code == 200 && serialResponse.data.length > 0) {
                 let selectOptions = '';
                 $.each(serialResponse.data, function(j, serial) {
-                    selectOptions += `<option value="${serial.tag_number}">${serial.tag_number}</option>`;
+                    selectOptions += `<option value="${serial.id}">${serial.tag_number}</option>`;
                 });
                 for (let q = 1; q <= quantity_required; q++) {
                     $(`#${serialNumbersRowId}`).append(

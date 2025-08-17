@@ -291,7 +291,7 @@ class Master_model extends CI_Model
          if($well_type!='')
             $this->db->where('wm.well_type',$well_type);
         
-        return $this->db->select("ad.user_id,ad.assets_id,ad.area_id,ad.site_id,ad.well_id,wm.well_name,wm.lat,wm.long")
+        return $this->db->select("ad.user_id,ad.assets_id,ad.area_id,ad.site_id,wm.id as well_id,wm.well_name,wm.lat,wm.long")
         ->from('tbl_role_wise_user_assign_details ad')
         ->join('tbl_well_master wm','ad.site_id=wm.site_id','left')
         ->where(['ad.status'=>1,'ad.role_type'=>3,'wm.device_setup_status'=>0])
@@ -526,18 +526,14 @@ class Master_model extends CI_Model
         ->where(['wt.status'=>1])->get()->result_array();
     }
 
-    public function Not_installedTagList($company_id,$component_id)
+    public function Not_installedTagList($company_id)
     {
         
         if($company_id!='')
             $this->db->where('im.company_id',$company_id);
 
-        if($component_id!='')
-            $this->db->where('im.component_id',$component_id);
-
-        $result = $this->db->select("im.id,im.company_id,im.component_id,im.tag_number,im.installation_status,cm.component_name")
+        $result = $this->db->select("im.id,im.company_id,im.tag_number,im.installation_status")
         ->from('tbl_tags_number_master im')
-        ->join('tbl_component_master cm','cm.id=im.component_id','left')
         ->order_by("CAST(SUBSTRING_INDEX(im.tag_number, '#', -1) AS UNSIGNED) ASC")
         ->where(['im.status'=>1,'im.installation_status'=>0])->get()->result_array();
 
@@ -630,6 +626,21 @@ class Master_model extends CI_Model
             
         $result = array_merge($install_list, $new_list);
         
+        return $result;
+    }
+
+    public function get_installedTagList($company_id,$well_id)
+    {
+        if($company_id!='')
+            $this->db->where('nm.company_id',$company_id);
+
+        if($well_id!='')
+            $this->db->where('wl.well_id',$well_id);
+
+        $result = $this->db->select("nm.id as tag_id,nm.tag_number")
+        ->from('tbl_well_sensor_tag_installation_log wl')
+        ->join('tbl_tags_number_master nm','nm.id=wl.sensor_no','left')
+        ->where(['wl.tag_status'=>1,'nm.installation_status'=>1])->get()->result_array();
         return $result;
     }
 

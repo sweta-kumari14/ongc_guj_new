@@ -1256,12 +1256,13 @@ class Report_model extends CI_Model
             $this->db->where('wrl.sensor_no', $tag_number);
         }
 
-        $result = $this->db->select('wrl.well_id, wm.well_name, wrl.from_date_time, wrl.to_date_time,wrl.sensor_no,wrl.component_id,cm.component_name,wrl.tag_status')
+        $result = $this->db->select('wrl.well_id, wm.well_name, wrl.from_date_time, wrl.to_date_time,tm.tag_number as sensor_no,wrl.component_id,cm.component_name,wrl.tag_status')
 
             ->from('tbl_well_sensor_tag_installation_log wrl')
             ->join('tbl_site_device_installtion_self_flow sd', 'wrl.well_id = sd.well_id', 'left')
             ->join('tbl_well_master wm', 'sd.well_id = wm.id and wm.status = 1', 'left')
             ->join('tbl_component_master cm', 'wrl.component_id = cm.id and cm.status = 1', 'left')
+             ->join('tbl_tags_number_master tm', 'tm.id = wrl.sensor_no and tm.status = 1', 'left')
             ->where(['sd.status' => 1])
             ->group_by('wrl.id')
             ->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")

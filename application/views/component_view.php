@@ -109,7 +109,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasEditLabel">
     
     <!-- Header with background color -->
-    <div class="offcanvas-header" style="background: linear-gradient(to right, #8B4513, #A9A9A9);">
+    <div class="offcanvas-header" style="    background: linear-gradient(to right, #032448 20%, #fc6075 100%);">
         <h5 id="offcanvasEditLabel" class="offcanvas-title" style="color:#e8d7d6;">Edit Component</h5>
         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>

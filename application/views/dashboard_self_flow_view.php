@@ -766,26 +766,50 @@ function get_well_data() {
                         '<span style="margin-left: 7px;">' + (v.well_name ?? 'N/A') + '</span>' +
                         '<span class="status-dot" style="height: 29px; width: 26px; border-radius: 50%; background-color:'  + (v.status_color ?? '#75A47F') + '; display: inline-block;"></span>' +
                         '</div>' +
-                        '<div class="pump-image">' +
-                        '<div class="sensor_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_one_data"><strong>FLT ' + (v.FLTP_1_Temp ?? 0) + '</strong></div></div>' +
-                        '<div class="sensor-two"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div></div>' +
-                        '<div class="sensor-two_one"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_two_data_two"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div></div>' +
-                        '<div class="sensor-three"><img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon"><div class="sensor_three_data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div></div>' +
-                        '<img class="pump-img" src="<?= base_url('assets/img/well_image.png') ?>" class="sensor-icon">' +
-                        '</div>' +
-                        '<div class="card-footer d-flex justify-content-between align-items-center">' +
-                        '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +
-                  '<button class="button" style="margin-left:40px;" onclick="window.location.href=\'' + link + '\'">' +
-    '<i class="fas fa-info-circle fa-lg"></i>' +
-    '<span class="tooltip"><b>Click here to view single dashboard</b></span>' +
-'</button>' +
-'<button class="button" data-bs-toggle="offcanvas" data-bs-target="#addThreshold_data" aria-controls="addThreshold_data">' +
-    '<i class="fas fa-sliders-h"></i>' +
-    '<span class="tooltip"><b>Click here to set threshold setup</span></b>' +
-'</button>'+
+                        '<div class="pump-wrapper">' +
+                            '<div class="pump-image">' +
+                                '<div class="sensor sensor-one">' +
+                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
+                                    '<div class="sensor-data"><strong>FLT ' + (v.FLTP_1_Temp ?? 0) + '</strong></div>' +
+                                '</div>' +
 
-                        '</div>' +
-                        '</div>' +
+                                '<div class="sensor sensor-two">' +
+                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
+                                    '<div class="sensor-data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div>' +
+                                '</div>' +
+
+                                '<div class="sensor sensor-two-one">' +
+                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
+                                    '<div class="sensor-data"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div>' +
+                                '</div>' +
+
+                                '<div class="sensor sensor-three">' +
+                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
+                                    '<div class="sensor-data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div>' +
+                                '</div>' +
+
+                                '<img class="pump-img" src="<?= base_url('assets/img/well_image.png') ?>" alt="Pump">' +
+                            '</div>' +
+                        '</div>'+
+
+                            '<div class="card-footer d-flex justify-content-between align-items-center">' +
+                            // Left side: Date/Time
+                            '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +
+
+                            // Right side: Buttons
+                            '<div class="d-flex gap-2">' +
+                                '<button class="button" onclick="window.location.href=\'' + link + '\'">' +
+                                    '<i class="fas fa-info-circle fa-lg"></i>' +
+                                    '<span class="tooltip"><b>Click here to view single dashboard</b></span>' +
+                                '</button>' +
+
+                                '<button class="button" data-bs-toggle="offcanvas" data-bs-target="#addThreshold_data" aria-controls="addThreshold_data">' +
+                                    '<i class="fas fa-sliders-h"></i>' +
+                                    '<span class="tooltip"><b>Click here to set threshold setup</b></span>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>'
+                        +
                         '</div>'
                     );
 

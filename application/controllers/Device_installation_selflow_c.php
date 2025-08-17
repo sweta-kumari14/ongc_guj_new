@@ -86,8 +86,7 @@ class Device_installation_selflow_c extends MY_Controller
     public function getItem_list()
     {
         $api = 'Master/Not_installedTag_List';
-        $data = 'company_id='.$this->session->userdata('company_id',true).
-                '&component_id='.$this->input->post('component_id',true);
+        $data = 'company_id='.$this->session->userdata('company_id',true);
         $method = 'POST';
         $result = $this->CallAPI($api, $data, $method);
         echo json_encode($result);
@@ -114,7 +113,7 @@ class Device_installation_selflow_c extends MY_Controller
         }
         $tag_data_json = json_encode($assign_component); 
 
-        $api = 'Device_selfflow_well_installation/save_device_andtag_removal_data';
+        $api = 'Device_selfflow_well_installation/Save_wellDevice_Installation_Data';
         $data = 'well_id=' .$this->input->post('well_id', true) .
             '&assets_id=' .$this->input->post('assets_id', true) .
             '&area_id=' .$this->input->post('area_id', true).

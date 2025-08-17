@@ -17,33 +17,62 @@
                             </div>
                          
                         </div>
-
-                    <div class="row ms-2 mb-2">
-                        <div class="col-md-3" style="padding: 8px;">
-                            <label for="example-select" class="form-label">Component Name</label>
-                            <select onchange="getTagMasterList()" class="form-select select2" name="component_id" id="filtercomponent_id">
-                                <option value="">-select-</option>
-                                <?php
-                                    foreach ($component_list as $key => $value) {
-                                        ?>
-                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['component_name'] ?></option>
-                                        <?php
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-         
                    <div class="table-responsive">
                         <table class="table table-striped custom-table mb-0 datatable" id="data-table">
                             <tr>
-                                <th>SL.No.</th>
-                                <th>Component Name</th>
-                                <th>Tag Number</th>
-                                <th>Action</th>
+                                <th class="text-center">SL.No.</th>
+                                <th class="text-center">Tag Number</th>
+                                <th class="text-center">Installation Status</th>
+                                <th class="text-center">Action</th>
                             </tr>
                             </thead>
-                            <tbody id="tag_list">
+                            <tbody class="text-center">
+                                 <?php 
+                                    if (!empty($tag_list))
+                                    {
+                                        foreach ($tag_list as $key => $value)
+                                        {
+                                            ?>
+                                                <tr>
+                                                    <td style="width:15%"><?php echo $key+1; ?></td>
+                                                    <td><?php echo $value['tag_number']??'-'; ?></td>
+                                                    <td>
+                                                        <?php 
+                                                            if($value['installation_status'] == 1){
+                                                                     ?>
+                                                            <img src="<?php echo base_url(); ?>assets/green_tick.png" width="20px" alt="Active">
+                                                            <?php
+                                                            }
+                                                           if($value['installation_status'] == 0){
+                                                                ?>
+                                                            <img src="<?php echo base_url(); ?>assets/cross-tick.png" width="20px" alt="Not-Active">
+                                                                <?php
+                                                                }
+                                                            ?>   
+                                                         </td>
+                                                    <td  style="width:15%;">
+                                                        <a onclick="setTagDetails(this.id)" id="<?php echo $value['id']; ?>" href="javascript:;" data-bs-toggle="offcanvas"
+                                                           data-bs-target="#area_edit_drawer"><i class="fa-solid fa-pen-to-square text-success" style="font-size:14px;"></i></a>
+
+                                                        <a id="<?php echo $value['id']; ?>" onclick="deleteTagData(this.id);">
+                                                         <i class="fas fa-trash mx-2 text-danger" style="font-size:14px;cursor:pointer;"></i> 
+                                                      </a>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                        }
+                                        
+                                    }else{
+                                        ?>
+                                            <tr>
+                                                <td colspan="3" class="text-danger"><img src="<?php echo base_url() ?>assets/img/no_records.svg" width="100" class="mx-auto d-block">
+                                                <p class="text-danger fw-bold mt-2 text-center"> No Data Available !!</p></td>
+                                            </tr>
+                                        <?php
+                                    }
+
+                                ?>
+                                
                                 
                             </tbody>
                         </table>
@@ -58,7 +87,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="add_area_drawer" aria-labelledby="offcanvasRightLabel">
     
     <!-- Header with background color -->
-    <div class="offcanvas-header" style="background: linear-gradient(to right, #8B4513, #A9A9A9);">
+    <div class="offcanvas-header" style="background: linear-gradient(to right, #032448 20%, #fc6075 100%);">
         <h5 id="offcanvasRightLabel" class="offcanvas-title" style="color:#e8d7d6;">Add Tags</h5>
         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -68,25 +97,7 @@
         <form action="<?php echo base_url() ?>Tag_master_c/add_Tag_data" class="row needs-validation" method="post" novalidate>
 
             <div class="row">
-                <!-- Asset Name Dropdown -->
-                <div class="col-md-12">
-                    <label for="assetType" class="form-label">Component Name<sup class="text-danger">*</sup></label>
-                    <select class="form-control select2" id="component_id" name="component_id" required>
-                        <option value="">-select-</option>
-                            <?php
-                                foreach ($component_list as $key => $value) {
-                                    ?>
-                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['component_name'] ?></option>
-                                    <?php
-                                }
-                            ?>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select an asset!
-                    </div>
-                </div>
-
-                <!-- Area Name Input -->
+                <!-- Tag No Input -->
                 <div class="col-md-12 mt-2">
                     <label for="validationCustom01" class="form-label">Tag Number<sup class="text-danger">*</sup></label>
                     <input name="tag_number" type="text" class="form-control" id="validationCustom01" placeholder="Enter tag number" 
@@ -97,7 +108,6 @@
                 </div>
             </div>
             <hr class="mt-3">
-            <!-- Submit Button -->
             <div class="text-end">
                 <button type="submit" class="btn btn-sm btn-success">Submit</button>
             </div>
@@ -112,7 +122,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="area_edit_drawer" aria-labelledby="offcanvasEditLabel">
     
     <!-- Header with background color -->
-    <div class="offcanvas-header" style="background: linear-gradient(to right, #8B4513, #A9A9A9);">
+    <div class="offcanvas-header" style="background: linear-gradient(to right, #032448 20%, #fc6075 100%);">
         <h5 id="offcanvasEditLabel" class="offcanvas-title" style="color:#e8d7d6;">Edit Tags</h5>
         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -122,24 +132,6 @@
         <form action="<?php echo base_url() ?>Tag_master_c/update_TagData" class="row needs-validation" novalidate method="post">
 
             <input type="hidden" name="id" id="editTagId">
-
-            <div class="col-md-12">
-                <label for="assetType" class="form-label">Component Name<sup class="text-danger">*</sup></label>
-                <select class="form-control select2" id="component_Id" name="component_id" required>
-                    <option value="">Select Component</option>
-                        <?php
-                            foreach ($component_list as $key => $value) {
-                                ?>
-                                <option value="<?php echo $value['id'] ?>"><?php echo $value['component_name'] ?></option>
-                                <?php
-                            }
-                        ?>
-                </select>
-                <div class="invalid-feedback">
-                    Please select an asset!
-                </div>
-            </div>
-
             <div class="col-md-12">
                 <label class="form-label">Tag Number<sup class="text-danger">*</sup></label>
                 <input name="tag_number" type="text" class="form-control" id="editTagName"
@@ -213,50 +205,47 @@ if($this->session->flashdata('error') != '')
 
 <script>
 
-    getTagMasterList();
-    function getTagMasterList()
-    {
-        let componentId = $("#filtercomponent_id").val();
+//     getTagMasterList();
+//     function getTagMasterList()
+//     {
+//          $.ajax({
+//             url: '<?php echo base_url() ?>Tag_master_c/tagMaster_list',
+//             type: 'POST',
+//             data: {
+                
+//             },
+//             success:(res)=>{
+//                 resp = JSON.parse(res); 
+//                 console.log(resp,'dsafdjsdfa');
+//                 if(resp.response_code == 200){
+//                     if(resp.data.length > 0){
+//                         $("#tag_list").html(``);
+//                        $.each(resp.data, (i,v)=>{
+//     $("#tag_list").append(`<tr>
+//         <td>${i + 1}</td>
+//         <td>${v.tag_number || '-'}</td>
+//         <td>
+//             <a onclick="setTagDetails('${v.id}')" id="${v.id}" href="javascript:;" data-bs-toggle="offcanvas" data-bs-target="#area_edit_drawer">
+//                 <i class="fa-solid fa-pen-to-square text-success" style="font-size:14px;"></i>
+//             </a>
+//             <a onclick="deleteTagData('${v.id}')">
+//                 <i class="fas fa-trash mx-2 text-danger" style="font-size:14px;cursor:pointer;"></i>
+//             </a>
+//         </td>
+//     </tr>`);
+// });
 
-         $.ajax({
-            url: '<?php echo base_url() ?>Tag_master_c/tagMaster_list',
-            type: 'POST',
-            data: {
-                component_id: componentId,
-            },
-            success:(res)=>{
-                resp = JSON.parse(res); 
-                if(resp.response_code == 200){
-                    if(resp.data.length > 0){
-                        $("#tag_list").html(``);
-                        $.each(resp.data, (i,v)=>{
-                            $("#tag_list").append(`<tr>
-                                <td>${i + 1}</td>
-                                <td>${v.component_name || '-'}</td>
-                                <td>${v.tag_number || '-'}</td>
-                                <td>
-                                    <a onclick="setTagDetails('${v.id}')" id="<?php echo $value['id']; ?>" href="javascript:;" data-bs-toggle="offcanvas" data-bs-target="#area_edit_drawer">
-                                                        <i class="fa-solid fa-pen-to-square text-success" style="font-size:14px;"></i>
-                                                    </a>
+//                     }else{
 
-                                    <a onclick="deleteTagData('${v.id}')" >
-                                        <i class="fas fa-trash mx-2 text-danger" style="font-size:14px;cursor:pointer;"></i>
-                                    </a>
-
-                                </td>
-                            </tr>`);
-                        });
-                    }else{
-
-                        $('#tag_list').html(`<tr><td colspan="4" class="text-center"><div class="mt-3">
-                             <img src="<?php echo base_url(); ?>assets/img/no_records.svg" width="100">
-                            <p class="text-danger mt-2 fw-bold">No Record Found !!</p></div></td></tr>
-                          `);
-                    }
-                }
-            }
-        });
-    }
+//                         $('#tag_list').html(`<tr><td colspan="4" class="text-center"><div class="mt-3">
+//                              <img src="<?php echo base_url(); ?>assets/img/no_records.svg" width="100">
+//                             <p class="text-danger mt-2 fw-bold">No Record Found !!</p></div></td></tr>
+//                           `);
+//                     }
+//                 }
+//             }
+//         });
+//     }
 
     function setTagDetails(id)
     {
@@ -272,7 +261,6 @@ if($this->session->flashdata('error') != '')
                 {
                     $("#editTagName").val(res.data[0]['tag_number']);
                     $("#editTagId").val(res.data[0]['id']);
-                    $("#component_Id").val(res.data[0]['component_id']).trigger('change');
                 }                
             }
         })

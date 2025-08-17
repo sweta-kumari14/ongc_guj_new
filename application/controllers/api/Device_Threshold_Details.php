@@ -153,179 +153,193 @@ class Device_Threshold_Details extends REST_Controller
 		}
 	}
 
-	public function Save_ThresholdData_self_flow_post()
+	public function setup_well_thresholdData_post()
 	{
 		$threshold_type  = $this->input->post('threshold_type',true);
 		
 		if($this->input->post('threshold_type',true) == '')
 		{
 			$this->response(['status'=>false,'data'=>[],'msg'=>'Threshold setup type required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+		}elseif($this->input->post('c_by',true) == '')
+		{
+			$this->response(['status'=>false,'data'=>[],'msg'=>'Created required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
 		}else{
 			try {
 
 				if($threshold_type == 1)
 				{
+					$area_id = $this->input->post('area_id',true);
 					$site_id = $this->input->post('site_id',true);
-					$well_ids = json_decode($this->input->post('well_ids',true));
 
-					if($this->input->post('site_id',true) == '')
+					if($this->input->post('area_id',true) == '')
+					{
+						$this->response(['status'=>false,'data'=>[],'msg'=>'Area required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+					}elseif($this->input->post('site_id',true) == '')
 					{
 						$this->response(['status'=>false,'data'=>[],'msg'=>'site id required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
-					}else if($well_ids == '')
+					}elseif($this->input->post('well_data',true) == '')
 					{
-						$this->response(['status'=>false,'data'=>[],'msg'=>'well id required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
+						$this->response(['status'=>false,'data'=>[],'msg'=>'well Data required!!','response_code'=>REST_Controller::HTTP_BAD_REQUEST]);
 
 					}else{
 
-						foreach($well_ids as $value)
-						{
+						$all_well_data = json_decode($this->input->post('well_data', true), true);
 
-							// print_r($well_ids);die;
-							$verify = $this->Device_Threshold_model->verifywellExist($value);
-							// print_r($serial);die;
-							if($verify == 0)
-							{
-								$details = [];
-								$details['well_id'] = $value;
-								$details['site_id'] = $this->input->post('site_id',true);
-								$details['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$details['chp_lower'] = $this->input->post('chp_lower',true);
-								$details['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$details['abp_lower'] = $this->input->post('abp_lower',true);
-								$details['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$details['thp_lower'] = $this->input->post('thp_lower',true);
-								$details['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$details['tht_lower'] = $this->input->post('tht_lower',true);
-			                	$details['c_by'] = $this->input->post('c_by',true);
-								$details['c_date'] = date('Y-m-d H:i:s');
-								$details['status'] = 1;
-								$this->Device_Threshold_model->Save_pressure_Threshold_data($details);
+						foreach ($all_well_data as $well) {
+					    	$well_id   = $well['well_id'];
+					    	$tag_data  = $well['node_value'];
 
-								
-								$log = [];
-								$log['well_id'] = $value;
-								$log['site_id'] = $this->input->post('site_id',true);
-								$log['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$log['chp_lower'] = $this->input->post('chp_lower',true);
-								$log['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$log['abp_lower'] = $this->input->post('abp_lower',true);
-								$log['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$log['thp_lower'] = $this->input->post('thp_lower',true);
-								$log['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$log['tht_lower'] = $this->input->post('tht_lower',true);
-								$log['c_by'] = $this->input->post('c_by',true);
-								$log['c_date'] = date('Y-m-d H:i:s');
-								$log['status'] = 1;
-								$this->Device_Threshold_model->Save_pressure_Threshold_data_log($log);
-							}else{
-								
-								$log = [];
-								$log['well_id'] = $value;
-								$log['site_id'] = $this->input->post('site_id',true);
-								$log['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$log['chp_lower'] = $this->input->post('chp_lower',true);
-								$log['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$log['abp_lower'] = $this->input->post('abp_lower',true);
-								$log['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$log['thp_lower'] = $this->input->post('thp_lower',true);
-								$log['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$log['tht_lower'] = $this->input->post('tht_lower',true);
-								$log['c_by'] = $this->input->post('c_by',true);
-								$log['c_date'] = date('Y-m-d H:i:s');
-								$log['status'] = 1;
-								$this->Device_Threshold_model->Save_pressure_Threshold_data_log($log);
+						    foreach ($tag_data as $value) {
+						        $tag_id     = $value['tag_id'];
+						        $node_type  = $value['node_type'];
 
-								$l_data = [];
-								$l_data['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$l_data['chp_lower'] = $this->input->post('chp_lower',true);
-								$l_data['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$l_data['abp_lower'] = $this->input->post('abp_lower',true);
-								$l_data['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$l_data['thp_lower'] = $this->input->post('thp_lower',true);
-								$l_data['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$l_data['tht_lower'] = $this->input->post('tht_lower',true);
-								$l_data['d_by'] = $this->input->post('c_by',true);
-								$l_data['d_date'] = date('Y-m-d H:i:s');
-								$this->Device_Threshold_model->Update_last_Threshold_self_flowData($l_data,['well_id'=>$value]);
-							}				
+						        $verify_InactiveData = $this->Device_Threshold_model->verifywll_NotExist_record($well_id,$value['node_type']);
+			        	
+					        	if($verify_InactiveData > 0)
+					        	{
+							    	$verifyNode = $this->Device_Threshold_model->delete_existNodeType($well_id, $value['node_type']);
+
+					        	}
+					        	
+						        $verify = $this->Device_Threshold_model->verifywllExist($well_id, $value['node_type']);
+
+						        // Prepare base data
+						        $base_data = [
+						            'area_id'     => $area_id,
+						            'site_id'     => $site_id,
+						            'well_id'     => $well_id,
+						            'tag_no'      => $tag_id,
+						            'node_name'   => $node_type,
+						            'max_value'   => $value['max_value']   ?? null,
+						            'upper_value' => $value['upper_value'] ?? null,
+						            'lower_value' => $value['lower_value'] ?? null,
+						            'multiplier'  => $value['multiplier']  ?? null,
+						            'offset'      => $value['offset']      ?? null,
+						            'c_by'        => $this->input->post('c_by',true),
+						            'c_date'      => date('Y-m-d H:i:s'),
+						            'status'      => 1
+						        ];
+
+						        // Save log regardless
+						        $this->Device_Threshold_model->Save_pressure_Threshold_data_log($base_data);
+
+						        if ($verify == 0) {
+						            // Insert new
+						            $this->Device_Threshold_model->Save_pressure_Threshold_data($base_data);
+						        } else {
+						            // Only update if values exist
+						            $update_data = [];
+						            foreach (['max_value', 'upper_value', 'lower_value', 'multiplier', 'offset'] as $field) {
+						                if (isset($value[$field])) {
+						                    $update_data[$field] = $value[$field];
+						                }
+						            }
+
+						            if (!empty($update_data)) {
+						                $update_data['d_by']   = $this->input->post('c_by',true);
+						                $update_data['d_date'] = date('Y-m-d H:i:s');
+
+						                $this->Device_Threshold_model->Update_last_Threshold_self_flowData(
+						                    $update_data,
+						                    ['well_id' => $well_id, 'tag_no' => $tag_id,'status'=>1]
+						                );
+						            }
+						        }
+						    }
 						}
-						$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully Thresholds Data Saved!!','response_code'=>REST_Controller::HTTP_OK]);
-						}	
+
+						$this->response(['status' => true,'msg' => 'Successfully Thresholds Data Saved!!','response_code' => REST_Controller::HTTP_OK]);
+					}
 					
 				}else{
-					   $well_id = $this->input->post('well_id', true);
-				        if (empty($well_id)) 
-				        {
-				            $this->response(['status' => false, 'data' => [], 'msg' => 'well_id required!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
-				        }
+				   	$well_id = $this->input->post('well_id', true);
 
-				        $verify = $this->Device_Threshold_model->verifywellExist($well_id);
-				            if($verify == 0)
-							{
-								$details = [];
-								$details['well_id'] = $well_id;
-								$details['site_id'] = $this->input->post('site_id',true);
-								$details['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$details['chp_lower'] = $this->input->post('chp_lower',true);
-								$details['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$details['abp_lower'] = $this->input->post('abp_lower',true);
-								$details['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$details['thp_lower'] = $this->input->post('thp_lower',true);
-								$details['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$details['tht_lower'] = $this->input->post('tht_lower',true);
-			                	$details['c_by'] = $this->input->post('c_by',true);
-								$details['c_date'] = date('Y-m-d H:i:s');
-								$details['status'] = 1;
-								$this->Device_Threshold_model->Save_pressure_Threshold_data($details);
+			        if (empty($well_id)) 
+			        {
+			            $this->response(['status' => false, 'data' => [], 'msg' => 'Well required!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
+			        }elseif ($this->input->post('threshold_data', true) =='') 
+			        {
+			            $this->response(['status' => false, 'data' => [], 'msg' => 'Thresold Data required!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
+			        }
 
-								
-								$log = [];
-								$log['well_id'] = $well_id;
-								$log['site_id'] = $this->input->post('site_id',true);
-								$log['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$log['chp_lower'] = $this->input->post('chp_lower',true);
-								$log['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$log['abp_lower'] = $this->input->post('abp_lower',true);
-								$log['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$log['thp_lower'] = $this->input->post('thp_lower',true);
-								$log['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$log['tht_lower'] = $this->input->post('tht_lower',true);
-								$log['c_by'] = $this->input->post('c_by',true);
-								$log['c_date'] = date('Y-m-d H:i:s');
-								$log['status'] = 1;
-								$this->Device_Threshold_model->Save_pressure_Threshold_data_log($log);
-							}else{
-								
-								$log = [];
-								$log['well_id'] = $well_id;
-								$log['site_id'] = $this->input->post('site_id',true);
-								$log['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$log['chp_lower'] = $this->input->post('chp_lower',true);
-								$log['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$log['abp_lower'] = $this->input->post('abp_lower',true);
-								$log['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$log['thp_lower'] = $this->input->post('thp_lower',true);
-								$log['tht_uppar'] = $this->input->post('tht_uppar',true);	
-								$log['tht_lower'] = $this->input->post('tht_lower',true);
-								$log['c_by'] = $this->input->post('c_by',true);
-								$log['c_date'] = date('Y-m-d H:i:s');
-								$log['status'] = 1;
-								$this->Device_Threshold_model->Save_pressure_Threshold_data_log($log);
+				   	$thresholdData = json_decode($this->input->post('threshold_data', true),TRUE);
 
-								$l_data = [];
-								$l_data['chp_uppar'] = $this->input->post('chp_uppar',true);
-								$l_data['chp_lower'] = $this->input->post('chp_lower',true);
-								$l_data['abp_uppar'] = $this->input->post('abp_uppar',true);
-								$l_data['abp_lower'] = $this->input->post('abp_lower',true);
-								$l_data['thp_uppar'] = $this->input->post('thp_uppar',true);
-								$l_data['thp_lower'] = $this->input->post('thp_lower',true);
-								$l_data['tht_uppar'] = $this->input->post('tht_uppar',true);
-								$l_data['tht_lower'] = $this->input->post('tht_lower',true);
-								$l_data['d_by'] = $this->input->post('c_by',true);
-								$l_data['d_date'] = date('Y-m-d H:i:s');
-								$this->Device_Threshold_model->Update_last_Threshold_self_flowData($l_data,['well_id'=>$well_id]);
-							}
-							$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully Thresholds Data Saved!!','response_code'=>REST_Controller::HTTP_OK]);	
+					foreach ($thresholdData as $key => $value) 
+					{
+
+			        	$verify_InactiveData = $this->Device_Threshold_model->verifywll_NotExist_record($well_id,$value['node_type']);
+
+			        	if($verify_InactiveData > 0)
+			        	{
+					    	$verifyNode = $this->Device_Threshold_model->delete_existNodeType($well_id, $value['node_type']);
+
+			        	}
+
+			        	$verify = $this->Device_Threshold_model->verifywllExist($well_id,$value['node_type']);
+
+					    if($verify == 0)
+					    {
+					        $details = [];
+					        $details['well_id'] = $well_id;
+					        $details['area_id'] = $this->input->post('area_id',true);
+					        $details['site_id'] = $this->input->post('site_id',true);
+					        $details['tag_no'] = $value['tag_id'];
+					        $details['node_name'] = $value['node_type'];
+					        $details['max_value'] = $value['max_value'] ?? '0';
+					        $details['upper_value'] = $value['upper_value'] ?? '0';
+					        $details['lower_value'] = $value['lower_value'] ?? '0';
+					        $details['multiplier'] = $value['multiplier'] ?? '0';
+					        $details['offset'] = $value['offset'] ?? '0';
+					        $details['c_by'] = $this->input->post('c_by',true);
+					        $details['c_date'] = date('Y-m-d H:i:s');
+					        $details['status'] = 1;
+
+					        $this->Device_Threshold_model->Save_pressure_Threshold_data($details);
+					        $this->Device_Threshold_model->Save_pressure_Threshold_data_log($details);
+
+					    } else {
+
+					       	$existing = $this->Device_Threshold_model->get_existing_threshold($value['tag_id'], $well_id);
+
+					        $log = [];
+					        $log['well_id']      = $well_id;
+					        $log['area_id']      = $this->input->post('area_id',true);
+					        $log['site_id']      = $this->input->post('site_id',true);
+					        $log['tag_no']       = $value['tag_id'];
+					        $log['node_name']    = $value['node_type'];
+					        $log['max_value']   = isset($value['max_value']) ? $value['max_value'] : $existing['max_value'];
+							$log['upper_value'] = isset($value['upper_value']) ? $value['upper_value'] : $existing['upper_value'];
+							$log['lower_value'] = isset($value['lower_value']) ? $value['lower_value'] : $existing['lower_value'];
+							$log['multiplier']  = isset($value['multiplier']) ? $value['multiplier'] : $existing['multiplier'];
+							$log['offset']      = isset($value['offset']) ? $value['offset'] : $existing['offset'];
+					        $log['c_by']         = $this->input->post('c_by',true);
+					        $log['c_date']       = date('Y-m-d H:i:s');
+					        $log['status']       = 1;
+
+					        $this->Device_Threshold_model->Save_pressure_Threshold_data_log($log);
+
+					        // Only update the fields that are actually present
+					        $l_data = [];
+					        $allowed_fields = ['max_value', 'upper_value', 'lower_value', 'multiplier', 'offset'];
+					        foreach ($allowed_fields as $field) {
+					            if (isset($value[$field])) {
+					                $l_data[$field] = $value[$field];
+					            }
+					        }
+
+					        $l_data['d_by']   = $this->input->post('c_by',true);
+					        $l_data['d_date'] = date('Y-m-d H:i:s');
+
+					        if (!empty($l_data)) {
+					            $this->Device_Threshold_model->Update_last_Threshold_self_flowData(
+					                $l_data,
+					                ['well_id' => $well_id, 'tag_no' => $value['tag_id'],'status'=>1]
+					            );
+					        }
+					    }
+					}
+
+					$this->response(['status' => true,'data' => [],'msg' => 'Successfully Thresholds Data Saved!!','response_code' => REST_Controller::HTTP_OK]);
 
 				}
 				
@@ -336,14 +350,33 @@ class Device_Threshold_Details extends REST_Controller
 		
 	}
 
-	public function threshold_setup_details_report_post()
+	public function Last_threshold_dataList_post()
 	{
 		try {
+
+			$well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
+			$node_type = $this->input->post('node_type',true)!=''?$this->input->post('node_type',true):'';
+			$tag_no = $this->input->post('tag_no',true)!=''?$this->input->post('tag_no',true):'';
+			
+			$result = $this->Device_Threshold_model->getwell_lastThreshold_list($well_id,$node_type,$tag_no);
+			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
+		} catch (Exception $e) {
+			$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
+		}
+	}
+
+	public function well_threshold_setup_report_post()
+	{
+		try {
+
+			$area_id = $this->input->post('area_id',true)!=''?$this->input->post('area_id',true):'';
+			$site_id = $this->input->post('site_id',true)!=''?$this->input->post('site_id',true):'';
 			$well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
 			$from_date = $this->input->post('from_date',true)!=''?$this->input->post('from_date',true):'';
 			$to_date = $this->input->post('to_date',true)!=''?$this->input->post('to_date',true):'';
-			$site_id = $this->input->post('site_id',true)!=''?$this->input->post('site_id',true):'';
-			$result = $this->Device_Threshold_model->getThreshold_report($well_id,$from_date,$to_date,$site_id);
+
+			$result = $this->Device_Threshold_model->getwellThreshold_setup_report($area_id,$site_id,$well_id,$from_date,$to_date);
+
 			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {
 			$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);

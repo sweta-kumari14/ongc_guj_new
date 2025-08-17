@@ -1,50 +1,126 @@
-
-<style type="text/css">
-    .select2-container--default .select2-selection--single{
-        border: 1px solid #8299b557;
-    }
-    .select2-container .select2-selection--single{
-        height: 38px;
-    }
-    .select2-container--default .select2-selection--single .select2-selection__rendered{
-        line-height: 35px;
-    }
-    table thead tr th{
-        background: #daebf9 !important;
-    }
-    .table-bordered th {
-       border: 1px solid var(--bs-tertiary-color);
-
-    }
-    #datatable th[data-sort]::after {
-      content: "";
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-bottom: 6px solid #ccc; /* light gray arrow initially */
+<style>
+    .thead-dark th {
+        color: black !important;
+        text-align: center;
+        white-space: nowrap;
+        padding-right: 16px;
+        position: relative;
     }
 
-    #datatable th.sort-asc::after {
-        border-bottom: 6px solid #000;
-        border-top: none;
+    #data-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 5;
     }
 
-    #datatable th.sort-desc::after {
-        border-top: 6px solid #000;
-        border-bottom: none;
+    .table-responsive thead th {
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        border: 1px solid black;
     }
 
-    .table-bordered td {
-       border: 1px solid var(--bs-tertiary-color);
+    #data-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    #data-table th,
+    #data-table td {
+        border: 1px solid #dee2e6 !important;
+        vertical-align: middle;
+        text-align: center;
+        white-space: nowrap;
     }
-    .form-label{
-        font-size: 15px;
+
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
     }
-     #export_btns{
+
+    .pagination button {
+        margin: 0 3px;
+        padding: 6px 12px;
+        border: 1px solid #888;
+        background-color: #fff;
+        color: #ffbc34;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        border-radius: 4px;
+    }
+
+    .pagination button:hover:not(.active) {
+        background-color: #ffbc34;
+        color: #fff;
+        border-color: #ffbc34;
+    }
+
+    .pagination button.active {
+        background-color: #ffbc34;
+        color: white;
+        border-color: #ffbc34;
+    }
+
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-right: 20px; /* space for arrows */
+    }
+
+    th.sortable .arrow {
+        position: absolute;
+        top: 50%;
+        right:11px;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        font-size: 0.5em;
+        color: black;
+        line-height: 1;
+    }
+
+    th.sortable .arrow span {
+        display: block;
+        text-align: center;
+    }
+
+    th.sortable.active.asc .arrow .up {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    th.sortable.active.desc .arrow .down {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .table thead th:first-child {
+        border-radius: 0 !important;
+    }
+
+    .table thead th:last-child {
+        border-radius: 0 !important;
+      border-radius: 0 !important;
+    }
+    .table thead th:last-child{
+     border-radius: 0 !important;
+    }
+
+    .tooltip-inner {
+        background-color: #1e88e5 !important;
+        color: #fff !important;            
+        font-weight: 500;
+        font-size: 13px;
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+
+    #export_btns{
         font-size: 16px;
         padding: 3px 13px;
     }
@@ -72,12 +148,10 @@
         opacity: 1; 
         margin-right: 2px;
     }
-    
-    .card-header {
-    
-     background-color: var(--bs-white) !important;
-   
+    .card-header{
+        background-color: white !important;
     }
+    
 </style>
 <div class="page-wrapper">
     <div class="content container-fluid pb-0">
@@ -153,47 +227,120 @@
                                     </select>
                                        
                                 </div>
-                                <input type="text" id="searchBox" placeholder="Search..." class="form-control w-25" />
+                                <input type="text" id="mis_search" placeholder="Search..." class="form-control w-25" />
 
                             </div>
-           
-                             <div class="table-responsive mt-4">
-
-                                <table class="table table-bordered border-bottom table-striped" id="datatable">
-                                      <thead style="background-color:blue; color: white; text-align: center;">
-                                        <tr>
-                                          <th colspan="25" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="25" class="text-uppercase" style="font-size: 15px;font-weight: bolder;" id="report-heading"> Historical Report as on </th>
-                                        </tr>
-                                        <tr>
-                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="number" data-key="sl_no">Sl No.</th>
-                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="string" data-key="well_name">Well</th>
-                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="date" data-key="Log_Date_Time">Last Log Date Time</th>
-                                            <th colspan="2">CHP (kg/cm²)</th>
-                                            <th colspan="2">THP (kg/cm²)</th>
-                                            <th colspan="2">ABP (kg/cm²)</th>
-                                            <th colspan="2">FLT (°C)</th>
-                                            <th rowspan="2" style="vertical-align: middle; text-align: center; position: relative; padding-right: 20px;" data-sort="number" data-key="Battery_Voltage">Battery (v)</th>
-                                            
-                                        </tr>
-                                       <tr>
-                                            <th data-sort="number" data-key="CHP" style="position: relative; padding-right: 20px;">Sensor</th>
-                                            <th data-sort="number" data-key="CHP_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
-                                            <th data-sort="number" data-key="THP" style="position: relative; padding-right: 20px;">Sensor</th>
-                                            <th data-sort="number" data-key="THP_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
-                                            <th data-sort="number" data-key="ABP" style="position: relative; padding-right: 20px;">Sensor</th>
-                                            <th data-sort="number" data-key="ABP_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
-                                            <th data-sort="number" data-key="FLT" style="position: relative; padding-right: 20px;">Sensor</th>
-                                            <th data-sort="number" data-key="FLT_battery_volt" style="position: relative; padding-right: 20px;">Battery (v)</th>
-                                        </tr>
+                            <div class="table-responsive mt-2" style="max-height: 1000px; overflow-y: auto;">
+                                <table class="table table-bordered table-hover m-0" id="data-table">
+                                   <thead class="thead-dark">
+                                      <tr>
+                                       <th class="sortable" data-index="0" onclick="sortMIS(0)" rowspan="2">
+                                          Sl No.
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        
+                                        <th style="border:1px solid #fff;" rowspan="2" class="sortable" data-index="1" onclick="sortMIS(1)">
+                                          Well
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        
+                                        <th style="border:1px solid #fff;" rowspan="2" class="sortable" data-index="3" onclick="sortMIS(2)">
+                                          Log Date Time
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" colspan="2">CHP (kg/cm²)</th>
+                                        <th style="border:1px solid #fff;" colspan="2">THP (kg/cm²)</th>
+                                        <th style="border:1px solid #fff;" colspan="2">ABP (kg/cm²)</th>
+                                        <th style="border:1px solid #fff;" colspan="2">FLT (°C)</th>
+                                        <th style="border:1px solid #fff;" rowspan="2" class="sortable" data-index="11" onclick="sortMIS(11)">
+                                          Battery(v)
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                      </tr>
+                                      <tr>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="3" onclick="sortMIS(3)">
+                                          Sensor
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="4" onclick="sortMIS(4)">
+                                          Battery(v)
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="5" onclick="sortMIS(5)">
+                                          Sensor
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="6" onclick="sortMIS(6)">
+                                          Battery(v)
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="7" onclick="sortMIS(7)">
+                                          Sensor
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="8" onclick="sortMIS(8)">
+                                          Battery(v)
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="9" onclick="sortMIS(9)">
+                                          Sensor
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        <th style="border:1px solid #fff;" class="sortable" data-index="10" onclick="sortMIS(10)">
+                                          Battery(v)
+                                          <span class="arrow">
+                                            <span class="up">▲</span>
+                                            <span class="down">▼</span>
+                                          </span>
+                                        </th>
+                                        
+                                        
+                                      </tr>
                                     </thead>
-                                    <tbody class="text-center" id="table_data"> 
+
+                                    <tbody id="table_data">
+                                        <!-- Injected via JS -->
                                     </tbody>
                                 </table>
-                                <div id="pagination" class="mt-3 text-end"></div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                  <div class="pagination" style="float:right;" id="pagination"></div>
+                                </div>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -260,162 +407,377 @@ if($this->session->flashdata('error') != '')
     }
 </script>
 <script type="text/javascript">
-let tableDataArray = [];
+// JS
+let groupMap = {};
+let misDataGroups = [];
+let filteredMisGroups = [];
 let currentPage = 1;
-let rowsPerPage = 10;
+let pageSize = 10;
+let currentSortIndex = 1;
 let sortDirection = 1;
-let sortColumnIndex = null;
+let isSearching = false;
 
-// Fetch data
+$(document).ready(function () {
+    $('#page-size').on('change', function () {
+        pageSize = parseInt($(this).val()) || 10;
+        currentPage = 1;
+        renderMisTable();
+    });
+
+    $('#mis_search').on('keyup', function () {
+        const keyword = $(this).val().toLowerCase().trim();
+        isSearching = keyword.length > 0;
+
+        if (!keyword) {
+            filteredMisGroups = [];
+            currentPage = 1;
+            renderMisTable();
+            return;
+        }
+
+        filteredMisGroups = misDataGroups.map(group => {
+            const filteredRecords = group.records.filter(row =>
+                Object.values(row).some(val =>
+                    val?.toString().toLowerCase().includes(keyword)
+                )
+            );
+
+            // Search across well_name and cluster_name
+            const groupMatch = [group.well_name, group.cluster_name]
+                .some(val => val?.toLowerCase().includes(keyword));
+
+            if (groupMatch || filteredRecords.length > 0) {
+                return {
+                    ...group,
+                    records: groupMatch ? group.records : filteredRecords
+                };
+            }
+            return null;
+        }).filter(g => g !== null);
+
+        currentPage = 1;
+        renderMisTable();
+    });
+
+    get_mis_report();
+});
+
 function get_mis_report() {
-    $('#table_data').html('<tr><td colspan="25">Processing please wait....</td></tr>');
+    $('#table_data').html('<tr><td colspan="10">Loading...</td></tr>');
 
-    let from_date = $('#from_date').val();
-    let to_date = $('#to_date').val();
-    let well_id = $('#well_id').val();
+    const base_url = "<?= base_url(); ?>";
+    const from_date = $('#from_date').val();
+    const to_date = $('#to_date').val();
+    const well_id = $('#well_id').val();
+
+    if (!from_date || !to_date) {
+        $('#table_data').html('<tr><td colspan="10">Please select well and date range.</td></tr>');
+        return;
+    }
 
     $.ajax({
-        url: '<?= base_url("Self_flow_well_historical_log_c/get_mis_report_histrorical") ?>',
+        url: base_url + 'Self_flow_well_historical_log_c/get_mis_report_histrorical',
         method: 'POST',
-        data: {from_date, to_date, well_id},
-        success: function(res) {
-            let response = JSON.parse(res);
-            if(response.response_code == 200) {
-                tableDataArray = response.data || [];
+        data: { from_date, to_date, well_id },
+        success: function (res) {
+            const response = JSON.parse(res);
+            console.log(response,'sahdhsgf');
+            if (response.response_code === 200 && response.data?.length > 0) {
+                groupMap = {};
+                response.data.forEach(row => {
+                    const key = row.well_name;
+                    if (!groupMap[key]) {
+                        groupMap[key] = { groupKey: key, well_name: row.well_name, records: [] };
+                    }
+                    groupMap[key].records.push(row);
+                });
+                misDataGroups = Object.values(groupMap);
+                filteredMisGroups = [];
                 currentPage = 1;
-                renderTable();
-                renderPagination();
+                renderMisTable();
             } else {
-                $('#table_data').html('<tr><td colspan="25" class="text-danger">No records found</td></tr>');
+                $('#table_data').html('<tr><td colspan="12">No records found.</td></tr>');
             }
+        },
+        error: function () {
+            $('#table_data').html('<tr><td colspan="12">Error fetching data</td></tr>');
         }
     });
 }
 
-// Render Table
-function renderTable(filteredData) {
-    let data = filteredData || tableDataArray;
-    data.sort((a,b) => (a.well_name||'').localeCompare(b.well_name||''));
+function renderMisTable() {
+    const groups = isSearching ? filteredMisGroups : misDataGroups;
+    if (!groups || groups.length === 0) {
+        $('#table_data').html('<tr><td colspan="12">No matching records.</td></tr>');
+        $('#pagination').html('');
+        return;
+    }
 
-    let start = (currentPage-1)*rowsPerPage;
-    let end = start+rowsPerPage;
-    let paginatedData = data.slice(start, end);
-
-    $('#table_data').empty();
-    if(paginatedData.length > 0) {
-        $.each(paginatedData, function(i,v){
-            $('#table_data').append(`
-                <tr>
-                    <td>${start+i+1}</td>
-                    <td class="well_name_cell">${v.well_name || ''}</td>
-                    <td>${v.Log_Date_Time ? moment(v.Log_Date_Time).format('DD-MM-YYYY h:mm:ss a') : 'NA'}</td>
-                    <td>${v.CHP||''}</td>
-                    <td>${v.CHP_battery_volt||''}</td>
-                    <td>${v.THP||''}</td>
-                    <td>${v.THP_battery_volt||''}</td>
-                    <td>${v.ABP||''}</td>
-                    <td>${v.ABP_battery_volt||''}</td>
-                    <td>${v.FLT||''}</td>
-                    <td>${v.FLT_battery_volt||''}</td>
-                    <td>${v.Battery_Voltage||''}</td>
-                </tr>
-            `);
+    // Flatten all rows with reference to their group
+    let allRows = [];
+    groups.forEach(group => {
+        group.records.forEach(record => {
+            allRows.push({
+                well_name: group.well_name,
+                record
+            });
         });
-        mergeWellNameCells();
-    } else {
-        $('#table_data').html('<tr><td colspan="25" class="text-danger">No Record Found !!</td></tr>');
-    }
-}
+    });
 
-// Merge well_name cells
-function mergeWellNameCells() {
-    let prevText = null, rowspan = 1, prevCell = null;
-    $('#table_data .well_name_cell').each(function() {
-        let currentText = $(this).text();
-        if(currentText === prevText) {
-            rowspan++;
-            $(this).remove();
-            prevCell.attr('rowspan', rowspan);
-        } else {
-            prevText = currentText;
-            rowspan = 1;
-            prevCell = $(this);
+    const totalRows = allRows.length;
+    const totalPages = Math.ceil(totalRows / pageSize);
+
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageRows = allRows.slice(start, end);
+
+    let html = '';
+    let serial = start + 1;
+
+    // Track rowspan for well_name in current page
+    let wellRowMap = {};
+    pageRows.forEach((row, index) => {
+        const well = row.well_name;
+        if (!wellRowMap[well]) wellRowMap[well] = [];
+        wellRowMap[well].push(index);
+    });
+
+    pageRows.forEach((row, index) => {
+        html += `<tr>`;
+
+        // Serial number
+        html += `<td>${serial}</td>`;
+
+        // Merge well_name if first occurrence on this page
+        const well = row.well_name;
+        const wellIndexes = wellRowMap[well];
+        if (wellIndexes[0] === index) {
+            html += `<td rowspan="${wellIndexes.length}" style="vertical-align: middle; text-align: center;">${well}</td>`;
         }
-    });
-}
 
-// Pagination
-function renderPagination(filteredData) {
-    let data = filteredData || tableDataArray;
-    let totalPages = Math.ceil(data.length / rowsPerPage);
-    let pagHTML = '';
-    for(let i=1; i<=totalPages; i++){
-        pagHTML += `<button class="btn btn-sm ${i===currentPage?'btn-primary':'btn-outline-primary'} me-1" onclick="goToPage(${i})">${i}</button>`;
+        html += `
+            <td>${row.record.Log_Date_Time ?? '-'}</td>
+            <td>${row.record.CHP ?? '-'}</td>
+            <td>${row.record.CHP_battery_volt ?? '-'}</td>
+            <td>${row.record.THP ?? '-'}</td>
+            <td>${row.record.THP_battery_volt ?? '-'}</td>
+            <td>${row.record.ABP ?? '-'}</td>
+            <td>${row.record.ABP_battery_volt ?? '-'}</td>
+            <td>${row.record.FLT ?? '-'}</td>
+            <td>${row.record.FLT_battery_volt ?? '-'}</td>
+            <td>${row.record.Battery_Voltage ?? '-'}</td>
+        </tr>`;
+        serial++;
+    });
+
+    $('#table_data').html(html);
+
+    // Pagination
+    const container = document.getElementById("pagination");
+    container.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+            currentPage = i;
+            renderMisTable();
+        });
+        container.appendChild(btn);
     }
-    $('#pagination').html(pagHTML);
 }
 
-function goToPage(page){
-    currentPage = page;
-    renderTable();
-    renderPagination();
+
+function renderPaginationControls() {
+    const groups = isSearching ? filteredMisGroups : misDataGroups;
+    const totalPages = Math.ceil(groups.length / pageSize);
+    const container = document.getElementById("pagination");
+    container.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+            currentPage = i;
+            renderMisTable();
+        });
+        container.appendChild(btn);
+    }
 }
 
-// Sorting
-$('#datatable thead th[data-key]').on('click', function() {
-    let key = $(this).data('key');
-    let sortType = $(this).data('sort') || 'string';
+const columnMap = {
+  1: 'well_name',
+  2: 'Log_Date_Time',
+  3: 'CHP',
+  4: 'CHP_battery_volt',
+  5: 'THP',
+  6: 'THP_battery_volt',
+  7: 'ABP',
+  8: 'ABP_battery_volt',
+  9: 'FLT',
+  10: 'FLT_battery_volt',
+  11: 'Battery_Voltage'
+};
 
-    if(sortColumnIndex===key) sortDirection=-sortDirection;
-    else { sortDirection=1; sortColumnIndex=key; }
+function sortMIS(columnIndex) {
+    if (columnIndex === currentSortIndex) sortDirection *= -1;
+    else { currentSortIndex = columnIndex; sortDirection = 1; }
 
-    $('#datatable thead th').removeClass('sort-asc sort-desc');
-    $(this).addClass(sortDirection===1?'sort-asc':'sort-desc');
+    const prop = columnMap[columnIndex];
+    if (!prop) return;
 
-    tableDataArray.sort((a,b)=>{
-        let valA = a[key]||'', valB = b[key]||'';
-        if(sortType==='number') return ((parseFloat(valA)||0)-(parseFloat(valB)||0))*sortDirection;
-        if(sortType==='date') return (new Date(valA)-new Date(valB))*sortDirection;
-        return valA.toString().localeCompare(valB.toString())*sortDirection;
+    const groups = isSearching ? filteredMisGroups : misDataGroups;
+    groups.forEach(group => {
+        group.records.sort((a, b) => {
+            let valA = a[prop] ?? '';
+            let valB = b[prop] ?? '';
+
+            if (prop === 'Log_Date_Time') return (new Date(valA) - new Date(valB)) * sortDirection;
+            if (!isNaN(valA) && !isNaN(valB)) return (Number(valA) - Number(valB)) * sortDirection;
+            return String(valA).localeCompare(String(valB)) * sortDirection;
+        });
     });
-    currentPage=1;
-    renderTable();
-    renderPagination();
-});
 
-// Event listeners
-$(document).ready(function(){
-    get_mis_report();
-    $('#from_date,#to_date,#well_id').on('change', get_mis_report);
-    $('#page-size').on('change', function(){
-        rowsPerPage = parseInt($(this).val());
-        currentPage = 1;
-        renderTable();
-        renderPagination();
-    });
-    $('#searchBox').on('input', function(){
-        let term = $(this).val().toLowerCase();
-        let filtered = tableDataArray.filter(row=>Object.values(row).some(v=>v&&v.toString().toLowerCase().includes(term)));
-        currentPage=1;
-        renderTable(filtered);
-        renderPagination(filtered);
-    });
-});
+    renderMisTable();
+    $('th.sortable').removeClass('active asc desc');
+    $(`th[data-index="${columnIndex}"]`).addClass(`active ${sortDirection === 1 ? 'asc' : 'desc'}`);
+}
+
+
 </script>
 
-<script src="<?php echo base_url(); ?>assets/local/excel/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+
 <script type="text/javascript">
-    
-    function export_report() {
-      var sheetName = "Sheet1";
-      var fileName = "Historical report.xlsx";
-      var table = $("#datatable")[0];
-      var ws = XLSX.utils.table_to_sheet(table);
-      var wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, sheetName);
-      XLSX.writeFile(wb, fileName);
+
+async function export_report() {
+  if (!misDataGroups || misDataGroups.length === 0) {
+    alert('No data available to export');
+    return;
+  }
+
+  const fromDateRaw = document.getElementById("from_date")?.value || '-';
+  const toDateRaw   = document.getElementById("to_date")?.value   || '-';
+
+  const fromDate = fromDateRaw ? moment(fromDateRaw, ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
+  const toDate   = toDateRaw   ? moment(toDateRaw,   ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
+
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet('Threshold Report');
+
+  const BLUE = '001A6E';
+  const WHITE = 'FFFFFFFF';
+
+  // ===== Title rows (NO blank row before this) =====
+  sheet.getCell('A1').value = 'IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC, CAMBAY ASSET';
+  sheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
+  sheet.getCell('A1').font = { bold: true, size: 14, color: { argb: 'FFFFFF' } };
+  sheet.getCell('A1').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BLUE } };
+  sheet.mergeCells(1, 1, 1, 12);
+
+  sheet.getCell('A2').value = `Historical Report from ${fromDate} to ${toDate}`;
+  sheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle' };
+  sheet.getCell('A2').font = { italic: true, size: 12, color: { argb: 'FFFFFF' } };
+  sheet.getCell('A2').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BLUE } };
+  sheet.mergeCells(2, 1, 2, 12);
+
+  // Bottom border for full merged band of Row 2
+  for (let c = 1; c <= 12; c++) {
+    sheet.getCell(2, c).border = {
+      bottom: { style: 'thin', color: { argb: WHITE } }
+    };
+  }
+
+  // ===== Header rows =====
+  const header1 = [
+    'S.No', 'Well', 'Log Date Time', 'CHP (kg/cm²)', '', 'THP (kg/cm²)', '',
+    'ABP (kg/cm²)', '', 'FLT (°C)', '', 'Battery(v)'
+  ];
+  const header2 = [
+    '', '', '', 'Sensor', 'Battery(v)', 'Sensor', 'Battery(v)',
+    'Sensor', 'Battery(v)', 'Sensor', 'Battery(v)', ''
+  ];
+
+  sheet.addRow(header1); // row 3
+  sheet.addRow(header2); // row 4
+
+  // Merge grouped header cells
+  sheet.mergeCells(3, 4, 3, 5);  // CHP
+  sheet.mergeCells(3, 6, 3, 7);  // THP
+  sheet.mergeCells(3, 8, 3, 9);  // ABP
+  sheet.mergeCells(3, 10, 3, 11); // FLT
+
+  // Single-column headers span both rows
+  [1, 2, 3, 12].forEach(col => {
+    sheet.mergeCells(3, col, 4, col);
+  });
+
+  // Style header rows (3 & 4)
+  [3, 4].forEach(r => {
+    sheet.getRow(r).eachCell(cell => {
+      cell.font = { bold: true, color: { argb: WHITE } };
+      cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BLUE } };
+      cell.border = {
+        top:    { style: 'thin', color: { argb: WHITE } },
+        bottom: { style: 'thin', color: { argb: WHITE } },
+        left:   { style: 'thin', color: { argb: WHITE } },
+        right:  { style: 'thin', color: { argb: WHITE } }
+      };
+    });
+  });
+
+  // ===== Data rows start at row 5 =====
+  let rowIndex = 5;
+  let serial = 1;
+
+  for (const group of misDataGroups) {
+    const rowspan = group.records.length;
+
+    // Merge Well column vertically
+    sheet.mergeCells(rowIndex, 2, rowIndex + rowspan - 1, 2);
+    sheet.getCell(rowIndex, 2).value = group.well_name || '-';
+    sheet.getCell(rowIndex, 2).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    for (let i = 0; i < rowspan; i++) {
+      const record = group.records[i];
+      const row = sheet.getRow(rowIndex + i);
+
+      // S.No — first row of the group
+     row.getCell(1).value = serial++;
+
+      row.getCell(3).value  = record.Log_Date_Time ? moment(record.Log_Date_Time).format('DD-MM-YYYY h:mm:ss a') : '-';
+      row.getCell(4).value  = record.CHP ?? 0;
+      row.getCell(5).value  = record.CHP_battery_volt ?? 0;
+      row.getCell(6).value  = record.THP ?? 0;
+      row.getCell(7).value  = record.THP_battery_volt ?? 0;
+      row.getCell(8).value  = record.ABP ?? 0;
+      row.getCell(9).value  = record.ABP_battery_volt ?? 0;
+      row.getCell(10).value = record.FLT ?? 0;
+      row.getCell(11).value = record.FLT_battery_volt ?? 0;
+      row.getCell(12).value = record.Battery_Voltage ?? 0;
+
+      for (let c = 1; c <= 12; c++) {
+        row.getCell(c).alignment = { vertical: 'middle', horizontal: 'center' };
+      }
     }
 
-</script>
-         
+    rowIndex += rowspan;
+  }
 
+  // Column widths
+  sheet.columns.forEach(col => col.width = 15);
+
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `Threshold_Report_${moment().format("DD-MM-YYYY_HHmmss")}.xlsx`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+</script>

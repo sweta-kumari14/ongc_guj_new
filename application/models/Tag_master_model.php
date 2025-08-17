@@ -41,20 +41,16 @@ class Tag_master_model extends CI_Model
 		return $this->db->update('tbl_tags_number_master',$data,$where);
 	}
 
-	public function ComponentList($id,$company_id,$component_id)
+	public function ComponentList($id,$company_id)
 	{
 		if($id!='')
 			$this->db->where('im.id',$id);
 		if($company_id!='')
 			$this->db->where('im.company_id',$company_id);
 
-		if($component_id!='')
-			$this->db->where('im.component_id',$component_id);
-
-		$result = $this->db->select("im.id,im.company_id,cs.company_name,im.component_id,cm.component_name,im.tag_number")
+		$result = $this->db->select("im.id,im.company_id,cs.company_name,im.tag_number,im.installation_status,im.installation_date_time")
 		->from('tbl_tags_number_master im')
 		->join('tbl_company_setup cs','im.company_id=cs.id','left')
-		->join('tbl_component_master cm','im.component_id=cm.id','left')
 		->order_by("CAST(SUBSTRING_INDEX(im.tag_number, '#', -1) AS UNSIGNED) ASC")
 		->where(['im.status'=>1,'cs.status'=>1])->get()->result_array();
 
