@@ -11,7 +11,7 @@
 					<div class="col-sm-12">
 						<h3 class="page-title">Overall</h3>
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="<?php echo base_url('Dashboard_c');?>">Dashboard</a></li>
+							<li class="breadcrumb-item"><a href="<?php echo base_url('Selfflow_c');?>">Dashboard</a></li>
 							<li class="breadcrumb-item ">Overall</li>
 							
 						</ul>
@@ -28,7 +28,7 @@
 		                            <h4 class="header-title mb-4">Overall List</h4>
 		                        </div>
 					            <div class="col-auto float-end ms-auto">
-						            <a href="<?php echo base_url('Dashboard_c'); ?>">
+						            <a href="<?php echo base_url('Selfflow_c'); ?>">
 	                                   <button type="button" class="btn btn-sm  btn-info">Back</button>
 	                                </a> 
 					                <button class="btn btn-success btn-sm  mx-2" onclick="export_report()" style="font-size: 14px;">Export</button>

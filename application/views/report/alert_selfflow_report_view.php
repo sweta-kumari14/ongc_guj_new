@@ -1,6 +1,6 @@
  <style>
     table thead tr th{
-        background: #daebf9 !important;
+        background: white !important;
     }
     .table-bordered th {
        border: 1px solid var(--bs-tertiary-color);
@@ -205,7 +205,7 @@ button#back_btns:hover i {
                                 
                             </div>
                            
-                            <div class="table-responsive mt-4" id="basic-datatable">
+                            <div class="table-responsive mt-4">
                                 <div class="d-flex justify-content-between mb-2">
                                     <div>
                                         <label for="wellRowsPerPage">Rows per page: </label>
@@ -219,7 +219,7 @@ button#back_btns:hover i {
                                     <input type="text" id="well_searchBox" placeholder="Search well-wise..." class="form-control w-25">
                                 </div>
 
-                                <table class="table table-bordered border-bottom"  style="width: 100%;">
+                                <table class="table table-bordered border-bottom"  style="width: 100%;" id="basic-datatable">
                                     <thead class="bg-light text-center" id="well_table_header">
                                         <tr>
                                             <th colspan="8" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
@@ -247,7 +247,7 @@ button#back_btns:hover i {
                         <!-- ============== date wise Alert log =============== -->
                         <div class="card-body" id="date_wise_table" style="display:none;">
                             
-                            <div class="table-responsive" id="date_wise_table_export">
+                            <div class="table-responsive">
                                 <div class="d-flex justify-content-between mb-2">
                                     <div>
                                         <label for="dateRowsPerPage">Rows per page: </label>
@@ -262,14 +262,8 @@ button#back_btns:hover i {
                                     
                                 </div>
 
-                                <table class="table table-bordered border-bottom" >
+                                <table class="table table-bordered border-bottom" id="date_wise_table_export">
                                     <thead class="bg-light text-center" id="date_table_header">
-                                        <tr>
-                                            <th colspan="8" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="8" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Alert Log Report of <span id="show_date"></span></th>
-                                        </tr>
                                         <tr>
                                             <th data-key="sl_no" data-sort="number">Sl No.</th>
                                             <th data-key="well_site_name" data-sort="string">Site Name</th>
@@ -486,33 +480,30 @@ function renderWellwiseTable(filteredData) {
     $('#table_data').empty();
 
     if (paginated.length > 0) {
+        // Prepare rowspan map for well_site_name + well_name
+        let wellRowMap = {};
+        paginated.forEach((row, index) => {
+            const key = row.well_site_name + '|' + row.well_name;
+            if (!wellRowMap[key]) wellRowMap[key] = [];
+            wellRowMap[key].push(index);
+        });
+
         $.each(paginated, function (i, v) {
             var alert_type = parseInt(v.alert_type);
-                        var alert_data = '';
+            var alert_data = '';
 
-                        if (alert_type == 1) {
-                            alert_data = 'CHP Low';
-                        } else if (alert_type == 2) {
-                            alert_data = 'CHP High';
-                        } else if (alert_type == 3) {
-                            alert_data = 'ABP Low';
-                        } else if (alert_type == 4) {
-                            alert_data = 'ABP High';
-                        } else if (alert_type == 5) {
-                            alert_data = 'THT Low';
-                        } else if (alert_type == 6) {
-                            alert_data = 'THT High';
-                        } else if (alert_type == 7) {
-                            alert_data = 'FLT Low';
-                        } else if (alert_type == 8) {
-                            alert_data = 'FLT High';
-                        } else if (alert_type  == 9) {
-                            alert_data = 'Battery Low';
-                        } else if (alert_type  == 10) {
-                            alert_data = 'Battery High';
-                        } else {
-                            alert_data = 'Unknown Alert Type';
-                        }
+            if (alert_type == 1) alert_data = 'CHP Low';
+            else if (alert_type == 2) alert_data = 'CHP High';
+            else if (alert_type == 3) alert_data = 'ABP Low';
+            else if (alert_type == 4) alert_data = 'ABP High';
+            else if (alert_type == 5) alert_data = 'THT Low';
+            else if (alert_type == 6) alert_data = 'THT High';
+            else if (alert_type == 7) alert_data = 'FLT Low';
+            else if (alert_type == 8) alert_data = 'FLT High';
+            else if (alert_type == 9) alert_data = 'Battery Low';
+            else if (alert_type == 10) alert_data = 'Battery High';
+            else alert_data = 'Unknown Alert Type';
+
             let alert_details = v.alert_details || 'NA';
             let start_date_time = v.start_date_time ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : 'NA';
             let end_date_time = v.end_date_time ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : 'NA';
@@ -528,21 +519,33 @@ function renderWellwiseTable(filteredData) {
             else if(total_hours > 24 && total_hours <= 48){ durationBadgeBg="#fff3cd"; durationBadgeText="#856404";}
             else if(total_hours > 48){ durationBadgeBg="#d4edda"; durationBadgeText="#155724";}
 
-            $('#table_data').append('<tr>'+
-                `<td>${start + i + 1}</td>`+
-                `<td>${v.well_site_name}</td>`+
-                `<td>${v.well_name}</td>`+
-                `<td>${alert_data}</td>`+
-                `<td>${alert_details}</td>`+
-                `<td>${start_date_time}</td>`+
-                `<td>${end_date_time}</td>`+
-                `<td><span class="badge" style="background-color:${durationBadgeBg}; color:${durationBadgeText}; font-weight:600;">${duration_human}</span></td>`+
-                '</tr>');
+            let rowHtml = '<tr>';
+            rowHtml += `<td>${start + i + 1}</td>`;
+
+            // Merge well_site_name + well_name
+            const key = v.well_site_name + '|' + v.well_name;
+            const indexes = wellRowMap[key];
+
+            if (indexes[0] === i) {
+                const rowspan = indexes.length;
+                rowHtml += `<td rowspan="${rowspan}" style="vertical-align: middle; text-align: center;">${v.well_site_name}</td>`;
+                rowHtml += `<td rowspan="${rowspan}" style="vertical-align: middle; text-align: center;">${v.well_name}</td>`;
+            }
+
+            rowHtml += `<td>${alert_data}</td>`;
+            rowHtml += `<td>${alert_details}</td>`;
+            rowHtml += `<td>${start_date_time}</td>`;
+            rowHtml += `<td>${end_date_time}</td>`;
+            rowHtml += `<td><span class="badge" style="background-color:${durationBadgeBg}; color:${durationBadgeText}; font-weight:600;">${duration_human}</span></td>`;
+            rowHtml += '</tr>';
+
+            $('#table_data').append(rowHtml);
         });
     } else {
         $('#table_data').html('<tr><td colspan="9" class="text-danger text-center">No Record Found !!</td></tr>');
     }
 }
+
 
 // Pagination
 function renderWellwisePagination(filteredData) {
@@ -586,41 +589,38 @@ function datewise_alert_list() {
     });
 }
 
-function renderDatewiseTable(filteredData){
+function renderDatewiseTable(filteredData) {
     let data = filteredData || datewiseData;
-    let start = (dateCurrentPage-1)*dateRowsPerPage;
+    let start = (dateCurrentPage - 1) * dateRowsPerPage;
     let end = start + dateRowsPerPage;
-    let paginated = data.slice(start,end);
+    let paginated = data.slice(start, end);
 
     $('#date_table_data').empty();
 
-    if(paginated.length>0){
-        $.each(paginated,function(i,v){
+    if (paginated.length > 0) {
+        // Create a map for rowspan of well_site_name + well_name
+        let wellRowMap = {};
+        paginated.forEach((row, index) => {
+            const key = row.well_site_name + '|' + row.well_name;
+            if (!wellRowMap[key]) wellRowMap[key] = [];
+            wellRowMap[key].push(index);
+        });
+
+        $.each(paginated, function (i, v) {
             let alert_type = parseInt(v.alert_type);
-            var alert_data = '';
-                if (alert_type == 1) {
-                    alert_data = 'CHP Low';
-                } else if (alert_type == 2) {
-                    alert_data = 'CHP High';
-                } else if (alert_type == 3) {
-                    alert_data = 'ABP Low';
-                } else if (alert_type == 4) {
-                    alert_data = 'ABP High';
-                } else if (alert_type == 5) {
-                    alert_data = 'THT Low';
-                } else if (alert_type == 6) {
-                    alert_data = 'THT High';
-                } else if (alert_type == 7) {
-                    alert_data = 'FLT Low';
-                } else if (alert_type == 8) {
-                    alert_data = 'FLT High';
-                } else if (alert_type  == 9) {
-                    alert_data = 'Battery Low';
-                } else if (alert_type  == 10) {
-                    alert_data = 'Battery High';
-                } else {
-                    alert_data = 'Unknown Alert Type';
-                }
+            let alert_data = '';
+            if (alert_type == 1) alert_data = 'CHP Low';
+            else if (alert_type == 2) alert_data = 'CHP High';
+            else if (alert_type == 3) alert_data = 'ABP Low';
+            else if (alert_type == 4) alert_data = 'ABP High';
+            else if (alert_type == 5) alert_data = 'THT Low';
+            else if (alert_type == 6) alert_data = 'THT High';
+            else if (alert_type == 7) alert_data = 'FLT Low';
+            else if (alert_type == 8) alert_data = 'FLT High';
+            else if (alert_type == 9) alert_data = 'Battery Low';
+            else if (alert_type == 10) alert_data = 'Battery High';
+            else alert_data = 'Unknown Alert Type';
+
             let alert_details = v.alert_details || 'NA';
             let start_date_time = v.start_date_time ? moment(v.start_date_time).format('DD-MM-YYYY h:mm:ss a') : 'NA';
             let end_date_time = v.end_date_time ? moment(v.end_date_time).format('DD-MM-YYYY h:mm:ss a') : 'NA';
@@ -629,28 +629,39 @@ function renderDatewiseTable(filteredData){
             let parts = duration.split(":");
             let hrs = parseInt(parts[0]) || 0;
             let mins = parseInt(parts[1]) || 0;
-            let duration_human = hrs+' hrs '+mins+' min';
-            let total_hours = hrs + (mins/60);
-            let durationBadgeBg="#cce5ff", durationBadgeText="#004085";
-            if(total_hours>12 && total_hours<=24){ durationBadgeBg="#f8d7da"; durationBadgeText="#721c24"; }
-            else if(total_hours>24 && total_hours<=48){ durationBadgeBg="#fff3cd"; durationBadgeText="#856404"; }
-            else if(total_hours>48){ durationBadgeBg="#d4edda"; durationBadgeText="#155724"; }
+            let duration_human = hrs + ' hrs ' + mins + ' min';
+            let total_hours = hrs + (mins / 60);
+            let durationBadgeBg = "#cce5ff", durationBadgeText = "#004085";
+            if (total_hours > 12 && total_hours <= 24) { durationBadgeBg = "#f8d7da"; durationBadgeText = "#721c24"; }
+            else if (total_hours > 24 && total_hours <= 48) { durationBadgeBg = "#fff3cd"; durationBadgeText = "#856404"; }
+            else if (total_hours > 48) { durationBadgeBg = "#d4edda"; durationBadgeText = "#155724"; }
 
-            $('#date_table_data').append('<tr>'+
-                `<td>${start + i + 1}</td>`+
-                `<td>${v.well_site_name}</td>`+
-                `<td>${v.well_name}</td>`+
-                `<td>${alert_data}</td>`+
-                `<td>${alert_details}</td>`+
-                `<td>${start_date_time}</td>`+
-                `<td>${end_date_time}</td>`+
-                `<td><span class="badge" style="background-color:${durationBadgeBg}; color:${durationBadgeText}; font-weight:600;">${duration_human}</span></td>`+
-                '</tr>');
+            let rowHtml = '<tr>';
+            rowHtml += `<td>${start + i + 1}</td>`;
+
+            // Merge well_site_name + well_name cells
+            const key = v.well_site_name + '|' + v.well_name;
+            const indexes = wellRowMap[key];
+            if (indexes[0] === i) {
+                const rowspan = indexes.length;
+                rowHtml += `<td rowspan="${rowspan}" style="vertical-align: middle; text-align: center;">${v.well_site_name}</td>`;
+                rowHtml += `<td rowspan="${rowspan}" style="vertical-align: middle; text-align: center;">${v.well_name}</td>`;
+            }
+
+            rowHtml += `<td>${alert_data}</td>`;
+            rowHtml += `<td>${alert_details}</td>`;
+            rowHtml += `<td>${start_date_time}</td>`;
+            rowHtml += `<td>${end_date_time}</td>`;
+            rowHtml += `<td><span class="badge" style="background-color:${durationBadgeBg}; color:${durationBadgeText}; font-weight:600;">${duration_human}</span></td>`;
+            rowHtml += '</tr>';
+
+            $('#date_table_data').append(rowHtml);
         });
     } else {
         $('#date_table_data').html('<tr><td colspan="9" class="text-danger text-center">No Record Found !!</td></tr>');
     }
 }
+
 
 function renderDatewisePagination(filteredData){
     let data = filteredData || datewiseData;
@@ -738,42 +749,331 @@ $('#date_table_header th[data-key]').on('click', function() {
 });
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
 
-
-<script src="<?php echo base_url(); ?>assets/local/excel/xlsx.full.min.js"></script>
 <script type="text/javascript">
-    
-    function export_well_wise_report() {
-      var sheetName = "Sheet1";
-      var fileName = "Well Alert Log.xlsx";
-      var table = $("#basic-datatable")[0];
-
-      // Convert table to worksheet
-      var ws = XLSX.utils.table_to_sheet(table);
-
-      // Create a new workbook and add the worksheet to it
-      var wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, sheetName);
-
-      // Save the workbook as an Excel file and download it
-      XLSX.writeFile(wb, fileName);
+async function export_well_wise_report() {
+    const table = document.getElementById("basic-datatable");
+    if (!table) {
+        alert("No table found.");
+        return;
     }
 
-    function export_date_wise_report() {
-      var sheetName = "Sheet1";
-      var fileName = "Alert log Date Wise.xlsx";
-      var table = $("#date_wise_table_export")[0];
+    // Get date range text or input values
+    let fromDateRaw = document.getElementById("show_from_date")?.innerText || document.getElementById("from_date")?.value || '';
+    let toDateRaw = document.getElementById("show_to_date")?.innerText || document.getElementById("to_date")?.value || '';
 
-      // Convert table to worksheet
-      var ws = XLSX.utils.table_to_sheet(table);
+    // Format dates using moment.js (ensure moment.js is loaded on page)
+    const fromDate = fromDateRaw ? moment(fromDateRaw, ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
+    const toDate = toDateRaw ? moment(toDateRaw, ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
 
-      // Create a new workbook and add the worksheet to it
-      var wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, sheetName);
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Well Wise Alert Report');
 
-      // Save the workbook as an Excel file and download it
-      XLSX.writeFile(wb, fileName);
+    const spanMap = {};  // Track merged cells
+    let maxColCount = 0;
+    const allRows = [];
+
+    // Parse the HTML table rows and handle colspan/rowspan
+    for (let r = 0; r < table.rows.length; r++) {
+        const row = table.rows[r];
+        const excelRow = [];
+        let colIndex = 0;
+
+        while (excelRow[colIndex] !== undefined) colIndex++;
+
+        for (let c = 0; c < row.cells.length; c++) {
+            const cell = row.cells[c];
+            let cellValue = cell.innerText
+                .replace(/[\u2190-\u21FF\u25B2\u25BC]/g, '')  // Remove arrows
+                .replace(/\n+/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            // Skip columns covered by rowspan/colspan from previous rows
+            while (spanMap[`${r}:${colIndex}`] !== undefined) {
+                excelRow[colIndex] = spanMap[`${r}:${colIndex}`];
+                colIndex++;
+            }
+
+            const colspan = parseInt(cell.getAttribute("colspan") || "1");
+            const rowspan = parseInt(cell.getAttribute("rowspan") || "1");
+
+            // Mark cells covered by rowspan/colspan for skipping later
+            if (rowspan > 1) {
+                for (let i = 1; i < rowspan; i++) {
+                    for (let j = 0; j < colspan; j++) {
+                        spanMap[`${r + i}:${colIndex + j}`] = '';
+                    }
+                }
+            }
+
+            excelRow[colIndex] = cellValue;
+            colIndex += colspan;
+        }
+        maxColCount = Math.max(maxColCount, excelRow.length);
+        allRows.push(excelRow);
     }
+
+    // Add Title Rows
+    sheet.addRow([]);
+    sheet.addRow([]);
+
+    // Title Row 1
+    sheet.getCell('A1').value = 'IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET';
+    sheet.getRow(1).height = 30;
+    sheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    sheet.getCell('A1').font = { bold: true, size: 22, color: { argb: 'FFFFFF' } };
+    sheet.getCell('A1').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+    sheet.mergeCells(1, 1, 1, maxColCount);
+
+    // Title Row 2 with date range
+    sheet.getCell('A2').value = `Well Wise Alert Report from ${fromDate} to ${toDate}`;
+    sheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    sheet.getCell('A2').font = { italic: true, size: 15, color: { argb: 'FFFFFF' } };
+    sheet.getCell('A2').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+    sheet.mergeCells(2, 1, 2, maxColCount);
+
+    // Add table rows from parsed HTML
+    allRows.forEach(row => {
+        while (row.length < maxColCount) row.push('');
+        sheet.addRow(row);
+    });
+
+    // Merge vertically on SL No, Area, Location, Well columns (1-based)
+ // Merge only the next 2 columns after Sl No (columns 2 and 3)
+    const mergeCols = [2, 3];  // Column indexes to merge
+    const startRow = 3; // Because 2 title rows before table data
+
+    mergeCols.forEach(col => {
+        let start = startRow;
+        let prevVal = sheet.getCell(start, col).value;
+
+        for (let i = start + 1; i <= sheet.rowCount + 1; i++) {
+            const currentVal = i <= sheet.rowCount ? sheet.getCell(i, col).value : '__END__';
+            const isBlankOrSame = currentVal === '' || currentVal === prevVal;
+            const isLastRow = i === sheet.rowCount + 1;
+            const isNextDifferent = !isBlankOrSame || isLastRow;
+
+            if (isNextDifferent) {
+                const endRow = i - 1;
+                if (start < endRow) {
+                    sheet.mergeCells(start, col, endRow, col);
+                    const mergedCell = sheet.getCell(start, col);
+                    mergedCell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                }
+                start = i;
+                prevVal = currentVal;
+            }
+        }
+    });
+
+
+        // Style cells
+    sheet.eachRow((row, rowNumber) => {
+        row.eachCell(cell => {
+            if (rowNumber === 1 || rowNumber === 2) {
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+                cell.font = { color: { argb: 'FFFFFF' }, bold: rowNumber === 1, italic: rowNumber === 2 };
+            } else if (rowNumber === 3) {
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+                cell.font = { color: { argb: 'FFFFFF' }, bold: true };
+                cell.border = {
+                    top: { style: 'thin', color: { argb: 'FFFFFF' } },
+                    bottom: { style: 'thin', color: { argb: 'FFFFFF' } },
+                    left: { style: 'thin', color: { argb: 'FFFFFF' } },
+                    right: { style: 'thin', color: { argb: 'FFFFFF' } }
+                };
+            } else {
+                cell.border = {
+                    top: { style: 'thin', color: { argb: 'CCCCCC' } },
+                    bottom: { style: 'thin', color: { argb: 'CCCCCC' } },
+                    left: { style: 'thin', color: { argb: 'CCCCCC' } },
+                    right: { style: 'thin', color: { argb: 'CCCCCC' } }
+                };
+            }
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        });
+    });
+
+    // Set column widths to 20 characters approx.
+    sheet.columns.forEach(col => {
+        col.width = 20;
+    });
+
+    // Export as Excel file
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Well_Wise_Alert_Report.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
+   async function export_date_wise_report() {
+    const table = document.getElementById("date_wise_table_export");
+    if (!table) {
+        alert("No table found.");
+        return;
+    }
+
+    // Get date range text or input values
+    let fromDateRaw = document.getElementById("show_from_date")?.innerText || document.getElementById("from_date")?.value || '';
+    let toDateRaw = document.getElementById("show_to_date")?.innerText || document.getElementById("to_date")?.value || '';
+
+    // Format dates using moment.js (ensure moment.js is loaded on page)
+    const fromDate = fromDateRaw ? moment(fromDateRaw, ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
+    const toDate = toDateRaw ? moment(toDateRaw, ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
+
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Date Wise Alert Report');
+
+    const spanMap = {};  // Track merged cells
+    let maxColCount = 0;
+    const allRows = [];
+
+    // Parse the HTML table rows and handle colspan/rowspan
+    for (let r = 0; r < table.rows.length; r++) {
+        const row = table.rows[r];
+        const excelRow = [];
+        let colIndex = 0;
+
+        while (excelRow[colIndex] !== undefined) colIndex++;
+
+        for (let c = 0; c < row.cells.length; c++) {
+            const cell = row.cells[c];
+            let cellValue = cell.innerText
+                .replace(/[\u2190-\u21FF\u25B2\u25BC]/g, '')  // Remove arrows
+                .replace(/\n+/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            // Skip columns covered by rowspan/colspan from previous rows
+            while (spanMap[`${r}:${colIndex}`] !== undefined) {
+                excelRow[colIndex] = spanMap[`${r}:${colIndex}`];
+                colIndex++;
+            }
+
+            const colspan = parseInt(cell.getAttribute("colspan") || "1");
+            const rowspan = parseInt(cell.getAttribute("rowspan") || "1");
+
+            // Mark cells covered by rowspan/colspan for skipping later
+            if (rowspan > 1) {
+                for (let i = 1; i < rowspan; i++) {
+                    for (let j = 0; j < colspan; j++) {
+                        spanMap[`${r + i}:${colIndex + j}`] = '';
+                    }
+                }
+            }
+
+            excelRow[colIndex] = cellValue;
+            colIndex += colspan;
+        }
+        maxColCount = Math.max(maxColCount, excelRow.length);
+        allRows.push(excelRow);
+    }
+
+    // Add Title Rows
+    sheet.addRow([]);
+    sheet.addRow([]);
+
+    // Title Row 1
+    sheet.getCell('A1').value = 'IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET';
+    sheet.getRow(1).height = 30;
+    sheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    sheet.getCell('A1').font = { bold: true, size: 22, color: { argb: 'FFFFFF' } };
+    sheet.getCell('A1').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+    sheet.mergeCells(1, 1, 1, maxColCount);
+
+    // Title Row 2 with date range
+    sheet.getCell('A2').value = `Date Wise Alert Report from ${fromDate} to ${toDate}`;
+    sheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    sheet.getCell('A2').font = { italic: true, size: 15, color: { argb: 'FFFFFF' } };
+    sheet.getCell('A2').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+    sheet.mergeCells(2, 1, 2, maxColCount);
+
+    // Add table rows from parsed HTML
+    allRows.forEach(row => {
+        while (row.length < maxColCount) row.push('');
+        sheet.addRow(row);
+    });
+
+    // Merge vertically on SL No, Area, Location, Well columns (1-based)
+ // Merge only the next 2 columns after Sl No (columns 2 and 3)
+    const mergeCols = [2, 3];  // Column indexes to merge
+    const startRow = 3; // Because 2 title rows before table data
+
+    mergeCols.forEach(col => {
+        let start = startRow;
+        let prevVal = sheet.getCell(start, col).value;
+
+        for (let i = start + 1; i <= sheet.rowCount + 1; i++) {
+            const currentVal = i <= sheet.rowCount ? sheet.getCell(i, col).value : '__END__';
+            const isBlankOrSame = currentVal === '' || currentVal === prevVal;
+            const isLastRow = i === sheet.rowCount + 1;
+            const isNextDifferent = !isBlankOrSame || isLastRow;
+
+            if (isNextDifferent) {
+                const endRow = i - 1;
+                if (start < endRow) {
+                    sheet.mergeCells(start, col, endRow, col);
+                    const mergedCell = sheet.getCell(start, col);
+                    mergedCell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                }
+                start = i;
+                prevVal = currentVal;
+            }
+        }
+    });
+
+
+        // Style cells
+    sheet.eachRow((row, rowNumber) => {
+        row.eachCell(cell => {
+            if (rowNumber === 1 || rowNumber === 2) {
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+                cell.font = { color: { argb: 'FFFFFF' }, bold: rowNumber === 1, italic: rowNumber === 2 };
+            } else if (rowNumber === 3) {
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
+                cell.font = { color: { argb: 'FFFFFF' }, bold: true };
+                cell.border = {
+                    top: { style: 'thin', color: { argb: 'FFFFFF' } },
+                    bottom: { style: 'thin', color: { argb: 'FFFFFF' } },
+                    left: { style: 'thin', color: { argb: 'FFFFFF' } },
+                    right: { style: 'thin', color: { argb: 'FFFFFF' } }
+                };
+            } else {
+                cell.border = {
+                    top: { style: 'thin', color: { argb: 'CCCCCC' } },
+                    bottom: { style: 'thin', color: { argb: 'CCCCCC' } },
+                    left: { style: 'thin', color: { argb: 'CCCCCC' } },
+                    right: { style: 'thin', color: { argb: 'CCCCCC' } }
+                };
+            }
+
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        });
+    });
+
+    // Set column widths to 20 characters approx.
+    sheet.columns.forEach(col => {
+        col.width = 20;
+    });
+
+    // Export as Excel file
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Date_Wise_Alert_Report.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
     
 
@@ -822,5 +1122,4 @@ function getWell_list() {
         }
     });
 }
-
-    </script>
+</script>

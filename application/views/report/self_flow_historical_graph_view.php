@@ -1,7 +1,8 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-<script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
-<script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/adaptive.js"></script>
 <style type="text/css">
     table thead tr th{
         background: #daebf9 !important;
@@ -19,29 +20,29 @@
 </style>
 <div class="page-wrapper">
     <div class="content container-fluid">
-        <div class="page-header mb-3">
+        <div class="page-header" style="margin-top:-39px;">
             <div class="content-page-header">
                 <h5 class="mb-0">Historical Graph</h5>
             </div>
         </div>
         <!-- Filter Card -->
-        <div class="card" style="background: linear-gradient(to left, #5D6D7E,  #F1948A );">
+        <div class="card" style="background: linear-gradient(to left, #5D6D7E,  #F1948A ); margin-top:-20px;">
                 <div class="card-body">
                 <div class="row g-3 align-items-end">
                     <div class="col-md-3">
                         <label for="well_id" class="form-label" style="color:white;">Well Name</label>
                         <select onchange="GetGraph(); handleSelection();" class="form-select select2" id="well_id" name="well_id[]" multiple></select>
                     </div>
-                    <div class="col-md-3">
-                        <label for="alert_type" class="form-label" style="color:white;">Report Type</label>
-                        <select onchange="GetGraph();" class="form-select select2" id="alert_type" name="alert_type">
-                            <option value="1">CHP</option>
-                            <option value="2">THP</option>
-                            <option value="3">ABP</option>
-                            <option value="4">GIP</option>
-                            <option value="5">THT</option>
-                            <option value="6">Battery</option>
-                        </select>
+                     <div class="col-md-3">
+                      <label class="form-label text-white">Component</label>
+                      <select class="form-control select2" id="alert_type" name="alert_type[]" multiple style="width: 100%;" onchange="GetGraph();">
+                        <option value="">Select Component</option>
+                        <option value="chp">CHP</option>
+                        <option value="abp">ABP</option>
+                        <option value="thp">THP</option>
+                        <option value="flt">FLT</option>
+                        <option value="battery">Battery</option>
+                      </select>
                     </div>
                     <div class="col-md-3">
                         <label for="from_date" class="form-label" style="color:white;">From Date</label>
@@ -61,25 +62,18 @@
             <div class="col-md-12">
                 <div class="card" style="border-top:5px #5D6D7E solid;">
                     <div class="card-header py-4">
-                        <div id="processing_message" style="display: none; text-align: center;">
-                            <img src="<?php echo base_url(); ?>assets/loader_img.svg" class="loader-img" alt="Loader"
-                                style="height: 200px; width: 100px;">
-                        </div>
-                        <span id="selected_field" style="color: black; font-weight: 500;"></span>
-                        <canvas id="speedChart" width="600" height="400"></canvas>
+                         <div id="processing_message" style="display: none;">
+                           <img src="<?php echo base_url(); ?>assets/loader_img.svg" class="loader-img" alt="Loader" style="height: 200px; width: 100px;">
+                    </div>
+                    <div id="speedChart" style="width: 100%; height: 500px;"> </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 <?php 
 if($this->session->flashdata('success') != '')
 {
@@ -190,200 +184,215 @@ function handleSelection() {
 </script>
 
 <script type="text/javascript">
+const unitsMap = {
+  'CHP': 'kg/cm²',
+  'ABP': 'kg/cm²',
+  'THP': 'kg/cm²',
+  'FLT': '°C',
+  'BATTERY': 'V'
+};
 
+let chartInstance = null;
+GetGraph();
 function GetGraph() {
-    var selectedOption = document.getElementById("alert_type").value;
-    var processingMessage = document.getElementById("processing_message");
+    const selectedComponents = $('#alert_type').val();
+    const well_ids = $('#well_id').val();
+    const from_date = $('#from_date').val();
+    const to_date = $('#to_date').val();
+    const processingMessage = document.getElementById("processing_message");
 
-    if (!processingMessage) {
-        console.error("Processing message element was not found.");
+    if (!well_ids || !from_date || !to_date || !selectedComponents || selectedComponents.length === 0) {
+        document.getElementById('speedChart').innerHTML = `
+            <div class="text-center">
+                <div class="text-danger mt-2">No records found. Please select well and date range.</div>
+            </div>`;
         return;
     }
 
     processingMessage.style.display = "block";
 
-    var well_ids = $('#well_id').val();
-    var well_type = $('#well_type').val();
-    var from_date = $('#from_date').val();
-    var to_date = $('#to_date').val();
-    // alert(well_id);
-
-    var url = '';
-    var selcetedtext = '';
-    switch (selectedOption) 
-    {
-        case "1":
-            selcetedtext = 'CHP';
-            url = '<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_graph_histrorical';
-            break;
-        case "2":
-            selcetedtext = 'THP';
-            url = '<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_graph_histrorical';
-            break;
-        case "3":
-             selcetedtext = 'ABP';
-            url = '<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_graph_histrorical';
-            break;
-        case "4":
-            selcetedtext = 'GIP';
-            url = '<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_graph_histrorical';
-            break;
-        case "5":
-            selcetedtext = 'THT';
-            url = '<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_graph_histrorical';
-            break;
-        case "6":
-            selcetedtext = 'Battery';
-            url = '<?php echo base_url(); ?>Self_flow_well_historical_log_c/get_graph_histrorical';
-            break;
-        default:
-            console.error("Invalid selection option");
-            processingMessage.style.display = "none";
-            return;
-    }
-
     $.ajax({
-        url: url,
+        url: "<?= base_url(); ?>Selfflow_historical_report_c/get_graph_histrorical",
         type: 'POST',
         data: {
             well_id: well_ids,
-            well_type: well_type,
             from_date: from_date,
             to_date: to_date,
-            graph_type: selectedOption
+            components: selectedComponents
         },
-        success: function(res) {
+        success: function (res) {
+            console.log('graph_data===', res);
+
             processingMessage.style.display = "none";
-            // console.log("API Response:", res);
+
             if (typeof res === 'string') {
                 try {
                     res = JSON.parse(res);
                 } catch (e) {
-                    console.error("Error parsing JSON response:", e);
+                    console.error("Failed to parse response JSON", e);
                     return;
                 }
             }
 
-            if (!res || !res.data) {
-                console.error('API response is missing "data" property:', res);
+            if (!res || !res.status || res.status === "false" || res.status === 0) {
+                document.getElementById('speedChart').innerHTML = `
+                  <div class="text-center text-danger">
+                    Error loading data.
+                  </div>`;
                 return;
             }
-            var datasets = [];
-            var labels = [];
-            var colors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF8C33"];
-            Object.keys(res.data).forEach(function(wellId, index) {
-        var wellData;
-        switch (selectedOption) {
-            case "1":
-                wellData = res.data[wellId].output_chp.output_chp;
-                break;
-            case "2":
-                wellData = res.data[wellId].output_thp.output_thp;
-                break;
-            case "3":
-                wellData = res.data[wellId].output_abp.output_abp;
-                break;
-            case "4":
-                wellData = res.data[wellId].output_gip.output_gip;
-                break;
-            case "5":
-                wellData = res.data[wellId].output_tht.output_tht;
-                break;
-            case "6":
-                wellData = res.data[wellId].output_battery.output_battery;
-                break;
-        }
 
-        if (!wellData || wellData.length === 0 || !wellData[0].well_name) {
-            console.warn(`No data found for well ID: ${wellId}`);
-            return;
-        }
-
-        var dataPoints = wellData.map(function(point) {
-            return {
-                x: new Date(point.x).getTime(),
-                y: parseFloat(point.y)
-            };
-        });
-
-        labels = wellData.map(function(point) {
-            return point.x;
-        });
-
-        var color = colors[index] || getRandomColor();
-
-        datasets.push({
-            label: wellData[0].well_name + " - " + selcetedtext,
-            data: dataPoints,
-            lineTension: 0,
-            fill: false,
-            borderColor: color
-        });
-    });
-            updateLineChart(datasets, labels);
+            processGraphData(res);
         },
-        error: function(xhr, status, error) {
+        error: function (err) {
             processingMessage.style.display = "none";
-            console.error('AJAX Error: ', error);
+            console.error("AJAX error", err);
         }
     });
 }
 
-function updateLineChart(datasets, labels) {
-    var speedCanvas = document.getElementById("speedChart");
+function processGraphData(res) {
+    const data = res.data || {};
+    const selectedComponents = $('#alert_type').val() || [];
+    const series = [];
 
-    if (window.lineChart) {
-        window.lineChart.destroy();
+    const wellIdNameMap = {};
+    $('#well_id option:selected').each(function () {
+        const wellId = $(this).val();
+        const wellName = $(this).text();
+        wellIdNameMap[wellId] = wellName;
+    });
+
+    Object.keys(data).forEach(wellId => {
+        const wellData = data[wellId];
+        const wellName = wellIdNameMap[wellId] || wellId;
+
+        selectedComponents.forEach(component => {
+            const key = `output_${component}`;
+            const timeSeries = wellData[key];
+
+            if (Array.isArray(timeSeries) && timeSeries.length > 0) {
+                const formattedSeries = timeSeries.map(pt => [
+                    new Date(pt.x.replace(' ', 'T')).getTime(),  // fix date parsing
+                    parseFloat(pt.y)
+                ]);
+
+                series.push({
+                    name: `${wellName} - ${component.toUpperCase()}`,
+                    data: formattedSeries,
+                    custom: {
+                        unit: unitsMap[component.toUpperCase()] || ''
+                    }
+                });
+                console.log('Component key:', component.toUpperCase());
+            }
+        });
+    });
+
+    if (series.length === 0) {
+        document.getElementById('speedChart').innerHTML = `
+          <div class="text-center">
+            <div class="text-danger mt-2">No data found for selected parameters.</div>
+          </div>`;
+        return;
     }
 
-    window.lineChart = new Chart(speedCanvas, {
-        type: 'line',
-        data: {
-            labels: labels, 
-            datasets: datasets 
+    updateMultiLineChart(series);
+}
+
+function updateMultiLineChart(series) {
+    if (chartInstance && chartInstance.destroy) {
+        chartInstance.destroy();
+    }
+    Highcharts.setOptions({
+        time: {
+            useUTC: false,
+            getTimezoneOffset: () => -330
+        }
+    });
+
+    chartInstance = Highcharts.stockChart('speedChart', {
+        chart: {
+            height: 500
         },
-        options: {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    boxWidth: 80,
-                    fontColor: 'black'
+        rangeSelector: {
+            enabled: true
+        },
+        navigator: {
+            enabled: true
+        },
+        scrollbar: {
+            enabled: true
+        },
+        legend: {
+            enabled: true,
+            align: 'center',
+            verticalAlign: 'top',
+            layout: 'horizontal',
+            labelFormatter: function () {
+                const unit = this.userOptions.custom?.unit || '';
+                const lastPoint = this.yData?.[this.yData.length - 1];
+                if (typeof lastPoint === 'number') {
+                    return `${this.name}: ${lastPoint.toFixed(2)} ${unit}`;
+                } else {
+                    return `${this.name} (${unit})`;
+                }
+            }
+        },
+        xAxis: {
+            type: 'datetime',
+            labels: {
+                formatter: function () {
+                    return Highcharts.dateFormat('%d-%m-%Y %I:%M %p', this.value);
+                },
+                align: 'center',
+                style: {
+                    fontSize: '10px'
                 }
             },
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    time: {
-                        tooltipFormat: 'DD-MM-YYYY hh:mm:ss A', // tooltip shows AM/PM
-                        displayFormats: {
-                            second: 'DD-MM-YYYY hh:mm:ss A',
-                            minute: 'DD-MM-YYYY hh:mm:ss A',
-                            hour: 'DD-MM-YYYY hh:mm:ss A'
-                        }
-                    },
-                    ticks: {
-                        source: 'auto'
-                    }
-                }]
+            tickPixelInterval: 150
+        },
+        yAxis: [{
+            title: {
+                text: 'Component Value',
+                style: {
+                    fontSize: '12px',
+                    color: '#333'
+                }
+            },
+            labels: {
+                align: 'right',
+                x: -5,
+                formatter: function () {
+                    return this.value.toFixed(2);
+                }
+            },
+            opposite: false,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: 'silver'
+            }]
+        }],
+        tooltip: {
+            shared: true,
+            formatter: function () {
+                let formattedTime = Highcharts.dateFormat('%d-%m-%Y %I:%M %p', this.x);
+                let s = `<b>${formattedTime}</b>`;
+                this.points.forEach(function (point) {
+                    const unit = point.series.userOptions.custom?.unit || '';
+                    s += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${point.y.toFixed(2)} ${unit}</b>`;
+                });
+                return s;
             }
-        }
+        },
+        plotOptions: {
+            series: {
+                showInNavigator: false,
+                marker: { enabled: false }
+            }
+        },
+        series: series
     });
 }
-
-
-function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
-
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
-                
-

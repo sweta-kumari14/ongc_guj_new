@@ -181,10 +181,8 @@ class Selfflow_dashboard_model extends CI_Model
             a.area_name, sm.well_site_name, w.id as well_id, w.well_name, 
             di.id as installed_status, di.imei_no, di.device_name, 
             di.date_time, di.well_status as flag_status, di.well_type, wt.well_type_name, 
-            di.RTC_Time as Log_Date_Time, di.PS_1_GIP, di.PS_2_CHP, di.PS_3_THP, di.PS_4_ABP, 
-            di.FLTP_1_Temp, di.Battery_Voltage, di.PSF_1, di.PSF_2, di.PSF_3, di.PSF_4, 
-            di.TSF_1, di.BVF_1, di.SF_1_solenide, di.TRGT_Time, di.ON_Time, di.Off_Time, 
-         di.passcode, di.site_id, di.well_type
+            di.Log_Date_Time ,di.RTC_Time,di.CHP, di.THP, di.ABP, 
+            di.FLT, di.Battery_Voltage, di.site_id, di.well_type
         ")
         ->from('tbl_well_master w')
         ->join('tbl_site_device_installtion_self_flow di', 'di.well_id = w.id', 'left')

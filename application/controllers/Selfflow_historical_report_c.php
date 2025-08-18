@@ -54,21 +54,22 @@ class Selfflow_historical_report_c extends MY_Controller
         echo json_encode($result);
     }
 
-        public function  get_graph_histrorical()
-        {
-            $well_ids = $this->input->post('well_id'); 
-            $well_ids = json_encode($well_ids);
-            $api = 'Selfflow_report/Historical_All_Type_Graph';
-            $data = 'well_id='.$well_ids
-                    .'&from_date='.htmlspecialchars((string)$this->input->post('from_date',true),ENT_QUOTES, 'UTF-8')
-                    .'&to_date='.htmlspecialchars((string)$this->input->post('to_date',true),ENT_QUOTES, 'UTF-8')
-                    .'&graph_type='.htmlspecialchars((string)$this->input->post('graph_type',true),ENT_QUOTES, 'UTF-8');
-            $method = 'POST';
-            $result = $this->CallAPI($api,$data,$method);
+    public function  get_graph_histrorical()
+    {
+        $well_ids = $this->input->post('well_id'); 
+        $well_ids = json_encode($well_ids);
+        $components = json_encode($this->input->post('components',true));
+        $api = 'Selfflow_report/Historical_All_Type_Graph';
+        $data = 'well_id='.$well_ids
+                .'&from_date='.htmlspecialchars((string)$this->input->post('from_date',true),ENT_QUOTES, 'UTF-8')
+                .'&to_date='.htmlspecialchars((string)$this->input->post('to_date',true),ENT_QUOTES, 'UTF-8')
+                .'&graph_type='.htmlspecialchars((string)$this->input->post('graph_type',true),ENT_QUOTES, 'UTF-8')
+                .'&components='.$components;
+        $method = 'POST';
+        $result = $this->CallAPI($api,$data,$method);
 
-            // print_r($data);die;
-            echo json_encode($result);
-        }
+        echo json_encode($result);
+    }
 }
 ?>
 

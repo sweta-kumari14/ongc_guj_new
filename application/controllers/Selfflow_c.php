@@ -137,8 +137,7 @@
             $api = 'Web_Single_Selfflow_Dashboard_Data/get_Alltype_Single_graphData';
             $data = 'well_id=' . htmlspecialchars((string)$this->input->post('well_id', true), ENT_QUOTES, 'UTF-8')
                   . '&from_date=' . htmlspecialchars((string)$this->input->post('from_date', true), ENT_QUOTES, 'UTF-8')
-                  . '&to_date=' . htmlspecialchars((string)$this->input->post('to_date', true), ENT_QUOTES, 'UTF-8')
-                  . '&graph_type=' . htmlspecialchars((string)$this->input->post('graph_type', true), ENT_QUOTES, 'UTF-8');
+                  . '&to_date=' . htmlspecialchars((string)$this->input->post('to_date', true), ENT_QUOTES, 'UTF-8');
             $method = 'POST';
             $result = $this->CALLAPI($api, $data, $method);
             echo json_encode($result);

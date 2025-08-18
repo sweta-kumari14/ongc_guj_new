@@ -1,60 +1,4 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-.button {
-  position: relative;
-  background: #007bff;
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.button .tooltip {
-  visibility: hidden;
-  background-color: #358a48cf;
-  color: #fff;
-  font-size: 12px;
-  text-align: center;
-  padding: 8px 12px;
-  border-radius: 4px;
-
-  /* position */
-  position: absolute;
-  bottom: 125%; /* button ke upar */
-  left: 33%;
-  transform: translateX(-50%);
-
-  /* width control */
-  white-space: normal;      /* wrap enable */
-  max-width: 320px;         /* box ki max width badhayi */
-  min-width: 159px;         /* minimum width fix ki */
-  word-wrap: break-word;
-
-  opacity: 0;
-  transition: opacity 0.3s;
-  z-index: 1;
-}
-
-/* Tooltip arrow niche */
-.button .tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -6px;
-  border-width: 6px;
-  border-style: solid;
-  border-color: #358a48cf transparent transparent transparent;
-}
-
-/* Hover effect */
-.button:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-</style>
 
 <style>
     .circle {
@@ -68,54 +12,117 @@
     line-height: 41px;
     margin-top: 0PX;
 }
-.sensor-card {
-    border: 1px solid #d4d4d4;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    background: white;
-    transition: transform 0.2s ease;
-}
-.sensor-icon {
-    height: 36px;
-    width: auto;
-}
-.sensor-card .pump-image img[alt="sensor-icon"] {
-    height: 35px !important; 
-}
-.card-header {
-    background-color: #EEE1E1;
-    color: white;
-    padding: 12px 20px;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-.card-headerr {
-    background: #CD5C5C;
-    color: white;
-    padding: 12px 20px;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-.pump-image {
-    display: flex;
-    position: relative;
-    text-align: center;
-    /*margin: 27px;*/
-    /*height: 285px;*/
-    margin-top:22px
-    
-}
-.sensor-card img.pump-img {
-    width: 90%;
-    height: 90%!important;
-    border-radius: 8px;
-    margin-top: 10px;
+ .sensor_one {
+        position: absolute;
+        left: 98px;
+        margin-top: 34px;
+    }
 
-}
+    .sensor_six {
+        position: absolute;
+        top: 60px;
+        left: 229px;
+    }
+
+    .sensor-two {
+        position: absolute;
+        left: 57px;
+        margin-top: 149px;
+    }
+
+    .sensor-two_one {
+        position: absolute;
+        top: 59px;
+        bottom: 20;
+        left: 154px;
+    }
+
+    .sensor_two_data_two {
+        position: relative;
+        bottom: 56px;
+        border: 1px solid grey;
+        padding: 0px 5px;
+        left: -18px;
+        font-size: 10px;
+        border-radius: 3px;
+    }
+
+    .sensor-three {
+        position: absolute;
+        top: 151px;
+        left: 185px;
+    }
+
+    .sensor-four {
+        position: absolute;
+        bottom:66px;
+        left: 277px;
+    }
+
+    .sensor_one_data {
+        position: relative;
+        border: 1px solid #808080e3;
+        padding: 0px 5px;
+        left: -97px;
+        bottom: 55px;
+        font-size: 10px;
+        border-radius: 3px;
+    }
+    .sensor_six_data {
+        position: relative;
+        border: 1px solid #808080e3;
+        padding: 0px 5px;
+        left: 28px;
+        bottom: -8px;
+        font-size: 10px;
+        border-radius: 3px;
+    }
+
+    .sensor_two_data {
+        position: relative;
+        border: 1px solid #808080e3;
+        padding: 0px 5px;
+        left: -58px;
+        bottom: -40px;
+        font-size: 10px;
+        border-radius: 3px
+    }
+
+    .sensor_three_data {
+        position: relative;
+        border: 1px solid #808080e3;
+        padding: 0px 5px;
+        left: -17px;
+        bottom: 56px;
+        font-size: 10px;
+        border-radius: 5px;
+    }
+
+    .sensor_four_data {
+        border: 1px solid grey;
+        position: absolute;
+        padding: 2px 5px;
+        left: -40px;
+        bottom: -36px;
+        font-size: 10px;
+        border-radius: 3px;
+        transform-origin: bottom left; /* controls pivot point */
+        white-space: nowrap; /* keeps text in one line */
+    }
+
+ .well_image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+
+
+    @media (min-width: 768px) {
+        .well_image {
+            padding-left: 15px;
+        }
+    }
 .status-dot {
     display: inline-block;
     height: 29px;
@@ -133,42 +140,6 @@
     padding: 10px;
 
 }
-.sensor-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    aspect-ratio: 1 / 1; /* image square hai to ye use karo */
-}
-
-.sensor_one, .sensor-two, .sensor-two_one,
-.sensor-three, .sensor-four {
-    position: absolute;
-}
-.sensor_one     { left: 70%;  top: 29%; }
-.sensor-two     { left: 44%; top: 14%; }
-.sensor-two_one { left: 53%; top: 28%; }
-.sensor-three   { left: 41%; top: 56%; }
-
-
-.sensor_one_data, .sensor_two_data,
-.sensor_two_data_two, .sensor_three_data {
-    position: absolute;
-    display: flex;
-    border: 1px solid #ccc;
-    background: #fff;
-    padding: -2px ;      
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 3px;    
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    min-width: 68px;        
-    justify-content: center; 
-}
-.sensor_one_data     { left: 20%; bottom: -90%; }
-.sensor_two_data     { left: -131%; bottom:109%; }
-.sensor_two_data_two { left: 53%; bottom:105%; }
-.sensor_three_data   { left: -115%; bottom: 102%; }
-
 .card-footer {
     background-color: #fafafa;
     padding: 4px 20px;
@@ -303,30 +274,24 @@
                 </div>
             </div>
         </div>
-
-
-
-<!-- Dashboard Cards Row -->
-<div class="row">
-    <!-- Total Wells -->
-    <div class="col-md-3 position-relative">
-    <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
-        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-            <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
-        </div>
-        <div class="content-area text-center mt-2">
-            <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();" class="tooltip-container">
-                <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
-                <span class="tag-count" id="total_well"></span>
-                <!-- Tooltip absolutely placed -->
-                <div class="tooltip"><b>Click to view overall total wells details</b></div>
-            </a>
+    <!-- Dashboard Cards Row -->
+    <div class="row">
+        <!-- Total Wells -->
+        <div class="col-md-3 position-relative">
+        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+            <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+            </div>
+            <div class="content-area text-center mt-2">
+                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();" class="tooltip-container">
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
+                    <span class="tag-count" id="total_well"></span>
+                    <!-- Tooltip absolutely placed -->
+                    <div class="tooltip"><b>Click to view overall total wells details</b></div>
+                </a>
+            </div>
         </div>
     </div>
-</div>
-
-
-
     <!-- Flowing Wells -->
    <div class="col-md-3 position-relative">
     <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
@@ -718,16 +683,12 @@ function get_dashboard_count() {
         }
     });
 }
-
 get_well_data();
 function get_well_data() {
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
     let well_type = $('#well_type').val();
     let site_id = $('#site_id').val();
-    let user_type = '<?php echo $this->session->userdata('user_type') ?>';
-    let role_type = '<?php echo $this->session->userdata('role_type') ?>';
-
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_c/well_card_data',
         method: 'POST',
@@ -736,8 +697,6 @@ function get_well_data() {
             well_id: well_id,
             well_type: well_type,
             site_id: site_id,
-            user_type: user_type,
-            role_type: role_type
         },
         success: function(res) {
             var response = JSON.parse(res);
@@ -748,83 +707,86 @@ function get_well_data() {
                     $("#well_area_card").html('');
 
                     $.each(response.data, function(i, v) {
-                        var statusColor = '';
+                        let statusColor = '';
                         if (v.status_variable === 'flowing_well') {
                             statusColor = 'green';
                         } else if (v.status_variable === 'non_flowing_well') {
                             statusColor = 'red';
                         } else {
-                            statusColor = '#394f62'; // Default for offline or unknown
+                            statusColor = '#394f62'; // Default
                         }
 
-                        var link = '<?php echo base_url("Selfflow_c/SingleWellDashboard/"); ?>' + v.well_id 
+                        let link = '<?php echo base_url("Selfflow_c/SingleWellDashboard/"); ?>' + v.well_id;
 
-                                           $("#well_area_card").append(
-                        '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">' +
-                        '<div class="sensor-card responsive-card" style="min-width:235px;">' +
-                        '<div class="card-header d-flex justify-content-between align-items-center" style="padding: 3px; text-align: left; color: black;">' +
-                        '<span style="margin-left: 7px;">' + (v.well_name ?? 'N/A') + '</span>' +
-                        '<span class="status-dot" style="height: 29px; width: 26px; border-radius: 50%; background-color:'  + (v.status_color ?? '#75A47F') + '; display: inline-block;"></span>' +
-                        '</div>' +
-                        '<div class="pump-wrapper">' +
-                            '<div class="pump-image">' +
-                                '<div class="sensor sensor-one">' +
-                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
-                                    '<div class="sensor-data"><strong>FLT ' + (v.FLTP_1_Temp ?? 0) + '</strong></div>' +
-                                '</div>' +
+                        // --- Card HTML ---
+                        let cardHtml = `
+                        <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 fw-bold">${v.well_name}</h6>
+                                <div class="status-circle" 
+                                     style="width:20px;height:20px;border-radius:50%;background:${statusColor};">
+                                </div>
+                            </div>
 
-                                '<div class="sensor sensor-two">' +
-                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
-                                    '<div class="sensor-data"><strong>THP ' + (v.PS_3_THP ?? 0) + '</strong></div>' +
-                                '</div>' +
+                            <!-- Card Body -->
+                            <div class="card-body d-flex flex-column justify-content-center mb-n4"> 
+                            <div class="pump-image" style="position: relative;"> 
+                                 <div class="sensor_one"> <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
+                                   <div class="sensor_one_data"> <strong>FTHP</strong> <span id="sensor-one-value"><span id="fthp_image"></span> (kg/cm²)</span> 
+                                 </div> 
+                                 </div> 
+                                 <div class="sensor_six"> 
+                                 <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
+                                   <div class="sensor_six_data"> <strong>FLT</strong> <span id="sensor-six-value"><span id="flt_image"></span> (°C)</span> 
+                                   </div> 
+                                </div> 
+                                <div class="sensor-two"> 
+                                 <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
+                                 <div class="sensor_two_data"> <strong>CHP</strong> <span id="sensor-two-value"><span id="chp_image"></span> (kg/cm²)</span> 
+                                </div> 
+                                </div> 
+                                <div class="sensor-two_one"> <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
+                                <div class="sensor_two_data_two"> <strong>ABP</strong> <span id="sensor-five-value"><span id="abp_image"></span> (kg/cm²)</span> </div> </div> <div class="sensor-three"> <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> <div class="sensor_three_data"> <strong>GIP</strong> <span id="sensor-three-value"><span id="gip_image"></span> (kg/cm²)</span> </div> </div> <div class="well_image"> <img src="<?php echo base_url() ?>assets/img/well_image.png" alt="pump-img"> </div> 
+                            </div>      
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div class="datetime">
+                                    <small class="text-muted"><strong>${v.Log_Date_Time ? v.Log_Date_Time : 'N/A'}</strong></small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='${link}'">
+                                        <i class="fas fa-info-circle fa-lg"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary" 
+                                            data-bs-toggle="offcanvas" 
+                                            data-bs-target="#addThreshold_data" 
+                                            aria-controls="addThreshold_data">
+                                        <i class="fas fa-sliders-h"></i>
+                                    </button>
+                                </div>
+                            </div>
 
-                                '<div class="sensor sensor-two-one">' +
-                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
-                                    '<div class="sensor-data"><strong>ABP ' + (v.PS_4_ABP ?? 0) + '</strong></div>' +
-                                '</div>' +
+                        </div>
+                    </div>
+                    `;
 
-                                '<div class="sensor sensor-three">' +
-                                    '<img src="<?= base_url('assets/icons/psr.png') ?>" class="sensor-icon">' +
-                                    '<div class="sensor-data"><strong>CHP ' + (v.PS_2_CHP ?? 0) + '</strong></div>' +
-                                '</div>' +
-
-                                '<img class="pump-img" src="<?= base_url('assets/img/well_image.png') ?>" alt="Pump">' +
-                            '</div>' +
-                        '</div>'+
-
-                            '<div class="card-footer d-flex justify-content-between align-items-center">' +
-                            // Left side: Date/Time
-                            '<div class="datetime"><strong>' + (v.Log_Date_Time ? v.Log_Date_Time : 'N/A') + '</strong></div>' +
-
-                            // Right side: Buttons
-                            '<div class="d-flex gap-2">' +
-                                '<button class="button" onclick="window.location.href=\'' + link + '\'">' +
-                                    '<i class="fas fa-info-circle fa-lg"></i>' +
-                                    '<span class="tooltip"><b>Click here to view single dashboard</b></span>' +
-                                '</button>' +
-
-                                '<button class="button" data-bs-toggle="offcanvas" data-bs-target="#addThreshold_data" aria-controls="addThreshold_data">' +
-                                    '<i class="fas fa-sliders-h"></i>' +
-                                    '<span class="tooltip"><b>Click here to set threshold setup</b></span>' +
-                                '</button>' +
-                            '</div>' +
-                        '</div>'
-                        +
-                        '</div>'
-                    );
-
+                        $("#well_area_card").append(cardHtml);
                     });
 
-
                 } else {
-                    $('#well_area_card').html('<div class="card card-body mx-3 mt-3">' +
-                        '<div class="text-danger" style="text-align:center;" colspan="6"><h4>No Well Found !!</h4></div>' +
-                        '</div>');
+                    $('#well_area_card').html(`
+                        <div class="card card-body mx-3 mt-3">
+                            <div class="text-danger text-center">
+                                <h4>No Well Found !!</h4>
+                            </div>
+                        </div>
+                    `);
                 }
             }
         }
     });
 }
+
 </script>
 <!-- Google Maps JS API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKoAgLoslTEUCNabLj5H5jLVdWFD2WhK8"></script>
