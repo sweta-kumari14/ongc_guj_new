@@ -14,27 +14,39 @@
 }
  .sensor_one {
         position: absolute;
-        left: 98px;
-        margin-top: 34px;
+        left: 47%;   /* 133px ≈ 15% of screen width */
+    top: 10vh;
     }
+@media (max-width: 992px) {
+    .sensor_one {
+        left: 40%;
+        top: 12vh;
+    }
+}
 
+/* Mobile */
+@media (max-width: 576px) {
+    .sensor_one {
+        left: 35%;
+        top: 15vh;
+    }
+}
     .sensor_six {
         position: absolute;
-        top: 60px;
-        left: 229px;
+         top:18vh;   /* 94px ≈ 12% of screen height */
+    left: 74%;
     }
 
     .sensor-two {
-        position: absolute;
-        left: 57px;
-        margin-top: 149px;
+  position: absolute;
+    left: 45%;
+    top: 30vh;   /* 164px ≈ 22% of viewport height */
     }
 
     .sensor-two_one {
         position: absolute;
-        top: 59px;
-        bottom: 20;
-        left: 154px;
+    top: 18vh;
+    left: 62%; 
     }
 
     .sensor_two_data_two {
@@ -42,15 +54,15 @@
         bottom: 56px;
         border: 1px solid grey;
         padding: 0px 5px;
-        left: -18px;
+        left: 8px;
         font-size: 10px;
         border-radius: 3px;
     }
 
     .sensor-three {
         position: absolute;
-        top: 151px;
-        left: 185px;
+        top: 127px;
+        left: 223px;
     }
 
     .sensor-four {
@@ -63,27 +75,27 @@
         position: relative;
         border: 1px solid #808080e3;
         padding: 0px 5px;
-        left: -97px;
+        left: -22px;
         bottom: 55px;
         font-size: 10px;
         border-radius: 3px;
     }
     .sensor_six_data {
         position: relative;
-        border: 1px solid #808080e3;
-        padding: 0px 5px;
-        left: 28px;
-        bottom: -8px;
-        font-size: 10px;
-        border-radius: 3px;
+    border: 1px solid #808080e3;
+    padding: 0px 5px;
+    left: 9px;
+    bottom: -17px;
+    font-size: 10px;
+    border-radius: 3px;
     }
 
     .sensor_two_data {
         position: relative;
         border: 1px solid #808080e3;
         padding: 0px 5px;
-        left: -58px;
-        bottom: -40px;
+        left: -3px;
+        bottom: 51px;
         font-size: 10px;
         border-radius: 3px
     }
@@ -387,12 +399,12 @@
                 <div class="card">
                     <!-- Card Header -->
                     <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap"
-                        style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height: 50px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                        style="background-color: #CD5C5C; color: white;  cursor: pointer; min-height: 50px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
 
                         <!-- Left: Image + Title -->
                         <div class="d-flex align-items-center me-auto">
                             <img src="<?= base_url('assets/img/map.gif') ?>" width="40"
-                                style="border-radius: 25%; margin-right: 10px;">
+                                style="border-radius: 25%; margin-right: 10px;margin-left: 10px;">
                             <h4 style="margin: 0;">
                                 <strong>Asset GIS</strong>
                                 <!-- <span class="circle" id="totalcount" style="background-color: #312929;"></span> -->
@@ -723,7 +735,7 @@ function get_well_data() {
                         <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0 fw-bold">${v.well_name}</h6>
+                                <h6 class="mb-0 fw-bold" style="font-size:14pxpx">${v.well_name}</h6>
                                 <div class="status-circle" 
                                      style="width:20px;height:20px;border-radius:50%;background:${statusColor};">
                                 </div>
@@ -731,23 +743,23 @@ function get_well_data() {
 
                             <!-- Card Body -->
                             <div class="card-body d-flex flex-column justify-content-center mb-n4"> 
-                            <div class="pump-image" style="position: relative;"> 
-                                 <div class="sensor_one"> <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
-                                   <div class="sensor_one_data"> <strong>FTHP</strong> <span id="sensor-one-value"><span id="fthp_image"></span> (kg/cm²)</span> 
+                            <div class="pump-image" style="position: relative;    padding: 11px;"> 
+                                 <div class="sensor_one"> <img src="<?php echo base_url() ?>assets/img/psr.png" style="height:32px"> 
+                                   <div class="sensor_one_data"> <strong>THP</strong> <span id="sensor-one-value"><span id="fthp_image"></span> (kg/cm²)</span> 
                                  </div> 
                                  </div> 
                                  <div class="sensor_six"> 
-                                 <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
+                                 <img src="<?php echo base_url() ?>assets/img/psr.png"style="height:32px"> 
                                    <div class="sensor_six_data"> <strong>FLT</strong> <span id="sensor-six-value"><span id="flt_image"></span> (°C)</span> 
                                    </div> 
                                 </div> 
                                 <div class="sensor-two"> 
-                                 <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
+                                 <img src="<?php echo base_url() ?>assets/img/psr.png"style="height:32px"> 
                                  <div class="sensor_two_data"> <strong>CHP</strong> <span id="sensor-two-value"><span id="chp_image"></span> (kg/cm²)</span> 
                                 </div> 
                                 </div> 
-                                <div class="sensor-two_one"> <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> 
-                                <div class="sensor_two_data_two"> <strong>ABP</strong> <span id="sensor-five-value"><span id="abp_image"></span> (kg/cm²)</span> </div> </div> <div class="sensor-three"> <img height="35" src="<?php echo base_url() ?>assets/img/psr.png"> <div class="sensor_three_data"> <strong>GIP</strong> <span id="sensor-three-value"><span id="gip_image"></span> (kg/cm²)</span> </div> </div> <div class="well_image"> <img src="<?php echo base_url() ?>assets/img/well_image.png" alt="pump-img"> </div> 
+                                <div class="sensor-two_one"> <img src="<?php echo base_url() ?>assets/img/psr.png"style="height:32px"> 
+                                <div class="sensor_two_data_two"> <strong>ABP</strong> <span id="sensor-five-value"><span id="abp_image"></span> (kg/cm²)</span> </div> </div>  </div> <div class="well_image"> <img src="<?php echo base_url() ?>assets/img/well_image.png" alt="pump-img"> </div> 
                             </div>      
                             <div class="card-footer d-flex justify-content-between align-items-center">
                                 <div class="datetime">
