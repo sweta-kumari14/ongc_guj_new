@@ -307,11 +307,11 @@ class Device_Threshold_Details extends REST_Controller
 					        $log['site_id']      = $this->input->post('site_id',true);
 					        $log['tag_no']       = $value['tag_id'];
 					        $log['node_name']    = $value['node_type'];
-					        $log['max_value']   = isset($value['max_value']) ? $value['max_value'] : $existing['max_value'];
-							$log['upper_value'] = isset($value['upper_value']) ? $value['upper_value'] : $existing['upper_value'];
-							$log['lower_value'] = isset($value['lower_value']) ? $value['lower_value'] : $existing['lower_value'];
-							$log['multiplier']  = isset($value['multiplier']) ? $value['multiplier'] : $existing['multiplier'];
-							$log['offset']      = isset($value['offset']) ? $value['offset'] : $existing['offset'];
+					        $log['max_value']   = $value['max_value'] ?? '0';
+							$log['upper_value'] = $value['upper_value'] ?? '0';
+							$log['lower_value'] = $value['lower_value'] ?? '0';
+							$log['multiplier']  = $value['multiplier'] ?? '0';
+							$log['offset']      = $value['offset'] ?? '0';
 					        $log['c_by']         = $this->input->post('c_by',true);
 					        $log['c_date']       = date('Y-m-d H:i:s');
 					        $log['status']       = 1;

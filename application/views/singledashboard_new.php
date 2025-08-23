@@ -2,6 +2,25 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <style>
+  .blink-red {
+        color: red;
+        animation: blink 1s infinite;
+    }
+
+    .blink-blue {
+        color: #0099ff;
+        animation: blink 1s infinite;
+    }
+
+    .normal {
+        color: black; /* green */
+    }
+
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
 
     #back_btns{
         font-size: 16px;
@@ -239,8 +258,8 @@
           <!-- Well Status Card -->
           <div class="col-md-4 mb-3">
              <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
-                <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:blueviolet; font-size:18px;border-top-left-radius: 10px;  border-top-right-radius: 10px;">
-                   <b class="text-white">Well <span id="wellnamehdn"></span></b>
+                <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:blueviolet;border-top-left-radius: 10px;  border-top-right-radius: 10px;">
+                   <b class="text-white"><span id="wellnamehdn"></span> &nbsp; ( <span id="welltypehdn"></span> )</b>
                    <img src="<?php echo base_url(); ?>assets/img/well.gif" width="30" style="border-radius: 50%;">
                 </div>
                 <div class="px-3 text-start">
@@ -248,19 +267,19 @@
                       <!-- Sensors -->
                       <div class="sensor_one">
                          <img src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_one_data"><strong>FLT &nbsp;</strong> <span id="sensor-one-value"><span id="flt_image"></span></span></div>
+                         <div class="sensor_one_data"><strong>FLT &nbsp;</strong> <span id="sensor-one-value"><span id="flt_image"></span> (°C)</span></div>
                       </div>
                       <div class="sensor-two" id="sensorthp">
                          <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_two_data"><strong>THP &nbsp;</strong> <span id="sensor-two-value"><span id="thp_image"></span></span></div>
+                         <div class="sensor_two_data"><strong>THP &nbsp;</strong> <span id="sensor-two-value"><span id="thp_image"></span> (kg/cm²) </span></div>
                       </div>
                       <div class="sensor-two_one" id="sensorabp">
                          <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_two_data_two"><strong>ABP &nbsp; </strong> <span id="sensor-two-value"><span id="abp_image"></span></span></div>
+                         <div class="sensor_two_data_two"><strong>ABP &nbsp; </strong> <span id="sensor-two-value"><span id="abp_image"></span> (kg/cm²)</span></div>
                       </div>
                       <div class="sensor-three" id="sensorchp">
                          <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_three_data"><strong> CHP &nbsp; </strong> <span id="sensor-three-value"> <span id="chp_image"></span></span></div>
+                         <div class="sensor_three_data"><strong> CHP &nbsp; </strong> <span id="sensor-three-value"> <span id="chp_image"></span> (kg/cm²)</span></div>
                       </div>
                       <div style="padding-top:25px;">
                          <img class="pump-img" style="max-width:100%; margin-top: -10px; margin-right:24px; height: 279px;" 
@@ -283,7 +302,7 @@
           </div>
           <div class="col-md-4 mb-3">
              <div class="bg-white rounded-3" style="height:100%; border: 1px solid #ededed; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);">
-                <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:blueviolet; font-size:18px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                <div class=" px-3 d-flex justify-content-between align-items-center topCards" style="height:40px; background-color:blueviolet;border-top-left-radius: 10px; border-top-right-radius: 10px;">
                    <b class="text-white">Battery</b>
                    <img src="<?php echo base_url(); ?>assets/img/volt.gif" width="30" style="border-radius: 50%;">
                 </div>
@@ -447,7 +466,7 @@
              <div class="bg-white rounded-3 shadow-sm border" style="height: 100%; border: 1px solid #ededed;">
                 <!-- Card Header -->
                 <div class="card-header px-3 d-flex justify-content-between align-items-center"
-                   style="height: 40px; background:blueviolet ;color: white; font-size:18px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                   style="height: 40px; background:blueviolet ;color: white;border-top-left-radius: 10px; border-top-right-radius: 10px;">
                    <b>RTMS Status</b>
                    <img src="<?php echo base_url(); ?>assets/img/device.gif" 
                       width="30" height="24" 
@@ -485,15 +504,12 @@
                    </div>
                    <!-- Flag Button Centered -->
                    <div class="text-center mt-3">
-                      <button class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1 mx-auto"
-                         data-bs-toggle="modal"
+                      <button class="btn btn-sm btn-outline-danger w-50  mb-2"  data-bs-toggle="modal"
                          data-bs-target="#well_mark_status"
                          id="flag_text"
                          style="border-radius:50px;">
                       <i class="bi bi-flag-fill"></i> Flag Well
                       </button>
-                   </div>
-                    <div class="text-center mt-1">
                    <a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" 
                       class="btn btn-sm btn-outline-success w-50 mb-2" 
                       style="border-radius:50px;"
@@ -523,7 +539,6 @@
                    <div class="d-flex justify-content-between align-items-center"
                       style="height:40px; top: 0; z-index: 1; background-color: #A038A0; padding: 0 10px;border-top-left-radius: 10px; 
                       border-top-right-radius: 10px;">
-                      <!-- Left: Alert text + badge -->
                       <div style="color:white;">
                          Alert Log&nbsp;&nbsp;
                          <badge class="badge badge-sm rounded-pill bg-blue" id="alert_count">0</badge>
@@ -556,12 +571,18 @@
              <!-- Well GIS Map -->
              <div class="col-md-6">
                 <div class="card" style="height: 300px;border-radius:10px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                   <div class="d-flex justify-content-between align-items-center" 
-                      style="background-color:#A038A0; padding: 0px 4px 0px 1px;height: 40px;border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                      <h5 class="text-white" style="font-size: 15px; margin-left:10px;margin-top: 11px;">Well GIS Map</h5>
-                      <img src="<?php echo base_url() ?>assets/img/map.gif" 
-                         width="40" height="40"
-                         style="border-radius: 50%; border: 2px solid white; object-fit: cover; height:88%;">
+                    <div class="d-flex justify-content-between align-items-center"
+                      style="height:40px; top: 0; z-index: 1; background-color: #A038A0; padding: 0 10px;border-top-left-radius: 10px; 
+                      border-top-right-radius: 10px;">
+                      <div style="color:white;">
+                         Well GIS Map&nbsp;&nbsp;
+                      </div>
+                      <!-- Right: Image -->
+                      <div>
+                         <img src="<?php echo base_url(); ?>assets/img/map.gif"
+                            width="40"
+                            style="border-radius: 50%; max-width: 82%;">
+                      </div>
                    </div>
                    <div class="card-body" style="overflow-y: auto;padding: 2px;">
                       <div id="mymap" style="width: 100%; height: 253px;"></div>
@@ -594,7 +615,7 @@
                        style="height: 30px; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0 12px;"
                        onclick="Get_Graph()">Generate</button>
 
-                    <button type="button" class="btn btn-light" onclick="resetDates()" style="padding: 4px 12px; margin-right:2px;">
+                    <button type="button" class="btn btn-light" onclick="resetDates()" style="padding: 2px 6px; margin-right:2px;">
                        <i class="fa-solid fa-arrows-rotate"></i>
                     </button>
                  </div>
@@ -844,6 +865,7 @@ function get_single_well_details() {
                     $('#wellidhdn').val(deviceData.well_id || '');
                     $('#wellnamehdn').text(deviceData.well_name || '');
                     $('#well_name_data_2').text(deviceData.well_name || '');
+                    $('#welltypehdn').text(deviceData.well_type_name || '');
                     
                     var flag_status_data = deviceData.flag_status;
                    
@@ -921,6 +943,42 @@ function get_single_well_details() {
                     updateBatteryStatus(parseFloat(deviceData.FLT_battery_volt || 0), 'FLT_batteryCircle', 'FLT_battery_volt', 'FLT_batteryImg');
 
 
+
+                    const thresholdData = deviceData.threshold_data || [];
+
+                    function getThresholdLimits(nodeName, thresholdArray) {
+                        const match = thresholdArray.find(item => item.node_name === nodeName);
+                        return {
+                            lower: match ? parseFloat(match.lower_value) : 0.00,
+                            upper: match ? parseFloat(match.upper_value) : 0.00
+                        };
+                    }
+
+                    // Helper function to apply color class based on thresholds
+                    function applyThresholdColor(value, lower, upper, elementId) {
+                        const $el = $('#' + elementId);
+                        $el.removeClass('blink-red normal');
+                        if (value > upper || value < lower) {
+                            $el.addClass('blink-red');
+                        } else {
+                            $el.addClass('normal');
+                        }
+                    }
+
+                    const sensors = ['CHP', 'THP', 'ABP', 'FLT'];
+
+                    sensors.forEach(sensor => {
+                    const limits = getThresholdLimits(sensor, thresholdData);
+                    const value = parseFloat(deviceData[sensor] || 0.00);
+
+                    // Set sensor value in span with 2 decimal places
+                    $('#' + sensor.toLowerCase() + '_image').text(value.toFixed(2));
+
+                    // Apply threshold color
+                    applyThresholdColor(value, limits.lower, limits.upper, sensor.toLowerCase() + '_image');
+                });
+
+
                     function battery(charge) {
                         var activeBars = Math.floor(Math.min(Math.max((charge - 6.0) / (7.9 - 6.0) * 10, 0),
                             10));
@@ -944,6 +1002,29 @@ function get_single_well_details() {
         }
     });
 }
+
+
+function getThresholdLimits(nodeName, thresholdArray) {
+    const match = thresholdArray.find(item => item.node_name === nodeName);
+    return {
+        lower: match ? parseFloat(match.lower_value) : 0,
+        upper: match ? parseFloat(match.upper_value) : 0
+    };
+}
+
+function applyThresholdColor(value, lower, upper, elementId) {
+    const $el = $('#' + elementId);
+    $el.removeClass('blink-red blink-blue normal'); 
+
+    if (value > upper) {
+        $el.addClass('blink-red');
+    } else if (value < lower) {
+        $el.addClass('blink-red');
+    } else {
+        $el.addClass('normal');
+    }
+}
+
 
 function updateBatteryStatus(voltage, circleId, valueId, imageId, isMain = false) {
     let percentage;

@@ -11,13 +11,26 @@ class Web_Single_Selfflow_dashboardData_model extends CI_Model
     {
         if($well_id!='')
             $this->db->where('sd.well_id',$well_id);
-        return $this->db->select("sd.well_id, sd.area_id, sd.site_id, sd.well_type, sd.device_name, sd.imei_no, 
-                              sd.RTC_Time as Log_Date_Time, sd.CHP, sd.THP, sd.ABP, sd.FLT, sd.Battery_Voltage, wm.well_name, sd.well_status as flag_status, wm.lat, 
-                              wm.long as long,sd.CHP_battery_volt,sd.FLT_battery_volt,sd.THP_battery_volt,sd.ABP_battery_volt")
+        $res = $this->db->select("sd.well_id, sd.area_id, sd.site_id, sd.well_type, sd.device_name, sd.imei_no,sd.RTC_Time as Log_Date_Time, sd.CHP, sd.THP, sd.ABP, sd.FLT, sd.Battery_Voltage, wm.well_name, sd.well_status as flag_status, wm.lat,wm.long as long,sd.CHP_battery_volt,sd.FLT_battery_volt,sd.THP_battery_volt,sd.ABP_battery_volt,wt.well_type_name")
 
         ->from('tbl_site_device_installtion_self_flow sd')
         ->join('tbl_well_master wm','sd.well_id=wm.id','left')
+         ->join('tbl_well_type wt','sd.well_type=wt.id','left')
         ->where(['sd.status'=>1])->get()->result_array();
+
+
+           $thresholdData = $this->db
+            ->select("id,node_name,upper_value, lower_value")
+            ->from('tbl_well_threshold_setup_master')
+            ->where(['status' => 1, 'well_id' => $well_id])
+            ->get()
+            ->result_array();
+
+        foreach ($res as $key => $value) {
+            $res[$key]['threshold_data'] = $thresholdData;
+        }
+
+        return $res;
        
     }
     public function WellAlert_Details($well_id)

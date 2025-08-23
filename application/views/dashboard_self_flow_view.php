@@ -1,6 +1,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+.blink {
+    animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
     .circle {
     display: inline-block;
     border-radius: 50%;
@@ -12,157 +21,10 @@
     line-height: 41px;
     margin-top: 0PX;
 }
- .sensor_one {
-        position: absolute;
-        left: 47%;   /* 133px ≈ 15% of screen width */
-    top: 10vh;
-    }
-@media (max-width: 992px) {
-    .sensor_one {
-        left: 40%;
-        top: 12vh;
-    }
-}
-
-/* Mobile */
-@media (max-width: 576px) {
-    .sensor_one {
-        left: 35%;
-        top: 15vh;
-    }
-}
-    .sensor_six {
-        position: absolute;
-         top:18vh;   /* 94px ≈ 12% of screen height */
-    left: 74%;
-    }
-
-    .sensor-two {
-  position: absolute;
-    left: 45%;
-    top: 30vh;   /* 164px ≈ 22% of viewport height */
-    }
-
-    .sensor-two_one {
-        position: absolute;
-    top: 18vh;
-    left: 62%; 
-    }
-
-    .sensor_two_data_two {
-        position: relative;
-        bottom: 56px;
-        border: 1px solid grey;
-        padding: 0px 5px;
-        left: 8px;
-        font-size: 10px;
-        border-radius: 3px;
-    }
-
-    .sensor-three {
-        position: absolute;
-        top: 127px;
-        left: 223px;
-    }
-
-    .sensor-four {
-        position: absolute;
-        bottom:66px;
-        left: 277px;
-    }
-
-    .sensor_one_data {
-        position: relative;
-        border: 1px solid #808080e3;
-        padding: 0px 5px;
-        left: -22px;
-        bottom: 55px;
-        font-size: 10px;
-        border-radius: 3px;
-    }
-    .sensor_six_data {
-        position: relative;
-    border: 1px solid #808080e3;
-    padding: 0px 5px;
-    left: 9px;
-    bottom: -17px;
-    font-size: 10px;
-    border-radius: 3px;
-    }
-
-    .sensor_two_data {
-        position: relative;
-        border: 1px solid #808080e3;
-        padding: 0px 5px;
-        left: -3px;
-        bottom: 51px;
-        font-size: 10px;
-        border-radius: 3px
-    }
-
-    .sensor_three_data {
-        position: relative;
-        border: 1px solid #808080e3;
-        padding: 0px 5px;
-        left: -17px;
-        bottom: 56px;
-        font-size: 10px;
-        border-radius: 5px;
-    }
-
-    .sensor_four_data {
-        border: 1px solid grey;
-        position: absolute;
-        padding: 2px 5px;
-        left: -40px;
-        bottom: -36px;
-        font-size: 10px;
-        border-radius: 3px;
-        transform-origin: bottom left; /* controls pivot point */
-        white-space: nowrap; /* keeps text in one line */
-    }
-
- .well_image img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-    }
-
-
-    @media (min-width: 768px) {
-        .well_image {
-            padding-left: 15px;
-        }
-    }
-.status-dot {
-    display: inline-block;
-    height: 29px;
-    width: 26px;
-    border-radius: 50%;
-    margin-left: 8px;
-}
-@media (max-width: 576px) {
-    .card-header {
-        font-size: 14px;
-        height: 50px;
-    }
-}
+ 
 .card .card-body {
     padding: 10px;
 
-}
-.card-footer {
-    background-color: #fafafa;
-    padding: 4px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.card-footer .datetime {
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
 }
 .tag-name, .tag-count {
     font-size: 15px;
@@ -172,6 +34,9 @@
 }
 .content-area {
   padding: 6px 0px;
+}
+.card .card-header {
+    padding: 12px;
 }
 .button {
     padding: 7px 9px;
@@ -185,52 +50,86 @@
     transition: background 0.3s;
   
 }
-.tooltip-container {
-  position: relative;
-  display: inline-block;
+ .tooltip-inner {
+        background-color: #dc3545 !important; /* Dark blue background */
+        color: #ffffff !important; /* White text */
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 6px;
+    }
+
+    .tooltip.bs-tooltip-top .tooltip-arrow::before {
+        border-top-color: #dc3545 !important;
+    }
+    .tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+        border-bottom-color: #dc3545 !important;
+    }
+    .tooltip.bs-tooltip-start .tooltip-arrow::before {
+        border-left-color: #dc3545 !important;
+    }
+    .tooltip.bs-tooltip-end .tooltip-arrow::before {
+        border-right-color: #dc3545 !important;
+    }
+
+/*css by samir */
+.sensors-top{
+    position: absolute;
+    top: 26%;
+    left: 50%;
+}
+.sensors-top img,
+.sensors-top-two img,
+.sensors-top-three img,
+.sensors-top-bottom img{
+    height: 25px !important;
+}
+.sensor-values {
+    position: absolute;
+    bottom: 32px;
+    border: 1px solid grey;
+    padding: 3px 5px;
+    align-items: center;
+    white-space: nowrap;   /* ek line me rakhega */
+    display: inline-flex;  /* inline-flex se ek line me flex align hoga */
 }
 
-.tooltip-container .tooltip {
-  position: absolute;   /* 👈 ab yeh parent ke upar float karega */
-  visibility: hidden;
-  background-color: #5D6D7E;
-  color: #fff;
-  font-size: 12px;
-  text-align: center;
-  padding: 8px 12px;
-  border-radius: 4px;
-
-  bottom: 125%;   /* text ke upar dikhayega */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-
-  white-space: normal;
-  max-width: 320px;
-  min-width: 200px;
-  word-wrap: break-word;
-
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;  /* 👈 size effect remove */
+.sensor-values_chp {
+    position: absolute;
+    bottom: 27px;
+    left:-43px;
+    border: 1px solid grey;
+    padding: 3px 5px;
+    align-items: center;
+    white-space: nowrap;   /* ek line me rakhega */
+    display: inline-flex;  /* inline-flex se ek line me flex align hoga */
 }
 
-.tooltip-container .tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -6px;
-  border-width: 6px;
-  border-style: solid;
-  border-color: #358a48cf transparent transparent transparent;
+.sensor-values_flt {
+    position: absolute;
+    top: 50px;
+    left:-20px;
+    border: 1px solid grey;
+    padding: 3px 5px;
+    align-items: center;
+    white-space: nowrap;   /* ek line me rakhega */
+    display: inline-flex;  /* inline-flex se ek line me flex align hoga */
+}
+.sensors-top-two{
+    position: absolute;
+    top: 37%;
+    left: 62%;
 }
 
-.tooltip-container:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
+.sensors-top-three{
+    position: absolute;
+    top: 37%;
+    left: 78%;
 }
-
+.sensors-top-bottom{
+    position: absolute;
+    bottom: 36%;
+    left: 48%;
+}
 </style>
 <div class="page-wrapper">
     <div class="content container-fluid pt-2">
@@ -290,38 +189,32 @@
     <div class="row">
         <!-- Total Wells -->
         <div class="col-md-3 position-relative">
-        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Total Well">
             <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
                 <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
             </div>
             <div class="content-area text-center mt-2">
-                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();" class="tooltip-container">
+                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();" >
                     <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
                     <span class="tag-count" id="total_well"></span>
-                    <!-- Tooltip absolutely placed -->
-                    <div class="tooltip"><b>Click to view overall total wells details</b></div>
                 </a>
             </div>
         </div>
     </div>
     <!-- Flowing Wells -->
    <div class="col-md-3 position-relative">
-    <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
+    <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Flowing Well">
         <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
             <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" 
                  class="img-fluid rounded-circle bg-light shadow" 
                  style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
         </div>
         <div class="content-area text-center mt-2">
-            <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>" 
-               class="tooltip-container">
+            <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>">
                 <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">
                     Flowing Wells
                 </span><br>
                 <span class="tag-count" id="total_flowing_well"></span>
-
-                <!-- Tooltip absolutely placed -->
-                <div class="tooltip"><b>Click to view overall flowing wells details</b></div>
             </a>
         </div>
     </div>
@@ -331,7 +224,7 @@
     <!-- Non-Flowing Wells -->
     <div class="col-md-3 position-relative">
         <a href="<?= base_url('Overall_list_selfflow_c') ?>">
-            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Non-Flowing Well">
                 <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
                     <img src="<?php echo base_url('assets/icons/04.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
                 </div>
@@ -347,7 +240,7 @@
     <!-- RTMS Non-Functional -->
     <div class="col-md-3 position-relative">
         <a href="<?= base_url('Overall_list_selfflow_c/overall_details_rtms') ?>">
-            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View RTMS Non-Functional Well">
                 <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
                     <img src="<?php echo base_url('assets/icons/10.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
                 </div>
@@ -375,21 +268,21 @@
                         </div>
                         <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 8px;">
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color: rgb(215, 51, 36); width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color: #DC3545; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">Non Flowing Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color:#75A47F; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color:#20c997; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">Flowing Well</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color: #394f62; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color: #6C757D; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" style="padding: 9px;">
-                       <div class="row" id="well_area_card"></div>
+                    <div class="card-body">
+                       <div class="row" id="well_area_card"></div> 
                     </div>
                 </div>
             </div>
@@ -407,22 +300,21 @@
                                 style="border-radius: 25%; margin-right: 10px;margin-left: 10px;">
                             <h4 style="margin: 0;">
                                 <strong>Asset GIS</strong>
-                                <!-- <span class="circle" id="totalcount" style="background-color: #312929;"></span> -->
                             </h4>
                         </div>
 
                         <!-- Right: Indicator Legend -->
                         <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 10px;">
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color: rgb(215, 51, 36); width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color: #DC3545; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">Non Flowing Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color:#75A47F; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color:#20c997; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">Flowing Well</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color: #394f62; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <div style="background-color: #6C757D; width: 16px; height: 16px; border-radius: 50%;"></div>
                                 <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
                             </div>
                         </div>
@@ -438,66 +330,27 @@
     </div>
 </div>
 
-<!-- Threshold Setup Offcanvas -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="addThreshold_data" aria-labelledby="offcanvasRightLabel" style="width:600px;">
-    <!-- Header -->
-    <div class="offcanvas-header text-primary" style="background: #f1f1f1;">
-        <h5 id="offcanvasRightLabel" class="offcanvas-title" style="color:#231692;">
-            Threshold Setup <span id="well_name" style="color:#231692;"></span>
-        </h5>
+    <!-- Header with background color -->
+    <div class="offcanvas-header text-primary" style="background: linear-gradient(to right, #032448 20%, #fc6075 100%);">
+        <h5 id="offcanvasRightLabel" class="offcanvas-title" style="color:white;">Threshold Setup   <span id="well_name_hdn_th" style="color:white;"></span></h5>
         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-
     <!-- Body -->
     <div class="offcanvas-body">
-        <form class="custom-validation" method="POST" enctype="multipart/form-data" id="threshold_form">
-                <div class="row mt-2">
-    <!-- CHP -->
-    <div class="col-md-12 d-flex align-items-center mb-2">
-        <div class="col-md-2"><b>CHP</b></div>
-        <div class="col-md-5 pe-1">
-            <input type="number" class="form-control" name="chp_upper" id="chp_upper" placeholder="Upper CHP">
+            <form class="custom-validation" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <input type="hidden" name="wellidhdn" id="wellidhdn">
+                    <input type="hidden" name="area_id_hdn" id="area_id_hdn">
+                     <input type="hidden" name="site_id_hdn" id="site_id_hdn">
+                    <div id="threshold_dynamic_ui"></div>
+                    <div class="btns-section pt-3 text-end" id="btns-section">
+                        <button type="button" class="btn btn-sm btn-success" onclick="submit_threshold();"> Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="col-md-5">
-            <input type="number" class="form-control" name="chp_lower" id="chp_lower" placeholder="Lower CHP">
-        </div>
-    </div>
-
-    <!-- THP -->
-    <div class="col-md-12 d-flex align-items-center mb-2">
-        <div class="col-md-2"><b>THP</b></div>
-        <div class="col-md-5 pe-2">
-            <input type="number" class="form-control" name="thp_upper" id="thp_upper" placeholder="Upper THP">
-        </div>
-        <div class="col-md-5">
-            <input type="number" class="form-control" name="thp_lower" id="thp_lower" placeholder="Lower THP">
-        </div>
-    </div>
-
-    <!-- ABP -->
-    <div class="col-md-12 d-flex align-items-center mb-2">
-        <div class="col-md-2"><b>ABP</b></div>
-        <div class="col-md-5 pe-2">
-            <input type="number" class="form-control" name="abp_upper" id="abp_upper" placeholder="Upper ABP">
-        </div>
-        <div class="col-md-5">
-            <input type="number" class="form-control" name="abp_lower" id="abp_lower" placeholder="Lower ABP">
-        </div>
-    </div>
-
-    <!-- flt -->
-    <div class="col-md-12 d-flex align-items-center mb-2">
-        <div class="col-md-2"><b>FLT</b></div>
-        <div class="col-md-5 pe-2">
-            <input type="number" class="form-control" name="flt_upper" id="flt_upper" placeholder="Upper FLt">
-        </div>
-        <div class="col-md-5">
-            <input type="number" class="form-control" name="flt_lower" id="flt_lower" placeholder="Lower FLT">
-        </div>
-    </div>
-</div>
-        </form>
-    </div>
 </div>
 
 
@@ -641,8 +494,6 @@ function get_dashboard_count() {
     let company_id = '<?php echo $this->session->userdata('company_id') ?>';
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
-    let well_type = $('#well_type').val();
-    let site_id = $('#site_id').val();
     let feeder_id = $('#feeder_id').val();
     let assets_id = $('#assets_id').val();
 
@@ -653,8 +504,6 @@ function get_dashboard_count() {
             company_id: company_id,
             area_id: area_id,
             well_id: well_id,
-            well_type: well_type,
-            site_id: site_id,
             feeder_id: feeder_id,
             assets_id: assets_id
         },
@@ -699,16 +548,14 @@ get_well_data();
 function get_well_data() {
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
-    let well_type = $('#well_type').val();
-    let site_id = $('#site_id').val();
+    let feeder_id = $('#feeder_id').val();
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_c/well_card_data',
         method: 'POST',
         data: {
             area_id: area_id,
             well_id: well_id,
-            well_type: well_type,
-            site_id: site_id,
+            feeder_id:feeder_id,
         },
         success: function(res) {
             var response = JSON.parse(res);
@@ -719,70 +566,114 @@ function get_well_data() {
                     $("#well_area_card").html('');
 
                     $.each(response.data, function(i, v) {
+
                         let statusColor = '';
-                        if (v.status_variable === 'flowing_well') {
-                            statusColor = 'green';
-                        } else if (v.status_variable === 'non_flowing_well') {
-                            statusColor = 'red';
+                        if (v.status_variable == 'flowing_well') {
+                            statusColor = '#20c997';
+                        } else if (v.status_variable == 'non_flowing_well') {
+                            statusColor = '#DC3545';
                         } else {
-                            statusColor = '#394f62'; // Default
+                            statusColor = '#6c757d'; // Default
                         }
+
+                      function getBlinkClass(node, value, thresholds) {
+                        let threshold = thresholds.find(t => t.node_name === node);
+                        if (!threshold) return '';
+
+                        let val = parseFloat(value);
+                        let upper = parseFloat(threshold.upper_value);
+                        let lower = parseFloat(threshold.lower_value);
+
+                        // Handle cases where upper < lower
+                        if (upper < lower) {
+                            [upper, lower] = [lower, upper]; // Swap to make upper > lower
+                        }
+
+                        if (val < lower || val > upper) {
+                            return 'text-danger blink'; // Red blink
+                        } 
+                    }
 
                         let link = '<?php echo base_url("Selfflow_c/SingleWellDashboard/"); ?>' + v.well_id;
 
                         // --- Card HTML ---
                         let cardHtml = `
-                        <div class="col-md-4">
-                        <div class="card shadow-sm">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0 fw-bold" style="font-size:14pxpx">${v.well_name}</h6>
-                                <div class="status-circle" 
-                                     style="width:20px;height:20px;border-radius:50%;background:${statusColor};">
-                                </div>
-                            </div>
+                        <div class="col-md-4" data-well-id="${v.well_id}" data-area-id="${v.area_id}" data-site-id="${v.site_id}">
+                                <div class="card shadow-sm">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0 fw-bold" style="font-size:14pxpx">${v.well_name}</h6>
+                                        <div class="status-circle" 
+                                             style="width:20px;height:20px;border-radius:50%;background:${statusColor};">
+                                        </div>
+                                    </div>
 
-                            <!-- Card Body -->
-                            <div class="card-body d-flex flex-column justify-content-center mb-n4"> 
-                            <div class="pump-image" style="position: relative;    padding: 11px;"> 
-                                 <div class="sensor_one"> <img src="<?php echo base_url() ?>assets/img/psr.png" style="height:32px"> 
-                                   <div class="sensor_one_data"> <strong>THP</strong> <span id="sensor-one-value"><span id="fthp_image"></span> (kg/cm²)</span> 
-                                 </div> 
-                                 </div> 
-                                 <div class="sensor_six"> 
-                                 <img src="<?php echo base_url() ?>assets/img/psr.png"style="height:32px"> 
-                                   <div class="sensor_six_data"> <strong>FLT</strong> <span id="sensor-six-value"><span id="flt_image"></span> (°C)</span> 
-                                   </div> 
-                                </div> 
-                                <div class="sensor-two"> 
-                                 <img src="<?php echo base_url() ?>assets/img/psr.png"style="height:32px"> 
-                                 <div class="sensor_two_data"> <strong>CHP</strong> <span id="sensor-two-value"><span id="chp_image"></span> (kg/cm²)</span> 
-                                </div> 
-                                </div> 
-                                <div class="sensor-two_one"> <img src="<?php echo base_url() ?>assets/img/psr.png"style="height:32px"> 
-                                <div class="sensor_two_data_two"> <strong>ABP</strong> <span id="sensor-five-value"><span id="abp_image"></span> (kg/cm²)</span> </div> </div>  </div> <div class="well_image"> <img src="<?php echo base_url() ?>assets/img/well_image.png" alt="pump-img"> </div> 
-                            </div>      
-                            <div class="card-footer d-flex justify-content-between align-items-center">
-                                <div class="datetime">
-                                    <small class="text-muted"><strong>${v.Log_Date_Time ? v.Log_Date_Time : 'N/A'}</strong></small>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='${link}'">
-                                        <i class="fas fa-info-circle fa-lg"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-secondary" 
-                                            data-bs-toggle="offcanvas" 
-                                            data-bs-target="#addThreshold_data" 
-                                            aria-controls="addThreshold_data">
-                                        <i class="fas fa-sliders-h"></i>
-                                    </button>
-                                </div>
-                            </div>
+                                    <div class="card-body">
+                                        <div class="content-section">
+                                            <div class="pump-image">
+                                                <img src="<?php echo base_url('assets/img/well_image.png') ?>">
+                                            </div>
+                                            <div class="sensors-top">
+                                                <img src="<?php echo base_url() ?>assets/img/psr.png">
+                                                <div class="sensor-values d-flex">
+                                                    <span style="font-size: 10px;"><strong>THP <span class="${getBlinkClass('THP', v.THP, v.threshold_setup)}"> ${v.THP && v.THP !== '' ? v.THP : '0.00'} </span> kg/cm²</strong></span>
+                                                </div>
+                                            </div>
 
-                        </div>
-                    </div>
-                    `;
+                                            <div class="sensors-top-two">
+                                                <img src="<?php echo base_url() ?>assets/img/psr.png">
+                                                <div class="sensor-values d-flex">
+                                                    <span style="font-size: 10px;"><strong>ABP <span class="${getBlinkClass('ABP', v.ABP, v.threshold_setup)}"> ${v.ABP && v.ABP !== '' ? v.ABP : '0.00'}</span> kg/cm²  </strong></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="sensors-top-three">
+                                                <img src="<?php echo base_url() ?>assets/img/psr.png">
+                                                <div class="sensor-values_flt d-flex">
+                                                    <span style="font-size: 10px;"><strong>FLT <span class="${getBlinkClass('FLT', v.FLT , v.threshold_setup)}">  ${v.FLT && v.FLT !== '' ? v.FLT : '0.00'} </span> °C </strong></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="sensors-top-bottom">
+                                                <img src="<?php echo base_url() ?>assets/img/psr.png">
+                                                <div class="sensor-values_chp d-flex">
+                                                    <span style="font-size: 10px;"><strong>CHP <span class="${getBlinkClass('CHP', v.CHP , v.threshold_setup)}"> ${v.CHP && v.CHP !== '' ? v.CHP : '0.00'} </span> kg/cm² </strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between align-items-center" style="margin-top:-20px;">
+                                        <div class="datetime">
+                                           <small class="text-muted">
+                                              <strong>
+                                                ${v.Log_Date_Time ? moment(v.Log_Date_Time).format("DD-MM-YYYY hh:mm:ss A") : 'NA'}
+                                              </strong>
+                                            </small>
+
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                        <a href="${link}">
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view Single Dashboard">
+                                                <i class="fas fa-info-circle fa-lg"></i>
+                                            </button>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-success"  
+                                                data-bs-toggle="offcanvas" 
+                                                data-bs-target="#addThreshold_data" 
+                                                aria-controls="addThreshold_data"
+                                                title="Click to Setup Threshold">
+                                            <i class="fas fa-sliders-h"></i>
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
 
                         $("#well_area_card").append(cardHtml);
+
+                        var tooltipTriggerList = [].slice.call(document.querySelectorAll('#well_area_card [data-bs-toggle="tooltip"]'))
+                           tooltipTriggerList.map(function (tooltipTriggerEl) {
+                           return new bootstrap.Tooltip(tooltipTriggerEl)
+                         });
                     });
 
                 } else {
@@ -799,6 +690,253 @@ function get_well_data() {
     });
 }
 
+$(document).on('click', '.btn-outline-success', function() {
+    let card = $(this).closest('.card');
+    let well_id = card.closest('.col-md-4').data('well-id');
+    let area_id = card.closest('.col-md-4').data('area-id');
+    let site_id = card.closest('.col-md-4').data('site-id'); // card ke parent column se
+    let well_name = card.find('.card-header h6').text().trim();
+
+    $('#wellidhdn').val(well_id);  // set well_id
+    $('#well_name_hdn_th').text(well_name); // show well name in offcanvas header
+    $('#area_id_hdn').val(area_id);
+    $('#site_id_hdn').val(site_id);
+
+    get_last_thereshold_value(); // populate threshold values
+});
+
+
+function get_last_thereshold_value() {
+    let well_id = $('#wellidhdn').val();
+
+    $.ajax({
+        url: '<?php echo base_url(); ?>Selfflow_c/get_last_threshold_setup',
+        type: 'POST',
+        data: { well_id: well_id },
+        success: function (res) {
+            res = JSON.parse(res);
+            console.log(res, 'threshold');
+
+            if (res.response_code == 200 && res.data.length > 0) {
+                get_tag_list_for_threshold(res.data);
+            } else {
+                get_tag_list_for_threshold([]);
+            }
+        },
+        error: function (err) {
+            console.error("Error fetching threshold data", err);
+            $('#threshold_dynamic_ui').html('<p class="text-danger">Something went wrong while fetching threshold data.</p>');
+            $('.btns-section').hide();
+        }
+    });
+}
+
+
+function get_tag_list_for_threshold(thresholdData) {
+    let well_id = $('#wellidhdn').val();
+    let chp_ed = 1;
+    let abp_ed = 1;
+    let thp_ed = 1;
+    let flt_ed = 1;
+   
+
+    let user_type = <?= json_encode($this->session->userdata('user_type')) ?>;
+    let role_type = <?= json_encode($this->session->userdata('role_type')) ?>;
+
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>Selfflow_c/get_tag_list',
+        data: { well_id: well_id },
+        success: function (data) {
+            data = JSON.parse(data);
+            console.log(data, 'tag list');
+
+            let html = '';
+            let tagList = data.data || [];
+
+            if (data.response_code == 200 && tagList.length > 0) {
+                // Sensors and their enabled flags
+                let sensorFlags = {
+                    THP: thp_ed,
+                    CHP: chp_ed,
+                    ABP: abp_ed,
+                    FLT: flt_ed,
+                };
+
+                // Filter thresholdData or default nodes only if enabled (flag == "1")
+                let entries = [];
+
+                if (thresholdData.length > 0) {
+                    entries = thresholdData.filter(item => sensorFlags[item.node_name] == "1");
+                } else {
+                    // Default list filtered by flags
+                    entries = ['THP', 'CHP', 'ABP', 'FLT']
+                        .filter(name => sensorFlags[name] == "1")
+                        .map(name => ({ node_name: name }));
+                }
+
+                // Now build the HTML as usual
+                entries.forEach((item, index) => {
+                    const node_name = item.node_name;
+                    const upper_value = item.upper_value != null ? parseFloat(item.upper_value).toFixed(2) : '0.00';
+                    const lower_value = item.lower_value != null ? parseFloat(item.lower_value).toFixed(2) : '0.00';
+
+                    const selected_tag_id = item.tag_no || '';
+
+                    let tagFieldHtml = '';
+
+                    if (user_type == 2) {
+                        tagFieldHtml = `
+                            <div class="col-md-4">
+                                <label class="form-group">Tag No</label>
+                                <select name="tag_id[]" class="form-control form-control-sm tag-select">
+                                    <option value="">Select Tag</option>
+                                    ${tagList.map(tag => `
+                                        <option value="${tag.tag_id}" ${tag.tag_id == selected_tag_id ? 'selected' : ''}>
+                                            ${tag.tag_number}
+                                        </option>`).join('')}
+                                </select>
+                            </div>
+                        `;
+                    } else {
+                        tagFieldHtml = `<input type="text" name="tag_id[]" value="${selected_tag_id}">`;
+                    }
+                    html += `
+                        <div class="row mb-2 pressure-row">
+                            ${tagFieldHtml}
+                            <div class="${user_type == 2 ? 'col-md-4' : 'col-md-6'}">
+                                <label class="form-group">Upper (${node_name})</label>
+                                <input type="number" name="upper_value[]" class="form-control" value="${upper_value}">
+                            </div>
+                            <div class="${user_type == 2 ? 'col-md-4' : 'col-md-6'}">
+                                <label class="form-group">Lower (${node_name})</label>
+                                <input type="number" name="lower_value[]" class="form-control" value="${lower_value}">
+                            </div>
+                            <input type="hidden" name="node_name[]" value="${node_name}">
+                        </div>`;
+                });
+
+                $('#threshold_dynamic_ui').html(html);
+                $('.btns-section').show();
+
+                if (user_type == 2) {
+                    $('.tag-select').select2({
+                        placeholder: "Select Tag",
+                        width: '100%'
+                    });
+
+                    $('.tag-select').on('change', function () {
+                        let selectedValues = $('.tag-select').map(function () {
+                            return $(this).val();
+                        }).get();
+
+                        $('.tag-select option').prop('disabled', false);
+
+                        $('.tag-select').each(function () {
+                            let currentSelect = $(this);
+                            let currentValue = currentSelect.val();
+
+                            selectedValues.forEach(val => {
+                                if (val && val !== currentValue) {
+                                    currentSelect.find(`option[value="${val}"]`).prop('disabled', true);
+                                }
+                            });
+                        });
+                    }).trigger('change');
+                }
+            } else {
+                $('#threshold_dynamic_ui').html(`
+                    <div class="d-flex justify-content-center align-items-center" style="height:100px;">
+                        <p class="text-danger fw-bold mb-0">No tags found.</p>
+                    </div>
+                `);
+                $('.btns-section').hide();
+            }
+        },
+        error: function () {
+            $('#threshold_dynamic_ui').html('<p class="text-danger">Error loading tags.</p>');
+            $('.btns-section').hide();
+        }
+    });
+}
+
+
+
+function submit_threshold() {
+    swal({
+        title: "Are you sure?",
+        text: "Do you want to setup threshold value?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willSubmit) => {
+        if (willSubmit) {
+
+            let site_id = $('#site_id_hdn').val();
+            let area_id = $('#area_id_hdn').val();
+            let well_id = $('#wellidhdn').val(); // corrected here!
+
+            const thresholdData = [];
+
+            $('#threshold_dynamic_ui .pressure-row').each(function () {
+                const row = $(this);
+                 const tag_id = row.find('select[name="tag_id[]"], input[name="tag_id[]"]').val();
+                const node_name = row.find('input[name="node_name[]"]').val();
+                const upper_value = row.find('input[name="upper_value[]"]').val();
+                const lower_value = row.find('input[name="lower_value[]"]').val();
+
+                if (node_name && (tag_id || upper_value || lower_value)) {
+                    thresholdData.push({
+                        tag_id: tag_id,
+                        node_type: node_name,
+                        upper_value: upper_value,
+                        lower_value: lower_value
+                    });
+                }
+            });
+
+            let formData = new FormData();
+            formData.append('site_id', site_id);
+            formData.append('area_id', area_id);
+            formData.append('well_id', well_id);
+            formData.append('threshold_data', JSON.stringify(thresholdData));
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url("Selfflow_c/add_threshold_setup") ?>',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    try {
+                        const response = JSON.parse(res);
+                        if (response.response_code == 200) {
+                            swal('Success', response.msg, 'success');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            swal("Error", response.msg, "error");
+                            setTimeout(function() {
+                            location.reload();
+                            }, 2000);
+                        }
+                    } catch (err) {
+                        console.error('Parse error:', err);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                    alert('AJAX Request Failed.');
+                }
+            });
+        } else {
+            swal("Cancelled", "Threshold setup was not submitted.", "info");
+        }
+    });
+}
+
+
 </script>
 <!-- Google Maps JS API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKoAgLoslTEUCNabLj5H5jLVdWFD2WhK8"></script>
@@ -807,112 +945,101 @@ initMap();
 function initMap() {
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
-    let well_type = $('#well_type').val();
     let site_id = $('#site_id').val();
-   
+    let feeder_id = $('#feeder_id').val();
+
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_c/get_site_location_for_dashboard',
         type: 'POST',
-        data: {
-            area_id,
-            well_id,
-            well_type,
-            site_id
-        },
+        data: { area_id, well_id, feeder_id, site_id },
         success: function(res) {
             let response;
             try {
                 response = JSON.parse(res);
+                console.log(response, 'map');
             } catch (error) {
                 console.error("Invalid JSON response:", error);
                 return;
             }
 
-            if (response.data && Array.isArray(response.data)) {
-                const markers = response.data.map(item => ({
-                    position: {
-                        lat: parseFloat(item.lat),
-                        lng: parseFloat(item.long)
-                    },
-                    title: item.well_name,
-                    well_id: item.well_id,
-                    offline_time: item.Log_Date_Time,
-                    flag_status: item.flag_status,
-                    long: item.long,
-                    lat: item.lat,
-                    site: item.site_id,
-                    area_id: item.area_id,
-                    well_type: item.well_type,
-                }));
-
-                const map = new google.maps.Map(document.getElementById('mymap'), {
-                    zoom: 13,
-                    center: {
-                        lat: 21.62640  ,
-                        lng:  73.0152
-                    }
-                });
-
-                const timeLimit = (user_type == 2 || (user_type == 3 && role_type == 3)) ? 900 : 7200;
-
-                markers.forEach((marker, index) => {
-                    const baseUrl = '<?php echo base_url(); ?>assets/img/';
-                    let markerIcon = {
-                        url: baseUrl + 'offline.png',
-                        scaledSize: new google.maps.Size(20, 20)
-                    };
-
-                    const lastDataTimeObj = marker.offline_time ? new Date(marker.offline_time) : null;
-                    const seconds = lastDataTimeObj ? Math.floor((new Date() - lastDataTimeObj) / 1000) : Infinity;
-
-                    if (!marker.offline_time || seconds > timeLimit) {
-                        markerIcon.url = baseUrl + 'offline.png';
-                    } else if (seconds <= timeLimit && marker.flag_status == 0) {
-                        markerIcon.url = baseUrl + 'green.png';
-                    } else if (seconds <= timeLimit && marker.flag_status == 1) {
-                        markerIcon.url = baseUrl + 'red.png';
-                    }
-
-                    const adjustedPosition = {
-                        lat: parseFloat(marker.lat) + index * 0.000001,
-                        lng: parseFloat(marker.long) + index * 0.000001
-                    };
-
-                    const mapMarker = new google.maps.Marker({
-                        position: adjustedPosition,
-                        map,
-                        icon: markerIcon,
-                        title: marker.title,
-                    });
-                    let statusText = '';
-
-                    if (!marker.offline_time || seconds > timeLimit) {
-                        statusText = 'RTMS Non functional Well';
-                    } else if (seconds <= timeLimit && marker.flag_status == 0) {
-                        statusText = 'Flowing Well';
-                    } else if (seconds <= timeLimit && marker.flag_status == 1) {
-                        statusText = 'Non-Flowing Well';
-                    } else {
-                        statusText = 'RTMS Non functional Well';
-                    }
-
-                    const infowindow = new google.maps.InfoWindow({
-                        content: `
-                            <div class="site-info" style="width: 150px; height: auto;">
-                                <h6><a target="_blank" href="https://www.google.com/maps/place/${marker.lat},${marker.long}">View on Google Maps</a></h6>
-                                <h6>${marker.title}</h6>
-                                <h6><b>Well Status</b>: ${statusText}</h6>
-                                <h6><b><a href="<?php echo base_url(); ?>Selfflow_c/SingleWellDashboard/${marker.well_id}/${marker.site}/${marker.area_id}/${marker.well_type}">View Details</a></b></h6>
-                            </div>`
-                    });
-
-                    mapMarker.addListener('click', () => infowindow.open(map, mapMarker));
-                    map.addListener('click', () => infowindow.close());
-                });
-            } else {
-                console.error("Invalid or empty data array");
+            if (!response.data || !Array.isArray(response.data) || response.data.length === 0) {
+                console.error("No data found");
+                return;
             }
+
+            const mapCenter = {
+                lat: parseFloat(response.data[0].lat) || 21.62640,
+                lng: parseFloat(response.data[0].long) || 73.0152
+            };
+
+            const map = new google.maps.Map(document.getElementById('mymap'), {
+                zoom: 13,
+                center: mapCenter
+            });
+
+            const timeLimit = 5 * 60 * 1000; // 5 minutes in milliseconds
+            const baseUrl = '<?php echo base_url(); ?>assets/img/';
+
+            response.data.forEach((marker, index) => {
+                const lastDataTimeObj = marker.Log_Date_Time ? new Date(marker.Log_Date_Time) : null;
+                const diffMs = lastDataTimeObj ? (new Date() - lastDataTimeObj) : Infinity;
+
+                let iconFile = 'offline_map.png'; // default
+                if (!marker.Log_Date_Time || diffMs > timeLimit) {
+                    iconFile = 'offline_map.png';
+                } else if (diffMs <= timeLimit && marker.flag_status == 2) {
+                    iconFile = 'flowing_map.png'; // Flowing Well
+                } else if (diffMs <= timeLimit && marker.flag_status == 1) {
+                    iconFile = 'non_flowing.png';   // Non-Flowing Well
+                }else{
+                     iconFile = 'offline_map.png';
+
+                }
+
+                const markerIcon = {
+                    url: baseUrl + iconFile,
+                    scaledSize: new google.maps.Size(40, 40)
+                };
+
+                const adjustedPosition = {
+                    lat: parseFloat(marker.lat),
+                    lng: parseFloat(marker.long)
+                };
+
+                const mapMarker = new google.maps.Marker({
+                    position: adjustedPosition,
+                    map,
+                    icon: markerIcon,
+                    title: marker.well_name
+                });
+
+                let statusText = '';
+                if (!marker.Log_Date_Time || diffMs > timeLimit) {
+                    statusText = 'RTMS Non Functional Well';
+                } else if (diffMs <= timeLimit && marker.flag_status == 2) {
+                    statusText = 'Flowing Well';
+                } else if (diffMs <= timeLimit && marker.flag_status == 1) {
+                    statusText = 'Non-Flowing Well';
+                } else {
+                    statusText = 'RTMS Non Functional Well';
+                }
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: `
+                        <div class="site-info" style="width: 200px;">
+                            <h6><a target="_blank" href="https://www.google.com/maps/place/${marker.lat},${marker.long}">View on Google Maps</a></h6>
+                            <h6>${marker.well_name}</h6>
+                            <h6><b>Well Status</b>: ${statusText}</h6>
+                            <h6><b><a href="<?php echo base_url(); ?>Selfflow_c/SingleWellDashboard/${marker.well_id}/${marker.site}/${marker.area_id}/${marker.well_type}">View Details</a></b></h6>
+                        </div>`
+                });
+
+                mapMarker.addListener('click', () => infowindow.open(map, mapMarker));
+                map.addListener('click', () => infowindow.close());
+            });
         }
     });
 }
+
+
 </script>

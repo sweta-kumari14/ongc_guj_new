@@ -26,7 +26,7 @@ class selfflow_report_model extends CI_Model
 
         // Step 1: Fetch historical data
         $historicalData = $this->fetchData(
-            'tbl_historical_log_self_flow_self_flow',
+            'tbl_historical_log_self_flow',
             'well_id, CHP, CHP_battery_volt, THP, THP_battery_volt, ABP, ABP_battery_volt, FLT, FLT_battery_volt, Battery_Voltage, Log_Date_Time',
             $queryStartTime,
             $currentTime,

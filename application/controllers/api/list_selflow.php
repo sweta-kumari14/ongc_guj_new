@@ -18,10 +18,8 @@ class list_selflow extends REST_Controller
 			$site_id = $this->input->post('site_id',true)!=''?$this->input->post('site_id',true):'';
 			$user_id = $this->input->post('user_id',true)!=''?$this->input->post('user_id',true):'';
 			$well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
-			$well_type = $this->input->post('well_type',true)!=''?$this->input->post('well_type',true):'';
-			$user_type = $this->input->post('user_type',true)!=''?$this->input->post('user_type',true):'';
-			$role_type = $this->input->post('role_type',true)!=''?$this->input->post('role_type',true):'';
-			$result = $this->Selfflow_dashboard_model->DashboardWelldetails($company_id,$assets_id,$area_id,$site_id,$user_id,$well_id,$well_type,$user_type,$role_type);
+			$feeder_id = $this->input->post('feeder_id',true)!=''?$this->input->post('feeder_id',true):'';
+			$result = $this->Selfflow_dashboard_model->DashboardWelldetails($company_id,$assets_id,$area_id,$site_id,$user_id,$well_id,$feeder_id);
 
 			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {

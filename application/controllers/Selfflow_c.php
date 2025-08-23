@@ -71,8 +71,7 @@
             .'&site_id='.htmlspecialchars((string)$this->input->post('site_id',true),ENT_QUOTES, 'UTF-8')
             .'&well_id='.htmlspecialchars((string)$this->input->post('well_id',true),ENT_QUOTES, 'UTF-8')
             .'&well_type='.htmlspecialchars((string)$this->input->post('well_type',true),ENT_QUOTES, 'UTF-8')
-            .'&user_type='.htmlspecialchars((string)$this->input->post('user_type',true),ENT_QUOTES, 'UTF-8')
-            .'&role_type='.htmlspecialchars((string)$this->input->post('role_type',true),ENT_QUOTES, 'UTF-8');
+            .'&feeder_id='.htmlspecialchars((string)$this->input->post('feeder_id',true),ENT_QUOTES, 'UTF-8');
             $method = 'POST';
             $result = $this->CALLAPI($api,$data,$method);
             echo json_encode($result);
@@ -193,6 +192,44 @@
             $data = 'well_id='.htmlspecialchars((string)$this->input->post('well_id',true),ENT_QUOTES, 'UTF-8');
             $method = 'POST';
             $result = $this->CALLAPI($api,$data,$method);
+            echo json_encode($result);
+        }
+
+         public function add_threshold_setup()
+        {
+            
+            $userid = htmlspecialchars($this->session->userdata('id'));
+
+            $api = 'Device_Threshold_Details/setup_well_thresholdData';
+            $data = 'site_id='.$this->input->post('site_id',true)
+                     .'&area_id='.$this->input->post('area_id',true)
+                     .'&well_id='.$this->input->post('well_id',true)
+                     .'&threshold_type='.'2'
+                     .'&threshold_data='.$this->input->post('threshold_data',true)
+                     .'&c_by='.$this->session->userdata('id');
+            $method = 'POST';
+            $result = $this->CallAPI($api, $data, $method);
+            echo json_encode($result);
+        }
+
+         public function get_tag_list()
+        {
+            $api = 'Master/get_wellInstalledTag_List';
+            $data = 'company_id=' .htmlspecialchars($this->session->userdata('company_id'))
+                . '&well_id=' .htmlspecialchars($this->input->post('well_id',true));
+            $method = 'POST';
+            $result = $this->CallAPI($api, $data, $method);
+            echo json_encode($result);
+
+        }
+
+        public function get_last_threshold_setup()
+        {
+            
+            $api = 'Device_Threshold_Details/Last_threshold_dataList';
+            $data = 'well_id='.$this->input->post('well_id');
+            $method = 'POST';
+            $result = $this->CallAPI($api,$data,$method);
             echo json_encode($result);
         }
    
