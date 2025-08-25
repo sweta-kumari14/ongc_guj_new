@@ -16,9 +16,6 @@
                     </div>
                 </div>
             </div>
-
-
-
             <div class="card-body pt-0">
                 <form method="POST" class="row needs-validation" novalidate onsubmit="submitdata(event)">
                     <div class="row">
@@ -156,7 +153,7 @@ function fetchInstalledItems() {
                                            data-component-id="${comp.component_id}"
                                            id="comp_${index}">
                                     <label class="form-check-label" for="comp_${index}">
-                                        ${comp.component_name} - ${comp.sensor_no}
+                                        ${comp.component_name} - ${comp.tag_number}
                                     </label>
                                 </div>
                             </div>
@@ -186,9 +183,7 @@ function submitdata(e) {
     let tag_data = [];
 
     $('input[name="remove_components[]"]:checked').each(function () {
-        let labelText = $(`label[for="${$(this).attr('id')}"]`).text();
-        let parts = labelText.split(" - ");
-        let sensor_no = parts[1].trim();
+        let sensor_no = $(this).val(); 
         let component_id = $(this).data("component-id");
 
         tag_data.push({
@@ -196,6 +191,9 @@ function submitdata(e) {
             tag_number: sensor_no
         });
     });
+
+    // console.log(tag_data,'tag_data');
+    // return;
 
     if (!is_device_checked && tag_data.length === 0) {
         Swal.fire({

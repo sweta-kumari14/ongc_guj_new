@@ -2,11 +2,18 @@
 date_default_timezone_set('Asia/Kolkata');
 class Web_Single_Selfflow_dashboardData_model extends CI_Model
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+	private $client;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('ClickHouseDB'); 
+        $this->client = $this->clickhousedb->getClient(); 
 
+        if (!$this->client->ping()) {
+            log_message('error', 'ClickHouse connection failed');
+            show_error('ClickHouse not connected');
+        }
+    }
     public function Single_Well_DeviceData($well_id)
     {
         if($well_id!='')
@@ -33,252 +40,217 @@ class Web_Single_Selfflow_dashboardData_model extends CI_Model
         return $res;
        
     }
-    public function WellAlert_Details($well_id)
+        public function WellAlert_Details($well_id)
     {
-        
-        if($well_id!='')
-            $this->db->where('sd.well_id',$well_id);
-        
-
-        if (date('H') < 6){
-        
+        // 06:00 to 06:00 window
+        if (date('H') < 6) {
             $from_date = date('Y-m-d', strtotime('-1 day')) . ' 06:00:00';
-            $to_date = date('Y-m-d') . ' 06:00:00';
-        }else{
+            $to_date   = date('Y-m-d') . ' 06:00:00';
+        } else {
             $from_date = date('Y-m-d') . ' 06:00:00';
-            $to_date = date('Y-m-d', strtotime('+1 day')) . ' 06:00:00';
+            $to_date   = date('Y-m-d', strtotime('+1 day')) . ' 06:00:00';
         }
 
-        return $this->db->select("sd.id,sd.well_id,tl.imei_no,sd.device_name,tl.alert_type,tl.alert_details,tl.start_date_time as trip_datetime")
-        ->from('tbl_alert_log_self_flow tl')
-        ->join('tbl_site_device_installtion_self_flow sd','sd.well_id=tl.well_id','left')
-        ->where(['sd.status'=>1,'tl.start_date_time >='=> $from_date,'tl.end_date_time <'=> $to_date])->get()->result_array();
-       
-    }
+        $sql = "
+            SELECT alert_type, alert_details, start_date_time AS trip_datetime
+            FROM tbl_alert_log_self_flow
+            WHERE status = 1
+              AND start_date_time >= :from_date
+              AND end_date_time < :to_date
+        ";
 
+        $params = ['from_date' => $from_date, 'to_date' => $to_date];
+
+        if (!empty($well_id)) {
+            $sql .= " AND well_id = :well_id";
+            $params['well_id'] = $well_id;
+        }
+
+        try {
+            $stmt = $this->client->select($sql, $params);
+            $rows = $stmt->rows();
+            return $rows ?: [];
+        } catch (Exception $e) {
+            log_message('error', 'ClickHouse select failed: '.$e->getMessage());
+            return [];
+        }
+    }
 
     public function Well_WiseTotal_Alert($well_id)
     {
-        
-        if($well_id!='')
-            $this->db->where('sd.well_id',$well_id);
-        if (date('H') < 6){
-        
+        if (date('H') < 6) {
             $from_date = date('Y-m-d', strtotime('-1 day')) . ' 06:00:00';
-            $to_date = date('Y-m-d') . ' 06:00:00';
-        }else{
+            $to_date   = date('Y-m-d') . ' 06:00:00';
+        } else {
             $from_date = date('Y-m-d') . ' 06:00:00';
-            $to_date = date('Y-m-d', strtotime('+1 day')) . ' 06:00:00';
+            $to_date   = date('Y-m-d', strtotime('+1 day')) . ' 06:00:00';
         }
 
-        $res = $this->db->select("count(tl.well_id) as total")
-        ->from('tbl_site_device_installtion_self_flow sd')
-        ->join('tbl_alert_log_self_flow tl','sd.well_id=tl.well_id and tl.status=1','left')
-        ->where(['sd.status'=>1,'tl.start_date_time >='=> $from_date,'tl.end_date_time <'=> $to_date])->get()->result_array();
-        if($res!='')
-        {
-            return $res[0]['total'];
-        }else{
+        $sql = "SELECT count() AS total
+                FROM tbl_alert_log_self_flow
+                WHERE status = 1
+                  AND start_date_time >= :from_date
+                  AND end_date_time < :to_date";
+
+        $params = ['from_date' => $from_date, 'to_date' => $to_date];
+
+        if (!empty($well_id)) {
+            $sql .= " AND well_id = :well_id";
+            $params['well_id'] = $well_id;
+        }
+
+        try {
+            $stmt = $this->client->select($sql, $params);
+            $rows = $stmt->rows();
+            return !empty($rows) ? (int)$rows[0]['total'] : 0;
+        } catch (Exception $e) {
+            log_message('error', 'ClickHouse count failed: '.$e->getMessage());
             return 0;
         }
-       
     }
+
 
     public function Well_wise_daily_avg($well_id)
     {
-        $current_date = date('Y-m-d');
+        $from = date('Y-m-d') . ' 00:00:00';
+        $to   = date('Y-m-d', strtotime('+1 day')) . ' 00:00:00';
 
-        $this->db->select('COALESCE(AVG(dl.THP), 0) as avg_THP, 
-                           COALESCE(AVG(dl.CHP), 0) as avg_CHP, 
-                           COALESCE(AVG(dl.ABP), 0) as avg_ABP,
-                           COALESCE(AVG(dl.FLT), 0) as avg_FLT')
-                 ->from('tbl_site_device_installtion_self_flow sd')
-                 ->join('tbl_historical_log_self_flow dl','sd.well_id=dl.well_id','left')
-                 ->where('DATE(dl.Log_Date_Time)', $current_date);
+        $sql = "
+            SELECT
+                COALESCE(avg(THP), 0) AS avg_THP,
+                COALESCE(avg(CHP), 0) AS avg_CHP,
+                COALESCE(avg(ABP), 0) AS avg_ABP,
+                COALESCE(avg(FLT), 0) AS avg_FLT
+            FROM tbl_historical_log_self_flow
+            WHERE Log_Date_Time >= :from
+              AND Log_Date_Time <  :to
+        ";
 
-        if ($well_id != '') {
-            $this->db->where('sd.well_id', $well_id);
+        $params = ['from' => $from, 'to' => $to];
+
+        if (!empty($well_id)) {
+            $sql .= " AND well_id = :well_id";
+            $params['well_id'] = $well_id;
         }
 
-        $this->db->group_by('DATE(dl.Log_Date_Time)')
-                 ->order_by('dl.Log_Date_Time', 'ASC');
-
-        $row = $this->db->get()->row_array();
-
-        // Ensure all fields exist with 0 if null
         $default = [
-            'avg_THP' => 0,
-            'avg_CHP' => 0,
-            'avg_ABP' => 0,
-            'avg_FLT' => 0
+            'avg_THP' => 0.0,
+            'avg_CHP' => 0.0,
+            'avg_ABP' => 0.0,
+            'avg_FLT' => 0.0,
         ];
 
-        return $row ? $row : $default;
+        try {
+            // USE $this->client, not $this->click
+            $res  = $this->client->select($sql, $params);
+            $rows = $res->rows();
+            return !empty($rows) ? $rows[0] : $default;
+        } catch (Exception $e) {
+            log_message('error', 'daily_avg failed: ' . $e->getMessage());
+            return $default;
+        }
     }
+
+
 
     public function Well_wise_monthly_avg($well_id)
-{
-    // Previous month date based on current date
-    $prevMonth = date('m', strtotime('-1 month')); // month number
-    $prevYear  = date('Y', strtotime('-1 month')); // year
+    {
 
-    if ($well_id != '') {
-        $this->db->where('sd.well_id', $well_id);
-    }
-    
-    // Filter logs by previous month and year
-    $this->db->where('MONTH(dl.Log_Date_Time)', $prevMonth); 
-    $this->db->where('YEAR(dl.Log_Date_Time)', $prevYear);  
+        $to   = date('Y-m-d H:i:s');
+        $from = date('Y-m-d H:i:s', strtotime('-1 month'));
 
-    return $this->db->select('
-                COALESCE(AVG(dl.THP), 0) as avg_THP, 
-                COALESCE(AVG(dl.CHP), 0) as avg_CHP, 
-                COALESCE(AVG(dl.ABP), 0) as avg_ABP,
-                COALESCE(AVG(dl.FLT), 0) as avg_FLT
-            ')
-            ->from('tbl_site_device_installtion_self_flow sd')
-            ->join('tbl_historical_log_self_flow dl','sd.well_id=dl.well_id','left')
-            ->get()
-            ->row_array(); 
-}
+        $sql = "
+            SELECT
+                COALESCE(avg(THP), 0) AS avg_THP,
+                COALESCE(avg(CHP), 0) AS avg_CHP,
+                COALESCE(avg(ABP), 0) AS avg_ABP,
+                COALESCE(avg(FLT), 0) AS avg_FLT
+            FROM tbl_historical_log_self_flow
+            WHERE Log_Date_Time >= :from
+              AND Log_Date_Time <= :to
+        ";
 
+        $params = ['from' => $from, 'to' => $to];
 
-  // Controller or Model function to get graph data
-public function OutPut_graph($wellId, $from_date, $to_date)
-{
-    $conditions = [];
-    if (!empty($wellId)) {
-        $conditions['well_id'] = $wellId;
-    }
+        if (!empty($well_id)) {
+            $sql .= " AND well_id = :well_id";
+            $params['well_id'] = $well_id;
+        }
 
-    // Set date range
-    if (empty($from_date) || empty($to_date)) {
-        $queryStartTime = date('Y-m-d H:i:s', strtotime('-24 hours'));
-        $currentTime = date('Y-m-d H:i:s');
-    } else {
-        $queryStartTime = date('Y-m-d H:i:s', strtotime($from_date));
-        $currentTime = date('Y-m-d H:i:s', strtotime($to_date));
+        $default = [
+            'avg_THP' => 0.0,
+            'avg_CHP' => 0.0,
+            'avg_ABP' => 0.0,
+            'avg_FLT' => 0.0,
+        ];
+
+        try {
+            $res  = $this->client->select($sql, $params);
+            $rows = $res->rows();
+            return !empty($rows) ? $rows[0] : $default;
+        } catch (Exception $e) {
+            log_message('error', 'monthly_avg failed: ' . $e->getMessage());
+            return $default;
+        }
     }
 
-    // Parameters to fetch
-    $columns = ['CHP', 'THP', 'ABP', 'FLT', 'Battery_Voltage'];
-
-    // Fetch formatted data
-    $historicalData = $this->fetchMultipleData('tbl_historical_log_self_flow', $columns, $queryStartTime, $currentTime, $conditions);
-
-    // Return in JSON-friendly format
-    return $historicalData ? $historicalData : [];
-}
-
-
-// Helper function to fetch multiple columns and format for JS graph
-private function fetchMultipleData($table, $columns, $startTime, $endTime, $conditions = [])
-{
-    // Build SELECT statement
-    $columnSelect = "Log_Date_Time AS x, " . implode(", ", array_map(function($col){
-        return "$col AS y_$col";
-    }, $columns));
-
-    $this->db->select($columnSelect)
-             ->from($table)
-             ->where("Log_Date_Time BETWEEN '{$startTime}' AND '{$endTime}'", null, false);
-
-    if (!empty($conditions)) {
-        $this->db->where($conditions);
-    }
-
-    $this->db->order_by('Log_Date_Time', 'ASC');
-
-    $result = $this->db->get()->result_array();
-
-    // Format each column as array of {x, y} for JS chart
-    $formattedData = [];
-    foreach ($columns as $column) {
-        $formattedData[$column] = array_map(function($row) use ($column){
-            // Ensure y is numeric, default to 0 if null
-            $yValue = isset($row["y_$column"]) ? (float)$row["y_$column"] : 0;
-            return ['x' => $row['x'], 'y' => $yValue];
-        }, $result);
-    }
-
-    return $formattedData;
-}
-
-
-
-
-     public function battery_voltage($wellId, $imeiNo, $hours)
+    public function OutPut_graph($wellId, $from_date, $to_date)
     {
         $conditions = [];
         if (!empty($wellId)) {
             $conditions['well_id'] = $wellId;
         }
-        if (!empty($imeiNo)) {
-            $conditions['imei_no'] = $imeiNo;
+
+        
+        if (empty($from_date) || empty($to_date)) {
+            $queryStartTime = date('Y-m-d H:i:s', strtotime('-24 hours'));
+            $currentTime = date('Y-m-d H:i:s');
+        } else {
+            $queryStartTime = date('Y-m-d H:i:s', strtotime($from_date));
+            $currentTime = date('Y-m-d H:i:s', strtotime($to_date));
         }
 
-        $currentTime = date('Y-m-d H:i:s');
-        $queryStartTime = date('Y-m-d H:i:s', strtotime("-{$hours} hours"));
+        $columns = ['CHP', 'THP', 'ABP', 'FLT', 'Battery_Voltage'];
 
-  
-        $deviceLogData1 = $this->fetchData('tbl_device_log', 'battery_Voltage', $queryStartTime, $conditions);
+        $historicalData = $this->fetchMultipleData('tbl_historical_log_self_flow', $columns, $queryStartTime, $currentTime, $conditions);
 
-        if ($hours > 1) {
-         
-            $historicalData1 = $this->fetchData('tbl_historical_device_log', 'battery_Voltage', $queryStartTime, $conditions);
-          
-
-            // Merge historical data with device log data
-            $deviceLogData1 = array_merge($historicalData1, $deviceLogData1);
-           
-        }
-
-        // Fill in missing data points with 0 values
-        $deviceLogData1 = $this->fillMissingData($deviceLogData1);
-       
-
-        // Prepare the result
-        $result = [
-            'battery_voltage' => $deviceLogData1,
-           
-        ];
-
-        return $result;
+        return $historicalData ? $historicalData : [];
     }
 
-    private function fetchData($table, $column, $queryStartTime, $conditions)
+    private function fetchMultipleData($table, $columns, $startTime, $endTime, $conditions)
     {
-        return $this->db->select("last_log_datetime AS x, {$column} AS y")
-            ->from($table)
-            ->where('last_log_datetime >=', $queryStartTime)
-            ->where($conditions)
-            ->order_by('last_log_datetime', 'ASC')
-            ->get()
-            ->result_array();
-    }
+        $columnSelect = "Log_Date_Time AS x, " . implode(", ", array_map(function($col) {
+            return "$col AS y_$col";
+        }, $columns));
 
-    private function fillMissingData($data)
-    {
-        $filledData = [];
-        $timeFormat = 'Y-m-d H:i:s';
-        $previousTime = null;
-        $interval = new DateInterval('PT1M'); 
+        $whereClauses = [];
+        $whereClauses[] = "Log_Date_Time >= toDateTime('{$startTime}')";
+        $whereClauses[] = "Log_Date_Time <= toDateTime('{$endTime}')";
 
-        foreach ($data as $entry) {
-            $currentTime = DateTime::createFromFormat($timeFormat, $entry['x']);
-
-            if ($previousTime !== null) {
-                while ($previousTime->add($interval) < $currentTime) {
-                    $filledData[] = ['x' => $previousTime->format($timeFormat), 'y' => 0];
-                }
-            }
-
-            $filledData[] = $entry;
-            $previousTime = $currentTime;
+        foreach ($conditions as $key => $value) {
+            $whereClauses[] = "{$key} = '{$value}'";
         }
 
-        return $filledData;
-    }
+        $whereSql = implode(' AND ', $whereClauses);
 
+        $sql = "
+            SELECT {$columnSelect}
+            FROM {$table}
+            WHERE {$whereSql}
+            ORDER BY Log_Date_Time ASC
+        ";
+
+        $result = $this->client->select($sql);
+        $rows = $result->rows();
+
+        $formattedData = [];
+        foreach ($columns as $column) {
+            $formattedData[$column] = array_map(function ($row) use ($column) {
+                return ['x' => $row['x'], 'y' => $row["y_$column"]];
+            }, $rows);
+        }
+
+        return $formattedData;
+    }
 }
 ?>

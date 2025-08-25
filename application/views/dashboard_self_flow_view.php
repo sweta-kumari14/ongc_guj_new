@@ -189,95 +189,89 @@
     <div class="row">
         <!-- Total Wells -->
         <div class="col-md-3 position-relative">
-        <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Total Well">
-            <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-                <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+            <a href="<?php echo base_url('Overall_list_selfflow_c/overall_details_total');?>">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Total Well">
+                <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                    <img src="<?php echo base_url('assets/icons/oil.png'); ?>" alt="img" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
+                </div>
+                <div class="content-area text-center mt-2">
+                        <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
+                        <span class="tag-count" id="total_well"></span>
+                </div>
             </div>
-            <div class="content-area text-center mt-2">
-                <a href="<?= base_url('Overall_list_selfflow_c/overall_details_total') ?>" onclick="setId();" >
-                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Total Wells</span><br>
-                    <span class="tag-count" id="total_well"></span>
-                </a>
+           </a>
+        </div>
+        <!-- Flowing Wells -->
+       <div class="col-md-3 position-relative">
+         <a href="<?php echo base_url('');?>Overall_list_selfflow_c/overall_details_flowing">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Flowing Well">
+                <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
+                    <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" 
+                         class="img-fluid rounded-circle bg-light shadow" 
+                         style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
+                </div>
+                <div class="content-area text-center mt-2">
+                        <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">
+                            Flowing Wells
+                        </span><br>
+                        <span class="tag-count" id="total_flowing_well"></span>
+                </div>
             </div>
+          </a>
         </div>
-    </div>
-    <!-- Flowing Wells -->
-   <div class="col-md-3 position-relative">
-    <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Flowing Well">
-        <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height: 60px; z-index: 1;">
-            <img src="<?php echo base_url('assets/icons/02.png'); ?>" alt="Complaint" 
-                 class="img-fluid rounded-circle bg-light shadow" 
-                 style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
-        </div>
-        <div class="content-area text-center mt-2">
-            <a href="<?= base_url('Overall_list_selfflow_c/overall_details_flowing') ?>">
-                <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">
-                    Flowing Wells
-                </span><br>
-                <span class="tag-count" id="total_flowing_well"></span>
-            </a>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Non-Flowing Wells -->
-    <div class="col-md-3 position-relative">
-        <a href="<?= base_url('Overall_list_selfflow_c') ?>">
-            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Non-Flowing Well">
+        <!-- Non-Flowing Wells -->
+        <div class="col-md-3 position-relative">
+            <a href="<?php echo base_url('Overall_list_selfflow_c');?>">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Tenporary Off Wells">
                 <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
                     <img src="<?php echo base_url('assets/icons/04.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #ef4d56;">
                 </div>
                 <div class="content-area text-center mt-2">
-                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Non-Flowing Wells</span><br>
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Temporary Off Wells</span><br>
                     <span class="tag-count" id="total_non_flowing_well"></span>
 
                 </div>
             </div>
-        </a>
-    </div>
-
-    <!-- RTMS Non-Functional -->
-    <div class="col-md-3 position-relative">
-        <a href="<?= base_url('Overall_list_selfflow_c/overall_details_rtms') ?>">
-            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View RTMS Non-Functional Well">
+           </a>
+        </div>
+        <div class="col-md-3 position-relative">
+            <a href="<?php echo base_url('Overall_list_selfflow_c/overall_details_rtms');?>">
+            <div class="card text-center shadow-sm rounded-2 pt-4 mt-3 pb-3 px-2 border-0 border-start border-end border-3 border-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to View Offline Wells">
                 <div class="position-absolute top-0 start-50 translate-middle" style="width: 60px; height:60px; z-index: 1;">
                     <img src="<?php echo base_url('assets/icons/10.png'); ?>" alt="Complaint" class="img-fluid rounded-circle bg-light shadow" style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #22c5ad;">
                 </div>
                 <div class="content-area text-center mt-2">
-                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">RTMS Non-Functional</span><br>
+                    <span class="tag-name" style="color: #312929;margin-top: 5px; display: inline-block;">Offline Wells</span><br>
                     <span class="tag-count" id="off_unit"></span>
                 </div>
             </div>
-        </a>
+        </div>
+      </a>
     </div>
-</div>
-        <div class="row">
+    <div class="row">
             <div class="col-xl-12 col-md-12">
                 <div class="card">
-                    <!-- Header with Legends -->
                    <div class="card-headerr d-flex justify-content-between align-items-center flex-wrap" style="background-color: #CD5C5C; color: white; padding: 4px; cursor: pointer; min-height:46px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                         <div class="d-flex align-items-center me-auto" style="padding-left: 10px;">
                             <img src="<?= base_url('assets/img/oil-pump.gif') ?>" width="40"
                                 style="border-radius: 25%; margin-right: 10px;">
                             <h4 style="margin: 0;">
                                 <strong>Well Details&nbsp;</strong>
-                                <!-- <span class="circle" id="totalcount" style="display:inline-block;width:30px;height:30px;border-radius:50%;background-color:#312929;margin-left:8px;"></span> -->
-                                <badge class="circle" id="totalcount"style="background-color:#515A5A;" id="totalcount">190</badge>
+                                <badge class="circle" id="totalcount"style="background-color:#515A5A;" id="totalcount">0</badge>
                             </h4>
                         </div>
                         <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 8px;">
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color: #DC3545; width: 16px; height: 16px; border-radius: 50%;"></div>
-                                <span style="font-size: 13px;">Non Flowing Wells</span>
+                                <div style="background-color: #800000; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">Temporary Off Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div style="background-color:#20c997; width: 16px; height: 16px; border-radius: 50%;"></div>
-                                <span style="font-size: 13px;">Flowing Well</span>
+                                <span style="font-size: 13px;">Flowing Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div style="background-color: #6C757D; width: 16px; height: 16px; border-radius: 50%;"></div>
-                                <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
+                                <span style="font-size: 13px;">Offline Wells</span>
                             </div>
                         </div>
                     </div>
@@ -306,8 +300,8 @@
                         <!-- Right: Indicator Legend -->
                         <div class="indicator d-flex flex-wrap align-items-center gap-3" style="padding-right: 10px;">
                             <div class="d-flex align-items-center gap-2">
-                                <div style="background-color: #DC3545; width: 16px; height: 16px; border-radius: 50%;"></div>
-                                <span style="font-size: 13px;">Non Flowing Wells</span>
+                                <div style="background-color: #800000; width: 16px; height: 16px; border-radius: 50%;"></div>
+                                <span style="font-size: 13px;">Temporary off Wells</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div style="background-color:#20c997; width: 16px; height: 16px; border-radius: 50%;"></div>
@@ -315,7 +309,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div style="background-color: #6C757D; width: 16px; height: 16px; border-radius: 50%;"></div>
-                                <span style="font-size: 13px;">RTMS Non-Functional Wells</span>
+                                <span style="font-size: 13px;">Offline Wells</span>
                             </div>
                         </div>
                     </div>
@@ -517,21 +511,7 @@ function get_dashboard_count() {
                     $('#total_well').text(res.data.total_well ?? 0);
                     $('#total_flowing_well').text(res.data.total_flowing_well ?? 0);
                     $('#total_non_flowing_well').text(res.data.total_not_flowing_well ?? 0);
-                    $('#totalcount').text(res.data.total_well_count ?? 0);
-
-                    // Safely calculate total_data
-                    let total_data = 
-                        (parseInt(res.data.total_temperory_well) || 0) +
-                        (parseInt(res.data.faulty_well) || 0) +
-                        (parseInt(res.data.timer_off_well) || 0) +
-                        (parseInt(res.data.power_cut_well) || 0) +
-                        (parseInt(res.data.ON_Well) || 0);
-
-                    let total_well = parseInt(res.data.total_well) || 0;
-                    let off_func = total_well - total_data;
-                    let off_func_data = off_func < 0 ? 0 : off_func;
-
-                    $('#off_unit').text(off_func_data);
+                    $('#off_unit').text(res.data.rtms_offline ?? 0);
                 } else {
                     console.error('API Error:', res.msg || 'Unknown error');
                 }
@@ -571,7 +551,7 @@ function get_well_data() {
                         if (v.status_variable == 'flowing_well') {
                             statusColor = '#20c997';
                         } else if (v.status_variable == 'non_flowing_well') {
-                            statusColor = '#DC3545';
+                            statusColor = '#800000';
                         } else {
                             statusColor = '#6c757d'; // Default
                         }
@@ -799,7 +779,7 @@ function get_tag_list_for_threshold(thresholdData) {
                             </div>
                         `;
                     } else {
-                        tagFieldHtml = `<input type="text" name="tag_id[]" value="${selected_tag_id}">`;
+                        tagFieldHtml = `<input type="hidden" name="tag_id[]" value="${selected_tag_id}">`;
                     }
                     html += `
                         <div class="row mb-2 pressure-row">
@@ -977,20 +957,19 @@ function initMap() {
                 center: mapCenter
             });
 
-            const timeLimit = 5 * 60 * 1000; // 5 minutes in milliseconds
+            const timeLimit = 5 * 60 * 1000; 
             const baseUrl = '<?php echo base_url(); ?>assets/img/';
 
             response.data.forEach((marker, index) => {
+                console.log(marker.flag_status,'flag_status');
                 const lastDataTimeObj = marker.Log_Date_Time ? new Date(marker.Log_Date_Time) : null;
                 const diffMs = lastDataTimeObj ? (new Date() - lastDataTimeObj) : Infinity;
 
                 let iconFile = 'offline_map.png'; // default
-                if (!marker.Log_Date_Time || diffMs > timeLimit) {
-                    iconFile = 'offline_map.png';
-                } else if (diffMs <= timeLimit && marker.flag_status == 2) {
-                    iconFile = 'flowing_map.png'; // Flowing Well
-                } else if (diffMs <= timeLimit && marker.flag_status == 1) {
-                    iconFile = 'non_flowing.png';   // Non-Flowing Well
+                if (diffMs <= timeLimit) {
+                    iconFile = 'flowing_map.png'; 
+                } else if (marker.flag_status == 1) {
+                    iconFile = 'temp_off.png';  
                 }else{
                      iconFile = 'offline_map.png';
 
@@ -1014,14 +993,12 @@ function initMap() {
                 });
 
                 let statusText = '';
-                if (!marker.Log_Date_Time || diffMs > timeLimit) {
-                    statusText = 'RTMS Non Functional Well';
-                } else if (diffMs <= timeLimit && marker.flag_status == 2) {
+                if (diffMs <= timeLimit) {
                     statusText = 'Flowing Well';
-                } else if (diffMs <= timeLimit && marker.flag_status == 1) {
-                    statusText = 'Non-Flowing Well';
+                } else if (marker.flag_status == 1) {
+                    statusText = 'Temporary Off Well';
                 } else {
-                    statusText = 'RTMS Non Functional Well';
+                    statusText = 'Offline';
                 }
 
                 const infowindow = new google.maps.InfoWindow({

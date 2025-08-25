@@ -67,6 +67,7 @@
                     .'&well_id='.htmlspecialchars((string)$this->input->post('hdn_well_id',true),ENT_QUOTES, 'UTF-8')
                     .'&complaint_description='.htmlspecialchars((string)$this->input->post('complaint_description',true),ENT_QUOTES, 'UTF-8')
                     .'&complaint_type='.htmlspecialchars((string)$this->input->post('complaint_type',true),ENT_QUOTES, 'UTF-8')
+                    .'&well_type='.htmlspecialchars((string)$this->input->post('hdn_well_type',true),ENT_QUOTES, 'UTF-8')
                     .'&c_by='.htmlspecialchars((string)$this->session->userdata('user_id',true),ENT_QUOTES, 'UTF-8');
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);

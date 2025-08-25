@@ -26,7 +26,7 @@
             $result = $this->CallAPI($api, $data, $method);
             $d['well_type_list'] = $result['data'];
             
-            $d['v'] = "flag_button_view";
+            $d['v'] = "flag_report_slef_flow_well";
             $this->load->view('templates',$d); 
         }
 

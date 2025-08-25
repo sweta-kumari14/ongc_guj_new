@@ -68,10 +68,7 @@ re<!-- Sidebar -->
 							  <li><a href="<?php echo base_url('Device_allotment_to_company_c'); ?>" class="slide-item">Device Allotment</a></li>
 							  <li><a href="<?php echo base_url('Device_allotment_report_c'); ?>" class="slide-item">Device Allotment Report</a></li>
 
-					       
-							
-							  
-                        </ul>
+					   </ul>
 					</li>
 
 					<li class="submenu">
@@ -102,12 +99,12 @@ re<!-- Sidebar -->
 					</li>
 
 					<?php
-                   }
-                   ?>
-                     <?php  if($this->session->userdata('user_type')=='2')
-                     {
+                 }
+                 ?>
+                   <?php  if($this->session->userdata('user_type')=='2')
+                   {
 
-                	?>
+              	?>
                 	<li class="submenu">
 						<a href="#"><i class="la la-users"></i> <span>Master</span> <span class="menu-arrow"></span></a>
 						<ul>
@@ -314,6 +311,18 @@ re<!-- Sidebar -->
 												
 						</ul>
 					</li>
+					<li class="submenu">
+						<a href="#"><i class="la la-pie-chart"></i> <span>  Self-Flow Reports </span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>   
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
+							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c'); ?>" class="slide-item">Threshold setup</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c/thresold_report'); ?>" class="slide-item">Threshold setup Report</a></li>
+					
+						</ul>
+					</li>
 						<li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
@@ -362,6 +371,18 @@ re<!-- Sidebar -->
 									
 						</ul>
 					 </li>
+					 <li class="submenu">
+						<a href="#"><i class="la la-pie-chart"></i> <span>  Self-Flow Reports </span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>   
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
+							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c'); ?>" class="slide-item">Threshold setup</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c/thresold_report'); ?>" class="slide-item">Threshold setup Report</a></li>
+					
+						</ul>
+					</li>
 					<li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
@@ -408,6 +429,18 @@ re<!-- Sidebar -->
 												
 						</ul>
 					 </li>
+					 <li class="submenu">
+						<a href="#"><i class="la la-pie-chart"></i> <span>  Self-Flow Reports </span> <span class="menu-arrow"></span></a>
+						<ul>
+							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>   
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
+							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
+							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c'); ?>" class="slide-item">Threshold setup</a></li>
+							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c/thresold_report'); ?>" class="slide-item">Threshold setup Report</a></li>
+					
+						</ul>
+					</li>
 
 						<li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>

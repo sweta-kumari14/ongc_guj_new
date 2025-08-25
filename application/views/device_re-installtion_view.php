@@ -294,6 +294,8 @@ function get_item_data(componentid, quantity, component_name, serialNumbersRowId
         success: function (serialResponse) {
             serialResponse = JSON.parse(serialResponse);
 
+            console.log(serialResponse,'serialResponse');
+
             if (serialResponse.response_code === 200 && serialResponse.data.length > 0) {
                 $(`#${serialNumbersRowId}`).html("");
 

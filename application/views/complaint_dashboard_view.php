@@ -127,8 +127,7 @@ section.timeline-outer {
 <div class="page-wrapper">
     <div class="content container-fluid">
     	<div class="page-header">
-
-            <div class="row mt-2" id="main_heading">
+            <div class="row" id="main_heading" style="margin-top:-2.02rem">
                 <div class="card card-body">
                     <div class="d-flex justify-content-evenly align-items-center">
                       
@@ -139,32 +138,23 @@ section.timeline-outer {
                 </div>
             </div>
 		
-			 <div class="row align-items-center">
-               
+			 <div class="row align-items-center" style="margin-top:-1.34rem;">
 			 	 <div class="col">
 					<h3 class="page-title">Device Complaint</h3>
-					
 				</div>
-
 					<div class="col-auto float-end ms-auto">
-                        
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Add Device Complaint</button>
-                        
-
-                       
+                        <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Add Device Complaint</button>
+                        <button class="btn btn-success btn-sm mx-2" onclick="export_report()" style="font-size: 14px;">Export</button>
+                        <button class="btn btn-sm  btn-primary" onclick="printReport();">PDF</button>
                     </div>
-
-
-
 				</div>
 			</div>
-<div class="row">
+            <div class="row">
 			<div class="col-md-12">
-				<div class="card">
+				<div class="card" style="margin-top:-1.23rem;">
 					<div class="card-header" style="background :linear-gradient(to left, #E29990 , #5D6D7E );border-radius: 5px;">
-						
 						<div class="row">
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-2">
 								<label style="color:white;"><b>Ticket ID</b></label>
 								<select name="ticket_id" id="ticket_id" class="form-control select2" onchange="get_complaints_data();get_count_complain_data();" >
 									<option value="">Select </option>
@@ -182,7 +172,7 @@ section.timeline-outer {
 								</select>
 							</div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-2">
                                 <label style="color:white;"><b>Complaint Status</b></label>
                                 <select name="complaint_status" id="complaint_status" class="form-control select2" onchange="get_complaints_data();get_count_complain_data();" >
                                     <option value="">Select</option>
@@ -222,17 +212,17 @@ section.timeline-outer {
                                     </select>
                                 </div>
 
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-2">
 								<label  style="color:white;"><b>From Date</b></label>
 								 <input type="date" name="from_date" id="from_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" onchange="get_complaints_data();get_complaint_date();get_count_complain_data();">
 							</div>
 
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-3">
 								<label  style="color:white;"><b>To Date</b></label>
 								<input type="date" name="to_date" id="to_date" class="form-control"  value="<?php echo date('Y-m-d'); ?>" onchange="get_complaints_data();get_complaint_date();get_count_complain_data();">
 							</div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label  style="color:white;"><b>Sort By</b></label>
                                 <select class="form-control select2" name="sort_by" id="sort_by" onchange="get_complaints_data();">
                                     <option value="">Select Column</option>
@@ -243,225 +233,174 @@ section.timeline-outer {
                                     <option value="complaint_type">Reason For Complaint</option>
                                     <option value="complaint_status">Complaint Status</option>
                                     <option value="c_date">Date</option>
-                                    <!-- <option value="raised_user_name">Raised User Name</option>
-                                    <option value="progress_name">Progress User Name</option>
-                                    <option value="sloved_name">Solved User Name</option> -->
                                 </select>
                             </div>
 							
 						</div>
 					</div>
-					   <div class="card-body" id="GFG">
-                            <div class="col-md-12 mt-2">
-	                            <div class="row mt-2 ml-3 text-center">
-	                                <div class="col-lg-12">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto float-end ms-auto">
-                                                <button class="btn btn-success btn-sm mx-2" onclick="export_report()" style="font-size: 14px;">Export</button>
-                                                <button class="btn btn-sm  btn-primary" onclick="printReport();">PDF</button>
+                </div>
+                <div class="row align-items-center"> 
+                    <div class="card" style="background: linear-gradient(to left, #5D6D7E, #F1948A);margin-top:-1.23rem;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-4 col-sm-4 col-6">
+                                    <div class="card ov-card mx-auto my-3"style="flex:1; box-shadow: 0 4px 8px rgba(44, 62, 80, 0.5);">
+                                        <div class="card-body">
+                                            <div class="ana-box">   
+                                                <div class="ic-n-bx">
+                                                    <div class=" text-center bd-warning rounded-circle">
+                                                        <img src="<?php echo base_url(); ?>assets/img/controls.gif" width="45" style="border-radius: 50%; border: 5%;">
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data mt-4">
+                                                    <h3 class="text-center" id="total_complaint"></h3>
+                                                        <h5 class="text-center">Total Complaint</h5>
+                                                </div>
                                             </div>
-                                            <div id="GFG">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-sm-4 col-6">
+                                      <div class="card ov-card mx-auto my-3" style="flex:1; box-shadow: 0 4px 8px rgba(44, 62, 80, 0.5);">
+                                         <div class="card-body">
+                                            <div class="ana-box">   
+                                                <div class="ic-n-bx">
+                                                    <div class=" text-center rounded-circle">
+                                                        <img src="<?php echo base_url(); ?>assets/img/working.gif" width="45" style="border-radius: 50%; border: 5%;">
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data mt-4">
+                                                    <h3 class="text-center" id="total_inprogress"></h3>
+                                                    <h5 class="text-center">Total In Progress</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-sm-4 col-6">
+                                      <div class="card ov-card mx-auto my-3" style="flex:1; box-shadow: 0 4px 8px rgba(44, 62, 80, 0.5);">
+                                        <div class="card-body">
+                                            <div class="ana-box">   
+                                                <div class="ic-n-bx">
+                                                    <div class=" text-center rounded-circle">
+                                                        <img src="<?php echo base_url(); ?>assets/img/complete.gif" width="45" style="border-radius: 50%; border: 5%;">
+                                                    </div>
+                                                </div>
+                                                <div class="anta-data mt-4">
+                                                    <h3 class="text-center" id="total_solved"></h3>
+                                                    <h5 class="text-center">Total Solved</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="card">
+					   <div class="card-body" id="GFG">
+                            <div class="col-md-12">
+	                            <div class="row ml-3 text-center">
+	                                <div class="col-lg-12">
+                                        <div id="GFG">
                                             <div class="table-responsive mt-4"  id="data-table">
                                                <table class="table table-bordered border-bottom table-striped">
                                                <thead style="background-color:blue; color: white; text-align: center;">
-                                        <tr>
-                                          <th colspan="12" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="12" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Device Complaint Report as on <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
-                                        </tr>
-                                     </thead>
-                                 </table>
-                                        <table class="table table-bordered border-bottom table-striped text-wrap">
-                                      
-                                        <tr>
-                                            <th style="width:10%;">Sl No.</th>
-                                            <th>Ticket ID</th>
-                                            <th>Well Name</th>
-                                            <th>Device Name</th>
-                                            <th>IMEI No</th>
-                                            <th class="text-wrap">Complaint Reason</th>
-                                            <th class="text-wrap">Complaint Details</th>
-                                            <th class="text-wrap">Complaint Date</th>
-                                            <th class="text-wrap">Complaint Status</th>
-                                            <th class="text-wrap">Resolution Details</th>
-                                            <th class="text-wrap">Resolved Date</th>
-                                            <th class="text-wrap">Raised User Name</th>
-                                            <th class="text-wrap">Progress User Name</th>
-                                            <th class="text-wrap">Solved User Name</th>
-                                            
-                                        </tr>
-                                  
-                                    <tbody class="text-center" id="table_data"> 
-                                    </tbody>
-                                </table>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-
-	                </div>
-                </div>
-	            
-            </div>
-        </div>
-				</div>
-			</div>
-
-			<div class="row">
-		<div class="col-md-12">
-			<div class="card" style="background: linear-gradient(to left,#AEA4A2, #D88D82);">
-				<div class="card-body">
-					<div class="row align-items-center"> 
-						<div class="col-xl-12">
-							<div class="row">
-								<div class="col-xl-4 col-sm-4 col-6">
-							
-										<div class="card ov-card" style="height:87%;box-shadow: 0 4px 8px rgba(44, 62, 80);">
-											<div class="card-body">
-												<div class="ana-box">	
-													<div class="ic-n-bx">
-														<div class=" text-center bd-warning rounded-circle">
-		                                                    <img src="<?php echo base_url(); ?>assets/img/controls.gif" width="45" style="border-radius: 50%; border: 5%;">
-														</div>
-													</div>
-													<div class="anta-data mt-4">
-														<h3 class="text-center" id="total_complaint"></h3>
-														<h5 class="text-center">Total Complaint</h5>
-													</div>
-												</div>
-											</div>
-										</div>
-								
-								</div>
-								
-								<div class="col-xl-4 col-sm-4 col-6">
-								
-									<div class="card ov-card" style="height:87%;box-shadow: 0 4px 8px rgba(44, 62, 80);">
-	                                     <div class="card-body">
-											<div class="ana-box">	
-												<div class="ic-n-bx">
-													<div class=" text-center rounded-circle">
-	                                                    <img src="<?php echo base_url(); ?>assets/img/working.gif" width="45" style="border-radius: 50%; border: 5%;">
-													</div>
-												</div>
-												<div class="anta-data mt-4">
-													<h3 class="text-center" id="total_inprogress"></h3>
-													<h5 class="text-center">Total In Progress</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-							
-								</div>
-								<div class="col-xl-4 col-sm-4 col-6">
-									
-									<div class="card ov-card" style="height:87%;box-shadow: 0 4px 8px rgba(44, 62, 80);">
-	                                    <div class="card-body">
-											<div class="ana-box">	
-												<div class="ic-n-bx">
-													<div class=" text-center rounded-circle">
-	                                                    <img src="<?php echo base_url(); ?>assets/img/complete.gif" width="45" style="border-radius: 50%; border: 5%;">
-													</div>
-												</div>
-												<div class="anta-data mt-4">
-													<h3 class="text-center" id="total_solved"></h3>
-													<h5 class="text-center">Total Solved</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-							
-								</div>
-							
-
-								
-							</div>
-						</div>
-					</div>
-				</div>	
-			</div>
-		</div>
-	</div>
-	 <div class="col-md-4">
-           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-              <div class="offcanvas-header">
-    <h3 id="offcanvasRightLabel"><b>Add Complaint</b></h3>
-    <button type="button" class="btn-close text-reset btn-primary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-
-   <hr class="colored-hr">
-                <div class="offcanvas-body ">
-                	<div class="card-body">
-                	 <form class="custom-validation" method="POST" action="<?php echo base_url('Technical_compalint_c/Add_complain_details'); ?>" enctype="multipart/form-data">
-                             
-                                    <div class="form-group col-md-12 mt-2" >
-                                        <h4><b> Well Name<span style="color:red">*</span></b></h4>
-                                        <select name="well_id" id="well_id" class="form-control" onchange="get_well_data()"required>
-                                        <option value="">Select Well</option>
-                                            <?php 
-                                                foreach ($well_list as $key => $value) 
-                                                {
-                                                    ?>
-                                                        <option  value="<?php echo $value['well_id'].'|'.$value['imei_no'].'|'.$value['device_name'].'|'.$value['date_of_installation']; ?>"><?php echo $value['well_name']; ?></option>
-                                                    <?php
-                                                }
-                                            ?>
-                                        </select>
-                                        <input type="hidden" name="hdn_well_id" id="hdn_well_id" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group col-md-12 mt-2">
-                                        <h4><b>Device Name<span style="color:red">*</span></b></h4>
-                                        <input type="text" name="device_name" id="device_name" class="form-control" required readonly>
-                                        
-                                    </div>
-                                    <div class="form-group col-md-12 mt-2">
-                                        <h4><b>Imei No<span style="color:red">*</span></b></h4>
-                                        <input type="number" name="imei_no" id="imei_no" class="form-control " required readonly>
-                                    </div>
-                                    <div class="form-group col-md-12 mt-2">
-                                        <h4><b>Installtion Date<span style="color:red">*</span></b></h4>
-                                        <input type="text" name="date_of_installation" id="date_of_installation" class="form-control " required readonly>
-                                    </div>
-                                    
-
-                                  
-                                    <div class="form-group col-md-12 mt-2">
-                                        <h4><b>Complaint Type<span style="color:red">*</span></b></h4>
-                                    <select name="complaint_type" id="complaint_type" class="form-control" required>
-                                            <option value="">Select Complaint Type</option>
-                                            <option value="0">RTMS Offline</option>
-                                            <option value="1">RTMS Physical Damage</option>
-                                            <option value="2">RTMS Burn</option>
-                                            <option value="3">Others</option>
-                                        </select>
-                                    </div>
-
-                                   
-
-                                     <div class="form-group col-md-12 mt-2">
-                                        <h4><b>Complaint Description <span style="color:red">*</span></b></h4>
-                                        <textarea type="text" name="complaint_description" id="complaint_description" class="form-control" required onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9-,.\/ ]/g,'')"></textarea>
-                                    </div>
-
-                                    
-                          
-
-                                    
-                                  
-                                <div class="footer mt-4">
-                                    <div>
-                                        <button type="submit" class="btn btn-sm btn-primary" >Submit</button>
+                                                   <tr>
+                                                     <th colspan="12" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
+                                                  </tr>
+                                                  <tr>
+                                                   <th colspan="12" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Device Complaint Report as on <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
+                                                   </tr>
+                                                  </thead>
+                                              </table>
+                                            <table class="table table-bordered border-bottom table-striped text-wrap">
+                                             <tr>
+                                                <th style="width:10%;">Sl No.</th>
+                                                <th>Ticket ID</th>
+                                                <th>Well Name</th>
+                                                <th>Device Name</th>
+                                                <th>IMEI No</th>
+                                                <th class="text-wrap">Complaint Reason</th>
+                                                <th class="text-wrap">Complaint Details</th>
+                                                <th class="text-wrap">Complaint Date</th>
+                                                <th class="text-wrap">Complaint Status</th>
+                                                <th class="text-wrap">Resolution Details</th>
+                                                <th class="text-wrap">Resolved Date</th>
+                                                <th class="text-wrap">Raised User Name</th>
+                                                <th class="text-wrap">Progress User Name</th>
+                                                <th class="text-wrap">Solved User Name</th>
+                                            </tr>
+                                            <tbody class="text-center" id="table_data"> 
+                                            </tbody>
+                                        </table> 
                                     </div>
                                 </div>
-                                
-                            </form>
+                            </div>
                         </div>
                     </div>
+	           </div>
             </div>
+    	</div> 
     </div>
+</div>
+</div>
+</div>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width:400px;">
+            <div class="offcanvas-header" style="background-color: #f1f1f1;">
+                <h5 id="offcanvasRightLabel" class="offcanvas-title" style="color:#231692;">Add Complaint</h5>
+                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+           <div class="offcanvas-body">
+                <form class="custom-validation" method="POST" action="<?php echo base_url('Technical_compalint_c/Add_complain_details'); ?>" enctype="multipart/form-data">
+                    <div class="form-group col-md-12 mt-2" >
+                    <h4><b> Well Name<span style="color:red">*</span></b></h4>
+                    <select name="well_id" id="well_id" class="form-control" onchange="get_well_data()"required>
+                    <option value="">Select Well</option>
+                        <?php 
+                            foreach ($well_list as $key => $value) 
+                            {
+                                ?>
+                                    <option  value="<?php echo $value['well_id'].'|'.$value['imei_no'].'|'.$value['device_name'].'|'.$value['date_of_installation'] .'|'.$value['well_type']; ?>"><?php echo $value['well_name']; ?></option>
+                                <?php
+                            }
+                        ?>
+                    </select>
+                    <input type="hidden" name="hdn_well_id" id="hdn_well_id" class="form-control">
+                    <input type="hidden" name="hdn_well_type" id="hdn_well_type" class="form-control">
+                </div>
 
+                    <div class="form-group col-md-12 mt-2">
+                        <h4><b>Device Name<span style="color:red">*</span></b></h4>
+                        <input type="text" name="device_name" id="device_name" class="form-control" required readonly>
+                        
+                    </div>
+                    <input type="hidden" name="imei_no" id="imei_no" class="form-control " >
+                    <input type="hidden" name="date_of_installation" id="date_of_installation" class="form-control">
+                    <div class="form-group col-md-12 mt-2">
+                        <h4><b>Complaint Type<span style="color:red">*</span></b></h4>
+                    <select name="complaint_type" id="complaint_type" class="form-control" required>
+                            <option value="">Select Complaint Type</option>
+                            <option value="0">RTMS Offline</option>
+                            <option value="1">RTMS Physical Damage</option>
+                            <option value="2">RTMS Burn</option>
+                            <option value="3">Others</option>
+                        </select>
+                    </div>
+                     <div class="form-group col-md-12 mt-2">
+                        <h4><b>Complaint Description <span style="color:red">*</span></b></h4>
+                        <textarea type="text" name="complaint_description" id="complaint_description" class="form-control" required onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9-,.\/ ]/g,'')"></textarea>
+                    </div>
+                    <div class="footer mt-2">
+                        <button type="submit" class="btn btn-sm btn-primary" >Submit</button>
+                    
+                    </div>
+               </form>
+           </div>
+       </div>
                             <div class="col-md-4">
                                 <div class="offcanvas offcanvas-end" tabindex="-1" id="model2" aria-labelledby="offcanvasRightLabel">
                                     <div class="offcanvas-header">
@@ -494,10 +433,8 @@ section.timeline-outer {
 
                                 </div>
                             </div>
-</div>
-</div>
-
-
+                       </div>
+                    </div>
 
 <?php 
 if($this->session->flashdata('success') != '')
@@ -536,10 +473,11 @@ if($this->session->flashdata('error') != '')
         $('#hdn_well_id').val(dataset.split("|")[0]);
         $('#imei_no').val(dataset.split("|")[1]);
         $('#device_name').val(dataset.split("|")[2]); 
+        
          let dateOfInstallation = dataset.split("|")[3];
+         $('#hdn_well_type').val(dataset.split("|")[4]); 
 
          let dateOfInstallation_well = moment(dateOfInstallation).format('DD-MM-YYYY h:mm A');
-
         $('#date_of_installation').val(dateOfInstallation_well);
        
     }

@@ -287,15 +287,16 @@
                       </div>
                    </div>
                    <div class="text-center">
-                      <a href="<?php echo base_url('Selfflow_alert_c'); ?>" 
-                         class="btn btn-sm btn-outline-danger w-50 mb-2" 
-                         style="border-radius:50px;" 
-                         data-bs-toggle="tooltip" 
-                         data-bs-placement="top" 
-                         title="View all alert logs">
-                       <i class="fas fa-clipboard-list"></i> Alert Log
-                     </a>
-                    </div>
+                       <a href="<?php echo base_url('Selfflow_alert_c/index/'.$this->uri->segment(3)); ?>" 
+                          class="btn btn-sm btn-outline-danger w-50 mb-2" 
+                          style="border-radius:50px;" 
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top" 
+                          title="View all alert logs">
+                         <i class="fas fa-clipboard-list"></i> Alert Log
+                       </a>
+                     </div>
+
 
                 </div>
              </div>
@@ -510,22 +511,24 @@
                          style="border-radius:50px;">
                       <i class="bi bi-flag-fill"></i> Flag Well
                       </button>
-                   <a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" 
-                      class="btn btn-sm btn-outline-success w-50 mb-2" 
-                      style="border-radius:50px;"
-                      data-bs-toggle="tooltip" 
-                      data-bs-placement="top" 
-                      title="View Historical logs">
-                   <i class="fas fa-file-alt"></i> Historical Log
-                   </a>
-                   <a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" 
-                      class="btn btn-sm btn-outline-primary w-50" 
-                      style="border-radius:50px;" 
-                      data-bs-toggle="tooltip" 
-                      data-bs-placement="top" 
-                      title="View Historical log Graph">
-                   <i class="fas fa-chart-line"></i> Historical Graph
-                   </a>
+                  <a href="<?php echo base_url('Selfflow_historical_report_c/index/' . $this->uri->segment(3)); ?>" 
+                        class="btn btn-sm btn-outline-success w-50 mb-2" 
+                        style="border-radius:50px;"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        title="View Historical logs">
+                        <i class="fas fa-file-alt"></i> Historical Log
+                     </a>
+
+                     <a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page/' . $this->uri->segment(3)); ?>" 
+                        class="btn btn-sm btn-outline-primary w-50" 
+                        style="border-radius:50px;" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        title="View Historical log Graph">
+                        <i class="fas fa-chart-line"></i> Historical Graph
+                     </a>
+
                  </div>
                 </div>
              </div>
@@ -643,11 +646,10 @@
    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" style="background-color: white;"><span aria-hidden="true">&times;</span></button>
 </div>
 <div class="modal-body">
-   <form class="custom-validation" method="POST" action="#">
+   <form class="custom-validation" method="POST" action="<?php echo base_url('Selfflow_c/add_well_reason')?>">
       <div class="row">
-         <!-- Hidden field for well_id -->
-         <input type="hidden" name="well_data_id" id="well_data_id" value="12345">
-         <!-- Reason Dropdown -->
+         <input type="hidden" name="well_data_id" id="well_data_id" value="">
+         <input type="hidden" name="well_type" id="well_type" value="">
          <div class="form-group col-md-12">
             <h4><b>Temporary Off Reason <span style="color:red">*</span></b></h4>
             <select name="reason" id="reason" class="form-control" required>
@@ -842,7 +844,7 @@ function getAlertLog() {
 
 get_single_well_details();
 function get_single_well_details() {
-    let well_id = '<?php echo $this->uri->segment('3')?>';
+    let well_id = '<?php echo $this->uri->segment(3); ?>'; 
     $.ajax({
         url: "<?php echo base_url() ?>Selfflow_c/get_single_well_details",
         type: "POST",
@@ -862,7 +864,8 @@ function get_single_well_details() {
                     $('#well_id_hdn').val(deviceData.well_id || '');
                     $('#well_name_hdn').text(deviceData.well_name || '');
                     $('#flag_status').text(deviceData.flag_status || '');
-                    $('#wellidhdn').val(deviceData.well_id || '');
+                    $('#well_data_id').val(deviceData.well_id || '');
+                    $('#well_type').val(deviceData.well_type || '');
                     $('#wellnamehdn').text(deviceData.well_name || '');
                     $('#well_name_data_2').text(deviceData.well_name || '');
                     $('#welltypehdn').text(deviceData.well_type_name || '');
@@ -904,30 +907,23 @@ function get_single_well_details() {
 
                     if (seconds < timeLimit) {
                         $('#rtms_status_image').html(
-                            '<span class="badge rounded-pill bg-success px-4 py-2" style="font-size: 13px;">' +
+                            '<span class="badge rounded-pill  px-4 py-2" style="font-size: 13px;background:#20c997;">' +
                             '<i class="bi bi-circle-fill me-1" style="font-size:10px;"></i> Online' +
                             '</span>'
                         );
-                    } else {
+                    } else if(flag_status_data == 1)
+                    {
                         $('#rtms_status_image').html(
-                            '<span class="badge rounded-pill bg-danger px-4 py-2" style="font-size: 13px;">' +
-                            '<i class="bi bi-circle-fill me-1" style="font-size:10px;"></i> Offline' +
+                            '<span class="badge rounded-pill px-4 py-2" style="font-size: 13px;background:#800000;">' +
+                            '<i class="bi bi-circle-fill me-1" style="font-size:10px;"></i> Temporary off well' +
                             '</span>'
                         );
-                    }
-
-                    var flag_status = deviceData.flag_status;
-                    if (seconds < timeLimit) {
-                        if (flag_status == 0) {
-                            $('#well_status').text('Flowing Well');
-
-                        } else if (flag_status == 1) {
-                            $('#well_status').text('Non Flowing Well');
-
-                        }
-                    } else {
-                        $('#well_status').text('Offline Well');
-
+                    }else{
+                        $('#rtms_status_image').html(
+                               '<span class="badge rounded-pill bg-secondary px-4 py-2" style="font-size: 13px;">' +
+                               '<i class="bi bi-circle-fill me-1" style="font-size:10px;"></i> Offline' +
+                               '</span>'
+                           );
                     }
 
 
@@ -1072,18 +1068,19 @@ function updateBatteryStatus(voltage, circleId, valueId, imageId, isMain = false
         batteryImage.setAttribute('src', imageSrc);
     }
 }
+get_temperory_well_value();
 function get_temperory_well_value() {
     let well_id = '<?php echo $this->uri->segment('3')?>';
 
     $.ajax({
-        url: '<?php echo base_url(); ?>Main_dashboard_c/well_status_details',
+        url: '<?php echo base_url(); ?>Selfflow_c/well_status_details',
         type: 'POST',
         data: {
             well_id: well_id
         },
         success: function(res) {
             res = JSON.parse(res);
-            // console.log(res, 'fhdgesj');
+            console.log(res, 'fhdgesj');
             if (res.response_code == 200) {
                 $.each(res.data, function(i, v) {
                     if (v.well_id == well_id) {
@@ -1148,23 +1145,6 @@ function get_pressure_details() {
             console.error("AJAX Error:", status, error);
         }
     });
-}
-
-</script>
-<script>
-function updateAlertLogLink() {
-    let wellId = $('#well_id').val();
-    let siteId = $('#site_id').val();
-    let areaId = $('#area_id').val();
-    let wellType = $('#well_type').val();
-    let baseUrl = "<?php echo base_url(); ?>Alert_log_report_c/index/";
-    let hisbaseUrl = "<?php echo base_url(); ?>Historical_report_c/mis_report_page/";
-    
-    let newHref = wellId ? baseUrl + wellId + '/' + siteId + '/' + areaId + '/' + wellType : baseUrl;
-    $('#alertLogLink').attr('href', newHref);
-
-    let newHrefhis = wellId ? hisbaseUrl + wellId + '/' + siteId + '/' + areaId + '/' + wellType : hisbaseUrl;
-    $('#HistoricalLogLink').attr('href', newHrefhis);
 }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1359,22 +1339,15 @@ function loadChartNeutralVoltage(output) {
         series: series
     });
 }
-
+initMap();
 function initMap() {
-    let area_id = $('#area_id').val();
-    let well_id = '<?php echo $this->uri->segment('3');?>';
-    let well_type = $('#well_type').val();
-    let user_type = '<?php echo $this->session->userdata('user_type') ?>';
-    let role_type = '<?php echo $this->session->userdata('role_type') ?>';
-    // alert(well_id);
 
+    let well_id = '<?php echo $this->uri->segment('3');?>';
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_c/get_site_location_for_dashboard',
         type: 'POST',
         data: {
-            area_id: area_id,
             well_id: well_id,
-            well_type: well_type
         },
         success: function(res) {
             response = JSON.parse(res);
@@ -1399,7 +1372,8 @@ function initMap() {
                         offline_time: item.Log_Date_Time,
                         flag_status: item.flag_status,
                         long: item.long,
-                        lat: item.lat
+                        lat: item.lat,
+                       
                     });
                 }
                 let mapCenter = {
@@ -1421,7 +1395,7 @@ function initMap() {
                 markers.forEach(function(marker) {
                     var markerIcon = {
                         url: '<?php echo base_url(); ?>assets/img/offline.png',
-                        scaledSize: new google.maps.Size(20, 20)
+                        scaledSize: new google.maps.Size(40, 40)
                     };
 
                     var seconds = 200;
@@ -1434,16 +1408,16 @@ function initMap() {
                         seconds = Math.floor(diffInMilliseconds / 1000);
                     }
 
-                    let timeLimit = '900';
+                    let timeLimit = 300;
+                    if (seconds <= timeLimit) {
+                        markerIcon.url = '<?php echo base_url(); ?>assets/img/flowing_map.png';
+                    } else if (marker.flag_status == 1) {
+                        markerIcon.url = '<?php echo base_url(); ?>assets/img/tem_off.png';
+                    } else{
+                      markerIcon.url = '<?php echo base_url(); ?>assets/img/offline.png';
 
-                    if (!marker.offline_time || seconds > timeLimit) {
-                        markerIcon.url = '<?php echo base_url(); ?>assets/img/offline.png';
-                    } else if (seconds <= timeLimit && marker.flag_status == 1) {
-                        markerIcon.url = '<?php echo base_url(); ?>assets/img/green.png';
-                    } else if (seconds <= timeLimit && marker.flag_status == 2) {
-                        markerIcon.url = '<?php echo base_url(); ?>assets/img/red.png';
                     }
-
+                    
                     var mapMarker = new google.maps.Marker({
                         position: marker.position,
                         map: map,
@@ -1454,14 +1428,14 @@ function initMap() {
                     });
 
                     var statusText = '';
-                    if (!marker.offline_time || seconds > timeLimit) {
-                        statusText = 'Offline Well';
-                    } else if (seconds <= timeLimit && marker.flag_status == 0) {
+                     if (seconds <= timeLimit && marker.flag_status == 0) {
                         statusText = 'Flowing Well';
-                    } else if (seconds <= timeLimit && marker.flag_status == 1) {
-                        statusText = 'Non-Flowing Well';
+                    } else if (marker.flag_status == 1) {
+                        statusText = 'Temporary off Well';
+                    }else{
+                       statusText = 'Offline Well';
                     }
-
+                    
                     var infowindow = new google.maps.InfoWindow({
                         content: '<div class="site-info" style="width: 150px; height: auto;">' +
                             '<h6 style="color:black;"><a target="_blank" href="https://www.google.com/maps/place/' +
@@ -1486,15 +1460,6 @@ function initMap() {
     });
 }
 
-$(document).ready(function () {
-    Get_Graph();
-});
-$(document).ready(function () {
-      initMap();
-});
-$(document).ready(function () {
-    getAlertLog(); // or trigger on some well_id change
-});
 flag_details();
    function flag_details()
    {

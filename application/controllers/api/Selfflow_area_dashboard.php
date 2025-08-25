@@ -6,7 +6,7 @@ class Selfflow_area_dashboard extends REST_Controller
 	{
 		parent::__construct();
 		$this->load->model('Selfflow_dashboard_model');
-		$this->load->model('list_model');
+		$this->load->model('List_model');
 	}
 
 	public function get_Total_InstalledSite_post()
@@ -22,8 +22,6 @@ class Selfflow_area_dashboard extends REST_Controller
 			$result = [];
 
 			$result['total_well'] = $this->Selfflow_dashboard_model->Totalwell_self_flow($company_id,$assets_id,$area_id,$site_id,$well_id,$feeder_id);
-             
-             $result['total_well_count'] = $this->Selfflow_dashboard_model->Totalwell_self_flow($company_id, $assets_id, $area_id, $site_id, $well_id, $feeder_id);
              
 			$result['total_flowing_well'] = $this->Selfflow_dashboard_model->Total_flowing_well($company_id,$assets_id,$area_id,$site_id,$well_id,$feeder_id);
 			
@@ -51,7 +49,7 @@ class Selfflow_area_dashboard extends REST_Controller
 			$well_type = $this->input->post('well_type',true)!=''?$this->input->post('well_type',true):'';
 			$user_type = $this->input->post('user_type',true)!=''?$this->input->post('user_type',true):'';
 			$role_type = $this->input->post('role_type',true)!=''?$this->input->post('role_type',true):'';
-			$result = $this->list_model->DashboardWelldetails($company_id,$assets_id,$area_id,$site_id,$user_id,$well_id,$well_type,$user_type,$role_type);
+			$result = $this->List_model->DashboardWelldetails($company_id,$assets_id,$area_id,$site_id,$user_id,$well_id,$well_type,$user_type,$role_type);
 
 			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {
@@ -77,7 +75,7 @@ class Selfflow_area_dashboard extends REST_Controller
 		}
 	}
 
-public function SiteList_forDashboard_post()
+    public function SiteList_forDashboard_post()
 	{
 		try {
 			$company_id = $this->input->post('company_id',true)!=''?$this->input->post('company_id',true):'';
@@ -103,14 +101,15 @@ public function SiteList_forDashboard_post()
 			$well_type = $this->input->post('well_type',true)!=''?$this->input->post('well_type',true):'';
 			$user_type = $this->input->post('user_type',true)!=''?$this->input->post('user_type',true):'';
 			$role_type = $this->input->post('role_type',true)!=''?$this->input->post('role_type',true):'';
-			$result = $this->list_model->Total_flowing_well($company_id,$assets_id,$area_id,$user_id,$well_id,$well_type,$site_id,$user_type,$role_type);
+			$result = $this->List_model->Total_flowing_well($company_id,$assets_id,$area_id,$user_id,$well_id,$well_type,$site_id,$user_type,$role_type);
 
 			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {
 			$this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong!!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);
 		}
 	}
-public function SiteList_for_Map_post()
+    
+    public function SiteList_for_Map_post()
 	{
 		try {
 			$company_id = $this->input->post('company_id',true)!=''?$this->input->post('company_id',true):'';

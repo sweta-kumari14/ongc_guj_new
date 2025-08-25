@@ -151,6 +151,11 @@
     .card-header{
         background-color: white !important;
     }
+    .table-hover > tbody > tr:hover > * {
+    --bs-table-color-state: inherit !important;
+    --bs-table-bg-state: #fff !important;
+}
+
     
 </style>
 <div class="page-wrapper">
@@ -773,7 +778,7 @@ async function export_report() {
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = `Threshold_Report_${moment().format("DD-MM-YYYY_HHmmss")}.xlsx`;
+  link.download = `Historical_Report_${moment().format("DD-MM-YYYY_HHmmss")}.xlsx`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

@@ -5,7 +5,7 @@ class Report_selfflow extends REST_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Report_model');
+		$this->load->model('Report_model_selfflow');
 	}
 	public function flag_unflag_report_log_post()
 	{
@@ -16,7 +16,7 @@ class Report_selfflow extends REST_Controller
 			$to_date = $this->input->post('to_date',true)!=''?$this->input->post('to_date',true):'';
 			$status = $this->input->post('status',true)!=''?$this->input->post('status',true):'';
 			
-			$result = $this->Report_model->flag_unflag_data($site_id,$well_id,$from_date,$to_date,$status);
+			$result = $this->Report_model_selfflow->flag_unflag_data($site_id,$well_id,$from_date,$to_date,$status);
 			
            $this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {

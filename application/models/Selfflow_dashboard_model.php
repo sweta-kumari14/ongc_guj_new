@@ -122,7 +122,7 @@ class Selfflow_dashboard_model extends CI_Model
               $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 5 OR Log_Date_Time IS NULL)");
 
 
-        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1,'well_status'=>1])->get()->result_array();
+        $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1,'well_status'=>0])->get()->result_array();
 
         if(!empty($res))
         {
@@ -175,81 +175,81 @@ class Selfflow_dashboard_model extends CI_Model
     }
 
     public function DashboardWelldetails($company_id, $assets_id, $area_id, $site_id, $user_id, $well_id)
-{
-    $this->db->select("
-        ua.id, ua.company_id, ua.user_id, ua.assets_id, ua.area_id,
-        a.area_name, sm.well_site_name, w.id as well_id, w.well_name, 
-        di.id as installed_status, di.imei_no, di.device_name, 
-        di.date_time, di.well_status as flag_status, di.well_type, wt.well_type_name, 
-        di.Log_Date_Time ,di.RTC_Time,di.CHP, di.THP, di.ABP, 
-        di.FLT, di.Battery_Voltage, di.site_id, di.well_type
-    ")
-    ->from('tbl_site_device_installtion_self_flow di')
-    ->join('tbl_well_master w','di.well_id = w.id and w.well_type = 2', 'left')
-    ->join('tbl_role_wise_user_assign_details ua', 'ua.site_id = w.site_id', 'left')
-    ->join('tbl_area_master a', 'w.area_id = a.id', 'left')
-    ->join('tbl_well_site_master sm', 'w.site_id = sm.id', 'left')
-    ->join('tbl_well_type wt', 'di.well_type = wt.id', 'left')
-    ->where(['w.status' => 1, 'di.status' => 1, 'di.well_setup_status' => 1]);
+    {
+        $this->db->select("
+            ua.id, ua.company_id, ua.user_id, ua.assets_id, ua.area_id,
+            a.area_name, sm.well_site_name, w.id as well_id, w.well_name, 
+            di.id as installed_status, di.imei_no, di.device_name, 
+            di.date_time, di.well_status as flag_status, di.well_type, wt.well_type_name, 
+            di.Log_Date_Time ,di.RTC_Time,di.CHP, di.THP, di.ABP, 
+            di.FLT, di.Battery_Voltage, di.site_id, di.well_type,di.date_time as date_of_installation
+        ")
+        ->from('tbl_site_device_installtion_self_flow di')
+        ->join('tbl_well_master w','di.well_id = w.id and w.well_type = 2', 'left')
+        ->join('tbl_role_wise_user_assign_details ua', 'ua.site_id = w.site_id', 'left')
+        ->join('tbl_area_master a', 'w.area_id = a.id', 'left')
+        ->join('tbl_well_site_master sm', 'w.site_id = sm.id', 'left')
+        ->join('tbl_well_type wt', 'di.well_type = wt.id', 'left')
+        ->where(['w.status' => 1, 'di.status' => 1, 'di.well_setup_status' => 1]);
 
-    if (!empty($company_id)) $this->db->where('ua.company_id', $company_id);
-    if (!empty($assets_id)) $this->db->where('ua.assets_id', $assets_id);
-    if (!empty($area_id)) $this->db->where('ua.area_id', $area_id);
-    if (!empty($site_id)) $this->db->where('di.site_id', $site_id);
-    if (!empty($user_id)) $this->db->where('ua.user_id', $user_id);
-    if (!empty($well_id)) $this->db->where('di.well_id', $well_id);
+        if (!empty($company_id)) $this->db->where('ua.company_id', $company_id);
+        if (!empty($assets_id)) $this->db->where('ua.assets_id', $assets_id);
+        if (!empty($area_id)) $this->db->where('ua.area_id', $area_id);
+        if (!empty($site_id)) $this->db->where('di.site_id', $site_id);
+        if (!empty($user_id)) $this->db->where('ua.user_id', $user_id);
+        if (!empty($well_id)) $this->db->where('di.well_id', $well_id);
 
-    $dynamictime = 5; // in minutes
+        $dynamictime = 5; // in minutes
 
-    $this->db->order_by("
-        CASE
-            WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) > $dynamictime OR di.Log_Date_Time IS NULL THEN 1
-            WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= $dynamictime AND di.well_status = 2 THEN 2
-            WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= $dynamictime AND di.well_status = 1 THEN 3
-        END
-    ", '', false);
+        $this->db->order_by("
+            CASE
+                WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) > $dynamictime OR di.Log_Date_Time IS NULL THEN 1
+                WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= $dynamictime AND di.well_status = 0 THEN 2
+                WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= $dynamictime AND di.well_status = 1 THEN 3
+            END
+        ", '', false);
 
-    $this->db->order_by("SUBSTRING_INDEX(w.well_name, '-', 1) ASC", '', false);
-    $this->db->order_by("CAST(SUBSTRING_INDEX(w.well_name, '-', -1) AS UNSIGNED) ASC", '', false);
-    $this->db->group_by('w.id');
+        $this->db->order_by("SUBSTRING_INDEX(w.well_name, '-', 1) ASC", '', false);
+        $this->db->order_by("CAST(SUBSTRING_INDEX(w.well_name, '-', -1) AS UNSIGNED) ASC", '', false);
+        $this->db->group_by('w.id');
 
-    $result = $this->db->get()->result_array();
+        $result = $this->db->get()->result_array();
 
-    foreach ($result as &$row) {
-        // Status check
-        $status_variable = 'offline';  
-        if (!empty($row['Log_Date_Time'])) {
-            $current_time = time();
-            $last_log_time = strtotime($row['Log_Date_Time']);
-            $time_diff_seconds = $current_time - $last_log_time;
+        foreach ($result as &$row) {
+            // Status check
+            $status_variable = 'offline';  
+            if (!empty($row['Log_Date_Time'])) {
+                $current_time = time();
+                $last_log_time = strtotime($row['Log_Date_Time']);
+                $time_diff_seconds = $current_time - $last_log_time;
 
-            if ($time_diff_seconds <= $dynamictime * 60) {  // Convert minutes to seconds
-                $status_variable = 'flowing_well';
-            } else {
-                if ($row['flag_status'] == 1) {
-                    $status_variable = 'non_flowing_well';
+                if ($time_diff_seconds <= $dynamictime * 60) { 
+                    $status_variable = 'flowing_well';
                 } else {
-                    $status_variable = 'offline';
+                    if ($row['flag_status'] == 1) {
+                        $status_variable = 'non_flowing_well';
+                    } else {
+                        $status_variable = 'offline';
+                    }
                 }
             }
+
+            $row['status_variable'] = $status_variable;
+
+            // Threshold setup
+            $thresholds = $this->db->select('node_name, upper_value, lower_value')
+                                   ->from('tbl_well_threshold_setup_master')
+                                   ->where('well_id', $row['well_id'])
+                                   ->get()
+                                   ->result_array();
+            $row['threshold_setup'] = $thresholds;
         }
 
-        $row['status_variable'] = $status_variable;
-
-        // Threshold setup
-        $thresholds = $this->db->select('node_name, upper_value, lower_value')
-                               ->from('tbl_well_threshold_setup_master')
-                               ->where('well_id', $row['well_id'])
-                               ->get()
-                               ->result_array();
-        $row['threshold_setup'] = $thresholds;
+        return $result;
     }
 
-    return $result;
-}
 
-
-     public function getSite_for_Map($company_id, $assets_id, $area_id, $user_id, $well_id, $well_type,$site_id)
+    public function getSite_for_Map($company_id, $assets_id, $area_id, $user_id, $well_id, $well_type,$site_id)
     {
         $this->db->select("w.id as well_id, w.company_id, w.assets_id, w.area_id, am.area_name, w.site_id, ws.well_site_name, w.well_name, w.lat, w.long, sd.id as installed_status, sd.RTC_Time as Log_Date_Time, sd.well_status as flag_status, sd.well_type")
             ->from('tbl_well_master w')

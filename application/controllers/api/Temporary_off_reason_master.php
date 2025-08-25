@@ -124,55 +124,108 @@ class Temporary_off_reason_master extends REST_Controller
 		              $this->response(['status' => false, 'data' => [], 'msg' => 'Please select a date time equal to or less than the current date time.', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
 		          }else{
 
-		          	$verify_well = $this->Temporary_off_reason_model->verify_well_flag_details($this->input->post('well_id',true));
+			          if($this->input->post('well_type',true) == 2)
+			          {
+			          	$verify_well = $this->Temporary_off_reason_model->verify_well_flag_details($this->input->post('well_id',true));
 
-		          	if($verify_well == 0)
-		          	{
-		          	    $data_log = [];
-					    $data_log['well_id'] = $this->input->post('well_id',true);
-					    $data_log['user_id'] = $this->input->post('user_id',true);
-					    $data_log['reason'] = $this->input->post('reason',true);
-					    $data_log['effective_date_time'] = $effective_date_time;
-					    $data_log['flag_status'] = $this->input->post('flag_status',true);
-					    $data_log['c_by'] = $this->input->post('c_by',true);
-					    $data_log['c_date'] = date('Y-m-d H:i:s');
-					    $data_log['status'] = 1;
-					    $this->Temporary_off_reason_model->SaveFlagdata_log($data_log);
+			          	if($verify_well == 0)
+			          	{
+			          	    $data_log = [];
+						    $data_log['well_id'] = $this->input->post('well_id',true);
+						    $data_log['user_id'] = $this->input->post('user_id',true);
+						    $data_log['reason'] = $this->input->post('reason',true);
+						    $data_log['effective_date_time'] = $effective_date_time;
+						    $data_log['flag_status'] = $this->input->post('flag_status',true);
+						    $data_log['c_by'] = $this->input->post('c_by',true);
+						    $data_log['c_date'] = date('Y-m-d H:i:s');
+						    $data_log['status'] = 1;
+						    $this->Temporary_off_reason_model->SaveFlagdata_log($data_log);
 
-					    $data = [];
-					    $data['effective_date_time'] =  $effective_date_time;
-					    $data['flag_status'] = $this->input->post('flag_status',true);
-					    $data['dby'] = $this->input->post('c_by',true);
-					    $data['ddate'] = date('Y-m-d H:i:s');
+						    $data = [];
+						    $data['well_status_date_time'] =  $effective_date_time;
+						    $data['well_status'] = $this->input->post('flag_status',true);
+						    $data['d_by'] = $this->input->post('c_by',true);
+						    $data['d_date'] = date('Y-m-d H:i:s');
 
-						$this->Temporary_off_reason_model->Update_Flagstatus($data,['well_id'=>$this->input->post('well_id',true)]);
+							$this->Temporary_off_reason_model->Update_selfFlagstatus($data,['well_id'=>$this->input->post('well_id',true)]);
 
-						$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully !!','response_code'=>REST_Controller::HTTP_OK]);
+							$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully !!','response_code'=>REST_Controller::HTTP_OK]);
 
-					}else{
-
-
-						$data_log['deeffective_date_time'] = date('Y-m-d H:i:s');
-						$data_log['flag_status'] = $this->input->post('flag_status',true);
-					     $data_log['d_by'] = $this->input->post('c_by',true);
-					     $data_log['d_date'] = date('Y-m-d H:i:s');
-					     $data_log['status'] = 1;
-
-					     $this->Temporary_off_reason_model->Update_Flag_logstatus($data_log,['well_id'=>$this->input->post('well_id',true),'flag_status'=>1]);
+						}else{
 
 
-					    $data = [];
-					    $data['effective_date_time'] =  $effective_date_time;
-					    $data['flag_status'] = $this->input->post('flag_status',true);
-					    $data['dby'] = $this->input->post('c_by',true);
-					    $data['ddate'] = date('Y-m-d H:i:s');
+							$data_log['deeffective_date_time'] = date('Y-m-d H:i:s');
+							$data_log['flag_status'] = $this->input->post('flag_status',true);
+						     $data_log['d_by'] = $this->input->post('c_by',true);
+						     $data_log['d_date'] = date('Y-m-d H:i:s');
+						     $data_log['status'] = 1;
 
-						$this->Temporary_off_reason_model->Update_Flagstatus($data,['well_id'=>$this->input->post('well_id',true)]);
+						     $this->Temporary_off_reason_model->Update_Flag_logstatus($data_log,['well_id'=>$this->input->post('well_id',true),'flag_status'=>1]);
 
-						$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully !!','response_code'=>REST_Controller::HTTP_OK]);
+						    $data = [];
+						    $data['effective_date_time'] =  $effective_date_time;
+						    $data['flag_status'] = $this->input->post('flag_status',true);
+						    $data['dby'] = $this->input->post('c_by',true);
+						    $data['ddate'] = date('Y-m-d H:i:s');
 
-					}
-				  }	
+							$this->Temporary_off_reason_model->Update_Flagstatus($data,['well_id'=>$this->input->post('well_id',true)]);
+
+							$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully !!','response_code'=>REST_Controller::HTTP_OK]);
+
+						}
+
+
+			          }else{
+			          	$verify_well = $this->Temporary_off_reason_model->verify_well_flag_details($this->input->post('well_id',true));
+
+			          	if($verify_well == 0)
+			          	{
+			          	    $data_log = [];
+						    $data_log['well_id'] = $this->input->post('well_id',true);
+						    $data_log['user_id'] = $this->input->post('user_id',true);
+						    $data_log['reason'] = $this->input->post('reason',true);
+						    $data_log['effective_date_time'] = $effective_date_time;
+						    $data_log['flag_status'] = $this->input->post('flag_status',true);
+						    $data_log['c_by'] = $this->input->post('c_by',true);
+						    $data_log['c_date'] = date('Y-m-d H:i:s');
+						    $data_log['status'] = 1;
+						    $this->Temporary_off_reason_model->SaveFlagdata_log($data_log);
+
+						    $data = [];
+						    $data['effective_date_time'] =  $effective_date_time;
+						    $data['flag_status'] = $this->input->post('flag_status',true);
+						    $data['dby'] = $this->input->post('c_by',true);
+						    $data['ddate'] = date('Y-m-d H:i:s');
+
+							$this->Temporary_off_reason_model->Update_Flagstatus($data,['well_id'=>$this->input->post('well_id',true)]);
+
+							$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully !!','response_code'=>REST_Controller::HTTP_OK]);
+
+						}else{
+
+
+							$data_log['deeffective_date_time'] = date('Y-m-d H:i:s');
+							$data_log['flag_status'] = $this->input->post('flag_status',true);
+						     $data_log['d_by'] = $this->input->post('c_by',true);
+						     $data_log['d_date'] = date('Y-m-d H:i:s');
+						     $data_log['status'] = 1;
+
+						     $this->Temporary_off_reason_model->Update_Flag_logstatus($data_log,['well_id'=>$this->input->post('well_id',true),'flag_status'=>1]);
+
+						    $data = [];
+						    $data['effective_date_time'] =  $effective_date_time;
+						    $data['flag_status'] = $this->input->post('flag_status',true);
+						    $data['dby'] = $this->input->post('c_by',true);
+						    $data['ddate'] = date('Y-m-d H:i:s');
+
+							$this->Temporary_off_reason_model->Update_Flagstatus($data,['well_id'=>$this->input->post('well_id',true)]);
+
+							$this->response(['status'=>true,'data'=>[],'msg'=>'Successfully !!','response_code'=>REST_Controller::HTTP_OK]);
+
+						}
+			          }
+		          	
+				}	
 										
 				}catch (Exception $e)
 				{

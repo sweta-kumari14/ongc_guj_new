@@ -15,6 +15,7 @@ class User_complaint_data extends REST_Controller
         $company_id = $this->input->post('company_id',true);
         $complaint_description = $this->input->post('complaint_description',true);
         $complaint_type = $this->input->post('complaint_type',true);
+        $well_type = $this->input->post('well_type',true);
 
 
         if($this->input->post('company_id',true) == '')
@@ -41,7 +42,10 @@ class User_complaint_data extends REST_Controller
         }else{
             try {
 
-                        $verify = $this->User_complaint_data_model->get_well_details($this->input->post('well_id',true));
+                if($this->input->post('well_type') == 2)
+                {
+
+                     $verify = $this->User_complaint_data_model->get_wellself_flow_details($this->input->post('well_id',true));
                                
                             $id = $this->User_complaint_data_model->getCOMId();
 
@@ -61,6 +65,7 @@ class User_complaint_data extends REST_Controller
                                 $data = [];
                                 $data['id'] = $id[0]['UUID()'];
                                 $data['company_id'] = $this->input->post('company_id',true);
+                                $data['well_type'] = $this->input->post('well_type',true);
                                 $data['user_id'] = $this->input->post('user_id',true);
                                 $data['well_id'] = $this->input->post('well_id',true);
                                 $data['device_name'] = $verify[0]['device_name'];
@@ -81,6 +86,7 @@ class User_complaint_data extends REST_Controller
                                 $data_log = [];
                                 $data_log['id'] = $id[0]['UUID()'];
                                 $data_log['company_id'] = $this->input->post('company_id',true);
+                                $data_log['well_type'] = $this->input->post('well_type',true);
                                 $data_log['user_id'] = $this->input->post('user_id',true);
                                 $data_log['well_id'] = $this->input->post('well_id',true);
                                 $data_log['device_name'] = $verify[0]['device_name'];
@@ -95,9 +101,73 @@ class User_complaint_data extends REST_Controller
                                 $data_log['complaint_status'] = 0;
                                 $this->User_complaint_data_model->Save_complaint_log($data_log);
 
-                           
+                      
 
-                    $this->response(['status'=>true,'data'=>[], 'msg'=>'Thank You! Grievance  Successfully Raised! Your ticket has been created with ID: ' . $data['ticket_id'],'response_code'=>REST_Controller::HTTP_OK]);
+                }else{
+
+                      $verify = $this->User_complaint_data_model->get_well_details($this->input->post('well_id',true));
+                               
+                            $id = $this->User_complaint_data_model->getCOMId();
+
+                            $verify_ticket_id = $this->User_complaint_data_model->get_ticket_id();
+                            
+                         
+                            if(empty($verify_ticket_id))
+                            {
+                                $ticket_id = 'TKT#001';
+                            }else{
+                                  $latestTicketId   = $verify_ticket_id['ticket_id'];
+                                  $nextTicketNumber = intval(substr($latestTicketId, 4)) + 1;
+                                  $ticket_id = 'TKT#' . str_pad($nextTicketNumber, 3, '0', STR_PAD_LEFT);
+
+                            }
+                            
+                                $data = [];
+                                $data['id'] = $id[0]['UUID()'];
+                                $data['company_id'] = $this->input->post('company_id',true);
+                                $data['user_id'] = $this->input->post('user_id',true);
+                                $data['well_type'] = $this->input->post('well_type',true);
+                                $data['well_id'] = $this->input->post('well_id',true);
+                                $data['device_name'] = $verify[0]['device_name'];
+                                $data['imei_no'] = $verify[0]['imei_no'];
+                                $data['date_of_installation'] = $verify[0]['date_of_installation'];
+                                $data['ticket_id'] = $ticket_id;
+                                $data['complaint_description'] = $this->input->post('complaint_description',true);
+                                $data['complaint_type'] = $this->input->post('complaint_type',true);
+                                $data['c_by'] = $this->input->post('c_by',true);
+                                $data['c_date'] = date('Y-m-d H:i:s');
+                                $data['status'] = 1;
+                                $data['complaint_status'] = 0;
+                             
+                                $this->User_complaint_data_model->Save_complaint($data);
+
+                                 $id = $this->User_complaint_data_model->getCOMlogId();
+
+                                $data_log = [];
+                                $data_log['id'] = $id[0]['UUID()'];
+                                $data_log['company_id'] = $this->input->post('company_id',true);
+                                $data_log['user_id'] = $this->input->post('user_id',true);
+                                $data_log['well_type'] = $this->input->post('well_type',true);
+                                $data_log['well_id'] = $this->input->post('well_id',true);
+                                $data_log['device_name'] = $verify[0]['device_name'];
+                                $data_log['imei_no'] = $verify[0]['imei_no'];
+                                $data_log['date_of_installation'] = $verify[0]['date_of_installation'];
+                                $data_log['ticket_id'] = $ticket_id;
+                                $data_log['complaint_description'] = $this->input->post('complaint_description',true);
+                                $data_log['complaint_type'] = $this->input->post('complaint_type',true);
+                                $data_log['c_by'] = $this->input->post('c_by',true);
+                                $data_log['c_date'] = date('Y-m-d H:i:s');
+                                $data_log['status'] = 1;
+                                $data_log['complaint_status'] = 0;
+                                $this->User_complaint_data_model->Save_complaint_log($data_log);
+
+                      
+
+                }
+
+                            
+
+                $this->response(['status'=>true,'data'=>[], 'msg'=>'Thank You! Grievance  Successfully Raised! Your ticket has been created with ID: ' . $data['ticket_id'],'response_code'=>REST_Controller::HTTP_OK]);
                     
                 }catch (Exception $e) {
                 $this->response(['status'=>false,'data'=>[],'msg'=>'something went wrong !!','response_code'=>REST_Controller::HTTP_INTERNAL_SERVER_ERROR]);

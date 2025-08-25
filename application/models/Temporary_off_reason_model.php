@@ -49,6 +49,11 @@ class Temporary_off_reason_model extends CI_Model
 		return $this->db->update('tbl_site_device_installation',$data,$where);
 	}
 
+	public  function Update_selfFlagstatus($data,$where)
+	{
+		return $this->db->update('tbl_site_device_installtion_self_flow',$data,$where);
+	}
+
 	public function SaveFlagdata_log($data_log)
 	{
 		return $this->db->insert('tbl_temporary_off_well_reson_log',$data_log);

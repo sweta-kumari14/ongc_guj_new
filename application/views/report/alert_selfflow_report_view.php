@@ -445,14 +445,11 @@ function get_wellwise_alert_report() {
     var well_id = $('#well_id').val();
     var site_id = $('#site_id').val();
     var alert_type = $('#alert_type').val();
-    var user_id = "<?php echo $this->session->userdata('user_id'); ?>";
-    // alert(from_date);
-    // alert(to_date);
-
+    
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_alert_c/get_wellwise_alert_data',
         method: 'POST',
-        data: { from_date:from_date, to_date:to_date, well_id:well_id, user_id:user_id, alert_type:alert_type,site_id:site_id },
+        data: { from_date:from_date, to_date:to_date, well_id:well_id, alert_type:alert_type,site_id:site_id },
         success: function (res) {
             var response = JSON.parse(res);
             console.log(response,'sdsaf');
@@ -570,12 +567,11 @@ function datewise_alert_list() {
     var date = $('#date').val();
     var site_id = $('#site_id').val();
     var alert_type = $('#alert_type').val();
-    var user_id = "<?php echo $this->session->userdata('user_id'); ?>";
-
+  
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_alert_c/get_datewise_alert_report',
         method: 'POST',
-        data: { date, user_id, alert_type,site_id },
+        data: { date,alert_type,site_id },
         success: function (res) {
             var response = JSON.parse(res);
             datewiseData = response.response_code==200 && response.data.length>0 ? response.data : [];
@@ -1079,17 +1075,17 @@ async function export_well_wise_report() {
 
 </script>
 <script>
-   getWell_list();
+  getWell_list();
 
 function getWell_list() {  
     let company_id = "<?php echo $this->session->userdata('company_id') ?>";
     let user_id    = "<?php echo $this->session->userdata('user_id') ?>";
-    let site_id    = $('#site_id').val();
-    
+    let selected_well_id = "<?php echo $this->uri->segment(3); ?>"; // ✅ segment 3
+
     $.ajax({
         type: 'POST',
         url: '<?php echo base_url();?>Selfflow_alert_c/getWell_list',
-        data: { company_id: company_id, user_id: user_id, site_id: site_id },
+        data: { company_id: company_id, user_id: user_id },
         beforeSend: function () {
             // Loading indicator
             $('#well_id').html('<option>Loading...</option>');
@@ -1104,8 +1100,9 @@ function getWell_list() {
                     $('#well_id').append('<option value="">Select Well</option>');
 
                     $.each(data.data, function (i, v) {
+                        let selected = (v.well_id == selected_well_id) ? "selected" : "";
                         $('#well_id').append(
-                            '<option value="' + v.well_id + '">' + v.well_name + '</option>'
+                            '<option value="' + v.well_id + '" ' + selected + '>' + v.well_name + '</option>'
                         );
                     });
                 } else {
@@ -1122,4 +1119,5 @@ function getWell_list() {
         }
     });
 }
+
 </script>

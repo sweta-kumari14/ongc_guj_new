@@ -455,13 +455,23 @@ class Master_model extends CI_Model
          if($user_id!='')
             $this->db->where('ad.user_id',$user_id);
 
-
-        return $this->db->select("di.company_id,di.well_id,wm.well_name,di.device_name,di.imei_no,di.date_of_installation")
+        $result = [];
+        $result['srp_well'] = $this->db->select("di.company_id,di.well_id,wm.well_name,di.device_name,di.imei_no,di.date_of_installation,wm.well_type")
         ->from('tbl_site_device_installation di')
         ->join('tbl_role_wise_user_assign_details ad','ad.site_id=di.site_id','left')
         ->join('tbl_well_master wm','di.well_id=wm.id','left')
         ->where(['di.status'=>1,'di.device_shifted'=>0,'ad.status'=>1])
         ->order_by("CAST(SUBSTRING_INDEX(well_name, '#', -1) AS UNSIGNED) ASC")->group_by('di.well_id')->get()->result_array();
+
+         $result['self_flow'] =  $this->db->select("di.company_id,di.well_id,wm.well_name,di.device_name,di.imei_no,di.date_time as date_of_installation,wm.well_type")
+        ->from('tbl_site_device_installtion_self_flow di')
+        ->join('tbl_role_wise_user_assign_details ad','ad.site_id=di.site_id','left')
+        ->join('tbl_well_master wm','di.well_id=wm.id','left')
+        ->where(['di.status'=>1,'di.well_setup_status'=>1,'ad.status'=>1])
+        ->order_by("CAST(SUBSTRING_INDEX(well_name, '#', -1) AS UNSIGNED) ASC")->group_by('di.well_id')->get()->result_array();
+
+        $result = array_merge( $result['srp_well'], $result['self_flow']);
+        return  $result;
     }
 
 
@@ -580,9 +590,10 @@ class Master_model extends CI_Model
         }
 
         if ($remove_type == 2 || $remove_type == 3) {
-            $result['component'] = $this->db->select('ws.well_id, cm.component_name, ws.sensor_no,cm.id as component_id')
+            $result['component'] = $this->db->select('ws.well_id, cm.component_name, ws.sensor_no,cm.id as component_id,tm.tag_number')
                 ->from('tbl_well_sensor_tag_installation_log ws')
                 ->join('tbl_component_master cm', 'ws.component_id = cm.id', 'left')
+                ->join('tbl_tags_number_master tm', 'tm.id = ws.sensor_no', 'left')
                 ->where('ws.tag_status', 1)
                 ->where('ws.status', 1)
                 ->where('ws.well_id', $well_id)
@@ -606,28 +617,51 @@ class Master_model extends CI_Model
        
     }
 
+    // public function get_item_list_for_re_installation($well_id,$component_id)
+    // {
+    //     $result = [];
+    //     $install_list = $this->db->select('component_id,sensor_no as tag_number')
+    //         ->from('tbl_well_sensor_tag_installation_log')
+    //         ->where(['status' => 1,'well_id'=>$well_id,'component_id'=>$component_id,'tag_status'=>1])
+    //         ->get()
+    //         ->result_array();
+
+    //     $new_list = [];
+           
+    //             $new_list = $this->db->select('component_id,tag_number')
+    //                 ->from('tbl_tags_number_master')
+    //                 ->where(['status'=>1,'installation_status'=>0])
+    //                 ->where(['component_id'=>$component_id])
+    //                 ->get()
+    //                 ->result_array();
+            
+    //     $result = array_merge($install_list, $new_list);
+        
+    //     return $result;
+    // }
     public function get_item_list_for_re_installation($well_id,$component_id)
     {
+
         $result = [];
-        $install_list = $this->db->select('component_id,sensor_no as tag_number')
-            ->from('tbl_well_sensor_tag_installation_log')
-            ->where(['status' => 1,'well_id'=>$well_id,'component_id'=>$component_id,'tag_status'=>1])
+        $install_list = $this->db->select('sl.component_id,tg.tag_number,tg.id as tag_id')
+            ->from('tbl_well_sensor_tag_installation_log sl')
+            ->join('tbl_tags_number_master tg','sl.sensor_no = tg.id','left')
+            ->where(['sl.status' => 1,'sl.well_id'=>$well_id,'sl.tag_status'=>1])
             ->get()
             ->result_array();
 
         $new_list = [];
            
-                $new_list = $this->db->select('component_id,tag_number')
+                $new_list = $this->db->select('tag_number,id as tag_id')
                     ->from('tbl_tags_number_master')
                     ->where(['status'=>1,'installation_status'=>0])
-                    ->where(['component_id'=>$component_id])
                     ->get()
                     ->result_array();
             
         $result = array_merge($install_list, $new_list);
         
         return $result;
-    }
+    } 
 
     public function get_installedTagList($company_id,$well_id)
     {

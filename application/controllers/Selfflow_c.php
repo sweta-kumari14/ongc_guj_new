@@ -24,17 +24,26 @@
         }
       
         public function SingleWellDashboard()
-        {     $api = 'Area_Dashboard/AreaList_forDashboard';
-            $data = 'company_id=' . htmlspecialchars((string)$this->session->userdata('company_id'), ENT_QUOTES, 'UTF-8')
-                  . '&assets_id=' . htmlspecialchars((string)$this->input->post('assets_id', true), ENT_QUOTES, 'UTF-8')
-                  . '&user_id=' . htmlspecialchars((string)$this->session->userdata('user_id'), ENT_QUOTES, 'UTF-8');
+        {    
+
+            $api = 'Temporary_off_reason_master/ReasonList';
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
             $method = 'POST';
-            $result = $this->CALLAPI($api, $data, $method);
-            $d['area_list'] = $result['data'];
+            $result = $this->CallAPI($api, $data, $method);
+            $d['reason_list'] = $result['data'];
+
             $d['v'] = "singledashboard_new";
             $this->load->view('templates', $d); 
         }
-         public function add_well_reason()
+        public function well_status_details()
+        {
+            $api = 'Temporary_off_reason_master/get_well_last_mark_status';
+            $data = 'well_id='.htmlspecialchars($this->input->post('well_id'));
+            $method = 'POST';
+            $result = $this->CallAPI($api, $data, $method);
+            echo json_encode($result);
+        }
+        public function add_well_reason()
         {
             
             $userid = htmlspecialchars($this->session->userdata('id'));
@@ -43,6 +52,7 @@
             $data = 'reason='.htmlspecialchars($this->input->post('reason',true))
                      .'&well_id='.htmlspecialchars($this->input->post('well_data_id',true))
                      .'&effective_date_time='.htmlspecialchars($this->input->post('effective_date_time',true))
+                     .'&well_type='.htmlspecialchars($this->input->post('well_type',true))
                      .'&flag_status='.htmlspecialchars($this->input->post('flag_status',true))
                      .'&user_id='.htmlspecialchars($this->session->userdata('id')).
                     '&c_by='.$userid;
@@ -52,12 +62,12 @@
             if($result['response_code'] == 200)
             {
                 $this->session->set_flashdata('success', $result['msg']);
-                redirect('Dashboard_c/get_single_well_detail_dashboard/'.$this->input->post('well_data_id'));
+                redirect('Selfflow_c/SingleWellDashboard/'.$this->input->post('well_data_id'));
             }
             else
             {
                 $this->session->set_flashdata('error', $result['msg']);
-                redirect('Dashboard_c/get_single_well_detail_dashboard/'.$this->input->post('well_data_id'));
+                redirect('Selfflow_c/SingleWellDashboard/'.$this->input->post('well_data_id'));
             }
         }
         public function well_card_data()
@@ -163,8 +173,8 @@
             $method = 'POST';
             $result = $this->CALLAPI($api, $data, $method);
             echo json_encode($result);
-}
- public function get_site_location_for_dashboard()
+       }
+        public function get_site_location_for_dashboard()
         {
             $api ='Selfflow_area_dashboard/SiteList_for_Map';
             $data = 'company_id='.htmlspecialchars((string)$this->session->userdata('company_id'),ENT_QUOTES, 'UTF-8')

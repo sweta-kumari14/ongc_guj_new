@@ -1679,17 +1679,17 @@ flag_details();
                   if (generate_date !== null && generate_date.trim() !== "") 
                   {
                      var date = new Date(generate_date);
-		     var day1 = date.getDate();
-		     if(day1==1){
-			  date.setMonth(date.getMonth() - 2);
-			 var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-			date.setDate(lastDay);
-			}
-		     else{
-				date.setMonth(date.getMonth() - 1);
-				date.setDate(date.getDate() - 1);
-			}
-		     var day = date.getDate();
+         		     var day1 = date.getDate();
+         		     if(day1==1){
+         			  date.setMonth(date.getMonth() - 2);
+         			 var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+         			date.setDate(lastDay);
+         			}
+         		     else{
+         				date.setMonth(date.getMonth() - 1);
+         				date.setDate(date.getDate() - 1);
+         			}
+         		     var day = date.getDate();
                      var monthNames = ["January", "February", "March", "April", "May", "June",
                      "July", "August", "September", "October", "November", "December"
                      ];
@@ -2270,7 +2270,6 @@ flag_details();
         data: { well_id: well_id },
         success: function (res) {
             var response = JSON.parse(res);
-            //console.log('well_datasimran=', response);
              	$('#well_details').hide();
             if (response.status) {
                 $('#well_data_details').html('');

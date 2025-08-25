@@ -370,8 +370,7 @@ class Device_selfflow_well_installation extends REST_Controller
                                 $this->Device_selfflow_installation_model->update_Tag_installation_status(
                                     ['installation_status' => 0, 'installation_date_time' => null],
                                     [
-                                        'component_id' => $value['component_id'],
-                                        'tag_number' => $value['tag_number'],
+                                        'id' => $value['tag_number'],
                                         'installation_status' => 1
                                     ]
                                 );
@@ -462,7 +461,7 @@ class Device_selfflow_well_installation extends REST_Controller
                         $this->Device_selfflow_installation_model->UpdateRemoved_sensorStatus($tagData,['well_id'=>$well_id,'component_id'=>$value['component_id'],'sensor_no'=>$value['tag_number'],'tag_status'=>1]);
 
 
-                        $this->Device_selfflow_installation_model->update_Tag_installation_status(['installation_status'=>0,'installation_date_time'=>null],['component_id'=>$value['component_id'],'tag_number'=>$value['tag_number'],'installation_status'=>1]);
+                        $this->Device_selfflow_installation_model->update_Tag_installation_status(['installation_status'=>0,'installation_date_time'=>null],['tag_number'=>$value['tag_number'],'installation_status'=>1]);
 
                     }
 
@@ -611,7 +610,7 @@ class Device_selfflow_well_installation extends REST_Controller
 
                                 $this->Device_selfflow_installation_model->update_Tag_installation_status(
                                     ['installation_status' => 1, 'installation_date_time' => date('Y-m-d H:i:s')],
-                                    ['component_id' => $value['component_id'], 'tag_number' => $value['tag_number']]
+                                    ['tag_number' => $value['tag_number']]
                                 );
 
                                 $tagCounts++; 

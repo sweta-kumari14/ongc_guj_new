@@ -143,6 +143,18 @@ class Device_Threshold_model extends CI_Model
 	    }
 	}
 
+	
+	public function getThreshold_LastData_list($well_id,$imei_no)
+	{
+		if($well_id!='')
+			$this->db->where('well_id',$well_id);
+
+		if($imei_no!='')
+			$this->db->where('imei_no',$imei_no);
+
+		return $this->db->select('*')->from('tbl_threshold_details')->where('status',1)->get()->result_array();
+	}
+
 	public function getwell_lastThreshold_list($well_id,$node_type,$tagNo)
 	{
 		if($well_id!='')

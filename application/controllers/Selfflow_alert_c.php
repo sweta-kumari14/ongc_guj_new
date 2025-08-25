@@ -42,8 +42,7 @@ class Selfflow_alert_c extends MY_Controller
         $method = 'POST';
         $data = 'date='.htmlspecialchars((string)$this->input->post('date',true),ENT_QUOTES, 'UTF-8')
         .'&alert_type='.htmlspecialchars((string)$this->input->post('alert_type',true),ENT_QUOTES, 'UTF-8')
-        .'&site_id='.htmlspecialchars((string)$this->input->post('site_id',true),ENT_QUOTES, 'UTF-8')
-        .'&user_id='.htmlspecialchars((string)$this->input->post('user_id',true),ENT_QUOTES, 'UTF-8');
+        .'&site_id='.htmlspecialchars((string)$this->input->post('site_id',true),ENT_QUOTES, 'UTF-8');
         $result = $this->CallAPI($api, $data, $method);
         echo json_encode($result);
     }

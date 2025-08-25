@@ -17,14 +17,39 @@
 .card:hover {
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
+ #back_btns{
+        font-size: 16px;
+        padding: 3px 13px;
+    }
+    #back_btns i{
+        margin-right: -20px;
+        position: relative;
+        opacity: 0; 
+        transition: all 0.5s ease-out;
+    }
+    #back_btns:hover i{
+        opacity: 1; 
+        margin-right: 2px;
+    }
 </style>
 <div class="page-wrapper">
     <div class="content container-fluid">
         <div class="page-header" style="margin-top:-39px;">
             <div class="content-page-header">
-                <h5 class="mb-0">Historical Graph</h5>
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <!-- Left side -->
+                    <h5 class="mb-0">Historical Graph</h5>
+
+                    <!-- Right side -->
+                    <a href="<?php echo base_url('')?>Selfflow_c">
+                        <button type="button" id="back_btns" class="btn btn-outline-warning">
+                            <i class="fa-solid fa-left-long"></i> Back
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
+
         <!-- Filter Card -->
         <div class="card" style="background: linear-gradient(to left, #5D6D7E,  #F1948A ); margin-top:-20px;">
                 <div class="card-body">
@@ -61,7 +86,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card" style="border-top:5px #5D6D7E solid;">
-                    <div class="card-header py-4">
+                    <div class="card-body">
                          <div id="processing_message" style="display: none;">
                            <img src="<?php echo base_url(); ?>assets/loader_img.svg" class="loader-img" alt="Loader" style="height: 200px; width: 100px;">
                     </div>

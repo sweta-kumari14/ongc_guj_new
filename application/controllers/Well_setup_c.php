@@ -70,6 +70,7 @@
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);
             $d['well_type_list'] = $result['data'];
+            
             $d['v'] = "well_setup_list_view";
             $this->load->view('templates',$d);
         }
