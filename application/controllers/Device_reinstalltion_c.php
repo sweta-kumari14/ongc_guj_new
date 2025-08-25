@@ -67,7 +67,7 @@ class Device_reinstalltion_c extends MY_Controller
                 .'&well_id='.$this->input->post('well_id',true)
                 .'&device_name='.$this->input->post('device_name',true)
                 .'&imei_no='.$this->input->post('imei_no',true)
-                .'&tag_data='.($this->input->post('tag_data',true))
+                .'&tag_data='.json_encode($this->input->post('tag_data',true))
                 .'&c_by='.$this->session->userdata('user_id',true);
         $method = 'POST';
         $result = $this->CallAPI($api,$data,$method);

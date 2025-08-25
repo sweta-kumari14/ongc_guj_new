@@ -57,7 +57,7 @@
                                 
                             </div>
                               <div class="mt-2" id="add_btns_well" style="display:none;">
-                                <button type="button" class="btn btn-sm btn-success" onclick="addNewRow();"> Addd well</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="addNewRow();"> Add well</button>
                               </div>
 
                             <div id="thresholdFields" style="display: none;">

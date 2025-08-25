@@ -263,7 +263,7 @@ function fetchInstalledItems() {
             if (response.data && response.data.component && response.data.component.length > 0) {
                 response.data.component.forEach(item => {
                     const compId = item.component_id;
-                    const tag = item.sensor_no;
+                    const tag = item.tag_number;
 
                     if (!installedTagMap[compId]) {
                         installedTagMap[compId] = [];
@@ -278,6 +278,93 @@ function fetchInstalledItems() {
     });
 }
 
+// function get_item_data(componentid, quantity, component_name, serialNumbersRowId) {
+//     const checkbox = document.getElementById(`checkbox_${componentid}`);
+//     if (!checkbox || !checkbox.checked) {
+//         $(`#${serialNumbersRowId}`).html("");
+//         return;
+//     }
+
+//     let well_id = $("#hdn_well_id").val();
+
+//     $.ajax({
+//         type: "POST",
+//         url: "<?php echo base_url();?>Device_reinstalltion_c/item_list_ajax",
+//         data: { component_id: componentid, well_id: well_id },
+//         success: function (serialResponse) {
+//             serialResponse = JSON.parse(serialResponse);
+
+//             console.log(serialResponse,'serialResponse');
+
+//             if (serialResponse.response_code === 200 && serialResponse.data.length > 0) {
+//                 $(`#${serialNumbersRowId}`).html("");
+
+//                 const preSelectedTags = installedTagMap[componentid] || [];
+
+//                 for (let q = 1; q <= quantity; q++) {
+//                     const selectId = `${componentid}_${q}`;
+//                     const selectName = `${componentid}_${q}`;
+//                     const preSelectedTag = preSelectedTags[q - 1] || '';
+//                     const disableSelect = preSelectedTag !== '';
+
+//                     // Collect other selected tags
+//                     let alreadySelectedTags = [];
+//                     $('.serial-number-dropdown').each(function () {
+//                         const val = $(this).val();
+//                         const id = $(this).attr('id');
+//                         if (val && !$(this).prop('disabled') && id !== selectId) {
+//                             alreadySelectedTags.push(val);
+//                         }
+//                     });
+
+//                     // Add other pre-selected tags of same component (excluding current index)
+//                     preSelectedTags.forEach((tag, idx) => {
+//                         if (idx !== (q - 1) && tag) {
+//                             alreadySelectedTags.push(tag);
+//                         }
+//                     });
+
+//                     // Build dropdown options
+//                     let options = '<option value="">Select</option>';
+//                     serialResponse.data.forEach(serial => {
+//                         const tag = serial.tag_number;
+//                         if (tag === preSelectedTag || !alreadySelectedTags.includes(tag)) {
+//                             const selected = tag === preSelectedTag ? 'selected' : '';
+//                             options += `<option value="${tag}" ${selected}>${tag}</option>`;
+//                         }
+//                     });
+
+//                     // Create select element
+//                     const $select = $(`
+//                         <select name="${selectName}"
+//                                 id="${selectId}"
+//                                 class="form-control select2 serial-number-dropdown"
+//                                 data-component-id="${componentid}">
+//                             ${options}
+//                         </select>
+//                     `);
+
+//                     if (disableSelect) {
+//                         $select.prop('disabled', true).addClass('readonly-gray');
+//                     }
+
+//                     // Append label + dropdown
+//                     $(`#${serialNumbersRowId}`).append(`
+//                         <div class="form-group col-md-3">
+//                             <label>${component_name} ${q}</label>
+//                         </div>
+//                     `);
+//                     $(`#${serialNumbersRowId} .form-group:last-child`).append($select);
+//                     $select.select2();
+//                 }
+
+//                 validateSerialNumbers();
+//             } else {
+//                 $(`#${serialNumbersRowId}`).html("<p>No Serial Numbers Found</p>");
+//             }
+//         }
+//     });
+// }
 function get_item_data(componentid, quantity, component_name, serialNumbersRowId) {
     const checkbox = document.getElementById(`checkbox_${componentid}`);
     if (!checkbox || !checkbox.checked) {
@@ -292,9 +379,9 @@ function get_item_data(componentid, quantity, component_name, serialNumbersRowId
         url: "<?php echo base_url();?>Device_reinstalltion_c/item_list_ajax",
         data: { component_id: componentid, well_id: well_id },
         success: function (serialResponse) {
-            serialResponse = JSON.parse(serialResponse);
 
-            console.log(serialResponse,'serialResponse');
+            console.log(serialResponse,'Install_Well_details_for_removed');
+            serialResponse = JSON.parse(serialResponse);
 
             if (serialResponse.response_code === 200 && serialResponse.data.length > 0) {
                 $(`#${serialNumbersRowId}`).html("");
@@ -327,12 +414,17 @@ function get_item_data(componentid, quantity, component_name, serialNumbersRowId
                     // Build dropdown options
                     let options = '<option value="">Select</option>';
                     serialResponse.data.forEach(serial => {
-                        const tag = serial.tag_number;
-                        if (tag === preSelectedTag || !alreadySelectedTags.includes(tag)) {
-                            const selected = tag === preSelectedTag ? 'selected' : '';
-                            options += `<option value="${tag}" ${selected}>${tag}</option>`;
-                        }
-                    });
+                      const tag = serial.tag_number;
+                      const id = serial.tag_id;
+                      if (tag === preSelectedTag || !alreadySelectedTags.includes(tag)) {
+                       const selected = tag === preSelectedTag ? 'selected' : '';
+                       options += `<option value="${id}" data-tag="${tag}" ${selected}>${tag}</option>`;
+                     }
+                     });
+
+                    console.log("Dropdown ID:", selectId);
+                    console.log("Pre-selected:", preSelectedTag);
+                    console.log("All Options:", serialResponse.data.map(s => s.tag_number));
 
                     // Create select element
                     const $select = $(`

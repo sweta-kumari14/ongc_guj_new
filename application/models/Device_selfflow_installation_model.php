@@ -20,6 +20,19 @@ class Device_selfflow_installation_model extends CI_Model
             }
     }
 
+    public function check_well_formula_count($well_type)
+    {
+        $res = $this->db
+            ->select('SUM(quantity_required) AS total')
+            ->from('tbl_well_formula_setup')
+            ->where('status', 1)
+            ->where('well_type', $well_type)
+            ->get()
+            ->row_array();
+        return (int)($res['total'] ?? 0);
+    }
+
+
     public function get_well_formula_list($well_type)
     {
         return $this->db->select("wf.well_type,wf.component_id,cm.component_name,wf.quantity_required")
