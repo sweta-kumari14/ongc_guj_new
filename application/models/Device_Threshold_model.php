@@ -192,13 +192,14 @@ class Device_Threshold_model extends CI_Model
 	        $this->db->where("date(sl.c_date) BETWEEN '{$from_date}' AND '{$to_date}'");
 	    }
 
-		return $this->db->select('sl.area_id,am.area_name,sl.site_id,ws.well_site_name,wm.well_name,sl.tag_no,tg.tag_number,sl.node_name,sl.max_value,sl.upper_value,sl.lower_value,sl.multiplier,sl.offset,sl.c_date as threshold_setup_date_time')
+		return $this->db->select('sl.area_id,am.area_name,sl.site_id,ws.well_site_name,wm.well_name,sl.tag_no,tg.tag_number,cm.component_name as node_name,sl.max_value,sl.upper_value,sl.lower_value,sl.multiplier,sl.offset,sl.c_date as threshold_setup_date_time')
 
 		->from('tbl_well_threshold_setup_master sl')
 		->join('tbl_well_master wm','sl.well_id=wm.id','left')
 		->join('tbl_well_site_master ws','sl.site_id=ws.id','left')
 		->join('tbl_area_master am','sl.area_id=am.id','left')
 		->join('tbl_tags_number_master tg','sl.tag_no=tg.id','left')
+		->join('tbl_component_master cm','cm.id=sl.component_id','left')
 		->where(['sl.status'=>1])->order_by("CAST(SUBSTRING_INDEX(wm.well_name, '#', -1) AS UNSIGNED) ASC")->get()->result_array();
 	}
 }

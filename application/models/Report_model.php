@@ -146,7 +146,7 @@ class Report_model extends CI_Model
 			$this->db->where(['date(di.date_time)>='=>$from_date,'date(di.date_time)<='=>$to_date]);
 
 		if($well_type!='')
-			$this->db->where('wm.well_type',$well_type);
+			$this->db->where('di.well_type',$well_type);
 
 
 		$res['self_well'] =  $this->db->select("di.installed_by,mm.user_full_name,di.assets_id,as.assets_name,di.area_id,am.area_name,di.site_id,sm.well_site_name,di.well_id,wm.well_name,di.device_name,di.imei_no,dac.serial_no,di.sim_no,di.sim_provider,di.network_type,di.date_time as date_of_installation,wm.lat,wm.long,CONCAT('$base_url',di.image) as icon,wt.well_type_name")

@@ -434,7 +434,7 @@ $(document).ready(function () {
             );
 
             // Check if group name matches OR any record matched
-            const groupMatch = [group.area_name, group.cluster_name, group.well_name]
+            const groupMatch = [group.area_name, group.well_site_name, group.well_name]
                 .some(val => val?.toLowerCase().includes(keyword));
 
             if (groupMatch || filteredRecords.length > 0) {
@@ -485,12 +485,12 @@ function get_threshold_report() {
                 groupMap = {};
 
                 dataList.forEach(row => {
-                    const key = `${row.area_name}_${row.cluster_name}_${row.well_name}`;
+                    const key = `${row.area_name}_${row.well_site_name}_${row.well_name}`;
                     if (!groupMap[key]) {
                         groupMap[key] = {
                             groupKey: key,
                             area_name: row.area_name,
-                            cluster_name: row.cluster_name,
+                            well_site_name: row.well_site_name,
                             well_name: row.well_name,
                             records: []
                         };
@@ -570,7 +570,7 @@ function renderMisTable() {
                 }
 
                 if (i === 0) {
-                    html += `<td rowspan="${wellRowspan}" style="text-align:center; vertical-align:middle;">${group.cluster_name ?? '-'}</td>`;
+                    html += `<td rowspan="${wellRowspan}" style="text-align:center; vertical-align:middle;">${group.well_site_name ?? '-'}</td>`;
                     html += `<td rowspan="${wellRowspan}" style="text-align:center;">
                         <a ${v.well_geo_name ? `data-toggle="tooltip" title="Geo Well - ${v.well_geo_name}"` : ''}>
                             ${v.well_name ?? '-'}
@@ -621,7 +621,7 @@ function renderPaginationControls() {
 const columnMap = {
   0: null, // Sl No. no sorting
   1: 'area_name',
-  2: 'cluster_name',
+  2: 'well_site_name',
   3: 'well_name',
   4: 'node_name',
   5: 'tag_no',

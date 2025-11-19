@@ -6,6 +6,17 @@ class Device_selfflow_installation_model extends CI_Model
         parent::__construct();
     }
 
+
+    public function Delete_threshold_master($where)
+    {
+        $this->db->delete('tbl_well_threshold_setup_master',$where);
+    }
+
+    public function Update_threshold_log($data,$where)
+    {
+        $this->db->update('tbl_well_threshold_setup_log',$data,$where);
+    }
+
     public function CheckWell_formula_Exist($well_type)
     {
         $res = $this->db->select("count(id) as total")
@@ -18,6 +29,21 @@ class Device_selfflow_installation_model extends CI_Model
             }else{
                 return 0;
             }
+    }
+
+    public function Device_setup_mater($data,$where)
+    {
+        return $this->db->update('tbl_device_setup',$data,$where);
+    }
+
+    public function Get_WellMaster_By_ID($well_id)
+    {
+        return $this->db->select('assets_id, area_id, site_id')
+            ->from('tbl_well_master')
+            ->where('id', $well_id)
+            ->where(['status'=> 1,'device_setup_status'=>0])
+            ->get()
+            ->row_array();
     }
 
     public function check_well_formula_count($well_type)
@@ -76,6 +102,26 @@ class Device_selfflow_installation_model extends CI_Model
     public function update_well_reinstallation_record($data,$where)
     {
         return $this->db->update('tbl_site_device_installtion_self_flow',$data,$where);
+    }
+
+    public function Save_Threshold_data($data)
+    {
+        return $this->db->insert('tbl_well_threshold_setup_master',$data);
+
+    }
+
+    public function Get_Component_Master_By_ID($component_id)
+    {
+         return $this->db->select('max_value, upper_value, lower_value, multiplier, offset')
+                        ->from('tbl_component_master')
+                        ->where('id', $component_id)
+                        ->where('status', 1)
+                        ->get()->row_array();
+    }
+
+    public function Save_Threshold_logdata($data)
+    {
+        return $this->db->insert('tbl_well_threshold_setup_log',$data);
     }
 
     public function update_well_removal_record($data,$where)

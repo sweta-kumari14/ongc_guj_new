@@ -647,19 +647,25 @@ class Well_integration extends REST_Controller
         }
       
         try {
-            $data = [
+            $selfdata = [
                 'feeder_id' => $feeder_id,
                 'd_by' => $d_by,
                 'd_date' => date('Y-m-d H:i:s')
+            ];
+
+            $srpdata = [
+                'feeder_id' => $feeder_id,
+                'dby' => $d_by,
+                'ddate' => date('Y-m-d H:i:s')
             ];
 
             $where = ['well_id' => $well_id];
 
             if ($well_type == 1) {
                 
-                $update_result = $this->Well_integration_model->update_well_feeder($data, $where);
+                $update_result = $this->Well_integration_model->update_well_feeder($srpdata, $where);
             } else if ($well_type == 2) {
-                $update_result = $this->Well_integration_model->update_well_feeder_selfflow($data, $where);
+                $update_result = $this->Well_integration_model->update_well_feeder_selfflow($selfdata, $where);
             } else {
                 $this->response(['status' => false, 'data' => [], 'msg' => 'Invalid well type!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
                 return;

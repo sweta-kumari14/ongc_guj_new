@@ -560,20 +560,22 @@ function renderMisTable() {
             html += `<td rowspan="${wellIndexes.length}" style="vertical-align: middle; text-align: center;">${well}</td>`;
         }
 
+        function formatVal(val) {
+          return val !== null && val !== undefined && !isNaN(val) ? Number(val).toFixed(2) : '-';
+       }
+
         html += `
             <td>${row.record.Log_Date_Time ?? '-'}</td>
-            <td>${row.record.CHP ?? '-'}</td>
-            <td>${row.record.CHP_battery_volt ?? '-'}</td>
-            <td>${row.record.THP ?? '-'}</td>
-            <td>${row.record.THP_battery_volt ?? '-'}</td>
-            <td>${row.record.ABP ?? '-'}</td>
-            <td>${row.record.ABP_battery_volt ?? '-'}</td>
-            <td>${row.record.FLT ?? '-'}</td>
-            <td>${row.record.FLT_battery_volt ?? '-'}</td>
-            <td>${row.record.Battery_Voltage ?? '-'}</td>
+            <td>${formatVal(row.record.CHP)}</td>
+            <td>${formatVal(row.record.CHP_battery_volt)}</td>
+            <td>${formatVal(row.record.THP)}</td>
+            <td>${formatVal(row.record.THP_battery_volt)}</td>
+            <td>${formatVal(row.record.ABP)}</td>
+            <td>${formatVal(row.record.ABP_battery_volt)}</td>
+            <td>${formatVal(row.record.FLT)}</td>
+            <td>${formatVal(row.record.FLT_battery_volt)}</td>
+            <td>${formatVal(row.record.Battery_Voltage)}</td>
         </tr>`;
-        serial++;
-    });
 
     $('#table_data').html(html);
 

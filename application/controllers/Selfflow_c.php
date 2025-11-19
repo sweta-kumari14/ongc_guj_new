@@ -73,7 +73,7 @@
         public function well_card_data()
         {
 
-            $api ='list_selflow/Dashboard_Well_Details';
+            $api ='List_selflow/Dashboard_Well_Details';
             $data = 'company_id='.htmlspecialchars((string)$this->session->userdata('company_id'),ENT_QUOTES, 'UTF-8')
             .'&user_id='.htmlspecialchars((string)$this->session->userdata('user_id'),ENT_QUOTES, 'UTF-8')
             .'&assets_id='.htmlspecialchars((string)$this->session->userdata('assets_id'),ENT_QUOTES, 'UTF-8')

@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('Asia/Kolkata');
-class selfflow_report_model extends CI_Model
+class Selfflow_report_model extends CI_Model
 {
     private $client;
     public function __construct()

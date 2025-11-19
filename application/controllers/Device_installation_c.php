@@ -94,8 +94,6 @@
                     .'&site_id='.htmlspecialchars($this->input->post('site_id'));
              $method = 'POST';
              $result = $this->CallAPI($api,$data,$method);
-           
-
              echo json_encode($result);
         }
 
@@ -125,8 +123,8 @@
 
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);
-             // echo "<pre>";
-             //print_r($data);
+             echo "<pre>";
+             print_r($data);
              //print_r($result);die;
         
             if($result['response_code'] == 200)

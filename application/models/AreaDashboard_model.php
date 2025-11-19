@@ -641,7 +641,6 @@ class AreaDashboard_model extends CI_Model
             $this->db->where('well_id', $well_id);
         }
 
-        // Base Conditions
         $this->db->from('tbl_site_device_installation');
         $this->db->where('status', 1);
         $this->db->where('device_shifted', 0);
@@ -652,13 +651,24 @@ class AreaDashboard_model extends CI_Model
         $this->db->or_where('last_log_datetime IS NULL');
         $this->db->group_end();
 
-
-        $this->db->select("COUNT(DISTINCT CASE WHEN ((output_Average_Voltage_L2N <= 0 OR output_Average_Voltage_P2P <= 0) AND battery_voltage < 9) THEN well_id END) AS battery_issue");
-        $this->db->select("COUNT(DISTINCT CASE WHEN ((output_Average_Voltage_L2N > 0 OR output_Average_Voltage_P2P > 0) OR battery_voltage > 0) THEN well_id END) AS network_issue");
+        $this->db->select("
+            COUNT(DISTINCT CASE 
+                WHEN ((output_Average_Voltage_L2N <= 0 OR output_Average_Voltage_P2P <= 0) 
+                AND battery_voltage < 9) 
+                THEN well_id 
+            END) AS battery_issue
+        ");
 
         $this->db->select("COUNT(DISTINCT well_id) AS total_offline");
+        $this->db->select("(COUNT(DISTINCT well_id) - 
+                            COUNT(DISTINCT CASE 
+                                WHEN ((output_Average_Voltage_L2N <= 0 OR output_Average_Voltage_P2P <= 0) 
+                                AND battery_voltage < 9) 
+                                THEN well_id 
+                            END)
+                        ) AS network_issue");
+
         $query = $this->db->get();
-        
         return $query->row();
     }
 

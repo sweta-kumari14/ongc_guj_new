@@ -26,6 +26,11 @@
                                 <tr>
                                     <th>SL.No.</th>
                                     <th>Component Name</th>
+                                    <th>Max Value</th>
+                                    <th>Upper Value</th>
+                                    <th>Lower Value</th>
+                                    <th>Multipler</th>
+                                    <th>Offest</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -39,6 +44,11 @@
                                                 <tr>
                                                     <td style="width:15%"><?php echo $key+1; ?></td>
                                                     <td><?php echo $value['component_name']??'-'; ?></td>
+                                                    <td><?php echo $value['max_value']??'-'; ?></td>
+                                                    <td><?php echo $value['upper_value']??'-'; ?></td>
+                                                    <td><?php echo $value['lower_value']??'-'; ?></td>
+                                                    <td><?php echo $value['multiplier']??'-'; ?></td>
+                                                     <td><?php echo $value['offset']??'-'; ?></td>
                                                     <td  style="width:15%;">
                                                         <a onclick="setcomponentDetails(this.id)" id="<?php echo $value['id']; ?>" href="javascript:;" data-bs-toggle="offcanvas"
                                                            data-bs-target="#offcanvasEdit"><i class="fa-solid fa-pen-to-square text-success" style="font-size:14px;"></i></a>
@@ -54,7 +64,7 @@
                                     }else{
                                         ?>
                                             <tr>
-                                                <td colspan="3" class="text-danger"><img src="<?php echo base_url() ?>assets/img/no_records.svg" width="100" class="mx-auto d-block">
+                                                <td colspan="8" class="text-danger"><img src="<?php echo base_url() ?>assets/img/no_records.svg" width="100" class="mx-auto d-block">
                                                 <p class="text-danger fw-bold mt-2 text-center"> No Data Available !!</p></td>
                                             </tr>
                                         <?php
@@ -73,7 +83,7 @@
 </div>
 
 <!-- Offcanvas Component -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width:60%;">
     
     <!-- Header with background color -->
     <div class="offcanvas-header" style="background: linear-gradient(to right, #032448 20%, #fc6075 100%);">
@@ -84,15 +94,38 @@
     <!-- Body -->
     <div class="offcanvas-body">
         <form action="<?php echo base_url() ?>Component_c/add_component" class="row needs-validation" method="post">
-
-            <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6 mt-1">
                 <label for="validationCustom01" class="form-label">Component Name<sup class="text-danger">*</sup></label>
                 <input name="component_name" type="text" class="form-control" id="validationCustom01"
                      pattern="^[A-Za-z ]+$" required placeholder="Enter component name">
                 <div class="invalid-feedback">
                 Please provide a valid asset name (alphabets only)!
                 </div>
+
             </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Max Value<sup class="text-danger">*</sup></label>
+                <input type="text" name="max_value"  class="form-control" required >
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Upper Value<sup class="text-danger">*</sup></label>
+                <input type="text" name="upper_value"  class="form-control" required >
+               
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Lower Value<sup class="text-danger">*</sup></label>
+                <input type="text" name="lower_value"  class="form-control" required >
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Multiplier<sup class="text-danger">*</sup></label>
+                <input type="text" name="multiplier"  class="form-control" required >  
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Offset<sup class="text-danger">*</sup></label>
+                <input type="text" name="offset"  class="form-control" required >  
+            </div>
+        </div>
             <hr class="mt-3">
             <div class="text-end">
                 <button type="submit" class="btn btn-sm btn-success">Submit</button>
@@ -119,8 +152,8 @@
         <form action="<?php echo base_url() ?>Component_c/update_Component" class="row needs-validation" novalidate method="post">
 
             <input type="hidden" name="id" id="editComponentId">
-
-            <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6 mt-1">
                 <label for="editComponentName" class="form-label">Component Name<sup class="text-danger">*</sup></label>
                 <input name="component_name" type="text" class="form-control" id="editComponentName"
                        pattern="^[A-Za-z ]+$" required placeholder="Enter component name">
@@ -128,6 +161,28 @@
                     Please provide a valid asset name (alphabets only)!
                 </div>
             </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Max Value<sup class="text-danger">*</sup></label>
+                <input type="text" name="max_value" id="editmax_value"  class="form-control" required >
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Upper Value<sup class="text-danger">*</sup></label>
+                <input type="text" name="upper_value" id="editupper_value" class="form-control" required >
+               
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Lower Value<sup class="text-danger">*</sup></label>
+                <input type="text" name="lower_value"  id="editlower_value" class="form-control" required >
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Multiplier<sup class="text-danger">*</sup></label>
+                <input type="text" name="multiplier" id="editmultiplier" class="form-control" required >  
+            </div>
+            <div class="col-md-6 mt-1">
+                <label  class="form-label">Offset<sup class="text-danger">*</sup></label>
+                <input type="text" name="offset" id="editoffset" class="form-control" required >  
+            </div>
+        </div>
             <hr class="mt-3">
             <div class="text-end">
                 <button type="submit" class="btn btn-sm btn-primary" >Update</button>
@@ -174,6 +229,11 @@ if($this->session->flashdata('error') != '')
                 if(res.response_code==200)
                 {
                     $("#editComponentName").val(res.data[0]['component_name']);
+                    $("#editmax_value").val(res.data[0]['max_value']);
+                    $("#editupper_value").val(res.data[0]['upper_value']);
+                    $("#editlower_value").val(res.data[0]['lower_value']);
+                    $("#editmultiplier").val(res.data[0]['multiplier']);
+                    $("#editoffset").val(res.data[0]['offset']);
                     $("#editComponentId").val(res.data[0]['id']);
                 }                
             }

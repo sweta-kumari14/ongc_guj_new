@@ -209,20 +209,19 @@ re<!-- Sidebar -->
 							<li><a href="<?php echo base_url('Downtime_report_c'); ?>" class="slide-item">Downtime Report</a></li>
 							<li><a href="<?php echo base_url('Faulty_alert_report_c'); ?>" class="slide-item">Faulty-Alert Report</a></li>
 							<li><a href="<?php echo base_url('Running_log_selfflow_c'); ?>" class="slide-item">Running log Report</a></li>
-							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c'); ?>" class="slide-item">Threshold setup</a></li>
 							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c/thresold_report'); ?>" class="slide-item">Threshold setup Report</a></li>
 					
 						</ul>
 					</li>
 
-							<li class="submenu">
+							<!-- <li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a href="<?php echo base_url('Running_Log_Graph_report_c'); ?>" class="slide-item">Running Graphs</a></li>
 							<li><a href="<?php echo base_url('Comparison_data_c'); ?>" class="slide-item">Comparison Graphs</a></li>
 					
 						</ul>
-					</li>
+					</li> -->
 
 					
 				 <?php
@@ -249,6 +248,7 @@ re<!-- Sidebar -->
 						<ul>
 							   <li><a href="<?php echo base_url('Well_install_c'); ?>">Well Re-Installation</a></li>
 					       <li><a href="<?php echo base_url('Device_installation_c'); ?>" class="slide-item">Device Installation</a></li>
+
 					       <li><a href="<?php echo base_url('Device_replacement_c'); ?>" class="slide-item">Device  Replacement</a></li>
 					        <li><a href="<?php echo base_url('Device_shifting_c'); ?>" class="slide-item">Device Shifting</a></li>
 					        <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Sensor Installation</a></li>
@@ -258,8 +258,12 @@ re<!-- Sidebar -->
 						<a href="#"><i class="la la-files-o"></i> <span>Selfflow-Setup</span><span class="menu-arrow"></span></a>
 						<ul>
 					       <li><a href="<?php echo base_url('Device_installation_selflow_c'); ?>" class="slide-item">Device Installation</a></li></li>
+
+					       <li><a class="nav-link" href="<?php echo base_url() ?>Device_configration_setup_c">Device Configration </a></li>
+
 					       <li><a href="<?php echo base_url('Device_reinstalltion_c'); ?>" class="slide-item">Device Re-Installation</a></li>
-					         <li><a href="<?php echo base_url('Removal_c'); ?>" class="slide-item">Removal</a></li>
+					       
+					       <li><a href="<?php echo base_url('Removal_c'); ?>" class="slide-item">Well Removal</a></li>
 
 					    </ul>
 					</li>
@@ -318,19 +322,19 @@ re<!-- Sidebar -->
 							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
 							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
 							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
-							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c'); ?>" class="slide-item">Threshold setup</a></li>
+							
 							<li><a href="<?php echo base_url('Threshold_setup_selfflow_c/thresold_report'); ?>" class="slide-item">Threshold setup Report</a></li>
 					
 						</ul>
 					</li>
-						<li class="submenu">
+						<!-- <li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a href="<?php echo base_url('Running_Log_Graph_report_c'); ?>" class="slide-item">Running Graphs</a></li>
 							<li><a href="<?php echo base_url('Comparison_data_c'); ?>" class="slide-item">Comparison Graphs</a></li>
 					
 						</ul>
-					</li>
+					</li> -->
 					 <?php
                    }
                    ?>
@@ -383,14 +387,14 @@ re<!-- Sidebar -->
 					
 						</ul>
 					</li>
-					<li class="submenu">
+					<!-- <li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a href="<?php echo base_url('Running_Log_Graph_report_c'); ?>" class="slide-item">Running Graphs</a></li>
 							<li><a href="<?php echo base_url('Comparison_data_c'); ?>" class="slide-item">Comparison Graphs</a></li>
 					
 						</ul>
-					</li>
+					</li> -->
 					 <?php
 					    }
 				    ?>
@@ -442,14 +446,15 @@ re<!-- Sidebar -->
 						</ul>
 					</li>
 
-						<li class="submenu">
+						<!-- <li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span> Graphical Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a href="<?php echo base_url('Running_Log_Graph_report_c'); ?>" class="slide-item">Running Graphs</a></li>
 							<li><a href="<?php echo base_url('Comparison_data_c'); ?>" class="slide-item">Comparison Graphs</a></li>
 					
 						</ul>
-					</li>					 <?php
+					</li>		 -->			 
+					<?php
 					    }
 				    ?>
                 	

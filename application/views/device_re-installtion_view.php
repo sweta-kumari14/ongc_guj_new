@@ -80,12 +80,13 @@
                                    </select>
                                 </div>
                         </div>
-
-                        <div id="component_section" class="mt-4" style="display: none;">
-                             <label class="form-label"><b>Components</b><sup class="text-danger">*</sup></label>
-                           <div id="well_type_formula"></div> 
-                        </div>
                     </div>
+
+                        <div id="component_section" class="mt-4 col-md-12" style="display: none;">
+                             <label class="form-label"><b>Components</b><sup class="text-danger">*</sup></label>
+                           <div class="row" id="well_type_formula"></div> 
+                        </div>
+             
                     <div class="mt-3">
                     <div class="text-end">
                         <button type="submit" class="btn btn-sm btn-danger">Submit</button>
@@ -224,19 +225,21 @@ if($this->session->flashdata('error') != '')
                         $.each(data.data, function(i, v) {
                             let serialNumbersRowId = `serial_numbers_${v.component_id}`;
                             $('#well_type_formula').append(`
-                                <div class="col-md-12 mt-2 mb-2">
+                                 <div class="col-md-6 mt-2 mb-2">
                                     <input type="checkbox" class="form-check-input component-checkbox"
                                            value="${v.component_id}|${v.quantity_required}|${v.component_name}" 
-                                           id="checkbox_${v.component_id}" 
+                                           id="checkbox_${v.component_id}"
+                                           checked
                                            onchange="get_item_data(${v.component_id}, ${v.quantity_required}, '${v.component_name}', '${serialNumbersRowId}');">
                                     <label class="form-check-label" for="checkbox_${v.component_id}">
-                                        ${v.component_name} | ${v.quantity_required}
+                                        ${v.component_name}
                                     </label>
                                 </div>
                                 <div id="${serialNumbersRowId}" class="row"></div>
                             `);
+                            get_item_data(v.component_id, v.quantity_required, v.component_name, serialNumbersRowId);
 
-                        });
+                                                    });
                     } else {
                         $('#well_type_formula').html('<p>No Data Found</p>');
                     }
@@ -278,93 +281,6 @@ function fetchInstalledItems() {
     });
 }
 
-// function get_item_data(componentid, quantity, component_name, serialNumbersRowId) {
-//     const checkbox = document.getElementById(`checkbox_${componentid}`);
-//     if (!checkbox || !checkbox.checked) {
-//         $(`#${serialNumbersRowId}`).html("");
-//         return;
-//     }
-
-//     let well_id = $("#hdn_well_id").val();
-
-//     $.ajax({
-//         type: "POST",
-//         url: "<?php echo base_url();?>Device_reinstalltion_c/item_list_ajax",
-//         data: { component_id: componentid, well_id: well_id },
-//         success: function (serialResponse) {
-//             serialResponse = JSON.parse(serialResponse);
-
-//             console.log(serialResponse,'serialResponse');
-
-//             if (serialResponse.response_code === 200 && serialResponse.data.length > 0) {
-//                 $(`#${serialNumbersRowId}`).html("");
-
-//                 const preSelectedTags = installedTagMap[componentid] || [];
-
-//                 for (let q = 1; q <= quantity; q++) {
-//                     const selectId = `${componentid}_${q}`;
-//                     const selectName = `${componentid}_${q}`;
-//                     const preSelectedTag = preSelectedTags[q - 1] || '';
-//                     const disableSelect = preSelectedTag !== '';
-
-//                     // Collect other selected tags
-//                     let alreadySelectedTags = [];
-//                     $('.serial-number-dropdown').each(function () {
-//                         const val = $(this).val();
-//                         const id = $(this).attr('id');
-//                         if (val && !$(this).prop('disabled') && id !== selectId) {
-//                             alreadySelectedTags.push(val);
-//                         }
-//                     });
-
-//                     // Add other pre-selected tags of same component (excluding current index)
-//                     preSelectedTags.forEach((tag, idx) => {
-//                         if (idx !== (q - 1) && tag) {
-//                             alreadySelectedTags.push(tag);
-//                         }
-//                     });
-
-//                     // Build dropdown options
-//                     let options = '<option value="">Select</option>';
-//                     serialResponse.data.forEach(serial => {
-//                         const tag = serial.tag_number;
-//                         if (tag === preSelectedTag || !alreadySelectedTags.includes(tag)) {
-//                             const selected = tag === preSelectedTag ? 'selected' : '';
-//                             options += `<option value="${tag}" ${selected}>${tag}</option>`;
-//                         }
-//                     });
-
-//                     // Create select element
-//                     const $select = $(`
-//                         <select name="${selectName}"
-//                                 id="${selectId}"
-//                                 class="form-control select2 serial-number-dropdown"
-//                                 data-component-id="${componentid}">
-//                             ${options}
-//                         </select>
-//                     `);
-
-//                     if (disableSelect) {
-//                         $select.prop('disabled', true).addClass('readonly-gray');
-//                     }
-
-//                     // Append label + dropdown
-//                     $(`#${serialNumbersRowId}`).append(`
-//                         <div class="form-group col-md-3">
-//                             <label>${component_name} ${q}</label>
-//                         </div>
-//                     `);
-//                     $(`#${serialNumbersRowId} .form-group:last-child`).append($select);
-//                     $select.select2();
-//                 }
-
-//                 validateSerialNumbers();
-//             } else {
-//                 $(`#${serialNumbersRowId}`).html("<p>No Serial Numbers Found</p>");
-//             }
-//         }
-//     });
-// }
 function get_item_data(componentid, quantity, component_name, serialNumbersRowId) {
     const checkbox = document.getElementById(`checkbox_${componentid}`);
     if (!checkbox || !checkbox.checked) {
@@ -443,7 +359,7 @@ function get_item_data(componentid, quantity, component_name, serialNumbersRowId
                     // Append label + dropdown
                     $(`#${serialNumbersRowId}`).append(`
                         <div class="form-group col-md-3">
-                            <label>${component_name} ${q}</label>
+                         
                         </div>
                     `);
                     $(`#${serialNumbersRowId} .form-group:last-child`).append($select);
@@ -472,7 +388,7 @@ function validateSerialNumbers() {
         let duplicates = selectedValues.filter((item, index) => selectedValues.indexOf(item) !== index);
 
         if (duplicates.length > 0) {
-            swal('warning',`Serial number "${duplicates[0]}" is already selected. Please choose another serial number.`, 'Duplicate Serial Number','warning');
+            swal('warning',`Serial number "${duplicates[0]}" is already selected. Please choose another serial number.`,'warning');
             selectedElement.val('').trigger('change');
         }
     });
@@ -510,11 +426,11 @@ function submitdata(e) {
         let elementId = $(this).attr('id');
         let tagIndex = parseInt(elementId.split('_')[1]) - 1;
 
-        if (!tag_number) {
-            swal('warning',"Please select all serial numbers before submitting.",'warning');
-            isValid = false;
-            return false;
-        }
+        // if (!tag_number) {
+        //     swal('warning',"Please select all serial numbers before submitting.",'warning');
+        //     isValid = false;
+        //     return false;
+        // }
 
         if (selectedValues.includes(tag_number)) {
             swal('warning',`Duplicate serial number "${tag_number}" selected. Please choose unique serial numbers.`,'warning');

@@ -26,7 +26,12 @@
          
             $api = 'Component_master/Add_component';
             $data = 'component_name='.htmlspecialchars($this->input->post('component_name',true)).
-            '&company_id='.htmlspecialchars($this->session->userdata('company_id')).
+            '&company_id='.htmlspecialchars($this->session->userdata('company_id'))
+            .'&max_value='.htmlspecialchars($this->input->post('max_value',true))
+            .'&lower_value='.htmlspecialchars($this->input->post('lower_value',true))
+            .'&upper_value='.htmlspecialchars($this->input->post('upper_value',true))
+            .'&multiplier='.htmlspecialchars($this->input->post('multiplier',true))
+            .'&offset='.htmlspecialchars($this->input->post('offset',true)).
             '&c_by='.htmlspecialchars($this->session->userdata('company_id'));
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);
@@ -52,6 +57,11 @@
             $api = 'Component_master/Update_Component';
             $data = 'id='.htmlspecialchars($this->input->post('id',true))
             .'&component_name='.htmlspecialchars($this->input->post('component_name',true))
+            .'&max_value='.htmlspecialchars($this->input->post('max_value',true))
+            .'&lower_value='.htmlspecialchars($this->input->post('lower_value',true))
+            .'&upper_value='.htmlspecialchars($this->input->post('upper_value',true))
+            .'&multiplier='.htmlspecialchars($this->input->post('multiplier',true))
+            .'&offset='.htmlspecialchars($this->input->post('offset',true))
             .'&d_by='.htmlspecialchars($this->session->userdata('company_id'));
             $method = 'POST';
             $result = $this->CallAPI($api, $data, $method);

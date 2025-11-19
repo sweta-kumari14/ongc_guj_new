@@ -35,6 +35,11 @@ class Component_master extends REST_Controller
 					$data = [];
 					$data['company_id'] = $this->input->post('company_id',true);
 					$data['component_name'] = $this->input->post('component_name',true);
+					$data['max_value'] = $this->input->post('max_value',true);
+					$data['upper_value'] = $this->input->post('upper_value',true);
+					$data['lower_value'] = $this->input->post('lower_value',true);
+					$data['multiplier'] = $this->input->post('multiplier',true);
+					$data['offset'] = $this->input->post('offset',true);
 					$data['c_by'] = $this->input->post('c_by',true);
 					$data['c_date'] = date('Y-m-d H:i:s');
 					$data['status'] = 1;
@@ -80,6 +85,11 @@ class Component_master extends REST_Controller
 				{
 					$data = [];
 					$data['component_name'] = $this->input->post('component_name',true);
+					$data['max_value'] = $this->input->post('max_value',true);
+					$data['upper_value'] = $this->input->post('upper_value',true);
+					$data['lower_value'] = $this->input->post('lower_value',true);
+					$data['multiplier'] = $this->input->post('multiplier',true);
+					$data['offset'] = $this->input->post('offset',true);
 					$data['d_by'] = $this->input->post('d_by',true);
 					$data['d_date'] = date('Y-m-d H:i:s');
 					$this->Component_master_model->UpdateComponent($data,['id'=>$this->input->post('id',true)]);

@@ -73,7 +73,7 @@
                                         </select>
                                     </div>
                                   
-                                    <input type="hidden" name="well_hdn" id="well_hdn" class="form-control">
+                                    <input type="text" name="well_hdn" id="well_hdn" class="form-control">
                                     <input type="hidden" name="lat_hdn" id="lat_hdn" class="form-control">
                                     <input type="hidden" name="long_hdn" id="long_hdn" class="form-control">
                                     

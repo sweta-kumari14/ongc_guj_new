@@ -48,7 +48,7 @@ class Component_master_model extends CI_Model
 		if($company_id!='')
 			$this->db->where('im.company_id',$company_id);
 
-		$result = $this->db->select("im.id,im.company_id,cs.company_name,im.component_name")
+		$result = $this->db->select("im.id,im.company_id,cs.company_name,im.component_name,im.offset,im.multiplier,im.lower_value,im.upper_value,im.max_value")
 		->from('tbl_component_master im')
 		->join('tbl_company_setup cs','im.company_id=cs.id','left')
 		->order_by("CAST(SUBSTRING_INDEX(im.component_name, '#', -1) AS UNSIGNED) ASC")

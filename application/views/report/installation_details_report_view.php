@@ -2,7 +2,7 @@
     <div class="content container-fluid pb-0">
     	<div class="page-header">
 			<div class="content-page-header">
-				<h5> Selfflow-Installation Report</h5>
+				<h5> Installation Report</h5>
 			</div>	
 		</div>
 			<div class="row">					
@@ -13,15 +13,12 @@
                                 <div class="card-body">
                                    <div class="row align-items-center">
                                         <div class="col">
-                                           <h4 class="header-title mb-4"><b>Selfflow-Installation Report</b></h4>
+                                           <h4 class="header-title mb-4"><b>Installation Report</b></h4>
                                         </div>
                                         <div class="col-auto float-end ms-auto">
                                              <button class="btn btn-success btn-sm btn-rounded mx-2" onclick="export_report()" style="font-size: 14px;">Export</button>
                                         </div>
                                     </div>
-
-
-                                    
                                 <div class="row">
                                         <div class="form-group col-md-4 mt-2">
                                     <h5><b>Assets Name</b></h5>
@@ -139,13 +136,10 @@
                                     <tbody class="text-center" id="table_data"> 
                                     </tbody>
                                 </table>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>                  
-				
 				</div>		
     </div>	
 </div>
@@ -294,7 +288,7 @@ function get_installation_report()
     let from_date = $('#from_date').val();
     let to_date = $('#to_date').val();
     let well_type = $('#well_type').val();
-    //alert(well_type);
+    // alert(well_type);
 
     $.ajax({
         url:'<?php echo base_url(); ?>Installation_details_report_c/get_installation_report',
@@ -303,7 +297,7 @@ function get_installation_report()
         success:function(res)
         {
             var response = JSON.parse(res);
-            console.log(response);
+            console.log(response,'Installation_report');
             if(response.response_code==200)
                 {
                     $('#table_data').html("");

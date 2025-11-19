@@ -502,23 +502,30 @@ function get_dashboard_count() {
             assets_id: assets_id
         },
         success: function(res) {
-            try {
-                res = JSON.parse(res);
-                console.log(res, 'dashboard_count');
+        try {
+            res = JSON.parse(res);
+            console.log(res, 'dashboard_count');
 
-                if (res.response_code == 200) {
-                    // Populate basic stats
-                    $('#total_well').text(res.data.total_well ?? 0);
-                    $('#total_flowing_well').text(res.data.total_flowing_well ?? 0);
-                    $('#total_non_flowing_well').text(res.data.total_not_flowing_well ?? 0);
-                    $('#off_unit').text(res.data.rtms_offline ?? 0);
-                } else {
-                    console.error('API Error:', res.msg || 'Unknown error');
-                }
-            } catch (e) {
-                console.error('JSON Parse Error:', e.message);
+            if (res.response_code == 200) {
+                let total_well = res.data.total_well ?? 0;
+                let total_flowing_well = res.data.total_flowing_well ?? 0;
+                let total_not_flowing_well = res.data.total_not_flowing_well ?? 0;
+                let rtms_offline = res.data.rtms_offline ?? 0;
+
+                $('#total_well').text(total_well);
+                $('#total_flowing_well').text(total_flowing_well);
+                $('#total_non_flowing_well').text(total_not_flowing_well);
+                $('#off_unit').text(rtms_offline);
+               
+                $('#totalcount').text(total_well);
+
+            } else {
+                console.error('API Error:', res.msg || 'Unknown error');
             }
-        },
+        } catch (e) {
+            console.error('JSON Parse Error:', e.message);
+        }
+       },
         error: function(xhr, status, error) {
             console.error('AJAX Error:', status, error);
         }
@@ -800,7 +807,7 @@ function get_tag_list_for_threshold(thresholdData) {
                 $('.btns-section').show();
 
                 if (user_type == 2) {
-                    $('.tag-select').select2({
+                    $('.tag-select')({
                         placeholder: "Select Tag",
                         width: '100%'
                     });
