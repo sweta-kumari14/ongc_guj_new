@@ -86,6 +86,41 @@
             $result = $this->CallAPI($api,$data,$method);
             echo json_encode($result);
         }
+
+        public function publish_device_config()
+        {
+            $api ='Real_Time_mqtt_data/Device_configration_send';
+            $data = 'command_data='.$this->input->post('command_data',true)
+                     .'&imei_no='.$this->input->post('imei_no',true)
+                     .'&c_by='.$this->session->userdata('user_id',true);
+            $method ='POST';
+            $result = $this->CallAPI($api,$data,$method);
+            echo json_encode($result);
+        }
+
+        public function device_configration_report_page()
+        {
+            $api = 'Device_configration_setup/device_List';
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+            $method ='POST';
+            $result = $this->CallAPI($api,$data,$method);
+            $d['device_list'] = $result['data'];
+
+            $d['v'] = "report/device_configration_report";
+            $this->load->view('templates',$d); 
+        }
+
+        public function device_config_ajax()
+        {
+            $api ='Real_Time_mqtt_data/Device_configration_publish_log';
+            $data = 'imei_no='.$this->input->post('imei_no',true)
+                     .'&from_date='.$this->input->post('from_date',true)
+                     .'&to_date='.$this->input->post('to_date',true)
+                     .'&c_by='.$this->session->userdata('user_id',true);
+            $method ='POST';
+            $result = $this->CallAPI($api,$data,$method);
+            echo json_encode($result);
+        }
     
 }
 ?>

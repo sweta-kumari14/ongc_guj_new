@@ -11,7 +11,65 @@
     filter: invert(1) brightness(200%);
 }
 
+#processing_message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+.loader-img {
+    height: 200px;
+    width: 100px;
+}
+#loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+#loader-message {
+    color: white !important;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 18%;
+    margin-top: 65px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 </style>
+<div id="loader-container" style="display:none;">
+    <div class="loader"></div>
+    <div id="loader-message">Please Wait while we are configuring.</div>
+</div>
 
 <div class="page-wrapper">
 <!-- Page Content -->
@@ -26,6 +84,12 @@
                             </div>
                             <div class="col-md-6 d-md-flex justify-content-end">
                                 <div>
+                                  <a href="<?php echo base_url();?>Device_configration_setup_c/device_configration_report_page">
+                                    <button type="button" class="btn btn-sm btn-primary text-white">
+                                       <i class="fas fa-file-alt me-1 text-white"></i> Report
+                                    </button>
+                                  </a>
+
                                     <button type="button" class="btn btn-sm btn-warning text-white" onclick="previewJson()">
                                         <i class="fas fa-eye me-1 text-white"></i> Preview JSON
                                     </button>
@@ -153,6 +217,8 @@
       </div>
     </div>
 </div>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="<?php echo base_url() ?>assets/local/mqtt_server.js"></script>
 <script>
 $(".device-setting").on("input change", function() {
     $("#deviceUpdateBox").show();
@@ -541,25 +607,45 @@ function previewJson()
     });
 }
 
-
-
 function publishConfig() {
-    let jsonData = $("#jsonPreviewModalBody").text();
 
-    $.ajax({
-        url: "<?php echo base_url('Device_configration_setup_c/publish_device_config'); ?>",
-        type: "POST",
-        data: { config_json: jsonData },
-        dataType: "json",
-        success: function(res){
-            if(res.status){
-                alert("Configuration published successfully!");
-                $("#jsonPreviewModal").modal("hide");
-            } else {
-                alert("Publishing failed!");
-            }
+    swal({
+        title: "Are you sure?",
+        text: "Do you want to send device configuration?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willSend) => {
+        if (willSend) {
+            let jsonData = $("#jsonPreviewModalBody").text();
+            let imei_no = $("#imei_no_hdn").val();
+            
+            $('#loader-container').show();
+
+            $.ajax({
+                url: "<?php echo base_url('Device_configration_setup_c/publish_device_config'); ?>",
+                type: "POST",
+                data: { command_data: jsonData, imei_no: imei_no },
+                dataType: "json",
+                success: function(res){
+                    $('#loader-container').hide();
+                     sendConfigCommand(jsonData, imei_no);
+
+                    if(res.response_code == 200){
+                        swal("Success", res.msg, "success");
+                        $("#jsonPreviewModal").modal("hide");
+                    } else {
+                        swal("Error", res.msg, "error");
+                    }
+                }
+            });
+
+        } else {
+            swal("Cancelled", "Device configuration not sent", "info");
         }
     });
 }
+
 </script>
       

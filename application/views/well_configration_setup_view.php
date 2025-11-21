@@ -100,9 +100,6 @@ if($this->session->flashdata('error') != '')
 ?>
 
 <script type="text/javascript">
-    
-    
-   
     function delete_well_configration(well_id)
     {
       swal({

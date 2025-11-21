@@ -237,9 +237,10 @@ class Selfflow_dashboard_model extends CI_Model
             $row['status_variable'] = $status_variable;
 
             // Threshold setup
-            $thresholds = $this->db->select('node_name, upper_value, lower_value')
-                                   ->from('tbl_well_threshold_setup_master')
-                                   ->where('well_id', $row['well_id'])
+            $thresholds = $this->db->select('cm.component_name as node_name,tm.component_id,tm.tag_no,tm.upper_value, tm.lower_value')
+                                   ->from('tbl_well_threshold_setup_master tm')
+                                   ->join('tbl_component_master cm','tm.component_id=cm.id','left')
+                                   ->where('tm.well_id', $row['well_id'])
                                    ->get()
                                    ->result_array();
             $row['threshold_setup'] = $thresholds;
