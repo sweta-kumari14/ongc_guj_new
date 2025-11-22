@@ -85,6 +85,24 @@ class  Device_configration_setup extends REST_Controller
 
 			    $thresholdData = json_decode($this->input->post('threshold_data', true), TRUE);
 
+			$verify = $this->Device_configration_setup_model->get_existing_threshold_log($this->input->post('well_id', true));
+
+			if (!empty($verify) && $verify['total_well'] > 0)
+			{
+			    $thdata = [];
+			    $thdata['d_by']   = $this->input->post('c_by',true);
+			    $thdata['d_date'] = date('Y-m-d H:i:s');
+			    $thdata['status'] = 0;  
+
+			    $this->Device_configration_setup_model->update_threshold_log(
+			        $thdata,
+			        [
+			            'well_id' => $this->input->post('well_id',true),
+			            'status'  => 1 
+			        ]
+			    );
+			}
+
 			foreach ($thresholdData as $key => $value) 
 			{
 

@@ -730,7 +730,7 @@ class Well_configuration extends REST_Controller
                                         $data['valid_datetime'] = (new DateTime($data['to_deactive_date_time']))->modify('+1 day')->setTime(5, 59, 59)->format('Y-m-d H:i:s');
                                         $data['status'] = 0;
                     
-                                       $this->Well_configuration_model->UpdateWell_logConfigration($data,['well_id'=>$this->input->post('well_id',true),'well_type'=>0]);
+                                       $this->Well_configuration_model->UpdateWell_logConfigration($data,['well_id'=>$this->input->post('well_id',true),'well_type'=>0,'status'=>1]);
 
 
                                         $this->Well_configuration_model->Update_dataWell_Configration(['well_id'=>$this->input->post('well_id',true),'well_type'=>0]);
@@ -915,11 +915,11 @@ class Well_configuration extends REST_Controller
                                 $data['valid_datetime'] = (new DateTime($data['to_deactive_date_time']))->modify('+1 day')->setTime(5, 59, 59)->format('Y-m-d H:i:s');
                                 $data['d_date'] = date('Y-m-d H:i:s');
                                 $data['status'] = 0;
-                                $this->Well_configuration_model->UpdateWell_logConfigration($data,['well_id'=>$this->input->post('well_id',true),'well_type'=>1]);
+                                $this->Well_configuration_model->UpdateWell_logConfigration($data,['well_id'=>$this->input->post('well_id',true),'well_type'=>1,'status'=>1]);
 
-                                $this->Well_configuration_model->Update_dataWell_Configration(['well_id'=>$this->input->post('well_id',true),'well_type'=>1]);
+                                $this->Well_configuration_model->Update_dataWell_Configration(['well_id'=>$this->input->post('well_id',true),'well_type'=>1,'status'=>1]);
 
-                                $this->Well_configuration_model->DeleteWell_ConfigrationLogData(['well_id'=>$this->input->post('well_id',true),'date(c_date)'=>date('Y-m-d'),'well_type'=>1]);
+                                $this->Well_configuration_model->DeleteWell_ConfigrationLogData(['well_id'=>$this->input->post('well_id',true),'date(c_date)'=>date('Y-m-d'),'well_type'=>1,'status'=>1]);
 
                                   
                                $this->response(['status' => true, 'data' => [], 'msg' => 'Well Sheduling Successfully periodic to regular!!', 'response_code' => REST_Controller::HTTP_OK]);

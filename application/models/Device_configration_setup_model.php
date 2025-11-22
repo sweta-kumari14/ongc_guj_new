@@ -6,6 +6,22 @@ class Device_configration_setup_model extends CI_Model
 		parent::__construct();
 	}   
 
+
+	public function get_existing_threshold_log($well_id)
+	{
+	    return $this->db
+	        ->select('COUNT(well_id) AS total_well')
+	        ->from('tbl_well_threshold_setup_log')
+	        ->where('well_id', $well_id)
+	        ->get()
+	        ->row_array();
+	}
+
+	public function update_threshold_log($data,$where)
+	{
+		return $this->db->update('tbl_well_threshold_setup_log',$data,$where);
+	}
+
     public function device_installList($company_id)
 	{
 	    if ($company_id != '')

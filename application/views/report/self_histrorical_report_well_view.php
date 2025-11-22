@@ -192,7 +192,7 @@
                         <div class="form-labele col-md-4">
                                 <h5><b>Well  Name</b></h5>
                                 <select name="well_id" id="well_id" class="form-control select2" onchange="get_mis_report();">
-                                 
+                                 <option value=""> Select well</option>
                                     <?php 
                                     if (!empty($well_list))
                                     {
@@ -225,10 +225,10 @@
                                  <div>
                                     <label>per page</label>
                                     <select id="page-size" class="form-select form-select-sm w-auto d-inline-block">
-                                        <option value="5">5</option>
-                                        <option value="10" selected="">10</option>
-                                        <option value="20">20</option>
+                                        <option value="10"selected="">10</option>
                                         <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="500">500</option>
                                     </select>
                                        
                                 </div>
@@ -511,6 +511,7 @@ function get_mis_report() {
 }
 
 function renderMisTable() {
+
     const groups = isSearching ? filteredMisGroups : misDataGroups;
     if (!groups || groups.length === 0) {
         $('#table_data').html('<tr><td colspan="12">No matching records.</td></tr>');
@@ -518,7 +519,6 @@ function renderMisTable() {
         return;
     }
 
-    // Flatten all rows with reference to their group
     let allRows = [];
     groups.forEach(group => {
         group.records.forEach(record => {
@@ -534,12 +534,12 @@ function renderMisTable() {
 
     const start = (currentPage - 1) * pageSize;
     const end = start + pageSize;
+
     const pageRows = allRows.slice(start, end);
 
     let html = '';
     let serial = start + 1;
 
-    // Track rowspan for well_name in current page
     let wellRowMap = {};
     pageRows.forEach((row, index) => {
         const well = row.well_name;
@@ -547,22 +547,26 @@ function renderMisTable() {
         wellRowMap[well].push(index);
     });
 
+    function formatVal(val) {
+        return val !== null && val !== undefined && !isNaN(val) ? Number(val).toFixed(2) : '-';
+    }
+
     pageRows.forEach((row, index) => {
+
         html += `<tr>`;
 
-        // Serial number
         html += `<td>${serial}</td>`;
+        serial++;
 
-        // Merge well_name if first occurrence on this page
         const well = row.well_name;
-        const wellIndexes = wellRowMap[well];
-        if (wellIndexes[0] === index) {
-            html += `<td rowspan="${wellIndexes.length}" style="vertical-align: middle; text-align: center;">${well}</td>`;
-        }
+        const indexes = wellRowMap[well];
 
-        function formatVal(val) {
-          return val !== null && val !== undefined && !isNaN(val) ? Number(val).toFixed(2) : '-';
-       }
+        if (indexes[0] === index) {
+            html += `<td rowspan="${indexes.length}" 
+                       style="vertical-align: middle; text-align: center;">
+                       ${well}
+                     </td>`;
+        }
 
         html += `
             <td>${row.record.Log_Date_Time ?? '-'}</td>
@@ -575,8 +579,12 @@ function renderMisTable() {
             <td>${formatVal(row.record.FLT)}</td>
             <td>${formatVal(row.record.FLT_battery_volt)}</td>
             <td>${formatVal(row.record.Battery_Voltage)}</td>
-        </tr>`;
+        `;
 
+        html += `</tr>`;
+    });
+
+    // ✅ moved OUTSIDE loop
     $('#table_data').html(html);
 
     // Pagination
@@ -593,7 +601,6 @@ function renderMisTable() {
         container.appendChild(btn);
     }
 }
-
 
 function renderPaginationControls() {
     const groups = isSearching ? filteredMisGroups : misDataGroups;

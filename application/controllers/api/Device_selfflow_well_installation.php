@@ -294,7 +294,7 @@ class Device_selfflow_well_installation extends REST_Controller
 
                 $this->Device_selfflow_installation_model->Device_setup_mater(
                     ['node_scan_time'=>30,'node_log_time'=>300,'gateway_log_time'=>60,'d_date'=>date('Y-m-d H:i:s')],
-                    ['device_name'=>$device_name]
+                    ['imei_no'=>$imei_no]
                 );
            }      
 
@@ -436,6 +436,19 @@ class Device_selfflow_well_installation extends REST_Controller
                                         'installation_status' => 1
                                     ]
                                 );
+
+                                $updateThreshold = [];
+                                $updateThreshold['d_by'] = $this->input->post('c_by', true);
+                                $updateThreshold['d_date'] = date("Y-m-d H:i:s");
+                                $updateThreshold['status'] = 0;
+
+                                $this->Device_selfflow_installation_model->Update_threshold_log($updateThreshold,['well_id'=>$well_id,'tag_no'=>$value['tag_number'],'status'=>1]);
+
+                                $this->Device_selfflow_installation_model->Delete_threshold_master([
+                                        'component_id' => $value['component_id'],
+                                        'tag_no'       => $value['tag_number'],
+                                        'well_id'      => $well_id
+                                    ]);
                             }
 
                         $data = [];
@@ -473,10 +486,7 @@ class Device_selfflow_well_installation extends REST_Controller
 
                         $this->Device_selfflow_installation_model->SaveWell_installationlog($datalog);
 
-                        $this->Device_selfflow_installation_model->Update_threshold_log(['status'=>0,'d_date'=>date('Y-m-d H:i:s'),'d_by'=>$c_by],['component_id'=>$value['component_id'],'tag_no'=>$value['tag_number'],'well_id'=>$well_id]);
-
                         
-                         $this->Device_selfflow_installation_model->Delete_threshold_master(['component_id'=>$value['component_id'],'tag_no'=>$value['tag_number'],'well_id'=>$well_id]);
 
                         $this->response(['status'=>true,'data'=>[],'msg'=>'Successfully Tag Removed!!','response_code'=>REST_Controller::HTTP_OK]);
 

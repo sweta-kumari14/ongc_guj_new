@@ -141,12 +141,8 @@ re<!-- Sidebar -->
 					<li> 
 						<a href="#"><i class="la la-object-ungroup"></i> <span>Threshold Setup</span><span class="menu-arrow"></span></a>
 						<ul>
-					       <!-- <li><a href="<?php echo base_url('Equipment_details_c'); ?>" class="slide-item">Equipment Details</a></li> -->
 					       <li><a href="<?php echo base_url('Threshold_setup_c'); ?>" class="slide-item">Threshold Setup</a></li>
 
-					       
-							
-							  
               </ul>
 					</li>
 					<li> 
@@ -204,6 +200,8 @@ re<!-- Sidebar -->
 							
 							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>   
 							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
+							<li><a href="<?php echo base_url('Device_commissioning_c/commissioning_report_page'); ?>" class="slide-item">Well Commissioning Report</a></li>
+							
 							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
 							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
 							<li><a href="<?php echo base_url('Downtime_report_c'); ?>" class="slide-item">Downtime Report</a></li>
@@ -261,6 +259,8 @@ re<!-- Sidebar -->
 
 					       <li><a class="nav-link" href="<?php echo base_url() ?>Device_configration_setup_c">Device Configration </a></li>
 
+					       <li><a class="nav-link" href="<?php echo base_url() ?>Device_commissioning_c">Device Commissioning </a></li>
+
 					       <li><a href="<?php echo base_url('Device_reinstalltion_c'); ?>" class="slide-item">Device Re-Installation</a></li>
 					       
 					       <li><a href="<?php echo base_url('Removal_c'); ?>" class="slide-item">Well Removal</a></li>
@@ -291,6 +291,7 @@ re<!-- Sidebar -->
 						<ul>
 							<li><a href="<?php echo base_url('Running_log_c'); ?>" class="slide-item">Running Log Report</a></li>
 							<li><a href="<?php echo base_url('Well_running_energy_log_c'); ?>">Well Performance Report </a></li>
+
 							<li><a href="<?php echo base_url('Flag_unflag_report_c'); ?>" class="slide-item">Flag Unflag Log Report</a></li>
 							<li><a href="<?php echo base_url('Flag_unflag_report_selfflow_c'); ?>" class="slide-item">Flag Unflag selfflow Log Report</a></li>
 
@@ -318,8 +319,12 @@ re<!-- Sidebar -->
 					<li class="submenu">
 						<a href="#"><i class="la la-pie-chart"></i> <span>  Self-Flow Reports </span> <span class="menu-arrow"></span></a>
 						<ul>
-							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>   
 							<li><a href="<?php echo base_url('Selfflow_historical_report_c'); ?>" class="slide-item">Historical Report</a></li>
+							<li><a href="<?php echo base_url('Selfflow_alert_c'); ?>" class="slide-item">Alert Log Report</a></li>  
+							<li><a href="<?php echo base_url('Device_commissioning_c/commissioning_report_page'); ?>" class="slide-item">Well Commissioning Report</a></li>
+							<li><a href="<?php echo base_url('Device_configration_setup_c/device_configration_report_page'); ?>" class="slide-item">Device Configration Report</a></li>
+
+						
 							<li><a href="<?php echo base_url('Selfflow_historical_report_c/historical_graph_page'); ?>" class="slide-item">Historical Report Graph</a></li>
 							<li><a href="<?php echo base_url('Sensor_installed_report_c'); ?>" class="slide-item">Sensor Installation Report</a></li>
 							

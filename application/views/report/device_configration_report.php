@@ -148,11 +148,11 @@ function fetch_well_list() {
                             <td>${row.user_full_name} (${row.unique_userId})</td>
 
                             <td>
-                                <a href="javascript:void(0)" 
-                                   class="text-primary viewPreview"
-                                   data-json='${row.command_value}'>
-                                   <i class="fa fa-eye"></i>
-                                </a> ${row.command_value}
+                              <a href="javascript:void(0)" 
+                              class="text-primary viewPreview"
+                              data-json="${btoa(row.command_value)}">
+                              <i class="fa fa-eye"></i>
+                              </a>
                             </td>
                         `;
 
@@ -182,42 +182,164 @@ function groupBy(arr, key) {
     }, {});
 }
 
+// $(document).on("click", ".viewPreview", function () {
+
+//     let raw = $(this).attr("data-json");
+
+//     try {
+//         let data = JSON.parse(raw);
+//         let jsonPreview = `{
+//     "sVal": "${data.sVal}",
+//     "nw": "${data.nw}",
+//     "wd": [
+// `;
+
+//         data.wd.forEach((well, wi) => {
+
+//             jsonPreview += `        {
+//             "wn": "${well.wn}",
+//             "nn": "${well.nn}",
+//             "ndata": [
+// `;
+
+//             // ⭐ ONE-LINE OBJECTS INSIDE ndata ARRAY
+//             well.ndata.forEach((nd, ni) => {
+//                 jsonPreview += `               ${JSON.stringify(nd)}${ni < well.ndata.length - 1 ? "," : ""}\n`;
+//             });
+
+//             jsonPreview += `            ]
+//         }${wi < data.wd.length - 1 ? "," : ""}
+// `;
+//         });
+
+//         jsonPreview += `    ]
+// }`;
+
+//         // ---------------------------------------------------------
+//         // ⭐ JSON Preview Output Block
+//         // ---------------------------------------------------------
+
+//         let rawJson = `
+//             <h4>JSON Preview</h4>
+//             <pre style="background:#f4f4f4;padding:15px;border-radius:5px;white-space: pre-wrap;height:300px;overflow-x:auto;">
+// ${jsonPreview}
+//             </pre>
+//         `;
+
+//         let sValParts = data.sVal.split(",");
+//         let dt = sValParts[0] + " " + sValParts[1];
+//         let formattedDT = moment(dt).format("DD-MM-YYYY HH:mm:ss A");
+
+//        let html = `
+//             <hr>
+//             <div style="height:500px;overflow-x:auto;">
+//             <h4>Tabular Format</h4>
+//             <div class="row">
+//                 <div class="col-md-6">
+//                     <h5><b>sVal</b> ${formattedDT}, ${sValParts[2]}, ${sValParts[3]}, ${sValParts[4]}</h5>
+//                 </div>
+//                 <div class="col-md-6">
+//                     <h5><b>No of wells </b> ${data.nw}</h5>
+//                 </div>
+//             </div>
+
+//             <hr>
+//         `;
+
+//         data.wd.forEach((well, i) => {
+//             html += `
+//                 <h5>Well  ${well.wn}</h5>
+//                 <p><b>Node No </b> ${well.nn}</p>
+               
+//                    <table class="table table-bordered mb-0">
+//                     <tr>
+//                         <th>Tag Number (nm)</th>
+//                         <th> Component (vnm)</th>
+//                         <th>Max Value (vmx)</th>
+//                         <th>Upper Value (vu)</th>
+//                         <th>Lower Value (vl)</th>
+//                         <th>Multiplier (mul)</th>
+//                         <th>Offset (ofs)</th>
+//                     </tr>
+//             `;
+
+//             well.ndata.forEach(n => {
+//                 html += `
+//                     <tr>
+//                         <td>${n.nm}</td>
+//                         <td>${n.vnm}</td>
+//                         <td>${n.vmx}</td>
+//                         <td>${n.vu}</td>
+//                         <td>${n.vl}</td>
+//                         <td>${n.mul}</td>
+//                         <td>${n.ofs}</td>
+//                     </tr>
+//                 `;
+//             });
+
+//             html += "</table><hr>";
+//         });
+
+//         html += "</div>";
+
+//         // ---------------------------------------------------------
+//         // ⭐ SHOW MODAL
+//         // ---------------------------------------------------------
+
+//         $("#previewContent").html(rawJson + html);
+//         $("#previewModal").modal("show");
+
+//     } catch (e) {
+//         $("#previewContent").html("<p class='text-danger'>Invalid JSON</p>");
+//         $("#previewModal").modal("show");
+//     }
+// });
+
 $(document).on("click", ".viewPreview", function () {
 
-    let raw = $(this).attr("data-json");
-
     try {
-        let data = JSON.parse(raw);
+        let encoded = $(this).attr("data-json");
+        let raw = atob(encoded);              
+        let fullObj = JSON.parse(raw);       
+        let data = fullObj.value;            
+
+        // -------------------------
+        // JSON PREVIEW WITH SINGLE LINE ndata OBJECTS
+        // -------------------------
+
         let jsonPreview = `{
-    "sVal": "${data.sVal}",
-    "nw": "${data.nw}",
-    "wd": [
+    "cmd": "${fullObj.cmd}",
+    "value": {
+        "sVal": "${data.sVal}",
+        "nw": "${data.nw}",
+        "wd": [
 `;
 
         data.wd.forEach((well, wi) => {
 
-            jsonPreview += `        {
-            "wn": "${well.wn}",
-            "nn": "${well.nn}",
-            "ndata": [
+            jsonPreview += `            {
+                "wn": "${well.wn}",
+                "nn": "${well.nn}",
+                "ndata": [
 `;
 
-            // ⭐ ONE-LINE OBJECTS INSIDE ndata ARRAY
+            // ⭐ SINGLE-LINE ndata OBJECTS
             well.ndata.forEach((nd, ni) => {
-                jsonPreview += `               ${JSON.stringify(nd)}${ni < well.ndata.length - 1 ? "," : ""}\n`;
+                jsonPreview += `                    ${JSON.stringify(nd)}${ni < well.ndata.length - 1 ? "," : ""}\n`;
             });
 
-            jsonPreview += `            ]
-        }${wi < data.wd.length - 1 ? "," : ""}
+            jsonPreview += `                ]
+            }${wi < data.wd.length - 1 ? "," : ""}
 `;
         });
 
-        jsonPreview += `    ]
+        jsonPreview += `        ]
+    }
 }`;
 
-        // ---------------------------------------------------------
-        // ⭐ JSON Preview Output Block
-        // ---------------------------------------------------------
+        // -------------------------
+        // RAW JSON BLOCK
+        // -------------------------
 
         let rawJson = `
             <h4>JSON Preview</h4>
@@ -226,11 +348,15 @@ ${jsonPreview}
             </pre>
         `;
 
+        // -------------------------
+        // TABULAR VIEW
+        // -------------------------
+
         let sValParts = data.sVal.split(",");
         let dt = sValParts[0] + " " + sValParts[1];
         let formattedDT = moment(dt).format("DD-MM-YYYY HH:mm:ss A");
 
-       let html = `
+        let html = `
             <hr>
             <div style="height:500px;overflow-x:auto;">
             <h4>Tabular Format</h4>
@@ -239,27 +365,27 @@ ${jsonPreview}
                     <h5><b>sVal</b> ${formattedDT}, ${sValParts[2]}, ${sValParts[3]}, ${sValParts[4]}</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5><b>No of wells </b> ${data.nw}</h5>
+                    <h5><b>No of wells</b> ${data.nw}</h5>
                 </div>
             </div>
 
             <hr>
         `;
 
-        data.wd.forEach((well, i) => {
+        data.wd.forEach((well) => {
             html += `
-                <h5>Well  ${well.wn}</h5>
-                <p><b>Node No </b> ${well.nn}</p>
-               
-                   <table class="table table-bordered mb-0">
+                <h5>Well ${well.wn}</h5>
+                <p><b>Node No</b> ${well.nn}</p>
+
+                <table class="table table-bordered mb-0">
                     <tr>
-                        <th>Tag Number (nm)</th>
-                        <th> Component (vnm)</th>
-                        <th>Max Value (vmx)</th>
-                        <th>Upper Value (vu)</th>
-                        <th>Lower Value (vl)</th>
-                        <th>Multiplier (mul)</th>
-                        <th>Offset (ofs)</th>
+                        <th style="color:black;">Tag Number (nm)</th>
+                        <th style="color:black;">Component (vnm)</th>
+                        <th style="color:black;">Max Value (vmx)</th>
+                        <th style="color:black;">Upper Value (vu)</th>
+                        <th style="color:black;">Lower Value (vl)</th>
+                        <th style="color:black;">Multiplier (mul)</th>
+                        <th style="color:black;">Offset (ofs)</th>
                     </tr>
             `;
 
@@ -282,10 +408,7 @@ ${jsonPreview}
 
         html += "</div>";
 
-        // ---------------------------------------------------------
-        // ⭐ SHOW MODAL
-        // ---------------------------------------------------------
-
+        // SHOW MODAL
         $("#previewContent").html(rawJson + html);
         $("#previewModal").modal("show");
 

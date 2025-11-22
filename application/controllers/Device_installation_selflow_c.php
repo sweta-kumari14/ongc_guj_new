@@ -73,70 +73,95 @@ class Device_installation_selflow_c extends MY_Controller
     
 
 
-    public function Device_install()
-    {
-        $user_id = $this->session->userdata('user_id');
+    // public function Device_install()
+    // {
+    //     $user_id = $this->session->userdata('user_id');
        
-        $wells_data = [];
-        if (!empty($_POST['wells'])) {
+    //     $wells_data = [];
+    //     if (!empty($_POST['wells'])) {
 
-            foreach ($_POST['wells'] as $i => $w) {
-                $image = '';
-                if (isset($_FILES['wells']['name'][$i]['image']) && $_FILES['wells']['size'][$i]['image'] > 0) {
+    //         foreach ($_POST['wells'] as $i => $w) {
+    //             $image = '';
+    //             if (isset($_FILES['wells']['name'][$i]['image']) && $_FILES['wells']['size'][$i]['image'] > 0) {
 
-                    $tmpPath = $_FILES['wells']['tmp_name'][$i]['image'];
-                    $image = base64_encode(file_get_contents($tmpPath));
-                }
+    //                 $tmpPath = $_FILES['wells']['tmp_name'][$i]['image'];
+    //                 $image = base64_encode(file_get_contents($tmpPath));
+    //             }
 
-                // Components mapping
-                $components = [];
-                if (!empty($w['component_id']) && !empty($w['tag_number'])) {
-                    foreach ($w['component_id'] as $idx => $cid) {
-                        $components[] = [
-                            "component_id" => $cid,
-                            "tag_number"   => $w["tag_number"][$idx] ?? ""
-                        ];
-                    }
-                }
+    //             // Components mapping
+    //             $components = [];
+    //             if (!empty($w['component_id']) && !empty($w['tag_number'])) {
+    //                 foreach ($w['component_id'] as $idx => $cid) {
+    //                     $components[] = [
+    //                         "component_id" => $cid,
+    //                         "tag_number"   => $w["tag_number"][$idx] ?? ""
+    //                     ];
+    //                 }
+    //             }
 
-                $wells_data[] = [
-                    "well_id"       => $w["well_id"],
-                    "well_type_id"  => $w["well_type"], 
-                    "image"         => $image,
-                    "components"    => $components
-                ];
-            }
-        }
+    //             $wells_data[] = [
+    //                 "well_id"       => $w["well_id"],
+    //                 "well_type_id"  => $w["well_type"], 
+    //                 "image"         => $image,
+    //                 "components"    => $components
+    //             ];
+    //         }
+    //     }
 
        
-        $tag_data_json = json_encode($wells_data); 
+    //     $tag_data_json = json_encode($wells_data); 
 
          
 
+    //     $api = 'Device_selfflow_well_installation/Save_wellDevice_Installation_Data';
+    //     $data = 'device_name=' .$this->input->post('device_name_hdn', true).
+    //         '&imei_no=' .$this->input->post('imei_no_hdn', true).
+    //         '&sim_no=' .$this->input->post('sim_no', true).
+    //         '&sim_provider=' .$this->input->post('sim_provider', true).
+    //         '&network_type=' .$this->input->post('network_type', true).
+    //         '&company_id=' .$this->session->userdata('company_id').
+    //         '&installed_by=' .$this->session->userdata('user_id').
+    //         '&wells=' .$tag_data_json.
+    //         '&latitude=' .$this->input->post('lat_hdn', true).
+    //         '&longitude=' .$this->input->post('long_hdn', true).
+    //         '&c_by='.$user_id;
+    //     $method = 'POST';
+    //     $result = $this->CallAPI($api, $data, $method);
+    //     // echo'<pre>';
+    //     // print_r($data);
+    //     // print_r($result);die;
+    //     if ($result['response_code'] == 200) {
+    //         $this->session->set_flashdata('success', $result['msg']);
+    //         redirect('Device_installation_selflow_c');
+    //     } else {
+    //         $this->session->set_flashdata('error', $result['msg']);
+    //         redirect('Device_installation_selflow_c');
+    //     }
+    // }
+
+     public function Device_install()
+    {
+        $user_id = $this->session->userdata('user_id');
+        
+        
         $api = 'Device_selfflow_well_installation/Save_wellDevice_Installation_Data';
+        $method ='POST';
         $data = 'device_name=' .$this->input->post('device_name_hdn', true).
-            '&imei_no=' .$this->input->post('imei_no_hdn', true).
-            '&sim_no=' .$this->input->post('sim_no', true).
-            '&sim_provider=' .$this->input->post('sim_provider', true).
-            '&network_type=' .$this->input->post('network_type', true).
-            '&company_id=' .$this->session->userdata('company_id').
-            '&installed_by=' .$this->session->userdata('user_id').
-            '&wells=' .$tag_data_json.
-            '&latitude=' .$this->input->post('lat_hdn', true).
-            '&longitude=' .$this->input->post('long_hdn', true).
-            '&c_by='.$user_id;
-        $method = 'POST';
+                '&imei_no=' .$this->input->post('imei_no_hdn', true).
+                '&sim_no=' .$this->input->post('sim_no', true).
+                '&sim_provider=' .$this->input->post('sim_provider', true).
+                '&network_type=' .$this->input->post('network_type', true).
+                '&company_id=' .$this->session->userdata('company_id').
+                '&installed_by=' .$user_id.
+                '&wells=' .$this->input->post('wells', true).
+                '&latitude=' .$this->input->post('lat_hdn', true).
+                '&longitude=' .$this->input->post('long_hdn', true).
+                '&c_by=' .$user_id;
+
         $result = $this->CallAPI($api, $data, $method);
-        // echo'<pre>';
         // print_r($data);
         // print_r($result);die;
-        if ($result['response_code'] == 200) {
-            $this->session->set_flashdata('success', $result['msg']);
-            redirect('Device_installation_selflow_c');
-        } else {
-            $this->session->set_flashdata('error', $result['msg']);
-            redirect('Device_installation_selflow_c');
-        }
+        echo json_encode($result);
     }
 }
 ?>

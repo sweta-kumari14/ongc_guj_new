@@ -104,7 +104,7 @@
                     <div class="card-body">                    
                         <form method="POST" action="" enctype="multipart/form-data" class="needs-validation" novalidate>
                         <div class="row">
-                            <div class="form-group col-md-3" >
+                            <div class="form-group col-md-4 mt-1">
                                 <label class="form-label">Device Name<sup class="text-danger">*</sup></label>
                                 <select name="device_name" id="device_name" class="form-control select2" 
                                  onchange="get_device_data();" required>
@@ -112,23 +112,23 @@
                                 </select>
                                 <div class="invalid-feedback">Please select device!</div>
                             </div>
-                            <div class="form-group col-md-3 " >
+                            <div class="form-group col-md-4 mt-1">
                                 <label class="form-label">Number of Wells (nw)<sup class="text-danger">*</sup></label>
                                 <input type="text" name="no_of_wells" id="no_of_wells" 
                                   class="form-control readonly-gray">
 
                             </div>
-                            <div class="form-group col-md-2 " >
+                            <div class="form-group col-md-4 mt-1">
                                 <label class="form-label">Node Scan Time<sup class="text-danger">*</sup></label>
                                 <input type="text" name="node_scan_time" id="node_scan_time" class="form-control device-setting">
                             </div>
 
-                            <div class="form-group col-md-2 " >
+                            <div class="form-group col-md-4 mt-1">
                                 <label class="form-label">Node Log Time<sup class="text-danger">*</sup></label>
                                 <input type="text" name="node_log_time" id="node_log_time" class="form-control device-setting">
                             </div>
 
-                            <div class="form-group col-md-2" >
+                            <div class="form-group col-md-4 mt-1">
                                 <label class="form-label">GateWay Log Time<sup class="text-danger">*</sup></label>
                                 <input type="text" name="gateway_log_time" id="gateway_log_time" class="form-control device-setting">
                             </div>
@@ -220,34 +220,43 @@
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <script src="<?php echo base_url() ?>assets/local/mqtt_server.js"></script>
 <script>
-$(".device-setting").on("input change", function() {
-    $("#deviceUpdateBox").show();
-});
-loadDeviceList();
+let imeiFromURL = "<?php echo $this->uri->segment(3); ?>";
+loadDeviceList(imeiFromURL);
 function loadDeviceList(selectedImei = null) {
+
     $.ajax({
         url: "<?php echo base_url('Device_configration_setup_c/device_list'); ?>",
         type: "POST",
         dataType: "json",
         success: function(res) {
+
             if(res.status && res.data.length > 0){
+
                 let options = '<option value="">Select Device</option>';
 
                 res.data.forEach(function(d){
+
                     let optVal = `${d.device_name}|${d.imei_no}|${d.no_of_wells}|${d.node_scan_time}|${d.node_log_time}|${d.gateway_log_time}`;
+
                     let selected = (selectedImei && selectedImei == d.imei_no) ? "selected" : "";
-                    options += `<option value="${optVal}" ${selected}>${d.device_name}</option>`;
+
+                    options += `<option value="${optVal}" ${selected}>${d.device_name} (${d.imei_no})</option>`;
                 });
 
                 $("#device_name").html(options).trigger('change.select2');
-            } else {
+            }
+            else {
                 $("#device_name").html('<option value="">No Device Found</option>');
             }
         }
     });
 }
+</script>
 
-
+<script>
+$(".device-setting").on("input change", function() {
+    $("#deviceUpdateBox").show();
+});
 function get_device_data()
 {
     var device_data = $('#device_name').val();
@@ -576,7 +585,13 @@ function previewJson()
                 }))
             };
 
-            let jsonText = JSON.stringify(jsonPreview, null, 2);
+             let finalJSON = {
+              cmd: 2,
+              value: jsonPreview
+            };
+
+           
+            let jsonText = JSON.stringify(finalJSON, null, 2);
           jsonText = jsonText.replace(
               /"ndata": \[\s*([\s\S]*?)\s*\]/g,
               function(match, inner) {

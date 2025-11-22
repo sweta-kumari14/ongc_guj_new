@@ -19,7 +19,8 @@
                 </div>
 
                     <div class="card-body pt-1">                    
-                        <form method="POST" action="<?php echo base_url('Device_installation_selflow_c/Device_install')?>" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <form id="deviceInstallForm" method="POST" 
+                          action="" enctype="multipart/form-data" class="needs-validation" novalidate>
                         <div class="row">
                              <div class="form-group col-md-4 mt-2" >
                                 <label class="form-label">Device Name<sup class="text-danger">*</sup></label>
@@ -31,7 +32,7 @@
                                         foreach ($device_list as $key => $value)
                                         {
                                             ?>
-                                                <option value="<?php echo $value['device_name'].'|'.$value['imei_no']; ?>"><?php echo $value['device_name']; ?></option>
+                                                <option value="<?php echo $value['device_name'].'|'.$value['imei_no']; ?>"><?php echo $value['device_name'].'|'.$value['imei_no']; ?></option>
 
                                             <?php
                                         }
@@ -355,12 +356,12 @@ function get_device_data()
 
             let blockHtml = `
                 <div class="col-md-6">
-                  <div class="border rounded p-2 mb-2" id="${blockId}">
+                  <div class="border rounded p-2 mb-2 well-row" id="well_block_${wellId}">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                       <div>
                         <strong>Well- ${wellName}</strong>${typeName}
-                        <input type="hidden" name="wells[${wellId}][well_id]" value="${wellId}">
-                        <input type="hidden" name="wells[${wellId}][well_type]" value="${typeId}">
+                        <input type="hidden" class="well_id" name="wells[${wellId}][well_id]" value="${wellId}">
+                        <input type="hidden" class="well_type" name="wells[${wellId}][well_type]" value="${typeId}">
                       </div>
                     </div>
 
@@ -484,7 +485,7 @@ function get_item_list(component_id, quantity_required, component_name, serialNu
 
                 for (let q = 1; q <= quantity_required; q++) {
                     $container.append(
-                            `<div class="form-group col-md-12 mt-2">
+                            `<div class="form-group col-md-12 mt-2 component-row">
                             <select name="wells[${wellId}][tag_number][]" 
                                     class="form-control select2 serial-number-dropdown" 
                                     data-component-id="${component_id}">
@@ -500,7 +501,7 @@ function get_item_list(component_id, quantity_required, component_name, serialNu
             } else {
                 for (let q = 1; q <= quantity_required; q++) {
                     $container.append(
-                        `<div class="form-group col-md-4">
+                        `<div class="form-group col-md-4 component-row">
                             <select name="wells[${wellId}][tag_number][]" 
                                     class="form-control select2 serial-number-dropdown" 
                                     data-component-id="${component_id}" disabled>
@@ -578,5 +579,111 @@ function validateSerialNumbers() {
         $('.serial-number-dropdown').trigger('change');
     }, 0);
 }
+</script>
+<script type="text/javascript">
+    $('#deviceInstallForm').on('submit', function(e) {
+    e.preventDefault();
+
+    swal({
+        title: 'Are you sure?',
+        text: "Do you want to install this device?",
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+    }).then(async (isConfirmed) => {
+        if (!isConfirmed) return;
+
+        const wells = [];
+        const promises = [];
+
+        $('.well-row').each(function(i, row) {
+            const well_id = $(row).find('.well_id').val();
+            const well_type_id = $(row).find('.well_type').val();
+
+            const components = [];
+            $(row).find('.component-row').each(function(j, comp) {
+                const compId = $(comp).find('input[name*="[component_id]"]').val();
+                const tagNo  = $(comp).find('select[name*="[tag_number]"]').val();
+                if (compId && tagNo) {
+                    components.push({ component_id: compId, tag_number: tagNo });
+                }
+            });
+
+            const imageInput = $(row).find('input[type="file"]')[0];
+            let imagePromise = Promise.resolve(""); 
+
+            if (imageInput && imageInput.files.length > 0) {
+                imagePromise = new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        resolve(e.target.result.split(',')[1]);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(imageInput.files[0]);
+                });
+            }
+
+            promises.push(
+                imagePromise.then(imageBase64 => {
+                    wells.push({ well_id, well_type_id, components, image: imageBase64 });
+                })
+            );
+        });
+
+        await Promise.all(promises);
+
+        const formData = new FormData();
+        formData.append('wells', JSON.stringify(wells));
+        formData.append('device_name_hdn', $('#device_name_hdn').val());
+        formData.append('imei_no_hdn', $('#imei_no_hdn').val());
+        formData.append('sim_no', $('#sim_no').val());
+        formData.append('sim_provider', $('#sim_provider').val());
+        formData.append('network_type', $('#network_type').val());
+        formData.append('lat_hdn', $('#lat_hdn').val());
+        formData.append('long_hdn', $('#long_hdn').val());
+
+        console.log("Sending Data:", wells);
+
+        $.ajax({
+            url: "<?php echo base_url('Device_installation_selflow_c/Device_install'); ?>",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            beforeSend: function() {
+                $('#submitBtn').prop('disabled', true).text('Processing...');
+            },
+            success: function(res) {
+                $('#submitBtn').prop('disabled', false).text('Submit');
+
+                if (res.response_code == 200) {
+
+                    let imei = $('#imei_no_hdn').val();
+                    let nextUrl = "<?php echo base_url('Device_configration_setup_c/index/'); ?>" + imei;
+
+                    swal({
+                        title: "Success",
+                        text: "Device Installation done! Now you may proceed for Device Configuration.",
+                        icon: "success",
+                        button: "Go to Configuration"
+                    }).then(() => {
+                        window.location.href = nextUrl;
+                    });
+
+                    $('#deviceInstallForm')[0].reset();
+
+                } else {
+                    swal('Error', res.msg, 'error');
+                }
+            },
+            error: function(err) {
+                $('#submitBtn').prop('disabled', false).text('Submit');
+                swal('Error', 'Something went wrong', 'error');
+            }
+        });
+
+    });
+});
 </script>
 
