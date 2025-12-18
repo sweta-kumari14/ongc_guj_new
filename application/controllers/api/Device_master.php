@@ -66,8 +66,7 @@ class Device_master extends REST_Controller
 					$data['admin_id'] = $this->input->post('admin_id',true);
 					$data['manufacturer_name'] = 'IOTAS';
 					$data['imei_no'] = $this->input->post('imei_no', true);
-                    $last_eight_digits = substr($imei_no, -8);
-                    $data['device_name'] = 'IOT-RTMS-' . $last_eight_digits;
+                    $data['device_name'] = $this->input->post('device_name',true);
 					$data['model_name'] = $this->input->post('model_name',true);
 					$data['manufacturer_month'] = $this->input->post('manufacturer_month',true);
 					$data['serial_no'] = $this->input->post('serial_no',true);
@@ -274,12 +273,7 @@ class Device_master extends REST_Controller
 				{
 					foreach ($allot_device as $key => $value) 
 					{
-						if (!empty($value['device_name'])) {
-			                if (!preg_match('/^IOT-RTMS-[a-zA-Z0-9]{8}$/', $value['device_name'])) {
-						        $this->response(['status' => false, 'data' => [], 'msg' => 'Device name should be in the format "IOT-RTMS-xxxxxxxx" (x represents 8 digits or alphabets)!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);
-						    }
-			            }
-
+						
 						if (!empty($value['imei_no'])) {
 			                if (!preg_match('/^[a-zA-Z0-9]{15,20}$/', $value['imei_no'])) {
 			                    $this->response(['status' => false, 'data' => [], 'msg' => 'IMEI number and characters should be 15 to 20 digit allowed!!', 'response_code' => REST_Controller::HTTP_BAD_REQUEST]);

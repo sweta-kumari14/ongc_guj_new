@@ -86,7 +86,7 @@
                                     <th>Tag Number</th>
                                     <th>From Date</th>
                                     <th>To Date</th>
-                                    <th>Status</th>
+                                    
                                 </tr>
                             </thead>
 
@@ -173,7 +173,7 @@
                                     '<td>' + (v.sensor_no ? v.sensor_no  : 'NA') + '</td>' +
                                     '<td>' + start_date_time + '</td>' +
                                     '<td>' + end_date_time + '</td>' +
-                                    '<td>' + (v.tag_status ? v.tag_status : 'NA') + '</td>' +
+                                    
                                 '</tr>');
 
                             });

@@ -174,7 +174,7 @@ class MemberEntry_model extends CI_Model
 
     public function session_existsOR_not($id)
     {
-        return $this->db->select('sessionTocken,unique_id,password')->from('tbl_session_details')->where(['user_id'=>$id,'status'=>1])->get()->result_array();
+        return $this->db->select('sessionTocken,unique_id,password')->from('tbl_session_details')->where(['id'=>$id,'status'=>1])->get()->result_array();
     }
     
    

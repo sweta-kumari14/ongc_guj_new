@@ -93,7 +93,7 @@
                                     <button type="button" class="btn btn-sm btn-warning text-white" onclick="previewJson()">
                                         <i class="fas fa-eye me-1 text-white"></i> Preview JSON
                                     </button>
-                                     <a href="<?php echo base_url('Main_dashboard'); ?>" class="btn btn-sm btn-success motion-btn">
+                                     <a href="<?php echo base_url('Selfflow_c'); ?>" class="btn btn-sm btn-success motion-btn">
                                       <i class="fas fa-arrow-left me-1" style="font-size: 12px;"></i> Back
                                     </a>
                                 </div>
@@ -346,6 +346,8 @@ function updateDeviceConfig(){
 
                 $("#well_table_body").html(html);
                 $("#well_table").show();
+                let firstWellId = res.data[0].well_id;
+                editWell(firstWellId);
 
             } else {
                 $("#well_table_body").html('<tr><td colspan="3" class="text-center text-danger">No wells found!</td></tr>');

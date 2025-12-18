@@ -222,12 +222,6 @@ button#back_btns:hover i {
                                 <table class="table table-bordered border-bottom"  style="width: 100%;" id="basic-datatable">
                                     <thead class="bg-light text-center" id="well_table_header">
                                         <tr>
-                                            <th colspan="8" class="text-uppercase" style="font-size: 20px;font-weight: bolder;">IOT BASED REAL TIME WELL MONITORING SYSTEM ONGC,CAMBAY ASSET</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="8" class="text-uppercase" style="font-size: 15px;font-weight: bolder;">Alert Log Report of <span id="show_from_date"></span> <span id="to">To</span> <span id="show_to_date"></span></th>
-                                        </tr>
-                                        <tr>
                                             <th data-key="sl_no" data-sort="number">Sl No.</th>
                                             <th data-key="well_site_name" data-sort="string">Site Name</th>
                                             <th data-key="well_name" data-sort="string">Well Name</th>

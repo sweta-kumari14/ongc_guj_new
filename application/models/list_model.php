@@ -153,7 +153,7 @@ class List_model extends CI_Model
             $this->db->where('di.site_id', $site_id);
 
        
-        $this->db->where("(TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) < 5)");
+        $this->db->where("(TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= 15)");
         $this->db->from('tbl_site_device_installtion_self_flow di');
         $this->db->join('tbl_role_wise_user_assign_details ad', 'di.site_id = ad.site_id and ad.status=1', 'left');
         $this->db->join('tbl_area_master am', 'di.area_id = am.id and am.status=1', 'left');
@@ -166,7 +166,7 @@ class List_model extends CI_Model
         ]);
         $this->db->group_by('di.id');
 
-        return $this->db->select("di.well_id, wmm.well_name, di.RTC_Time as Log_Date_Time, di.CHP, di.THP, di.ABP, di.FLT, di.Battery_Voltage,am.area_name, wm.well_site_name, wt.well_type_name, di.site_id, di.well_type, di.area_id, di.device_name, di.imei_no")
+        return $this->db->select("di.well_id, wmm.well_name, di.Log_Date_Time as Log_Date_Time, di.CHP, di.THP, di.ABP, di.FLT, di.Battery_Voltage,am.area_name, wm.well_site_name, wt.well_type_name, di.site_id, di.well_type, di.area_id, di.device_name, di.imei_no")
             ->get()
             ->result_array();
     }
@@ -186,7 +186,7 @@ class List_model extends CI_Model
         if ($site_id != '')
             $this->db->where('di.site_id', $site_id);
         
-        $this->db->where("(TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) > 5)");
+         $this->db->where("(TIMESTAMPDIFF(MINUTE, di.Log_Date_Time , NOW()) > 15 OR di.Log_Date_Time IS NULL)");
         $this->db->from('tbl_site_device_installtion_self_flow di');
 
         $this->db->join('tbl_role_wise_user_assign_details ad', 'di.site_id = ad.site_id', 'left');
@@ -226,7 +226,7 @@ class List_model extends CI_Model
             $this->db->where('ad.user_id', $user_id);
         }
 
-        $this->db->where("(TIMESTAMPDIFF(MINUTE, sd.Log_Date_Time , NOW()) > 5 OR sd.Log_Date_Time IS NULL)");
+        $this->db->where("(TIMESTAMPDIFF(MINUTE, sd.Log_Date_Time , NOW()) > 15 OR sd.Log_Date_Time IS NULL)");
 
         return $this->db->select("sd.*, wm.well_name, am.area_name, sm.well_site_name, wt.well_type_name")
             ->from('tbl_site_device_installtion_self_flow sd')

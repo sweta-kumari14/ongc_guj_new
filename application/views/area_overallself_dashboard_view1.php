@@ -424,12 +424,11 @@ function renderWell_statusTable() {
             const lastUpdatedTime = v.Log_Date_Time ? moment(v.Log_Date_Time).format('DD-MM-YYYY h:mm:ss a') : "NA";
             const installDate = v.date_of_installation ? moment(v.date_of_installation).format('DD-MM-YYYY h:mm:ss a') : "NA";
             const link = `${link_url}Selfflow_c/SingleWellDashboard/${v.well_id}`;
-            const statusColor = {
-                Flowing: '#28a745',
-                Offline: '#dc3545',
-                'Non-Flowing': '#ECA869',
-                battery_issue: '#82A0D8'
-            }[v.status_variable] || '#6c757d';
+           const statusColor = {
+                flowing_well: '#20c997',       // Green
+                non_flowing_well: '#800000',   // Orange
+                offline: '#6C757D',            // Red  
+            }[v.status_variable] || '#6c757d'; 
 
             html += `<tr>`;
 
@@ -446,9 +445,14 @@ function renderWell_statusTable() {
             </td>`;
 
 
-            html += `<td style="text-align:center;" class="well-status-cell" data-status="${v.status_variable}">
-                        <span class="badge d-inline-block" style="width: 18px; height: 18px; background-color: ${statusColor}; border-radius: 50%;" title="${v.status_variable}"></span>
-                    </td>`;
+           html += `
+                <td style="text-align:center;" class="well-status-cell" data-status="${v.status_variable}">
+                    <span class="badge d-inline-block"
+                          style="width: 18px; height: 18px; background-color: ${statusColor}; border-radius: 50%;"
+                          title="${v.status_variable}">
+                    </span>
+                </td>`;
+
 
             html += `<td style="text-align:center;">${installDate}</td>`;
             html += `<td style="text-align:center;">${lastUpdatedTime}</td>`;

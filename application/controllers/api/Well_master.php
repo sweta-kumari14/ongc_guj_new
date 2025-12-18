@@ -43,7 +43,7 @@ class Well_master extends REST_Controller
 		}else{
 			try 
 			{	
-				$verify = $this->Well_master_model->verifyWellExist($this->input->post('well_name',true));
+				$verify = $this->Well_master_model->verifyWellExist($this->input->post('well_name',true),$this->input->post('well_type',true));
 				if($verify == 0)
 				{
 					

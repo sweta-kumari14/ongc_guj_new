@@ -1,0 +1,38 @@
+CREATE TABLE tbl_alert_log
+(
+    id String,
+    well_id String,
+    imei_no String,
+    alert_type UInt8 COMMENT '0=FTHP High,1=FTHP Low,2=CHP High,3=CHP Low,4=ABP High,5=ABP Low,6=GIP High,7=GIP Low,8=FLT High,9=FLT Low,10=GIR High,11=GIR Low,12=Battery High,13=Battery Low',
+    alert_details String,
+    alert_date_time DateTime,
+    status UInt8 DEFAULT 1
+)
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(alert_date_time)
+ORDER BY (alert_date_time, well_id, imei_no, id);
+
+
+CREATE TABLE tbl_historical_log_self_flow
+(
+    id UInt64,
+    well_id String,
+    imei_no String,
+    FTHP Float32,
+    FTHP_battery_volt Float32,
+    CHP Float32,
+    CHP_battery_volt Float32,
+    ABP Float32,
+    ABP_battery_volt Float32,
+    THP Float32,
+    THP_battery_volt Float32,
+    FLT Float32,
+    FLT_battery_volt Float32,
+    Battery_Voltage Float32,
+    RTC_Date_Time DateTime,
+    Log_Date_Time DateTime,
+    status UInt8 DEFAULT 1
+)
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(RTC_Date_Time)
+ORDER BY (imei_no, RTC_Date_Time, id);

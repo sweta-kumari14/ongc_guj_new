@@ -536,6 +536,8 @@ function get_well_data() {
     let area_id = $('#area_id').val();
     let well_id = $('#well_id').val();
     let feeder_id = $('#feeder_id').val();
+    let user_type = parseInt('<?php echo $this->session->userdata('user_type'); ?>');
+    let role_type = parseInt('<?php echo $this->session->userdata('role_type');?>');
     $.ajax({
         url: '<?php echo base_url(); ?>Selfflow_c/well_card_data',
         method: 'POST',
@@ -546,7 +548,7 @@ function get_well_data() {
         },
         success: function(res) {
             var response = JSON.parse(res);
-            console.log(res, 'well_details');
+            // console.log(res, 'well_details');
 
             if (response.response_code == 200) {
                 if (response.data.length > 0) {
@@ -571,9 +573,9 @@ function get_well_data() {
                         let upper = parseFloat(threshold.upper_value);
                         let lower = parseFloat(threshold.lower_value);
 
-                        // Handle cases where upper < lower
+                  
                         if (upper < lower) {
-                            [upper, lower] = [lower, upper]; // Swap to make upper > lower
+                            [upper, lower] = [lower, upper]; 
                         }
 
                         if (val < lower || val > upper) {
@@ -587,8 +589,23 @@ function get_well_data() {
                         let cardHtml = `
                         <div class="col-md-4" data-well-id="${v.well_id}" data-area-id="${v.area_id}" data-site-id="${v.site_id}">
                                 <div class="card shadow-sm">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h6 class="mb-0 fw-bold" style="font-size:14pxpx">${v.well_name}</h6>
+                                    <div class="card-header d-flex justify-content-between align-items-center"
+                                         data-bs-toggle="tooltip"
+                                         title="${
+                                            (user_type == 2 || (user_type == 3 && role_type == 3))
+                                                ? v.imei_no
+                                                : ''
+                                         }">
+
+                                        <h6 class="mb-0 fw-bold" style="font-size:14px;">
+                                            ${v.well_name}  &nbsp;&nbsp;
+                                            ${
+                                                (user_type == 2 || (user_type == 3 && role_type == 3))
+                                                    ? `<span style="color:#0057ff;"> ${v.device_name}</span>`
+                                                    : ''
+                                            }
+                                        </h6>
+
                                         <div class="status-circle" 
                                              style="width:20px;height:20px;border-radius:50%;background:${statusColor};">
                                         </div>
@@ -602,28 +619,55 @@ function get_well_data() {
                                             <div class="sensors-top">
                                                 <img src="<?php echo base_url() ?>assets/img/psr.png">
                                                 <div class="sensor-values d-flex">
-                                                    <span style="font-size: 10px;"><strong>THP <span class="${getBlinkClass('THP', v.THP, v.threshold_setup)}"> ${v.THP && v.THP !== '' ? v.THP : '0.00'} </span> kg/cm²</strong></span>
+
+                                                    <span style="font-size: 10px;"><strong>THP <span class="${getBlinkClass('THP', v.THP, v.threshold_setup)}"
+                                                        data-bs-toggle="tooltip" 
+                                                        title="${
+                                                            (user_type === 2 || (user_type === 3 && role_type === 3)) && 
+                                                            v.threshold_setup.find(t => t.node_name === 'THP') 
+                                                            ? '(' + v.threshold_setup.find(t => t.node_name === 'THP').tag_number + ')' 
+                                                            : ''
+                                                        }"
+                                                        > ${v.THP && v.THP !== '' ? v.THP : '0.00'} </span>  kg/cm²</strong></span>
                                                 </div>
                                             </div>
 
                                             <div class="sensors-top-two">
                                                 <img src="<?php echo base_url() ?>assets/img/psr.png">
                                                 <div class="sensor-values d-flex">
-                                                    <span style="font-size: 10px;"><strong>ABP <span class="${getBlinkClass('ABP', v.ABP, v.threshold_setup)}"> ${v.ABP && v.ABP !== '' ? v.ABP : '0.00'}</span> kg/cm²  </strong></span>
+                                                    <span style="font-size: 10px;"><strong>ABP <span class="${getBlinkClass('ABP', v.ABP, v.threshold_setup)}" data-bs-toggle="tooltip" 
+                                                        title="${
+                                                            (user_type === 2 || (user_type === 3 && role_type === 3)) && 
+                                                            v.threshold_setup.find(t => t.node_name === 'ABP') 
+                                                            ? '(' + v.threshold_setup.find(t => t.node_name === 'ABP').tag_number + ')' 
+                                                            : ''
+                                                        }"> ${v.ABP && v.ABP !== '' ? v.ABP : '0.00'}</span> kg/cm²  </strong></span>
                                                 </div>
                                             </div>
 
                                             <div class="sensors-top-three">
                                                 <img src="<?php echo base_url() ?>assets/img/psr.png">
                                                 <div class="sensor-values_flt d-flex">
-                                                    <span style="font-size: 10px;"><strong>FLT <span class="${getBlinkClass('FLT', v.FLT , v.threshold_setup)}">  ${v.FLT && v.FLT !== '' ? v.FLT : '0.00'} </span> °C </strong></span>
+                                                    <span style="font-size: 10px;"><strong>FLT <span class="${getBlinkClass('FLT', v.FLT , v.threshold_setup)}"  data-bs-toggle="tooltip" 
+                                                        title="${
+                                                            (user_type === 2 || (user_type === 3 && role_type === 3)) && 
+                                                            v.threshold_setup.find(t => t.node_name === 'FLT') 
+                                                            ? '(' + v.threshold_setup.find(t => t.node_name === 'FLT').tag_number + ')' 
+                                                            : ''
+                                                        }">  ${v.FLT && v.FLT !== '' ? v.FLT : '0.00'} </span> °C </strong></span>
                                                 </div>
                                             </div>
 
                                             <div class="sensors-top-bottom">
                                                 <img src="<?php echo base_url() ?>assets/img/psr.png">
                                                 <div class="sensor-values_chp d-flex">
-                                                    <span style="font-size: 10px;"><strong>CHP <span class="${getBlinkClass('CHP', v.CHP , v.threshold_setup)}"> ${v.CHP && v.CHP !== '' ? v.CHP : '0.00'} </span> kg/cm² </strong></span>
+                                                    <span style="font-size: 10px;"><strong>CHP <span class="${getBlinkClass('CHP', v.CHP , v.threshold_setup)}" data-bs-toggle="tooltip" 
+                                                        title="${
+                                                            (user_type === 2 || (user_type === 3 && role_type === 3)) && 
+                                                            v.threshold_setup.find(t => t.node_name === 'CHP') 
+                                                            ? '(' + v.threshold_setup.find(t => t.node_name === 'CHP').tag_number + ')' 
+                                                            : ''
+                                                        }"> ${v.CHP && v.CHP !== '' ? v.CHP : '0.00'} </span> kg/cm² </strong></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -643,13 +687,6 @@ function get_well_data() {
                                                 <i class="fas fa-info-circle fa-lg"></i>
                                             </button>
                                             </a>
-                                            <button class="btn btn-sm btn-outline-success"  
-                                                data-bs-toggle="offcanvas" 
-                                                data-bs-target="#addThreshold_data" 
-                                                aria-controls="addThreshold_data"
-                                                title="Click to Setup Threshold">
-                                            <i class="fas fa-sliders-h"></i>
-                                        </button>
                                         </div>
                                     </div>
                                 </div>
@@ -702,7 +739,7 @@ function get_last_thereshold_value() {
         data: { well_id: well_id },
         success: function (res) {
             res = JSON.parse(res);
-            console.log(res, 'threshold');
+            // console.log(res, 'threshold');
 
             if (res.response_code == 200 && res.data.length > 0) {
                 get_tag_list_for_threshold(res.data);
@@ -943,7 +980,7 @@ function initMap() {
             let response;
             try {
                 response = JSON.parse(res);
-                console.log(response, 'map');
+                // console.log(response, 'map');
             } catch (error) {
                 console.error("Invalid JSON response:", error);
                 return;
@@ -955,8 +992,8 @@ function initMap() {
             }
 
             const mapCenter = {
-                lat: parseFloat(response.data[0].lat) || 21.62640,
-                lng: parseFloat(response.data[0].long) || 73.0152
+                lat: parseFloat(response.data[0].lat) || 22.21746600,
+                lng: parseFloat(response.data[0].long) || 73.07054700
             };
 
             const map = new google.maps.Map(document.getElementById('mymap'), {
@@ -964,7 +1001,7 @@ function initMap() {
                 center: mapCenter
             });
 
-            const timeLimit = 5 * 60 * 1000; 
+            const timeLimit = 15 * 60 * 1000; 
             const baseUrl = '<?php echo base_url(); ?>assets/img/';
 
             response.data.forEach((marker, index) => {
@@ -1025,5 +1062,14 @@ function initMap() {
     });
 }
 
+
+</script>
+<script type="text/javascript">
+  
+setInterval(()=>{
+    get_well_data();
+    get_dashboard_count();
+    initMap();        
+}, 60000);
 
 </script>

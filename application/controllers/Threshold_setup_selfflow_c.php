@@ -91,6 +91,13 @@
             $result = $this->CALLAPI($api, $data, $method);
             $d['area_list'] = $result['data']; 
 
+            $api = 'Device_configration_setup/device_List';
+            $data = 'company_id='.htmlspecialchars($this->session->userdata('company_id'));
+            $method ='POST';
+            $result = $this->CallAPI($api,$data,$method);
+            $d['device_list'] = $result['data'];
+
+
             $d['v'] = "threshold_setup_report";
             $this->load->view('templates', $d); 
 
@@ -99,10 +106,12 @@
 
         public function get_Threshold_report()
         {
+            $well_ids = $this->input->post('well_id'); 
             $api = 'Device_Threshold_Details/well_threshold_setup_report';
             $data = 'area_id='.$this->input->post('area_id',true)
                     .'&site_id='.$this->input->post('site_id',true)
-                    .'&well_id='.$this->input->post('well_id',true)
+                    .'&well_id='.json_encode($well_ids)
+                    .'&imei_no='.$this->input->post('imei_no',true)
                     .'&from_date='.$this->input->post('from_date',true)
                     .'&to_date='.$this->input->post('to_date',true);
             $method = 'POST';

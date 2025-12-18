@@ -6,9 +6,9 @@ class Well_master_model extends CI_Model
 		parent::__construct();
 	}
 
-	public function verifyWellExist($well_name)
+	public function verifyWellExist($well_name,$well_type)
 	{
-		$res = $this->db->select("count(id) as total")->from('tbl_well_master')->where(['well_name'=>$well_name,'status'=>1])->get()->result_array();
+		$res = $this->db->select("count(id) as total")->from('tbl_well_master')->where(['well_name'=>$well_name,'well_type'=>$well_type,'status'=>1])->get()->result_array();
 
 		if(!empty($res))
 		{

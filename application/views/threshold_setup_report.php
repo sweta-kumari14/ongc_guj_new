@@ -154,7 +154,7 @@
     <div class="content container-fluid pb-0">
             <div class="page-header">
                 <div class="content-page-header" style="margin-top: -28px;">
-                    <h5>Threshold Report</h5>
+                    <h5>Configuration Report</h5>
                 </div>  
             </div>
             <div class="row" style="margin-top: -21px;">                   
@@ -164,7 +164,7 @@
                         <div class="card-body">
                            <div class="row align-items-center justify-content-between mb-3">
                             <div class="col-md-6">
-                                <h4 class="header-title mb-0"><b>Threshold-Report</b></h4>
+                                <h4 class="header-title mb-0"><b>Configuration Report</b></h4>
                             </div>
                             <div class="col-md-6 text-end">
                                  <button type="button" id="export_btns" onclick="exportThresholdReportToExcel();" class="btn btn-outline-success me-2">
@@ -181,7 +181,7 @@
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label class="form-group text-dark">Area</label>
                                 <select class="form-control select2" id="area_id" name="area_id"
                                     onchange="get_site_list();get_well_list();get_threshold_report();" style="width: 100%;">
@@ -200,24 +200,43 @@
                                 </select>
                             </div>
 
-                            <div class=" col-md-3">
+                            <div class="col-md-4">
                                 <label class="form-group text-dark">Location</label>
                                 <select class="form-control select2" id="site_id" name="site_id"
                                     onchange="get_well_list();get_threshold_report();" style="width: 100%;">
                                 </select>
                             </div>
+                            <div class="col-md-4">
+                            <label class="form-group text-dark">Device Name</label>
+                            <select name="imei_no" id="imei_no" class="form-control select2" style="width: 100%;" onchange="get_threshold_report();">
+                                <option value=""> Select Device </option>
+                                <?php 
+                                if (!empty($device_list))
+                                {
+                                    foreach ($device_list as $key => $value)
+                                    {
+                                        ?>
+                                            <option value="<?php echo $value['imei_no']; ?>"><?php echo $value['device_name'] .'|'.$value['imei_no']; ?></option>
 
-                            <div class="col-md-2">
+                                        <?php
+                                    }
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+
+                            <div class="col-md-4 mt-2">
                                 <label class="form-group">Well Name</label>
-                                <select onchange="get_threshold_report();" class="form-select select2" id="well_id" name="well_id" style="width: 100%;">
+                                <select onchange="get_threshold_report();" class="form-select select2" id="well_id" name="well_id[]" multiple style="width: 100%;">
                                         
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4 mt-2">
                                  <label class="form-group">From Date</label>
                                 <input type="date" name="from_date" id="from_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" onchange="get_threshold_report();get_installation_date();">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4 mt-2">
                                  <label class="form-group">To Date</label>
                                 <input type="date" name="to_date" id="to_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onchange="get_threshold_report();get_installation_date();">
                             </div>
@@ -249,6 +268,8 @@
                                     <th class="sortable" data-index="1" onclick="sortMIS(1)">Area <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
                                     <th class="sortable" data-index="2" onclick="sortMIS(2)">Location <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
                                     <th class="sortable" data-index="3" onclick="sortMIS(3)">Well <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
+                                    <th class="sortable" data-index="3" onclick="sortMIS(12)">Device  <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
+
                                     <th class="sortable" data-index="4" onclick="sortMIS(4)">Node Name <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
                                     <th class="sortable" data-index="5" onclick="sortMIS(5)">Tag No <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
                                      <th class="sortable" data-index="6" onclick="sortMIS(6)">Max Value <span class="arrow"><span class="up">▲</span><span class="down">▼</span></span></th>
@@ -466,16 +487,14 @@ function get_threshold_report() {
     const area_id = $('#area_id').val();
     const site_id = $('#site_id').val();
     const well_id = $('#well_id').val();
+    const imei_no = $('#imei_no').val();
 
-    if (!from_date || !to_date) {
-        $('#table_data').html('<tr><td colspan="18" class="text-danger text-center">Please select well and date range.</td></tr>');
-        return;
-    }
+    
 
     $.ajax({
         url: base_url + 'Threshold_setup_selfflow_c/get_Threshold_report',
         method: 'POST',
-        data: { company_id, from_date, to_date,area_id,site_id, well_id },
+        data: { company_id, from_date, to_date,area_id,site_id, well_id,imei_no },
         success: function (res) {
             const response = JSON.parse(res);
 
@@ -492,6 +511,7 @@ function get_threshold_report() {
                             area_name: row.area_name,
                             well_site_name: row.well_site_name,
                             well_name: row.well_name,
+                            device_name:row.device_name,
                             records: []
                         };
                     }
@@ -577,6 +597,13 @@ function renderMisTable() {
                             ${v.well_geo_name ? `<br>(${v.well_geo_name})` : ''}
                         </a>
                         </td>`;
+
+                        html += `
+                        <td rowspan="${wellRowspan}" style="text-align:center; vertical-align:middle;">
+                            ${group.device_name ?? '-'} 
+                            <br>
+                            ${v.imei_no ? `( ${v.imei_no} )` : ''}
+                        </td>`;
                 }
 
                 html += `<td>${v.node_name ?? '-'}</td>`;
@@ -631,6 +658,7 @@ const columnMap = {
   9: 'multiplier',
   10: 'offset',
   11: 'threshold_setup_date_time',
+  12: 'device_name',
 };
 
 function sortMIS(columnIndex) {
@@ -690,7 +718,7 @@ function sortMIS(columnIndex) {
     const toDate = toDateRaw ? moment(toDateRaw, ['YYYY-MM-DD', 'DD-MM-YYYY']).format('DD-MM-YYYY') : '-';
 
     const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet('Threshold Report');
+    const sheet = workbook.addWorksheet('Configuration Report');
 
     const spanMap = {};  // Track merged cells
     let maxColCount = 0;
@@ -750,7 +778,7 @@ function sortMIS(columnIndex) {
     sheet.mergeCells(1, 1, 1, maxColCount);
 
     // Title Row 2 with date range
-    sheet.getCell('A2').value = `Threshold Report from ${fromDate} to ${toDate}`;
+    sheet.getCell('A2').value = `Configuration Report from ${fromDate} to ${toDate}`;
     sheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
     sheet.getCell('A2').font = { italic: true, size: 15, color: { argb: 'FFFFFF' } };
     sheet.getCell('A2').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '001A6E' } };
@@ -763,7 +791,7 @@ function sortMIS(columnIndex) {
     });
 
     // Merge vertically on SL No, Area, Location, Well columns (1-based)
-    const mergeCols = [1, 2, 3, 4];
+    const mergeCols = [1, 2, 3, 4,5];
     const startRow = 3; // Because you have 2 title rows before data
 
     mergeCols.forEach(col => {
@@ -828,7 +856,7 @@ function sortMIS(columnIndex) {
     const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "Threshold_Report.xlsx";
+    link.download = "Configuration_Report.xlsx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

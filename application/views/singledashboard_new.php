@@ -143,10 +143,10 @@
 
 
 /* Data bubble positioning (also in %) */
-.sensor_one_data     { left: 20%; top:166%; }
+.sensor_one_data     { left: -211%; top:166%; }
 .sensor_two_data     { left: -88%;; bottom:109%; }
-.sensor_two_data_two { left: -11%; bottom:105%; }
-.sensor_three_data   { left: -115%; bottom: 102%; }
+.sensor_two_data_two { left: 50%; bottom:105%; }
+.sensor_three_data   { left: -115%; bottom: -159%; }
 
 
 
@@ -263,23 +263,30 @@
                    <img src="<?php echo base_url(); ?>assets/img/well.gif" width="30" style="border-radius: 50%;">
                 </div>
                 <div class="px-3 text-start">
-                   <div class="pump-image">
+                   <div class="pump-image mt-4">
                       <!-- Sensors -->
                       <div class="sensor_one">
                          <img src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_one_data"><strong>FLT &nbsp;</strong> <span id="sensor-one-value"><span id="flt_image"></span> (°C)</span></div>
+                         <div class="sensor_one_data"><strong>FLT &nbsp;</strong> <span id="flt_tag"></span> <span id="sensor-one-value"> <span id="flt_image"></span> (°C)</span></div>
                       </div>
                       <div class="sensor-two" id="sensorthp">
                          <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_two_data"><strong>THP &nbsp;</strong> <span id="sensor-two-value"><span id="thp_image"></span> (kg/cm²) </span></div>
+                         <div class="sensor_two_data" style="display:block;white-space:wrap;"><strong>THP &nbsp;</strong> <span id="thp_tag"></span> <span id="sensor-two-value"> <span id="thp_image"></span> (kg/cm²) </span></div>
                       </div>
                       <div class="sensor-two_one" id="sensorabp">
                          <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_two_data_two"><strong>ABP &nbsp; </strong> <span id="sensor-two-value"><span id="abp_image"></span> (kg/cm²)</span></div>
+                         <div class="sensor_two_data_two" style="display:block;white-space:wrap;"><strong>ABP &nbsp; </strong> <span id="abp_tag"></span> <span id="sensor-two-value">  <span id="abp_image"></span> (kg/cm²)</span></div>
                       </div>
                       <div class="sensor-three" id="sensorchp">
                          <img height="35" src="<?php echo base_url() ?>assets/icons/psr.png" alt="sensor-icon">
-                         <div class="sensor_three_data"><strong> CHP &nbsp; </strong> <span id="sensor-three-value"> <span id="chp_image"></span> (kg/cm²)</span></div>
+
+                        <div class="sensor_three_data">
+                           <strong> CHP &nbsp; </strong> 
+                           <span id="chp_tag"></span> 
+                           <span id="sensor-three-value"> 
+                              <span id="chp_image"></span> 
+                           (kg/cm²)</span>
+                        </div>
                       </div>
                       <div style="padding-top:25px;">
                          <img class="pump-img" style="max-width:100%; margin-top: -10px; margin-right:24px; height: 279px;" 
@@ -308,6 +315,7 @@
                    <img src="<?php echo base_url(); ?>assets/img/volt.gif" width="30" style="border-radius: 50%;">
                 </div>
                 <div class="px-3 text-start">
+                  <div class="table-responsive">
                    <div class="card-body text-center" style="padding: 13px;">
                       <div class="row">
                          <div class="col-12 text-center">
@@ -459,6 +467,7 @@
                          </div>
                       </div>
                    </div>
+                  </div>
                 </div>
              </div>
           </div>
@@ -826,7 +835,7 @@ function getAlertLog() {
                 });
             } else {
                 html = `<tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="4" class="text-center text-danger">
                         <img src="<?php echo base_url(); ?>assets/img/no_records.svg" alt="No Alerts" style="height:50px;"><br>
                         No alert log found!
                     </td>
@@ -845,6 +854,8 @@ function getAlertLog() {
 get_single_well_details();
 function get_single_well_details() {
     let well_id = '<?php echo $this->uri->segment(3); ?>'; 
+    let user_type = parseInt('<?php echo $this->session->userdata('user_type');?>');
+    let role_type = parseInt('<?php echo $this->session->userdata('role_type');?>');
     $.ajax({
         url: "<?php echo base_url() ?>Selfflow_c/get_single_well_details",
         type: "POST",
@@ -896,6 +907,8 @@ function get_single_well_details() {
                     var last_datetime = deviceData.Log_Date_Time != null ? moment(deviceData.Log_Date_Time)
                         .format('DD-MM-YYYY h:mm:ss a') : "NA";
 
+                        console.log(last_datetime,'last_datetime');
+
                     $('#last_updated_datetime').text(last_datetime);
                     var last_updated_time = deviceData.Log_Date_Time;
                     var lastDataTimeObj = new Date(last_updated_time);
@@ -903,7 +916,7 @@ function get_single_well_details() {
                     var diffInMilliseconds = currentDate - lastDataTimeObj;
                     seconds = Math.floor(diffInMilliseconds / 1000);
                 
-                    let timeLimit = 300; 
+                    let timeLimit = 900; 
 
                     if (seconds < timeLimit) {
                         $('#rtms_status_image').html(
@@ -946,7 +959,8 @@ function get_single_well_details() {
                         const match = thresholdArray.find(item => item.node_name === nodeName);
                         return {
                             lower: match ? parseFloat(match.lower_value) : 0.00,
-                            upper: match ? parseFloat(match.upper_value) : 0.00
+                            upper: match ? parseFloat(match.upper_value) : 0.00,
+                            tagNumber: match ? match.tag_number : "" 
                         };
                     }
 
@@ -967,7 +981,19 @@ function get_single_well_details() {
                     const limits = getThresholdLimits(sensor, thresholdData);
                     const value = parseFloat(deviceData[sensor] || 0.00);
 
-                    // Set sensor value in span with 2 decimal places
+                     if (user_type == 2 || (user_type == 3 && role_type == 3)) {
+
+                        if (limits.tagNumber) {
+                            $('#' + sensor.toLowerCase() + '_tag').text('(' + limits.tagNumber + ')');
+                        } else {
+                            $('#' + sensor.toLowerCase() + '_tag').text('');
+                        }
+
+                    } else {
+                        
+                        $('#' + sensor.toLowerCase() + '_tag').text('');
+                    }
+
                     $('#' + sensor.toLowerCase() + '_image').text(value.toFixed(2));
 
                     // Apply threshold color
@@ -975,17 +1001,32 @@ function get_single_well_details() {
                 });
 
 
+                    // function battery(charge) {
+                    //     var activeBars = Math.floor(Math.min(Math.max((charge - 6.0) / (7.9 - 6.0) * 10, 0),
+                    //         10));
+                    //     $(".battery .bar").each(function(index) {
+                    //         if (index < activeBars) {
+                    //             $(this).addClass("active");
+                    //         } else {
+                    //             $(this).removeClass("active");
+                    //         }
+                    //     });
+                    // }
+
                     function battery(charge) {
-                        var activeBars = Math.floor(Math.min(Math.max((charge - 6.0) / (7.9 - 6.0) * 10, 0),
-                            10));
-                        $(".battery .bar").each(function(index) {
-                            if (index < activeBars) {
-                                $(this).addClass("active");
-                            } else {
-                                $(this).removeClass("active");
-                            }
-                        });
-                    }
+                      let min = 4;
+                      let max = 9;
+
+                      let percent = (charge - min) / (max - min);
+                      percent = Math.max(0, Math.min(1, percent));
+
+                      let activeBars = Math.floor(percent * 10);
+
+                      $(".battery .bar").each(function(index) {
+                          $(this).toggleClass("active", index < activeBars);
+                      });
+                  }
+
 
                     var battery_value = parseFloat(deviceData.Battery_Voltage);
                     battery(battery_value);
@@ -1408,7 +1449,7 @@ function initMap() {
                         seconds = Math.floor(diffInMilliseconds / 1000);
                     }
 
-                    let timeLimit = 300;
+                    let timeLimit = 900;
                     if (seconds <= timeLimit) {
                         markerIcon.url = '<?php echo base_url(); ?>assets/img/flowing_map.png';
                     } else if (marker.flag_status == 1) {
@@ -1474,4 +1515,12 @@ flag_details();
           $('#flag').hide();
       }
    }
+</script>
+<script type="text/javascript">
+  
+setInterval(()=>{
+    initMap();
+    get_single_well_details();   
+}, 60000);
+
 </script>

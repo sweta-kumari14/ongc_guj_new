@@ -48,6 +48,7 @@
             $api = 'Device_master/DeviceAdd';
             $data = 'imei_no=' . htmlspecialchars((string)$this->input->post('imei_no', true),ENT_QUOTES,'UTF-8') .
                     '&admin_id=' . htmlspecialchars((string)$this->session->userdata('admin_id',true),ENT_QUOTES,'UTF-8') .
+                    '&device_name='.htmlspecialchars((string)$this->input->post('device_name',true),ENT_QUOTES,'UTF-8').
                     '&serial_no=' . htmlspecialchars((string)$this->input->post('serial_no', true),ENT_QUOTES,'UTF-8') .
                     '&year_of_manufacturer=' . htmlspecialchars((string)$this->input->post('manufacturer_year', true),ENT_QUOTES,'UTF-8') .
                     '&model_name=' . htmlspecialchars((string)$this->input->post('model_name', true),ENT_QUOTES,'UTF-8') .

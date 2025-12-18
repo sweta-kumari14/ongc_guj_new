@@ -15,7 +15,7 @@
 
                                     <button onclick="exportExcel();" class="btn btn btn-sm btn-success me-2"><i class="fa-solid fa-file-excel"></i> Export</button>
                                     
-                                     <a href="<?php echo base_url('Device_configration_setup_c'); ?>" class="btn btn-sm btn-warning  text-white">
+                                     <a href="<?php echo base_url('Selfflow_c'); ?>" class="btn btn-sm btn-warning  text-white">
                                       <i class="fas fa-arrow-left me-1" style="font-size: 12px;"></i> Back
                                     </a>
                                 </div>

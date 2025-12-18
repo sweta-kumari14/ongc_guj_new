@@ -55,7 +55,7 @@ class Selfflow_dashboard_model extends CI_Model
             $this->db->where('feeder_id', $feeder_id);
         }
 
-        $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) < 5)");
+        $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) <= 15)");
 
         $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1])->get()->result_array();
 
@@ -83,7 +83,7 @@ class Selfflow_dashboard_model extends CI_Model
             $this->db->where('feeder_id', $feeder_id);
         }
 
-       $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 5 OR Log_Date_Time IS NULL)");
+       $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 15 OR Log_Date_Time IS NULL)");
 
 
         $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1,'well_status'=>1])->get()->result_array();
@@ -119,7 +119,7 @@ class Selfflow_dashboard_model extends CI_Model
         {
             $this->db->where('well_id', $well_id);
         }
-              $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 5 OR Log_Date_Time IS NULL)");
+              $this->db->where("(TIMESTAMPDIFF(MINUTE, Log_Date_Time, NOW()) > 15 OR Log_Date_Time IS NULL)");
 
 
         $res = $this->db->select("count(distinct well_id) as total")->from('tbl_site_device_installtion_self_flow')->where(['status'=>1,'well_setup_status'=>1,'well_status'=>0])->get()->result_array();
@@ -199,31 +199,36 @@ class Selfflow_dashboard_model extends CI_Model
         if (!empty($user_id)) $this->db->where('ua.user_id', $user_id);
         if (!empty($well_id)) $this->db->where('di.well_id', $well_id);
 
-        $dynamictime = 5; // in minutes
+        $dynamictime = 16; // in minutes
 
         $this->db->order_by("
             CASE
                 WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) > $dynamictime OR di.Log_Date_Time IS NULL THEN 1
                 WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= $dynamictime AND di.well_status = 0 THEN 2
-                WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) <= $dynamictime AND di.well_status = 1 THEN 3
+                WHEN TIMESTAMPDIFF(MINUTE, di.Log_Date_Time, NOW()) > $dynamictime AND di.well_status = 1 THEN 3
             END
         ", '', false);
 
-        $this->db->order_by("SUBSTRING_INDEX(w.well_name, '-', 1) ASC", '', false);
-        $this->db->order_by("CAST(SUBSTRING_INDEX(w.well_name, '-', -1) AS UNSIGNED) ASC", '', false);
+        $this->db->order_by("SUBSTRING_INDEX(w.well_name, '#', 1) ASC", '', false);
+        $this->db->order_by("CAST(SUBSTRING_INDEX(w.well_name, '#', -1) AS UNSIGNED) ASC", '', false);
         $this->db->group_by('w.id');
 
         $result = $this->db->get()->result_array();
 
         foreach ($result as &$row) {
             // Status check
-            $status_variable = 'offline';  
-            if (!empty($row['Log_Date_Time'])) {
-                $current_time = time();
-                $last_log_time = strtotime($row['Log_Date_Time']);
-                $time_diff_seconds = $current_time - $last_log_time;
+            $status_variable = 'offline';
 
-                if ($time_diff_seconds <= $dynamictime * 60) { 
+            $last_log = $row['Log_Date_Time'];
+
+            if (!empty($last_log)) {
+
+                $current_time = time();
+                $last_log_time = strtotime($last_log);
+                $time_diff_seconds = $current_time - $last_log_time;
+                $time_diff_minutes = round($time_diff_seconds / 60); 
+
+                if ($time_diff_seconds <= $dynamictime * 60) {
                     $status_variable = 'flowing_well';
                 } else {
                     if ($row['flag_status'] == 1) {
@@ -232,14 +237,25 @@ class Selfflow_dashboard_model extends CI_Model
                         $status_variable = 'offline';
                     }
                 }
+
+            } else {
+
+                // Log NULL case handle karein
+                if ($row['flag_status'] == 1) {
+                    $status_variable = 'non_flowing_well';   // ⭐ correct output
+                } else {
+                    $status_variable = 'offline';
+                }
             }
 
             $row['status_variable'] = $status_variable;
 
+
             // Threshold setup
-            $thresholds = $this->db->select('cm.component_name as node_name,tm.component_id,tm.tag_no,tm.upper_value, tm.lower_value')
+            $thresholds = $this->db->select('cm.component_name as node_name,tm.component_id,tm.tag_no,tms.tag_number,tm.upper_value, tm.lower_value')
                                    ->from('tbl_well_threshold_setup_master tm')
                                    ->join('tbl_component_master cm','tm.component_id=cm.id','left')
+                                   ->join('tbl_tags_number_master tms','tms.id=tm.tag_no','left')
                                    ->where('tm.well_id', $row['well_id'])
                                    ->get()
                                    ->result_array();

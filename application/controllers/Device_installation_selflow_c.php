@@ -51,10 +51,7 @@ class Device_installation_selflow_c extends MY_Controller
     public function getWell_forinstallation_list()
     {
         $api = 'Master/get_well_list_for_installtion';
-        $data = 'company_id=' .htmlspecialchars($this->session->userdata('company_id'))
-            . '&assets_id=' .htmlspecialchars($this->input->post('assets_id'))
-            . '&area_id=' . htmlspecialchars($this->input->post('area_id'))
-            . '&site_id=' . htmlspecialchars($this->input->post('site_id'))
+        $data = 'company_id=' .htmlspecialchars($this->session->userdata('company_id',true))
             . '&well_type=' . '2';
         $method = 'POST';
         $result = $this->CallAPI($api, $data, $method);

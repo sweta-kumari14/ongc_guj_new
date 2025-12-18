@@ -29,6 +29,10 @@
                                                 <h5><b>Imei No</b><span style="color:red;">*</span></h5>
                                                 <input data-parsley-type="alphanum" name="imei_no" id="imei_no" class="form-control" required maxlength="20" minlength="10" onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'')">
                                             </div>
+                                            <div class="col-md-6 mt-2">
+                                                <h5><b>Device Name</b><span style="color:red;">*</span></h5>
+                                                <input type="text" name="device_name" id="device_name" class="form-control" required onkeyup="this.value = this.value.replace(/[<>]/g,'')">
+                                            </div>
 
                                             <div class="col-md-6 mt-2">
                                                 <h5><b>Model Name</b><span style="color:red;">*</span></h5>

@@ -641,6 +641,11 @@ class Device_selfflow_well_installation extends REST_Controller
 
                         $this->Device_selfflow_installation_model->SaveWell_installationlog($datalog);
 
+                        $this->Device_selfflow_installation_model->Device_setup_mater(
+                            ['node_scan_time'=>30,'node_log_time'=>300,'gateway_log_time'=>60,'d_date'=>date('Y-m-d H:i:s')],
+                            ['imei_no'=>$this->input->post('imei_no',true)]
+                        );
+
 
                         $this->response(['status' => true,'data' => [],'msg' => 'Successfully Device Re-installation!!','response_code' => REST_Controller::HTTP_OK]);
 

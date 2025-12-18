@@ -372,10 +372,15 @@ class Device_Threshold_Details extends REST_Controller
 			$area_id = $this->input->post('area_id',true)!=''?$this->input->post('area_id',true):'';
 			$site_id = $this->input->post('site_id',true)!=''?$this->input->post('site_id',true):'';
 			$well_id = $this->input->post('well_id',true)!=''?$this->input->post('well_id',true):'';
+			$imei_no = $this->input->post('imei_no',true)!=''?$this->input->post('imei_no',true):''; 
 			$from_date = $this->input->post('from_date',true)!=''?$this->input->post('from_date',true):'';
 			$to_date = $this->input->post('to_date',true)!=''?$this->input->post('to_date',true):'';
 
-			$result = $this->Device_Threshold_model->getwellThreshold_setup_report($area_id,$site_id,$well_id,$from_date,$to_date);
+			if (!empty($well_id) && !is_array($well_id)) {
+               $well_id = json_decode($well_id, true);
+            }
+
+			$result = $this->Device_Threshold_model->getwellThreshold_setup_report($area_id,$site_id,$well_id,$from_date,$to_date,$imei_no);
 
 			$this->response(['status'=>true,'data'=>$result,'msg'=>'Successfully fetched!!','response_code'=>REST_Controller::HTTP_OK]);
 		} catch (Exception $e) {

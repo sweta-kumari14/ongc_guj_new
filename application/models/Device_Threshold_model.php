@@ -176,7 +176,7 @@ class Device_Threshold_model extends CI_Model
 		return $this->db->select("*")->from('tbl_well_threshold_setup_master')->where(['status'=>1])->get()->row_array();
 	}
 
-	public function getwellThreshold_setup_report($area_id,$site_id,$well_id,$from_date,$to_date)
+	public function getwellThreshold_setup_report($area_id,$site_id,$well_id,$from_date,$to_date,$imei_no)
 	{
 
 		if($area_id!= '')
@@ -185,17 +185,25 @@ class Device_Threshold_model extends CI_Model
 		if($site_id!= '')
 			$this->db->where('sl.site_id',$site_id);
 
-		if($well_id!= '')
-			$this->db->where('sl.well_id',$well_id);
-
+		if (!empty($well_id)) {
+        if (is_array($well_id)) {
+            $this->db->where_in('sl.well_id', $well_id);
+	        } else {
+	            $this->db->where('sl.well_id', $well_id);
+	        }
+        }
+        if ($imei_no != '') {
+           $this->db->where('sd.imei_no', $imei_no);
+         }
 		 if ($from_date != '' && $to_date != '') {
 	        $this->db->where("date(sl.c_date) BETWEEN '{$from_date}' AND '{$to_date}'");
 	    }
 
-		return $this->db->select('sl.area_id,am.area_name,sl.site_id,ws.well_site_name,wm.well_name,sl.tag_no,tg.tag_number,cm.component_name as node_name,sl.max_value,sl.upper_value,sl.lower_value,sl.multiplier,sl.offset,sl.c_date as threshold_setup_date_time')
+		return $this->db->select('sl.area_id,am.area_name,sl.site_id,ws.well_site_name,wm.well_name,sl.tag_no,tg.tag_number,cm.component_name as node_name,sl.max_value,sl.upper_value,sl.lower_value,sl.multiplier,sl.offset,sl.c_date as threshold_setup_date_time,sd.device_name,sd.imei_no')
 
 		->from('tbl_well_threshold_setup_master sl')
 		->join('tbl_well_master wm','sl.well_id=wm.id','left')
+		->join('tbl_site_device_installtion_self_flow sd','sd.well_id=wm.id','left')
 		->join('tbl_well_site_master ws','sl.site_id=ws.id','left')
 		->join('tbl_area_master am','sl.area_id=am.id','left')
 		->join('tbl_tags_number_master tg','sl.tag_no=tg.id','left')
